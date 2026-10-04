@@ -1,0 +1,15 @@
+{
+  "plugins": {
+    "slack": {
+      "enabled": true
+    },
+    "warp/warp": {
+      "enabled": true,
+      "gitUrl": "https://github.com/smlsr/Warp",
+      "gitRef": "db9d7a5cb6251a2dc39df707dac118577d191108"
+    },
+    "atlassian": {
+      "enabled": true
+    }
+  }
+}

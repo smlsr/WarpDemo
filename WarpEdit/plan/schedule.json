@@ -1,0 +1,326 @@
+{
+  "module": "WarpEdit",
+  "generated": "2026-10-04",
+  "tickets": [
+    {
+      "id": "WE-01",
+      "summary": "Audit WarpView read-only contract before editing",
+      "deps": [],
+      "unlocks": [],
+      "locks": [
+        "docs/audit"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": "G0",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-02",
+      "summary": "Dirty-state model over the loaded beam",
+      "deps": [
+        "WE-01"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/dirty"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-03",
+      "summary": "Save writer for beam.json and schedule.json",
+      "deps": [
+        "WE-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/save"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": "G1",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-04",
+      "summary": "Inline edit of ticket summary",
+      "deps": [
+        "WE-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/summary"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-05",
+      "summary": "Dependency editor with cycle refusal",
+      "deps": [
+        "WE-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/deps"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-06",
+      "summary": "Lock-path editor",
+      "deps": [
+        "WE-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/locks"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-07",
+      "summary": "Size editor S M L XL and auto-merge flag",
+      "deps": [
+        "WE-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/size"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-08",
+      "summary": "Undo stack for the last 20 edits",
+      "deps": [
+        "WE-04",
+        "WE-05"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/undo"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-09",
+      "summary": "Validate deps, locks, and sizes before save",
+      "deps": [
+        "WE-03",
+        "WE-05",
+        "WE-06"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/validate"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": "G1",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-10",
+      "summary": "Warn when two ready tickets share a lock",
+      "deps": [
+        "WE-05",
+        "WE-06"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/conflicts"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-11",
+      "summary": "Export WARP_PLAN.json from the edited graph",
+      "deps": [
+        "WE-09"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/export"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-12",
+      "summary": "Save confirmation and reload of the saved beam",
+      "deps": [
+        "WE-03"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/reload"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-13",
+      "summary": "Drag a timeline bar to change forecast start",
+      "deps": [
+        "WE-08",
+        "WE-10"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/timeline"
+      ],
+      "size": "XL",
+      "hours": 16,
+      "critical": true,
+      "rankDays": 16,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    },
+    {
+      "id": "WE-14",
+      "summary": "Round trip: edit, save, reload, compare",
+      "deps": [
+        "WE-11",
+        "WE-12",
+        "WE-13"
+      ],
+      "unlocks": [],
+      "locks": [
+        "apps/viewer/src/edit/roundtrip"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpEdit",
+      "layer": "ui",
+      "priority": "High",
+      "acs": 2
+    }
+  ],
+  "gates": [
+    {
+      "key": "G0",
+      "name": "WarpView shipped",
+      "blocking": true,
+      "members": [
+        "WE-01"
+      ],
+      "checks": [
+        "WarpView WV-13 is merged and the read-only map opens"
+      ],
+      "ifRed": "Do not start edit work. The viewer contract is the base."
+    },
+    {
+      "key": "G1",
+      "name": "Save is safe",
+      "blocking": true,
+      "members": [
+        "WE-03",
+        "WE-09"
+      ],
+      "checks": [
+        "Save refuses a cycle",
+        "Downloaded beam reloads"
+      ],
+      "ifRed": "Do not ship drag-edit until save validates."
+    }
+  ],
+  "criticalPath": [
+    "WE-03",
+    "WE-05",
+    "WE-10",
+    "WE-13",
+    "WE-14"
+  ]
+}

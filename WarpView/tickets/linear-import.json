@@ -1,0 +1,232 @@
+{
+  "importer": "linear-api",
+  "note": "Linear's CSV importer does not keep blockers. This file is for issueCreate plus issueRelationCreate type blocks. See IMPORT.md.",
+  "team": "WVIEW",
+  "issues": [
+    {
+      "tempId": "WV-01",
+      "title": "Viewer repo skeleton and static host",
+      "description": "h2. What\nViewer repo skeleton and static host\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* pnpm install && pnpm dev serves ui/build-map.html\n* No edit controls are rendered\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": []
+    },
+    {
+      "tempId": "WV-02",
+      "title": "Theme tokens matching the build-map palette",
+      "description": "h2. What\nTheme tokens matching the build-map palette\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/styles\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Ink, paper, teal, gate, and crit colors match the spec\n* Dark preference does not break contrast\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": []
+    },
+    {
+      "tempId": "WV-03",
+      "title": "Parse beam.json, STATUS, and schedule into one model",
+      "description": "h2. What\nParse beam.json, STATUS, and schedule into one model\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/parse\n\nh2. Blocked by\nWV-01\n\nh2. Acceptance\n* Fixture beam of 16 tickets loads\n* Missing deps fail with the ticket id named\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-01"
+      ]
+    },
+    {
+      "tempId": "WV-04",
+      "title": "Dependency graph and ready-set from blockers",
+      "description": "h2. What\nDependency graph and ready-set from blockers\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/graph\n\nh2. Blocked by\nWV-03\n\nh2. Acceptance\n* A ticket with an open blocker is not ready\n* Lock overlap keeps the second ticket queued\n",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WV-03"
+      ]
+    },
+    {
+      "tempId": "WV-05",
+      "title": "Status chips: todo, running, merged, critical, gate",
+      "description": "h2. What\nStatus chips: todo, running, merged, critical, gate\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/chips\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* Critical tickets show the crit chip\n* Merged tickets show the done chip\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-02"
+      ]
+    },
+    {
+      "tempId": "WV-06",
+      "title": "Tracker: start-now queue and board",
+      "description": "h2. What\nTracker: start-now queue and board\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/tracker\n\nh2. Blocked by\nWV-03, WV-05\n\nh2. Acceptance\n* Start-now lists only ready tickets\n* Mark started moves a row to running\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-03",
+        "WV-05"
+      ]
+    },
+    {
+      "tempId": "WV-07",
+      "title": "Agent timeline with day columns and gate lines",
+      "description": "h2. What\nAgent timeline with day columns and gate lines\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/timeline\n\nh2. Blocked by\nWV-04, WV-06\n\nh2. Acceptance\n* Bars sit on agent rows\n* A blocking gate draws a solid line at its forecast\n",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WV-04",
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-08",
+      "title": "Ticket search across id, summary, and locks",
+      "description": "h2. What\nTicket search across id, summary, and locks\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/search\n\nh2. Blocked by\nWV-06\n\nh2. Acceptance\n* Query WV-07 filters the table to that id\n* Empty query shows every ticket\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-09",
+      "title": "Gates pane with checks and if-red text",
+      "description": "h2. What\nGates pane with checks and if-red text\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/gates\n\nh2. Blocked by\nWV-04\n\nh2. Acceptance\n* G0 shows its check command\n* Reached state appears when every member is merged\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-04"
+      ]
+    },
+    {
+      "tempId": "WV-10",
+      "title": "Ticket drawer: locks, blockers, acceptance criteria",
+      "description": "h2. What\nTicket drawer: locks, blockers, acceptance criteria\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/drawer\n\nh2. Blocked by\nWV-06\n\nh2. Acceptance\n* Drawer lists lock folders\n* Blocker links open the blocker ticket\n",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-11",
+      "title": "Ticket table sorted by forecast start",
+      "description": "h2. What\nTicket table sorted by forecast start\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/table\n\nh2. Blocked by\nWV-06\n\nh2. Acceptance\n* Columns include size, deps, and unlocks\n* Row click opens the drawer\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-12",
+      "title": "Empty states for a beam with nothing ready",
+      "description": "h2. What\nEmpty states for a beam with nothing ready\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/empty\n\nh2. Blocked by\nWV-06\n\nh2. Acceptance\n* Paused beam shows the paused empty state\n* No false ready rows\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-13",
+      "title": "Wire all panes to the fixture beam offline",
+      "description": "h2. What\nWire all panes to the fixture beam offline\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src\n\nh2. Blocked by\nWV-07, WV-09, WV-10, WV-11\n\nh2. Acceptance\n* Opening the HTML with no server shows 16 tickets\n* Tracker, timeline, gates, and table agree\n",
+      "priority": 1,
+      "estimate": 5,
+      "labelNames": [
+        "size:XL",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WV-07",
+        "WV-09",
+        "WV-10",
+        "WV-11"
+      ]
+    },
+    {
+      "tempId": "WV-14",
+      "title": "Persist started and merged in localStorage",
+      "description": "h2. What\nPersist started and merged in localStorage\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/state\n\nh2. Blocked by\nWV-06\n\nh2. Acceptance\n* Reload keeps merged ids\n* Reset clears both lists\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-15",
+      "title": "Keyboard path through tabs, rows, and drawer",
+      "description": "h2. What\nKeyboard path through tabs, rows, and drawer\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/a11y\n\nh2. Blocked by\nWV-13\n\nh2. Acceptance\n* Tab order reaches every pane\n* Escape closes the drawer\n",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WV-13"
+      ]
+    },
+    {
+      "tempId": "WV-16",
+      "title": "Viewer README and fixture pointer",
+      "description": "h2. What\nViewer README and fixture pointer\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs\n\nh2. Blocked by\nWV-13\n\nh2. Acceptance\n* README names the fixture path\n* No claim that the view can save\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WV-13"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "plans": [
+    "spec/CURSOR_PLAN.md"
+  ],
+  "schedules": [
+    "plan/schedule.json"
+  ],
+  "jira": [
+    "tickets/jira-import.json",
+    "tickets/tickets.json"
+  ],
+  "warp": [],
+  "maps": [
+    "ui/build-map.html"
+  ],
+  "root": "/workspace/artifacts/WarpEdit",
+  "scannedAt": "2026-10-04T16:55:42Z"
+}

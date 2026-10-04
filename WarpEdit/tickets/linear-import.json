@@ -1,0 +1,208 @@
+{
+  "importer": "linear-api",
+  "note": "Linear's CSV importer does not keep blockers. This file is for issueCreate plus issueRelationCreate type blocks. See IMPORT.md.",
+  "team": "WEDIT",
+  "issues": [
+    {
+      "tempId": "WE-01",
+      "title": "Audit WarpView read-only contract before editing",
+      "description": "h2. What\nAudit WarpView read-only contract before editing\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs/audit\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Audit lists every read-only control\n* Day-0 note says WarpView WV-13 is already merged\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": []
+    },
+    {
+      "tempId": "WE-02",
+      "title": "Dirty-state model over the loaded beam",
+      "description": "h2. What\nDirty-state model over the loaded beam\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/dirty\n\nh2. Blocked by\nWE-01\n\nh2. Acceptance\n* An edit sets dirty\n* Reload prompt appears when dirty\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WE-01"
+      ]
+    },
+    {
+      "tempId": "WE-03",
+      "title": "Save writer for beam.json and schedule.json",
+      "description": "h2. What\nSave writer for beam.json and schedule.json\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/save\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Save downloads a beam with the same ticket ids\n* Invalid JSON is refused\n",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WE-02"
+      ]
+    },
+    {
+      "tempId": "WE-04",
+      "title": "Inline edit of ticket summary",
+      "description": "h2. What\nInline edit of ticket summary\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/summary\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Summary edit shows in the table\n* Cancel restores the prior summary\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WE-02"
+      ]
+    },
+    {
+      "tempId": "WE-05",
+      "title": "Dependency editor with cycle refusal",
+      "description": "h2. What\nDependency editor with cycle refusal\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/deps\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Adding a dep that cycles is rejected\n* A removed dep can make a ticket ready\n",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WE-02"
+      ]
+    },
+    {
+      "tempId": "WE-06",
+      "title": "Lock-path editor",
+      "description": "h2. What\nLock-path editor\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/locks\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* A new lock path is stored on the ticket\n* Empty lock list is refused\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WE-02"
+      ]
+    },
+    {
+      "tempId": "WE-07",
+      "title": "Size editor S M L XL and auto-merge flag",
+      "description": "h2. What\nSize editor S M L XL and auto-merge flag\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/size\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Changing L to M sets autoMerge true\n* Changing M to XL sets autoMerge false\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WE-02"
+      ]
+    },
+    {
+      "tempId": "WE-08",
+      "title": "Undo stack for the last 20 edits",
+      "description": "h2. What\nUndo stack for the last 20 edits\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/undo\n\nh2. Blocked by\nWE-04, WE-05\n\nh2. Acceptance\n* Undo restores the previous summary\n* Redo reapplies it\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WE-04",
+        "WE-05"
+      ]
+    },
+    {
+      "tempId": "WE-09",
+      "title": "Validate deps, locks, and sizes before save",
+      "description": "h2. What\nValidate deps, locks, and sizes before save\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/validate\n\nh2. Blocked by\nWE-03, WE-05, WE-06\n\nh2. Acceptance\n* A missing dep blocks save\n* The error names the ticket id\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WE-03",
+        "WE-05",
+        "WE-06"
+      ]
+    },
+    {
+      "tempId": "WE-10",
+      "title": "Warn when two ready tickets share a lock",
+      "description": "h2. What\nWarn when two ready tickets share a lock\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/conflicts\n\nh2. Blocked by\nWE-05, WE-06\n\nh2. Acceptance\n* Overlap is listed before save\n* Prefix overlap counts as overlap\n",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WE-05",
+        "WE-06"
+      ]
+    },
+    {
+      "tempId": "WE-11",
+      "title": "Export WARP_PLAN.json from the edited graph",
+      "description": "h2. What\nExport WARP_PLAN.json from the edited graph\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/export\n\nh2. Blocked by\nWE-09\n\nh2. Acceptance\n* Export includes estimate and deps\n* Markdown brief matches the JSON ids\n",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WE-09"
+      ]
+    },
+    {
+      "tempId": "WE-12",
+      "title": "Save confirmation and reload of the saved beam",
+      "description": "h2. What\nSave confirmation and reload of the saved beam\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/reload\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* Confirm names the file\n* Reload shows the edited summary\n",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge"
+      ],
+      "blockedBy": [
+        "WE-03"
+      ]
+    },
+    {
+      "tempId": "WE-13",
+      "title": "Drag a timeline bar to change forecast start",
+      "description": "h2. What\nDrag a timeline bar to change forecast start\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/timeline\n\nh2. Blocked by\nWE-08, WE-10\n\nh2. Acceptance\n* Drop updates start label\n* A move that violates a dep snaps back\n",
+      "priority": 1,
+      "estimate": 5,
+      "labelNames": [
+        "size:XL",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WE-08",
+        "WE-10"
+      ]
+    },
+    {
+      "tempId": "WE-14",
+      "title": "Round trip: edit, save, reload, compare",
+      "description": "h2. What\nRound trip: edit, save, reload, compare\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/roundtrip\n\nh2. Blocked by\nWE-11, WE-12, WE-13\n\nh2. Acceptance\n* Saved beam equals the reloaded model\n* Human hours estimate updates after a size change\n",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval"
+      ],
+      "blockedBy": [
+        "WE-11",
+        "WE-12",
+        "WE-13"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,308 @@
+{
+  "projects": [
+    {
+      "name": "WarpEdit",
+      "key": "WEDIT",
+      "issues": [
+        {
+          "externalId": "WE-01",
+          "summary": "Audit WarpView read-only contract before editing",
+          "description": "h2. What\nAudit WarpView read-only contract before editing\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs/audit\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Audit lists every read-only control\n* Day-0 note says WarpView WV-13 is already merged\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:platform"
+          ]
+        },
+        {
+          "externalId": "WE-02",
+          "summary": "Dirty-state model over the loaded beam",
+          "description": "h2. What\nDirty-state model over the loaded beam\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/dirty\n\nh2. Blocked by\nWE-01\n\nh2. Acceptance\n* An edit sets dirty\n* Reload prompt appears when dirty\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:api"
+          ]
+        },
+        {
+          "externalId": "WE-03",
+          "summary": "Save writer for beam.json and schedule.json",
+          "description": "h2. What\nSave writer for beam.json and schedule.json\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/save\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Save downloads a beam with the same ticket ids\n* Invalid JSON is refused\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:api"
+          ]
+        },
+        {
+          "externalId": "WE-04",
+          "summary": "Inline edit of ticket summary",
+          "description": "h2. What\nInline edit of ticket summary\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/summary\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Summary edit shows in the table\n* Cancel restores the prior summary\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console"
+          ]
+        },
+        {
+          "externalId": "WE-05",
+          "summary": "Dependency editor with cycle refusal",
+          "description": "h2. What\nDependency editor with cycle refusal\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/deps\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Adding a dep that cycles is rejected\n* A removed dep can make a ticket ready\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:console"
+          ]
+        },
+        {
+          "externalId": "WE-06",
+          "summary": "Lock-path editor",
+          "description": "h2. What\nLock-path editor\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/locks\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* A new lock path is stored on the ticket\n* Empty lock list is refused\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:console"
+          ]
+        },
+        {
+          "externalId": "WE-07",
+          "summary": "Size editor S M L XL and auto-merge flag",
+          "description": "h2. What\nSize editor S M L XL and auto-merge flag\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/size\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Changing L to M sets autoMerge true\n* Changing M to XL sets autoMerge false\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console"
+          ]
+        },
+        {
+          "externalId": "WE-08",
+          "summary": "Undo stack for the last 20 edits",
+          "description": "h2. What\nUndo stack for the last 20 edits\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/undo\n\nh2. Blocked by\nWE-04, WE-05\n\nh2. Acceptance\n* Undo restores the previous summary\n* Redo reapplies it\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:platform"
+          ]
+        },
+        {
+          "externalId": "WE-09",
+          "summary": "Validate deps, locks, and sizes before save",
+          "description": "h2. What\nValidate deps, locks, and sizes before save\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/validate\n\nh2. Blocked by\nWE-03, WE-05, WE-06\n\nh2. Acceptance\n* A missing dep blocks save\n* The error names the ticket id\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:quality"
+          ]
+        },
+        {
+          "externalId": "WE-10",
+          "summary": "Warn when two ready tickets share a lock",
+          "description": "h2. What\nWarn when two ready tickets share a lock\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/conflicts\n\nh2. Blocked by\nWE-05, WE-06\n\nh2. Acceptance\n* Overlap is listed before save\n* Prefix overlap counts as overlap\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:quality"
+          ]
+        },
+        {
+          "externalId": "WE-11",
+          "summary": "Export WARP_PLAN.json from the edited graph",
+          "description": "h2. What\nExport WARP_PLAN.json from the edited graph\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/export\n\nh2. Blocked by\nWE-09\n\nh2. Acceptance\n* Export includes estimate and deps\n* Markdown brief matches the JSON ids\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:api"
+          ]
+        },
+        {
+          "externalId": "WE-12",
+          "summary": "Save confirmation and reload of the saved beam",
+          "description": "h2. What\nSave confirmation and reload of the saved beam\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/reload\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* Confirm names the file\n* Reload shows the edited summary\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console"
+          ]
+        },
+        {
+          "externalId": "WE-13",
+          "summary": "Drag a timeline bar to change forecast start",
+          "description": "h2. What\nDrag a timeline bar to change forecast start\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/timeline\n\nh2. Blocked by\nWE-08, WE-10\n\nh2. Acceptance\n* Drop updates start label\n* A move that violates a dep snaps back\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:XL",
+            "needs-approval",
+            "area:console"
+          ]
+        },
+        {
+          "externalId": "WE-14",
+          "summary": "Round trip: edit, save, reload, compare",
+          "description": "h2. What\nRound trip: edit, save, reload, compare\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/roundtrip\n\nh2. Blocked by\nWE-11, WE-12, WE-13\n\nh2. Acceptance\n* Saved beam equals the reloaded model\n* Human hours estimate updates after a size change\n",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:quality"
+          ]
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "name": "Blocks",
+      "sourceId": "WE-01",
+      "destinationId": "WE-02"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-02",
+      "destinationId": "WE-03"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-02",
+      "destinationId": "WE-04"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-02",
+      "destinationId": "WE-05"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-02",
+      "destinationId": "WE-06"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-02",
+      "destinationId": "WE-07"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-04",
+      "destinationId": "WE-08"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-05",
+      "destinationId": "WE-08"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-03",
+      "destinationId": "WE-09"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-05",
+      "destinationId": "WE-09"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-06",
+      "destinationId": "WE-09"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-05",
+      "destinationId": "WE-10"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-06",
+      "destinationId": "WE-10"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-09",
+      "destinationId": "WE-11"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-03",
+      "destinationId": "WE-12"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-08",
+      "destinationId": "WE-13"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-10",
+      "destinationId": "WE-13"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-11",
+      "destinationId": "WE-14"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-12",
+      "destinationId": "WE-14"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-13",
+      "destinationId": "WE-14"
+    }
+  ]
+}

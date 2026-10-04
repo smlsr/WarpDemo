@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WarpView</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{--ink:#182A2E;--paper:#F7FAFA;--card:#fff;--soft:#EAF1F1;--line:#D5DEDE;--muted:#56696C;--teal:#0B6E6E;--mint:#43B3AD;--gate:#B23A2E;--warn:#9A6212;--ok:#1E7A4F;--crit:#D9542F;--on:#fff;
+--c-platform:#6B7A7D;--c-api:#0B6E6E;--c-console:#9C7A12;--c-quality:#7A2D2D;--c-install:#1F4E79}
+*{box-sizing:border-box} body{margin:0;background:var(--paper);color:var(--ink);font:14px/1.45 "IBM Plex Sans",system-ui,sans-serif;padding:0 16px 48px}
+header.top{position:sticky;top:0;z-index:5;background:var(--paper);border-bottom:1px solid var(--line);padding:14px 0 10px}
+h1{font-size:20px;margin:0} .stats{display:flex;flex-wrap:wrap;gap:4px 16px;color:var(--muted);font-size:13px} .stats b{color:var(--ink)}
+nav.tabs{display:flex;gap:6px;margin-top:10px} button{font:inherit;font-size:13px;border:1px solid var(--line);background:var(--card);border-radius:6px;padding:5px 11px;cursor:pointer}
+button[aria-selected="true"]{background:var(--teal);color:#fff;border-color:var(--teal)}
+.pane[hidden]{display:none!important} .tracker{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:14px}
+@media(max-width:860px){.tracker{grid-template-columns:1fr}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
+.row{display:grid;grid-template-columns:auto 1fr auto;gap:4px 10px;padding:7px 9px;border-radius:7px;background:var(--soft);margin-bottom:6px;cursor:pointer}
+.row .id{font-family:"IBM Plex Mono",monospace;font-weight:600;font-size:12.5px} .row .id::before{content:"";display:inline-block;width:9px;height:9px;border-radius:2px;background:var(--gc);margin-right:6px}
+.meta{grid-column:2;color:var(--muted);font-size:11.5px}
+.chip{font-size:11px;font-weight:600;padding:1px 6px;border-radius:4px;border:1px solid currentColor}
+.chip.crit{color:var(--crit)}.chip.done{color:var(--ok)}.chip.run{color:var(--warn)}.chip.gate{color:var(--gate)}
+.tlwrap{overflow-x:auto;border:1px solid var(--line);border-radius:10px;background:var(--card);margin-top:12px}
+.bar{position:absolute;border-radius:5px;color:#fff;font-size:10.5px;padding:3px 5px;overflow:hidden;cursor:pointer;background:var(--gc)}
+.bar b{font-family:"IBM Plex Mono",monospace;display:block}
+table{border-collapse:collapse;width:100%;font-size:12.5px} th,td{text-align:left;padding:6px 9px;border-bottom:1px solid var(--line)}
+th{font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.gates{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px;margin-top:12px}
+.gate{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--gate);border-radius:10px;padding:12px}
+#det{position:fixed;right:16px;top:88px;width:min(380px,92vw);background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;box-shadow:0 8px 28px #0002}
+.editbar{display:flex;gap:8px;align-items:center;margin-top:8px}
+input,select{font:inherit;border:1px solid var(--line);border-radius:6px;padding:4px 8px}
+.note{color:var(--muted);font-size:12px}
+</style></head><body>
+<header class="top"><div class="titlerow"><h1>WarpView</h1><div class="stats" id="stats"></div></div>
+<nav class="tabs" role="tablist">
+ <button role="tab" id="tab-tracker" aria-selected="true" data-pane="tracker">Tracker</button>
+ <button role="tab" id="tab-timeline" data-pane="timeline">Timeline</button>
+ <button role="tab" id="tab-gates" data-pane="gates">Gates</button>
+ <button role="tab" id="tab-tickets" data-pane="tickets">Tickets</button>
+</nav>
+<div class="editbar" id="editbar" hidden>
+ <span class="note">Edit mode · dirty <b id="dirty">no</b></span>
+ <button id="save" type="button">Save beam</button>
+ <button id="undo" type="button">Undo</button>
+</div></header>
+<main>
+<section id="pane-tracker"><div class="tracker"><div class="panel"><h3>Start now</h3><div id="ready"></div></div><div class="panel"><h3>Board</h3><div id="board"></div></div></div></section>
+<section id="pane-timeline" hidden><div class="tlwrap"><div id="tl" style="position:relative;height:420px"></div></div></section>
+<section id="pane-gates" hidden><div class="gates" id="gates"></div></section>
+<section id="pane-tickets" hidden><input id="q" type="search" placeholder="Filter id, summary, lock" style="margin-top:12px"><div class="twrap"><table><thead><tr><th>Id</th><th>Summary</th><th>Size</th><th>Deps</th><th>Locks</th></tr></thead><tbody id="tb"></tbody></table></div></section>
+</main>
+<aside id="det" hidden></aside>
+<script id="data" type="application/json">{"mode": "read only \u2014 no save", "tickets": [{"id": "WV-01", "size": "S", "hours": 4, "summary": "Viewer repo skeleton and static host", "locks": ["apps/viewer"], "deps": [], "area": "platform", "ac": ["pnpm install && pnpm dev serves ui/build-map.html", "No edit controls are rendered"]}, {"id": "WV-02", "size": "S", "hours": 4, "summary": "Theme tokens matching the build-map palette", "locks": ["apps/viewer/styles"], "deps": [], "area": "platform", "ac": ["Ink, paper, teal, gate, and crit colors match the spec", "Dark preference does not break contrast"]}, {"id": "WV-03", "size": "M", "hours": 7, "summary": "Parse beam.json, STATUS, and schedule into one model", "locks": ["apps/viewer/src/parse"], "deps": ["WV-01"], "area": "api", "ac": ["Fixture beam of 16 tickets loads", "Missing deps fail with the ticket id named"]}, {"id": "WV-04", "size": "L", "hours": 11, "summary": "Dependency graph and ready-set from blockers", "locks": ["apps/viewer/src/graph"], "deps": ["WV-03"], "area": "api", "ac": ["A ticket with an open blocker is not ready", "Lock overlap keeps the second ticket queued"]}, {"id": "WV-05", "size": "S", "hours": 4, "summary": "Status chips: todo, running, merged, critical, gate", "locks": ["apps/viewer/src/chips"], "deps": ["WV-02"], "area": "console", "ac": ["Critical tickets show the crit chip", "Merged tickets show the done chip"]}, {"id": "WV-06", "size": "M", "hours": 7, "summary": "Tracker: start-now queue and board", "locks": ["apps/viewer/src/tracker"], "deps": ["WV-03", "WV-05"], "area": "console", "ac": ["Start-now lists only ready tickets", "Mark started moves a row to running"]}, {"id": "WV-07", "size": "L", "hours": 11, "summary": "Agent timeline with day columns and gate lines", "locks": ["apps/viewer/src/timeline"], "deps": ["WV-04", "WV-06"], "area": "console", "ac": ["Bars sit on agent rows", "A blocking gate draws a solid line at its forecast"]}, {"id": "WV-08", "size": "S", "hours": 4, "summary": "Ticket search across id, summary, and locks", "locks": ["apps/viewer/src/search"], "deps": ["WV-06"], "area": "console", "ac": ["Query WV-07 filters the table to that id", "Empty query shows every ticket"]}, {"id": "WV-09", "size": "M", "hours": 7, "summary": "Gates pane with checks and if-red text", "locks": ["apps/viewer/src/gates"], "deps": ["WV-04"], "area": "quality", "ac": ["G0 shows its check command", "Reached state appears when every member is merged"]}, {"id": "WV-10", "size": "L", "hours": 11, "summary": "Ticket drawer: locks, blockers, acceptance criteria", "locks": ["apps/viewer/src/drawer"], "deps": ["WV-06"], "area": "console", "ac": ["Drawer lists lock folders", "Blocker links open the blocker ticket"]}, {"id": "WV-11", "size": "M", "hours": 7, "summary": "Ticket table sorted by forecast start", "locks": ["apps/viewer/src/table"], "deps": ["WV-06"], "area": "console", "ac": ["Columns include size, deps, and unlocks", "Row click opens the drawer"]}, {"id": "WV-12", "size": "S", "hours": 4, "summary": "Empty states for a beam with nothing ready", "locks": ["apps/viewer/src/empty"], "deps": ["WV-06"], "area": "console", "ac": ["Paused beam shows the paused empty state", "No false ready rows"]}, {"id": "WV-13", "size": "XL", "hours": 16, "summary": "Wire all panes to the fixture beam offline", "locks": ["apps/viewer/src"], "deps": ["WV-07", "WV-09", "WV-10", "WV-11"], "area": "quality", "ac": ["Opening the HTML with no server shows 16 tickets", "Tracker, timeline, gates, and table agree"]}, {"id": "WV-14", "size": "M", "hours": 7, "summary": "Persist started and merged in localStorage", "locks": ["apps/viewer/src/state"], "deps": ["WV-06"], "area": "platform", "ac": ["Reload keeps merged ids", "Reset clears both lists"]}, {"id": "WV-15", "size": "L", "hours": 11, "summary": "Keyboard path through tabs, rows, and drawer", "locks": ["apps/viewer/src/a11y"], "deps": ["WV-13"], "area": "quality", "ac": ["Tab order reaches every pane", "Escape closes the drawer"]}, {"id": "WV-16", "size": "S", "hours": 4, "summary": "Viewer README and fixture pointer", "locks": ["docs"], "deps": ["WV-13"], "area": "install", "ac": ["README names the fixture path", "No claim that the view can save"]}], "gates": [{"key": "G0", "name": "Model loads", "blocking": true, "members": ["WV-01", "WV-03"], "checks": ["Open ui/build-map.html and read 16 tickets from the fixture beam"], "ifRed": "Nobody starts panes. Fix the parser on the WV-03 branch."}, {"key": "G1", "name": "Timeline agrees", "blocking": true, "members": ["WV-07", "WV-09"], "checks": ["Gate line sits on the G0 forecast", "Ready set matches the tracker"], "ifRed": "Do not wire the offline demo until the timeline and gates match."}], "estimate": {"agentHours": 119, "humanHours": 3.5, "elapsedHours": 20}}</script>
+<script>
+const EDIT = false;
+const D = JSON.parse(document.getElementById('data').textContent);
+const KEY = 'warpview';
+let st = {merged:[], running:[]};
+try { const s = JSON.parse(localStorage.getItem(KEY)||'null'); if (s) st = s; } catch (e) {}
+let dirty = false, undo = [];
+const saveSt = () => localStorage.setItem(KEY, JSON.stringify(st));
+const state = id => st.merged.includes(id) ? 'done' : st.running.includes(id) ? 'run' : 'todo';
+const ready = () => D.tickets.filter(t => state(t.id)==='todo' && t.deps.every(d => st.merged.includes(d)));
+function row(t){
+  const s = state(t.id);
+  return `<div class="row" data-id="${t.id}" style="--gc:var(--c-${t.area})"><span class="id">${t.id}</span><span>${t.summary}</span><span class="chip ${s==='done'?'done':s==='run'?'run':'gate'}">${s}</span><span class="meta">${t.size} · ${t.locks[0]} · deps ${t.deps.join(', ')||'—'}</span></div>`;
+}
+function render(){
+  document.getElementById('stats').innerHTML = `<span><b>${D.tickets.length}</b> tickets</span><span><b>${D.estimate.agentHours}</b> agent-hours</span><span><b>${D.estimate.humanHours}</b> human-hours</span><span>elapsed <b>${D.estimate.elapsedHours}h</b></span><span class="note">${D.mode}</span>`;
+  document.getElementById('ready').innerHTML = ready().map(row).join('') || '<p class="note">Nothing ready.</p>';
+  document.getElementById('board').innerHTML = D.tickets.map(row).join('');
+  document.getElementById('gates').innerHTML = D.gates.map(g=>`<article class="gate"><h4>${g.key} · ${g.name}</h4><p class="note">${g.members.join(', ')}</p><ul>${g.checks.map(c=>`<li>${c}</li>`).join('')}</ul><p class="note">${g.ifRed}</p></article>`).join('');
+  const q = (document.getElementById('q').value||'').toLowerCase();
+  document.getElementById('tb').innerHTML = D.tickets.filter(t=>!q||(t.id+t.summary+t.locks.join(' ')).toLowerCase().includes(q)).map(t=>`<tr data-id="${t.id}"><td class="id">${t.id}</td><td>${t.summary}</td><td>${t.size}</td><td>${t.deps.join(', ')||'—'}</td><td>${t.locks.join(', ')}</td></tr>`).join('');
+  const tl = document.getElementById('tl');
+  tl.innerHTML = D.tickets.map((t,i)=>`<div class="bar" data-id="${t.id}" style="--gc:var(--c-${t.area});left:${12+ (i%8)*110}px;top:${20+Math.floor(i/8)*70}px;width:100px;height:48px"><b>${t.id}</b>${t.size}</div>`).join('');
+  document.getElementById('dirty').textContent = dirty ? 'yes' : 'no';
+}
+function open(id){
+  const t = D.tickets.find(x=>x.id===id); if(!t) return;
+  const edit = EDIT ? `<label class="note">Summary</label><input id="sum" value="${t.summary.replace(/"/g,'"')}" style="width:100%">` : '';
+  document.getElementById('det').hidden = false;
+  document.getElementById('det').innerHTML = `<button id="close" type="button">Close</button><h2>${t.id}</h2><p>${t.summary}</p><p class="note">${t.size} · ${t.hours}h · ${t.locks.join(', ')}</p><p>Blocked by ${t.deps.join(', ')||'none'}</p><ul>${t.ac.map(a=>`<li>${a}</li>`).join('')}</ul>${edit}<div style="margin-top:8px"><button data-act="start" type="button">Mark started</button> <button data-act="merge" type="button">Mark merged</button></div>`;
+  document.getElementById('close').onclick = () => document.getElementById('det').hidden = true;
+  if (EDIT) document.getElementById('sum').onchange = e => { undo.push(JSON.stringify(t)); t.summary = e.target.value; dirty = true; render(); open(id); };
+}
+document.body.addEventListener('click', e => {
+  const act = e.target.dataset.act, id = e.target.closest('[data-id]')?.dataset.id;
+  if (act && id) {
+    if (act==='start' && !st.running.includes(id)) st.running.push(id);
+    if (act==='merge') { st.merged.push(id); st.running = st.running.filter(x=>x!==id); }
+    saveSt(); render(); return;
+  }
+  if (id) open(id);
+});
+document.querySelectorAll('[role=tab]').forEach(b => b.onclick = () => {
+  document.querySelectorAll('.pane, [role=tab]').forEach(n => { if (n.dataset) {} });
+  ['tracker','timeline','gates','tickets'].forEach(k => {
+    document.getElementById('pane-'+k).hidden = k!==b.dataset.pane;
+    document.getElementById('tab-'+k).setAttribute('aria-selected', k===b.dataset.pane);
+  });
+});
+document.getElementById('q').addEventListener('input', render);
+if (EDIT) {
+  document.getElementById('editbar').hidden = false;
+  document.getElementById('save').onclick = () => {
+    const blob = new Blob([JSON.stringify({tickets:D.tickets, gates:D.gates, estimate:D.estimate}, null, 2)], {type:'application/json'});
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'beam.edited.json'; a.click();
+    dirty = false; render();
+  };
+  document.getElementById('undo').onclick = () => { const prev = undo.pop(); if (!prev) return; const t = JSON.parse(prev); const i = D.tickets.findIndex(x=>x.id===t.id); if (i>=0) D.tickets[i]=t; dirty=true; render(); };
+}
+render();
+</script></body></html>

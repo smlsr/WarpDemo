@@ -1,0 +1,275 @@
+{
+  "tickets": [
+    {
+      "id": "WE-01",
+      "size": "S",
+      "hours": 4,
+      "summary": "Audit WarpView read-only contract before editing",
+      "locks": [
+        "docs/audit"
+      ],
+      "deps": [],
+      "area": "platform",
+      "ac": [
+        "Audit lists every read-only control",
+        "Day-0 note says WarpView WV-13 is already merged"
+      ]
+    },
+    {
+      "id": "WE-02",
+      "size": "M",
+      "hours": 7,
+      "summary": "Dirty-state model over the loaded beam",
+      "locks": [
+        "apps/viewer/src/edit/dirty"
+      ],
+      "deps": [
+        "WE-01"
+      ],
+      "area": "api",
+      "ac": [
+        "An edit sets dirty",
+        "Reload prompt appears when dirty"
+      ]
+    },
+    {
+      "id": "WE-03",
+      "size": "L",
+      "hours": 11,
+      "summary": "Save writer for beam.json and schedule.json",
+      "locks": [
+        "apps/viewer/src/edit/save"
+      ],
+      "deps": [
+        "WE-02"
+      ],
+      "area": "api",
+      "ac": [
+        "Save downloads a beam with the same ticket ids",
+        "Invalid JSON is refused"
+      ]
+    },
+    {
+      "id": "WE-04",
+      "size": "S",
+      "hours": 4,
+      "summary": "Inline edit of ticket summary",
+      "locks": [
+        "apps/viewer/src/edit/summary"
+      ],
+      "deps": [
+        "WE-02"
+      ],
+      "area": "console",
+      "ac": [
+        "Summary edit shows in the table",
+        "Cancel restores the prior summary"
+      ]
+    },
+    {
+      "id": "WE-05",
+      "size": "L",
+      "hours": 11,
+      "summary": "Dependency editor with cycle refusal",
+      "locks": [
+        "apps/viewer/src/edit/deps"
+      ],
+      "deps": [
+        "WE-02"
+      ],
+      "area": "console",
+      "ac": [
+        "Adding a dep that cycles is rejected",
+        "A removed dep can make a ticket ready"
+      ]
+    },
+    {
+      "id": "WE-06",
+      "size": "M",
+      "hours": 7,
+      "summary": "Lock-path editor",
+      "locks": [
+        "apps/viewer/src/edit/locks"
+      ],
+      "deps": [
+        "WE-02"
+      ],
+      "area": "console",
+      "ac": [
+        "A new lock path is stored on the ticket",
+        "Empty lock list is refused"
+      ]
+    },
+    {
+      "id": "WE-07",
+      "size": "S",
+      "hours": 4,
+      "summary": "Size editor S M L XL and auto-merge flag",
+      "locks": [
+        "apps/viewer/src/edit/size"
+      ],
+      "deps": [
+        "WE-02"
+      ],
+      "area": "console",
+      "ac": [
+        "Changing L to M sets autoMerge true",
+        "Changing M to XL sets autoMerge false"
+      ]
+    },
+    {
+      "id": "WE-08",
+      "size": "M",
+      "hours": 7,
+      "summary": "Undo stack for the last 20 edits",
+      "locks": [
+        "apps/viewer/src/edit/undo"
+      ],
+      "deps": [
+        "WE-04",
+        "WE-05"
+      ],
+      "area": "platform",
+      "ac": [
+        "Undo restores the previous summary",
+        "Redo reapplies it"
+      ]
+    },
+    {
+      "id": "WE-09",
+      "size": "M",
+      "hours": 7,
+      "summary": "Validate deps, locks, and sizes before save",
+      "locks": [
+        "apps/viewer/src/edit/validate"
+      ],
+      "deps": [
+        "WE-03",
+        "WE-05",
+        "WE-06"
+      ],
+      "area": "quality",
+      "ac": [
+        "A missing dep blocks save",
+        "The error names the ticket id"
+      ]
+    },
+    {
+      "id": "WE-10",
+      "size": "L",
+      "hours": 11,
+      "summary": "Warn when two ready tickets share a lock",
+      "locks": [
+        "apps/viewer/src/edit/conflicts"
+      ],
+      "deps": [
+        "WE-05",
+        "WE-06"
+      ],
+      "area": "quality",
+      "ac": [
+        "Overlap is listed before save",
+        "Prefix overlap counts as overlap"
+      ]
+    },
+    {
+      "id": "WE-11",
+      "size": "M",
+      "hours": 7,
+      "summary": "Export WARP_PLAN.json from the edited graph",
+      "locks": [
+        "apps/viewer/src/edit/export"
+      ],
+      "deps": [
+        "WE-09"
+      ],
+      "area": "api",
+      "ac": [
+        "Export includes estimate and deps",
+        "Markdown brief matches the JSON ids"
+      ]
+    },
+    {
+      "id": "WE-12",
+      "size": "S",
+      "hours": 4,
+      "summary": "Save confirmation and reload of the saved beam",
+      "locks": [
+        "apps/viewer/src/edit/reload"
+      ],
+      "deps": [
+        "WE-03"
+      ],
+      "area": "console",
+      "ac": [
+        "Confirm names the file",
+        "Reload shows the edited summary"
+      ]
+    },
+    {
+      "id": "WE-13",
+      "size": "XL",
+      "hours": 16,
+      "summary": "Drag a timeline bar to change forecast start",
+      "locks": [
+        "apps/viewer/src/edit/timeline"
+      ],
+      "deps": [
+        "WE-08",
+        "WE-10"
+      ],
+      "area": "console",
+      "ac": [
+        "Drop updates start label",
+        "A move that violates a dep snaps back"
+      ]
+    },
+    {
+      "id": "WE-14",
+      "size": "L",
+      "hours": 11,
+      "summary": "Round trip: edit, save, reload, compare",
+      "locks": [
+        "apps/viewer/src/edit/roundtrip"
+      ],
+      "deps": [
+        "WE-11",
+        "WE-12",
+        "WE-13"
+      ],
+      "area": "quality",
+      "ac": [
+        "Saved beam equals the reloaded model",
+        "Human hours estimate updates after a size change"
+      ]
+    }
+  ],
+  "gates": [
+    {
+      "key": "G0",
+      "name": "WarpView shipped",
+      "blocking": true,
+      "members": [
+        "WE-01"
+      ],
+      "checks": [
+        "WarpView WV-13 is merged and the read-only map opens"
+      ],
+      "ifRed": "Do not start edit work. The viewer contract is the base."
+    },
+    {
+      "key": "G1",
+      "name": "Save is safe",
+      "blocking": true,
+      "members": [
+        "WE-03",
+        "WE-09"
+      ],
+      "checks": [
+        "Save refuses a cycle",
+        "Downloaded beam reloads"
+      ],
+      "ifRed": "Do not ship drag-edit until save validates."
+    }
+  ]
+}

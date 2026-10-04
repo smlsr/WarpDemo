@@ -1,0 +1,278 @@
+{
+  "project": "WVIEW",
+  "tickets": [
+    {
+      "id": "WV-01",
+      "size": "S",
+      "hours": 4,
+      "summary": "Viewer repo skeleton and static host",
+      "locks": [
+        "apps/viewer"
+      ],
+      "deps": [],
+      "area": "platform",
+      "ac": [
+        "pnpm install && pnpm dev serves ui/build-map.html",
+        "No edit controls are rendered"
+      ]
+    },
+    {
+      "id": "WV-02",
+      "size": "S",
+      "hours": 4,
+      "summary": "Theme tokens matching the build-map palette",
+      "locks": [
+        "apps/viewer/styles"
+      ],
+      "deps": [],
+      "area": "platform",
+      "ac": [
+        "Ink, paper, teal, gate, and crit colors match the spec",
+        "Dark preference does not break contrast"
+      ]
+    },
+    {
+      "id": "WV-03",
+      "size": "M",
+      "hours": 7,
+      "summary": "Parse beam.json, STATUS, and schedule into one model",
+      "locks": [
+        "apps/viewer/src/parse"
+      ],
+      "deps": [
+        "WV-01"
+      ],
+      "area": "api",
+      "ac": [
+        "Fixture beam of 16 tickets loads",
+        "Missing deps fail with the ticket id named"
+      ]
+    },
+    {
+      "id": "WV-04",
+      "size": "L",
+      "hours": 11,
+      "summary": "Dependency graph and ready-set from blockers",
+      "locks": [
+        "apps/viewer/src/graph"
+      ],
+      "deps": [
+        "WV-03"
+      ],
+      "area": "api",
+      "ac": [
+        "A ticket with an open blocker is not ready",
+        "Lock overlap keeps the second ticket queued"
+      ]
+    },
+    {
+      "id": "WV-05",
+      "size": "S",
+      "hours": 4,
+      "summary": "Status chips: todo, running, merged, critical, gate",
+      "locks": [
+        "apps/viewer/src/chips"
+      ],
+      "deps": [
+        "WV-02"
+      ],
+      "area": "console",
+      "ac": [
+        "Critical tickets show the crit chip",
+        "Merged tickets show the done chip"
+      ]
+    },
+    {
+      "id": "WV-06",
+      "size": "M",
+      "hours": 7,
+      "summary": "Tracker: start-now queue and board",
+      "locks": [
+        "apps/viewer/src/tracker"
+      ],
+      "deps": [
+        "WV-03",
+        "WV-05"
+      ],
+      "area": "console",
+      "ac": [
+        "Start-now lists only ready tickets",
+        "Mark started moves a row to running"
+      ]
+    },
+    {
+      "id": "WV-07",
+      "size": "L",
+      "hours": 11,
+      "summary": "Agent timeline with day columns and gate lines",
+      "locks": [
+        "apps/viewer/src/timeline"
+      ],
+      "deps": [
+        "WV-04",
+        "WV-06"
+      ],
+      "area": "console",
+      "ac": [
+        "Bars sit on agent rows",
+        "A blocking gate draws a solid line at its forecast"
+      ]
+    },
+    {
+      "id": "WV-08",
+      "size": "S",
+      "hours": 4,
+      "summary": "Ticket search across id, summary, and locks",
+      "locks": [
+        "apps/viewer/src/search"
+      ],
+      "deps": [
+        "WV-06"
+      ],
+      "area": "console",
+      "ac": [
+        "Query WV-07 filters the table to that id",
+        "Empty query shows every ticket"
+      ]
+    },
+    {
+      "id": "WV-09",
+      "size": "M",
+      "hours": 7,
+      "summary": "Gates pane with checks and if-red text",
+      "locks": [
+        "apps/viewer/src/gates"
+      ],
+      "deps": [
+        "WV-04"
+      ],
+      "area": "quality",
+      "ac": [
+        "G0 shows its check command",
+        "Reached state appears when every member is merged"
+      ]
+    },
+    {
+      "id": "WV-10",
+      "size": "L",
+      "hours": 11,
+      "summary": "Ticket drawer: locks, blockers, acceptance criteria",
+      "locks": [
+        "apps/viewer/src/drawer"
+      ],
+      "deps": [
+        "WV-06"
+      ],
+      "area": "console",
+      "ac": [
+        "Drawer lists lock folders",
+        "Blocker links open the blocker ticket"
+      ]
+    },
+    {
+      "id": "WV-11",
+      "size": "M",
+      "hours": 7,
+      "summary": "Ticket table sorted by forecast start",
+      "locks": [
+        "apps/viewer/src/table"
+      ],
+      "deps": [
+        "WV-06"
+      ],
+      "area": "console",
+      "ac": [
+        "Columns include size, deps, and unlocks",
+        "Row click opens the drawer"
+      ]
+    },
+    {
+      "id": "WV-12",
+      "size": "S",
+      "hours": 4,
+      "summary": "Empty states for a beam with nothing ready",
+      "locks": [
+        "apps/viewer/src/empty"
+      ],
+      "deps": [
+        "WV-06"
+      ],
+      "area": "console",
+      "ac": [
+        "Paused beam shows the paused empty state",
+        "No false ready rows"
+      ]
+    },
+    {
+      "id": "WV-13",
+      "size": "XL",
+      "hours": 16,
+      "summary": "Wire all panes to the fixture beam offline",
+      "locks": [
+        "apps/viewer/src"
+      ],
+      "deps": [
+        "WV-07",
+        "WV-09",
+        "WV-10",
+        "WV-11"
+      ],
+      "area": "quality",
+      "ac": [
+        "Opening the HTML with no server shows 16 tickets",
+        "Tracker, timeline, gates, and table agree"
+      ]
+    },
+    {
+      "id": "WV-14",
+      "size": "M",
+      "hours": 7,
+      "summary": "Persist started and merged in localStorage",
+      "locks": [
+        "apps/viewer/src/state"
+      ],
+      "deps": [
+        "WV-06"
+      ],
+      "area": "platform",
+      "ac": [
+        "Reload keeps merged ids",
+        "Reset clears both lists"
+      ]
+    },
+    {
+      "id": "WV-15",
+      "size": "L",
+      "hours": 11,
+      "summary": "Keyboard path through tabs, rows, and drawer",
+      "locks": [
+        "apps/viewer/src/a11y"
+      ],
+      "deps": [
+        "WV-13"
+      ],
+      "area": "quality",
+      "ac": [
+        "Tab order reaches every pane",
+        "Escape closes the drawer"
+      ]
+    },
+    {
+      "id": "WV-16",
+      "size": "S",
+      "hours": 4,
+      "summary": "Viewer README and fixture pointer",
+      "locks": [
+        "docs"
+      ],
+      "deps": [
+        "WV-13"
+      ],
+      "area": "install",
+      "ac": [
+        "README names the fixture path",
+        "No claim that the view can save"
+      ]
+    }
+  ]
+}

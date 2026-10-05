@@ -1,0 +1,91 @@
+/* Timeline (WV-07). Colors are theme tokens from styles/tokens.css. */
+.timeline {
+  --label: 96px;
+  --day-w: 88px;
+  overflow-x: auto;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 10px 14px 14px;
+}
+.timeline .tl-head,
+.timeline .tl-row {
+  display: grid;
+  grid-template-columns: var(--label) calc(var(--day-w) * var(--days));
+  align-items: center;
+}
+.timeline .tl-corner,
+.timeline .tl-label {
+  color: var(--muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding-right: 8px;
+}
+.timeline .tl-days {
+  display: grid;
+  grid-template-columns: repeat(var(--days), var(--day-w));
+}
+.timeline .tl-day {
+  color: var(--muted);
+  font-size: 11px;
+  padding: 0 0 6px 4px;
+  border-left: 1px solid var(--line);
+}
+.timeline .tl-body {
+  position: relative;
+}
+.timeline .tl-track {
+  position: relative;
+  height: 30px;
+  border-bottom: 1px solid var(--soft);
+  background-image: linear-gradient(to right, var(--line) 1px, transparent 1px);
+  background-size: var(--day-w) 100%;
+}
+.timeline .tl-bar {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: calc(var(--day-w) * var(--s));
+  width: calc(var(--day-w) * var(--w));
+  min-width: 14px;
+  box-sizing: border-box;
+  padding: 0 6px;
+  border-radius: 5px;
+  background: var(--gc, var(--teal));
+  color: var(--on);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 22px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.timeline .tl-bar[data-state="run"] { outline: 2px solid var(--mint); outline-offset: 1px; }
+.timeline .tl-gates {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: var(--label);
+  right: 0;
+  pointer-events: none;
+}
+.timeline .tl-gate {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: calc(var(--day-w) * var(--s));
+  border-left: 2px solid var(--gate);
+}
+.timeline .tl-gate[data-line="dashed"] { border-left-style: dashed; }
+.timeline .tl-gate[data-passed="true"] { opacity: 0.5; }
+.timeline .tl-gate-label {
+  position: absolute;
+  top: -2px;
+  left: 4px;
+  color: var(--gate);
+  font-size: 11px;
+  font-weight: 700;
+  background: var(--card);
+  padding: 0 3px;
+  border-radius: 3px;
+}

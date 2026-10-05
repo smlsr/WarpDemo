@@ -1,0 +1,51 @@
+/* Ticket drawer (WV-10). Colors are theme tokens from styles/tokens.css. */
+.drawer {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 14px;
+}
+.drawer header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 10px;
+  margin-bottom: 10px;
+}
+.drawer header .id { font-weight: 600; font-size: 12.5px; }
+.drawer header .title { flex: 1; min-width: 12em; }
+.drawer .sec { margin-top: 10px; }
+.drawer h3 {
+  margin: 0 0 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--muted);
+}
+.drawer ul,
+.drawer ol { margin: 0; padding-left: 18px; }
+.drawer .locks { list-style: none; padding-left: 0; }
+.drawer .lock code {
+  display: inline-block;
+  background: var(--soft);
+  border-radius: 6px;
+  padding: 2px 7px;
+  margin-bottom: 4px;
+}
+.drawer .blockers { list-style: none; padding-left: 0; }
+.drawer .blocker {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 4px 10px;
+  padding: 6px 9px;
+  border-radius: 7px;
+  background: var(--soft);
+  margin-bottom: 6px;
+}
+.drawer .blocker a { color: inherit; text-decoration: underline; }
+.drawer .blocker .id { font-weight: 600; font-size: 12.5px; }
+.drawer .ac { margin-bottom: 4px; }
+.drawer .note { color: var(--muted); margin: 0; }

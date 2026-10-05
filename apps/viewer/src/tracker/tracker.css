@@ -1,0 +1,39 @@
+/* Tracker (WV-06). Colors are theme tokens from styles/tokens.css. */
+.tracker {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 14px;
+}
+@media (max-width: 860px) {
+  .tracker { grid-template-columns: 1fr; }
+}
+.tracker .panel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 14px;
+}
+.tracker .row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 4px 10px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  background: var(--soft);
+  margin-bottom: 6px;
+}
+.tracker .row .id { font-weight: 600; font-size: 12.5px; }
+.tracker .row .id::before {
+  content: "";
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  background: var(--gc, var(--muted));
+  margin-right: 6px;
+}
+.tracker .row .chips { display: inline-flex; gap: 4px; }
+.tracker .row .meta { grid-column: 2; color: var(--muted); font-size: 11.5px; }
+.tracker .row button[data-act="start"] { grid-column: 3; justify-self: end; }
+.tracker .note { color: var(--muted); }

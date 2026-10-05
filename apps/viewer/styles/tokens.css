@@ -1,0 +1,51 @@
+/* WarpView theme tokens (WV-02).
+ * Light values are the build-map palette from WarpView/ui/build-map.html and
+ * must stay identical to its :root block. Dark values follow the OS preference
+ * and keep body text and chips at WCAG AA (4.5:1) or better.
+ * Names are stable: later tickets (chips, tracker, ...) consume these only.
+ */
+:root {
+  color-scheme: light;
+  --ink: #182A2E;
+  --paper: #F7FAFA;
+  --card: #fff;
+  --soft: #EAF1F1;
+  --line: #D5DEDE;
+  --muted: #56696C;
+  --teal: #0B6E6E;
+  --mint: #43B3AD;
+  --gate: #B23A2E;
+  --warn: #9A6212;
+  --ok: #1E7A4F;
+  --crit: #D9542F;
+  --on: #fff;
+  --c-platform: #6B7A7D;
+  --c-api: #0B6E6E;
+  --c-console: #9C7A12;
+  --c-quality: #7A2D2D;
+  --c-install: #1F4E79;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --ink: #E6F0F0;
+    --paper: #0F1B1E;
+    --card: #162428;
+    --soft: #1D2F33;
+    --line: #34494D;
+    --muted: #9DB3B6;
+    --teal: #4FC3BD;
+    --mint: #43B3AD;
+    --gate: #F0877C;
+    --warn: #E0A84A;
+    --ok: #5CCB93;
+    --crit: #F2896A;
+    --on: #0F1B1E;
+    --c-platform: #9DB0B3;
+    --c-api: #4FC3BD;
+    --c-console: #D9B54A;
+    --c-quality: #E38A8A;
+    --c-install: #7FB1E3;
+  }
+}

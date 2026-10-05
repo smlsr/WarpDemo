@@ -1,0 +1,17 @@
+/* Gates pane (WV-09). Colors are theme tokens from styles/tokens.css. */
+.gate {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-top: 3px solid var(--gate);
+  border-radius: 10px;
+  padding: 12px;
+}
+.gate[data-state="reached"] { border-top-color: var(--ok); }
+.gate h4 { margin: 0 0 4px; }
+.gate .state { margin: 0 0 6px; font-size: 12px; font-weight: 600; }
+.gate .state.reached { color: var(--ok); }
+.gate .state.open { color: var(--gate); }
+.gate .checks { margin: 6px 0; padding-left: 18px; }
+.gate code.check { font-family: "IBM Plex Mono", monospace; font-size: 12px; }
+.gate .ifred { margin: 6px 0 0; color: var(--muted); font-size: 12px; }
+.gate .ifred b { color: var(--gate); }

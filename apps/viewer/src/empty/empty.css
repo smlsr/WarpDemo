@@ -1,0 +1,11 @@
+/* Empty states (WV-12). Colors are theme tokens from styles/tokens.css. */
+.empty {
+  padding: 14px;
+  border: 1px dashed var(--line);
+  border-radius: 8px;
+  background: var(--soft);
+  color: var(--muted);
+}
+.empty .title { margin: 0 0 4px; font-weight: 600; color: var(--ink); }
+.empty .note { margin: 0; }
+.empty[data-empty="paused"] { border-style: solid; }

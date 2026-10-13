@@ -26,11 +26,11 @@
       "id": "listener",
       "ticket": "",
       "role": "listener",
-      "polls": 3,
-      "session": "2026-10-13T19:15:00Z-77ae00b3",
-      "started": "2026-10-13T19:15:29Z",
-      "ended": "2026-10-13T19:21:28Z",
-      "endReason": "orphaned",
+      "polls": 5,
+      "session": "2026-10-13T19:44:14Z-3cba6c6d",
+      "started": "2026-10-13T19:50:39Z",
+      "ended": "2026-10-13T19:51:56Z",
+      "endReason": "stopped",
       "state": "ended"
     },
     {
@@ -70,8 +70,9 @@
       "role": "shuttle",
       "session": "2026-10-13T19:15:00Z-77ae00b3",
       "started": "2026-10-13T19:15:42Z",
-      "ended": null,
-      "state": "running"
+      "ended": "2026-10-13T19:44:17Z",
+      "state": "ended",
+      "endReason": "dead"
     },
     {
       "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
@@ -81,6 +82,26 @@
       "started": "2026-10-13T19:44:14Z",
       "ended": null,
       "state": "running"
+    },
+    {
+      "id": "repair-WV-01-2",
+      "ticket": "WV-01",
+      "role": "shuttle",
+      "session": "2026-10-13T19:44:14Z-3cba6c6d",
+      "started": "2026-10-13T19:44:17Z",
+      "ended": "2026-10-13T19:44:17Z",
+      "state": "ended",
+      "endReason": "dead"
+    },
+    {
+      "id": "shuttle-WV-01-r1",
+      "ticket": "WV-01",
+      "role": "shuttle",
+      "session": "2026-10-13T19:44:14Z-3cba6c6d",
+      "started": "2026-10-13T19:44:17Z",
+      "ended": null,
+      "state": "running",
+      "lastSeenAt": ""
     }
   ],
   "spawns": [
@@ -96,6 +117,13 @@
       "ticket": "WV-01",
       "role": "bugbot",
       "id": "bugbot:WV-01:579fb1873f14055f8397c9ffac21b6c8109b2f4b"
+    },
+    {
+      "at": "2026-10-13T19:44:17Z",
+      "ticket": "WV-01",
+      "role": "shuttle",
+      "id": "shuttle-WV-01-r1",
+      "step": "restart"
     }
   ]
 }

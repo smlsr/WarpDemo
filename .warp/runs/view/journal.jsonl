@@ -15,3 +15,8 @@
 {"action": "start", "added": [], "agent": "repair-WV-01-2", "attempts": 2, "id": "WV-01", "ts": "2026-10-13T19:17:19Z", "type": "alarm-repair"}
 {"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-01", "result": "moved", "to": "Code Review", "ts": "2026-10-13T19:36:22Z", "type": "jira"}
 {"reason": null, "ts": "2026-10-13T19:44:14Z", "type": "running"}
+{"line": "WV-01 coding", "ts": "2026-10-13T19:44:17Z", "type": "remote"}
+{"line": "WV-01 review", "ts": "2026-10-13T19:44:17Z", "type": "remote"}
+{"line": "WV-01 lock-escape", "ts": "2026-10-13T19:44:17Z", "type": "remote"}
+{"agentId": "listener", "reason": "stopped", "ts": "2026-10-13T19:51:56Z", "type": "listener-stop"}
+{"ts": "2026-10-13T19:51:56Z", "type": "session-stop"}

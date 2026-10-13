@@ -1,15 +1,15 @@
 {
   "id": "WV-01",
-  "state": "review",
+  "state": "check-green",
   "startedAt": "2026-10-13T18:50:40Z",
-  "updatedAt": "2026-10-13T19:16:19Z",
+  "updatedAt": "2026-10-13T19:45:21Z",
   "heartbeatAt": "",
   "pr": {
-    "url": ""
+    "url": "https://github.com/smlsr/WarpDemo/pull/4"
   },
   "check": {
-    "result": "",
-    "name": "",
+    "result": "green",
+    "name": "npm test",
     "log": ""
   },
   "error": "",
@@ -18,5 +18,5 @@
     "WARPDEMO/WarpView/app/package-lock.json",
     "WARPDEMO/WarpView/app/src/core/util.test.mjs"
   ],
-  "agent": "repair-WV-01-1"
+  "agent": "shuttle-WV-01-r1"
 }

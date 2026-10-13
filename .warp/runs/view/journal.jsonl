@@ -51,3 +51,111 @@
 {"ts": "2026-10-13T22:11:17Z", "type": "subagent-stop"}
 {"reason": null, "ts": "2026-10-13T23:06:25Z", "type": "running"}
 {"ts": "2026-10-13T23:06:26Z", "type": "heal", "unmerged": ["WV-01"]}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WV-01", "result": "moved", "to": "Done", "ts": "2026-10-13T23:07:07Z", "type": "jira"}
+{"commentId": "10568", "event": "merged", "id": "WV-01", "ts": "2026-10-13T23:09:02Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WV-02", "result": "moved", "to": "In Progress", "ts": "2026-10-13T23:09:45Z", "type": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WV-03", "result": "moved", "to": "In Progress", "ts": "2026-10-13T23:09:45Z", "type": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WV-06", "result": "moved", "to": "In Progress", "ts": "2026-10-13T23:09:45Z", "type": "jira"}
+{"id": "WV-03", "reason": "branch pushed; gh is read-only and the github MCP create_pull_request is not allowlisted, so no PR could be opened", "ts": "2026-10-13T23:09:52Z", "type": "local-only"}
+{"ts": "2026-10-13T23:09:52Z", "type": "subagent-stop"}
+{"line": "WV-03 review", "ts": "2026-10-13T23:09:57Z", "type": "remote"}
+{"line": "WV-03 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:09:57Z", "type": "remote"}
+{"line": "WV-03 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:09:57Z", "type": "remote"}
+{"line": "WV-03 done", "ts": "2026-10-13T23:09:57Z", "type": "remote"}
+{"line": "WV-03 pr-opened", "ts": "2026-10-13T23:10:31Z", "type": "remote"}
+{"line": "WV-03 coding", "ts": "2026-10-13T23:12:10Z", "type": "remote"}
+{"line": "WV-03 review", "ts": "2026-10-13T23:12:10Z", "type": "remote"}
+{"line": "WV-03 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:12:10Z", "type": "remote"}
+{"line": "WV-03 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:12:10Z", "type": "remote"}
+{"line": "WV-03 done", "ts": "2026-10-13T23:12:10Z", "type": "remote"}
+{"line": "WV-06 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:12:10Z", "type": "remote"}
+{"line": "WV-06 acceptance: 6 recorded, all pass.", "ts": "2026-10-13T23:12:10Z", "type": "remote"}
+{"line": "WV-06 done", "ts": "2026-10-13T23:12:10Z", "type": "remote"}
+{"actions": ["in-review"], "id": "WV-03", "ts": "2026-10-13T23:12:11Z", "type": "jira-intent"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-03", "result": "moved", "to": "Code Review", "ts": "2026-10-13T23:12:22Z", "type": "jira"}
+{"line": "WV-03 check-green", "ts": "2026-10-13T23:13:10Z", "type": "remote"}
+{"line": "WV-06 pr-opened", "ts": "2026-10-13T23:13:10Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WV-03", "result": "moved", "to": "Done", "ts": "2026-10-13T23:13:34Z", "type": "jira"}
+{"commentId": "10569", "event": "merged", "id": "WV-03", "ts": "2026-10-13T23:13:34Z", "type": "jira-comment", "where": "jira"}
+{"line": "WV-06 acceptance: 6 recorded, all pass.", "ts": "2026-10-13T23:13:35Z", "type": "remote"}
+{"actions": ["in-review"], "id": "WV-06", "ts": "2026-10-13T23:13:36Z", "type": "jira-intent"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-06", "result": "moved", "to": "Code Review", "ts": "2026-10-13T23:14:17Z", "type": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WV-04", "result": "moved", "to": "In Progress", "ts": "2026-10-13T23:14:17Z", "type": "jira"}
+{"line": "WV-06 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:16:41Z", "type": "remote"}
+{"line": "WV-06 check-green", "ts": "2026-10-13T23:17:16Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WV-06", "result": "moved", "to": "Done", "ts": "2026-10-13T23:17:41Z", "type": "jira"}
+{"commentId": "10570", "event": "merged", "id": "WV-06", "ts": "2026-10-13T23:17:41Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WV-07", "result": "moved", "to": "In Progress", "ts": "2026-10-13T23:18:38Z", "type": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WV-08", "result": "moved", "to": "In Progress", "ts": "2026-10-13T23:18:38Z", "type": "jira"}
+{"line": "WV-04 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:18:40Z", "type": "remote"}
+{"line": "WV-04 acceptance: 8 recorded, all pass.", "ts": "2026-10-13T23:18:40Z", "type": "remote"}
+{"line": "WV-04 done", "ts": "2026-10-13T23:18:40Z", "type": "remote"}
+{"line": "WV-04 pr-opened", "ts": "2026-10-13T23:19:17Z", "type": "remote"}
+{"line": "WV-07 started", "ts": "2026-10-13T23:19:17Z", "type": "remote"}
+{"line": "WV-07 planning", "ts": "2026-10-13T23:19:17Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-04", "result": "moved", "to": "Code Review", "ts": "2026-10-13T23:20:04Z", "type": "jira"}
+{"line": "WV-07 coding", "ts": "2026-10-13T23:20:05Z", "type": "remote"}
+{"line": "WV-04 acceptance: 8 recorded, all pass.", "ts": "2026-10-13T23:20:18Z", "type": "remote"}
+{"line": "WV-08 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:21:49Z", "type": "remote"}
+{"line": "WV-08 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:21:49Z", "type": "remote"}
+{"line": "WV-08 done", "ts": "2026-10-13T23:21:49Z", "type": "remote"}
+{"id": "WV-08", "reason": "pull request not opened: github MCP create_pull_request needs approval (mcp_allow: ask) and gh is read-only; branch pushed to origin", "ts": "2026-10-13T23:21:51Z", "type": "local-only"}
+{"line": "WV-08 pr-opened", "ts": "2026-10-13T23:22:31Z", "type": "remote"}
+{"id": "WV-07", "reason": "mcp:github create_pull_request is not allowlisted (mcp_allow: ask); gh pr create refused: Resource not accessible by integration. Branch warp/view/WV-07-WAR-53 is pushed to origin; open the PR with the body in the plan record.", "ts": "2026-10-13T23:23:53Z", "type": "local-only"}
+{"id": "WV-02", "reason": "branch pushed; PR not opened: github MCP create_pull_request needs approval (mcp_allow: ask) and gh is read-only", "ts": "2026-10-13T23:23:57Z", "type": "local-only"}
+{"agent": "subagent:WV-02", "reason": "replaced", "ticket": "WV-02", "ts": "2026-10-13T23:23:57Z", "type": "reap"}
+{"ts": "2026-10-13T23:24:03Z", "type": "subagent-stop"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-08", "result": "moved", "to": "Code Review", "ts": "2026-10-13T23:24:06Z", "type": "jira"}
+{"line": "WV-02 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:24:10Z", "type": "remote"}
+{"line": "WV-02 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:24:10Z", "type": "remote"}
+{"line": "WV-02 done", "ts": "2026-10-13T23:24:10Z", "type": "remote"}
+{"line": "WV-04 check-green", "ts": "2026-10-13T23:24:10Z", "type": "remote"}
+{"line": "WV-07 review", "ts": "2026-10-13T23:24:10Z", "type": "remote"}
+{"line": "WV-07 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:24:10Z", "type": "remote"}
+{"line": "WV-07 acceptance: 7 recorded, all pass.", "ts": "2026-10-13T23:24:10Z", "type": "remote"}
+{"line": "WV-07 done", "ts": "2026-10-13T23:24:10Z", "type": "remote"}
+{"agent": "subagent:WV-04", "reason": "settled", "ticket": "WV-04", "ts": "2026-10-13T23:24:31Z", "type": "reap"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WV-04", "result": "moved", "to": "Done", "ts": "2026-10-13T23:24:46Z", "type": "jira"}
+{"commentId": "10571", "event": "merged", "id": "WV-04", "ts": "2026-10-13T23:24:46Z", "type": "jira-comment", "where": "jira"}
+{"line": "WV-02 pr-opened", "ts": "2026-10-13T23:25:15Z", "type": "remote"}
+{"line": "WV-07 pr-opened", "ts": "2026-10-13T23:25:15Z", "type": "remote"}
+{"line": "WV-08 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:25:15Z", "type": "remote"}
+{"actions": ["in-review"], "id": "WV-02", "ts": "2026-10-13T23:25:17Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WV-05", "result": "moved", "to": "In Progress", "ts": "2026-10-13T23:26:28Z", "type": "jira"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-02", "result": "moved", "to": "Code Review", "ts": "2026-10-13T23:26:28Z", "type": "jira"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-07", "result": "moved", "to": "Code Review", "ts": "2026-10-13T23:26:28Z", "type": "jira"}
+{"line": "WV-02 coding", "ts": "2026-10-13T23:27:39Z", "type": "remote"}
+{"line": "WV-02 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:27:39Z", "type": "remote"}
+{"line": "WV-07 acceptance: 7 recorded, all pass.", "ts": "2026-10-13T23:27:39Z", "type": "remote"}
+{"line": "WV-02 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:28:02Z", "type": "remote"}
+{"line": "WV-02 done", "ts": "2026-10-13T23:28:02Z", "type": "remote"}
+{"line": "WV-08 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:28:02Z", "type": "remote"}
+{"line": "WV-08 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:28:02Z", "type": "remote"}
+{"ts": "2026-10-13T23:28:25Z", "type": "subagent-stop"}
+{"line": "WV-02 check-green", "ts": "2026-10-13T23:32:09Z", "type": "remote"}
+{"line": "WV-05 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:32:09Z", "type": "remote"}
+{"line": "WV-05 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:32:09Z", "type": "remote"}
+{"line": "WV-05 done", "ts": "2026-10-13T23:32:09Z", "type": "remote"}
+{"line": "WV-07 review", "ts": "2026-10-13T23:32:09Z", "type": "remote"}
+{"line": "WV-07 done", "ts": "2026-10-13T23:32:09Z", "type": "remote"}
+{"line": "WV-08 check-green", "ts": "2026-10-13T23:32:09Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WV-02", "result": "moved", "to": "Done", "ts": "2026-10-13T23:32:45Z", "type": "jira"}
+{"commentId": "10572", "event": "merged", "id": "WV-02", "ts": "2026-10-13T23:32:45Z", "type": "jira-comment", "where": "jira"}
+{"line": "WV-05 pr-opened", "ts": "2026-10-13T23:32:47Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WV-08", "result": "moved", "to": "Done", "ts": "2026-10-13T23:33:52Z", "type": "jira"}
+{"commentId": "10573", "event": "merged", "id": "WV-08", "ts": "2026-10-13T23:33:52Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-05", "result": "moved", "to": "Code Review", "ts": "2026-10-13T23:33:52Z", "type": "jira"}
+{"line": "WV-07 coding", "ts": "2026-10-13T23:33:54Z", "type": "remote"}
+{"line": "WV-07 acceptance: 7 recorded, all pass.", "ts": "2026-10-13T23:33:54Z", "type": "remote"}
+{"line": "WV-05 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T23:34:09Z", "type": "remote"}
+{"line": "WV-07 check-green", "ts": "2026-10-13T23:34:09Z", "type": "remote"}
+{"line": "WV-07 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:34:52Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WV-07", "result": "moved", "to": "Done", "ts": "2026-10-13T23:35:37Z", "type": "jira"}
+{"commentId": "10574", "event": "merged", "id": "WV-07", "ts": "2026-10-13T23:35:38Z", "type": "jira-comment", "where": "jira"}
+{"line": "WV-05 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T23:38:56Z", "type": "remote"}
+{"line": "WV-05 check-green", "ts": "2026-10-13T23:38:56Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WV-05", "result": "moved", "to": "Done", "ts": "2026-10-13T23:39:20Z", "type": "jira"}
+{"commentId": "10575", "event": "merged", "id": "WV-05", "ts": "2026-10-13T23:39:20Z", "type": "jira-comment", "where": "jira"}
+{"agentId": "listener", "reason": "stopped", "ts": "2026-10-13T23:40:22Z", "type": "listener-stop"}
+{"reason": "end of day", "ts": "2026-10-13T23:40:49Z", "type": "stopped"}
+{"ts": "2026-10-13T23:40:49Z", "type": "session-stop"}

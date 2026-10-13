@@ -1,0 +1,36 @@
+{
+  "id": "WV-04",
+  "state": "done",
+  "startedAt": "2026-10-13T23:14:22Z",
+  "updatedAt": "2026-10-13T23:24:31Z",
+  "heartbeatAt": "",
+  "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/7"
+  },
+  "check": {
+    "result": "",
+    "name": "",
+    "log": ""
+  },
+  "error": "",
+  "alarm": "",
+  "escaped": [],
+  "agent": "subagent:WV-04",
+  "review": {
+    "result": "pass",
+    "sha": "b15e69d736f1167dbf21612e714f96af797a906a",
+    "findings": [],
+    "source": "shuttle",
+    "at": "2026-10-13T23:24:31Z"
+  },
+  "acResults": {
+    "AC-1": "pass",
+    "AC-2": "pass",
+    "AC-3": "pass",
+    "AC-4": "pass",
+    "AC-5": "pass",
+    "AC-6": "pass",
+    "AC-7": "pass",
+    "AC-8": "pass"
+  }
+}

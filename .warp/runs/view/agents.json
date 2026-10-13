@@ -28,14 +28,14 @@
       "id": "listener",
       "ticket": "",
       "role": "listener",
-      "polls": 9,
-      "session": "2026-10-13T22:06:42Z-724cc919",
-      "started": "2026-10-13T22:06:51Z",
-      "ended": "2026-10-13T22:10:34Z",
-      "endReason": "paused",
-      "state": "stopped",
-      "halted": true,
-      "reaped": "2026-10-13T22:10:36Z"
+      "polls": 10,
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:06:34Z",
+      "ended": "2026-10-13T23:40:22Z",
+      "endReason": "stopped",
+      "state": "ended",
+      "reaped": "2026-10-13T22:10:36Z",
+      "halted": true
     },
     {
       "id": "repair-WV-01-1",
@@ -210,8 +210,398 @@
       "role": "parent",
       "session": "2026-10-13T23:06:25Z-b0bde350",
       "started": "2026-10-13T23:06:25Z",
-      "ended": null,
-      "state": "running"
+      "ended": "2026-10-13T23:40:49Z",
+      "state": "stopped",
+      "halted": true,
+      "endReason": "stopped"
+    },
+    {
+      "id": "subagent:WV-06",
+      "ticket": "WV-06",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:07:24Z",
+      "ended": "2026-10-13T23:12:11Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-03",
+      "ticket": "WV-03",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:07:24Z",
+      "ended": "2026-10-13T23:09:57Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-02",
+      "ticket": "WV-02",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:07:24Z",
+      "ended": "2026-10-13T23:22:33Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "dead",
+      "reaped": "2026-10-13T23:23:57Z",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-03",
+      "ticket": "WV-03",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:10:50Z",
+      "ended": "2026-10-13T23:12:11Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-03:5033f4b2c07c3a0c8bf27b4eaa220ce099f74b36",
+      "ticket": "WV-03",
+      "role": "bugbot",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:12:11Z",
+      "ended": "2026-10-13T23:13:11Z",
+      "state": "ended",
+      "headSha": "5033f4b2c07c3a0c8bf27b4eaa220ce099f74b36",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-06",
+      "ticket": "WV-06",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:12:40Z",
+      "ended": "2026-10-13T23:13:36Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-06:bf0f0ede34052e9ea09d26de9f0f1dc8a2dc6b8e",
+      "ticket": "WV-06",
+      "role": "bugbot",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:13:36Z",
+      "ended": "2026-10-13T23:17:19Z",
+      "state": "ended",
+      "headSha": "bf0f0ede34052e9ea09d26de9f0f1dc8a2dc6b8e",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-04",
+      "ticket": "WV-04",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:13:36Z",
+      "ended": "2026-10-13T23:18:40Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "reaped": "2026-10-13T23:24:31Z",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-06",
+      "ticket": "WV-06",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:14:34Z",
+      "ended": "2026-10-13T23:16:42Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-07",
+      "ticket": "WV-07",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:17:43Z",
+      "ended": "2026-10-13T23:24:11Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-08",
+      "ticket": "WV-08",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:17:43Z",
+      "ended": "2026-10-13T23:21:49Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-04",
+      "ticket": "WV-04",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:19:23Z",
+      "ended": "2026-10-13T23:20:18Z",
+      "state": "ended",
+      "endReason": "returned",
+      "reaped": "2026-10-13T23:24:31Z",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-04:b15e69d736f1167dbf21612e714f96af797a906a",
+      "ticket": "WV-04",
+      "role": "bugbot",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:20:18Z",
+      "ended": "2026-10-13T23:24:11Z",
+      "state": "ended",
+      "headSha": "b15e69d736f1167dbf21612e714f96af797a906a",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WV-02-r1",
+      "ticket": "WV-02",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:22:33Z",
+      "ended": "2026-10-13T23:25:17Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-04",
+      "ticket": "WV-04",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:22:33Z",
+      "ended": "2026-10-13T23:24:11Z",
+      "state": "ended",
+      "endReason": "returned",
+      "reaped": "2026-10-13T23:24:31Z",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-08",
+      "ticket": "WV-08",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:22:33Z",
+      "ended": "2026-10-13T23:25:17Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-02:be52915add5040a41c709e42dbedfadab7df3226",
+      "ticket": "WV-02",
+      "role": "bugbot",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:25:17Z",
+      "ended": "2026-10-13T23:32:11Z",
+      "state": "ended",
+      "headSha": "be52915add5040a41c709e42dbedfadab7df3226",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-08:6d89999e7e8af0cb9ac3c660a9975f74ecf716aa",
+      "ticket": "WV-08",
+      "role": "bugbot",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:25:17Z",
+      "ended": "2026-10-13T23:32:11Z",
+      "state": "ended",
+      "headSha": "6d89999e7e8af0cb9ac3c660a9975f74ecf716aa",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-05",
+      "ticket": "WV-05",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:25:17Z",
+      "ended": "2026-10-13T23:32:11Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-07",
+      "ticket": "WV-07",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:25:28Z",
+      "ended": "2026-10-13T23:32:11Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WV-02-r1",
+      "ticket": "WV-02",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:26:41Z",
+      "ended": "2026-10-13T23:27:41Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-08",
+      "ticket": "WV-08",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:26:42Z",
+      "ended": "2026-10-13T23:28:04Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-07:28af5b455fcd1d7b1560e3c897cd98ecd01d0dfe",
+      "ticket": "WV-07",
+      "role": "bugbot",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:32:11Z",
+      "ended": "2026-10-13T23:34:10Z",
+      "state": "ended",
+      "headSha": "28af5b455fcd1d7b1560e3c897cd98ecd01d0dfe",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-07",
+      "ticket": "WV-07",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:33:06Z",
+      "ended": "2026-10-13T23:34:54Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-05",
+      "ticket": "WV-05",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:33:07Z",
+      "ended": "2026-10-13T23:34:10Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-05:9ae36602289de796158f4a44c48fd4a61a88e733",
+      "ticket": "WV-05",
+      "role": "bugbot",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:34:10Z",
+      "ended": "2026-10-13T23:38:56Z",
+      "state": "ended",
+      "headSha": "9ae36602289de796158f4a44c48fd4a61a88e733",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-05",
+      "ticket": "WV-05",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:35:08Z",
+      "ended": "2026-10-13T23:35:39Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-09",
+      "ticket": "WV-09",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:39:24Z",
+      "ended": "2026-10-13T23:40:49Z",
+      "state": "stopped",
+      "lastSeenAt": "",
+      "halted": true,
+      "endReason": "stopped"
+    },
+    {
+      "id": "subagent:WV-10",
+      "ticket": "WV-10",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:39:24Z",
+      "ended": "2026-10-13T23:40:49Z",
+      "state": "stopped",
+      "lastSeenAt": "",
+      "halted": true,
+      "endReason": "stopped"
+    },
+    {
+      "id": "subagent:WV-13",
+      "ticket": "WV-13",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:39:24Z",
+      "ended": "2026-10-13T23:40:49Z",
+      "state": "stopped",
+      "lastSeenAt": "",
+      "halted": true,
+      "endReason": "stopped"
+    },
+    {
+      "id": "subagent:WV-11",
+      "ticket": "WV-11",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:39:24Z",
+      "ended": "2026-10-13T23:40:49Z",
+      "state": "stopped",
+      "lastSeenAt": "",
+      "halted": true,
+      "endReason": "stopped"
+    },
+    {
+      "id": "subagent:WV-12",
+      "ticket": "WV-12",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:39:24Z",
+      "ended": "2026-10-13T23:40:49Z",
+      "state": "stopped",
+      "lastSeenAt": "",
+      "halted": true,
+      "endReason": "stopped"
+    },
+    {
+      "id": "subagent:WV-14",
+      "ticket": "WV-14",
+      "role": "shuttle",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:39:24Z",
+      "ended": "2026-10-13T23:40:49Z",
+      "state": "stopped",
+      "lastSeenAt": "",
+      "halted": true,
+      "endReason": "stopped"
     }
   ],
   "spawns": [
@@ -262,6 +652,146 @@
       "role": "shuttle",
       "id": "shuttle-WV-01-r4",
       "step": "restart"
+    },
+    {
+      "at": "2026-10-13T23:07:24Z",
+      "ticket": "WV-06",
+      "role": "shuttle",
+      "id": "subagent:WV-06",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:07:24Z",
+      "ticket": "WV-03",
+      "role": "shuttle",
+      "id": "subagent:WV-03",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:07:24Z",
+      "ticket": "WV-02",
+      "role": "shuttle",
+      "id": "subagent:WV-02",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:12:11Z",
+      "ticket": "WV-03",
+      "role": "bugbot",
+      "id": "bugbot:WV-03:5033f4b2c07c3a0c8bf27b4eaa220ce099f74b36"
+    },
+    {
+      "at": "2026-10-13T23:13:36Z",
+      "ticket": "WV-06",
+      "role": "bugbot",
+      "id": "bugbot:WV-06:bf0f0ede34052e9ea09d26de9f0f1dc8a2dc6b8e"
+    },
+    {
+      "at": "2026-10-13T23:13:36Z",
+      "ticket": "WV-04",
+      "role": "shuttle",
+      "id": "subagent:WV-04",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:17:43Z",
+      "ticket": "WV-07",
+      "role": "shuttle",
+      "id": "subagent:WV-07",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:17:43Z",
+      "ticket": "WV-08",
+      "role": "shuttle",
+      "id": "subagent:WV-08",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:20:18Z",
+      "ticket": "WV-04",
+      "role": "bugbot",
+      "id": "bugbot:WV-04:b15e69d736f1167dbf21612e714f96af797a906a"
+    },
+    {
+      "at": "2026-10-13T23:22:33Z",
+      "ticket": "WV-02",
+      "role": "shuttle",
+      "id": "shuttle-WV-02-r1",
+      "step": "restart"
+    },
+    {
+      "at": "2026-10-13T23:25:17Z",
+      "ticket": "WV-02",
+      "role": "bugbot",
+      "id": "bugbot:WV-02:be52915add5040a41c709e42dbedfadab7df3226"
+    },
+    {
+      "at": "2026-10-13T23:25:17Z",
+      "ticket": "WV-08",
+      "role": "bugbot",
+      "id": "bugbot:WV-08:6d89999e7e8af0cb9ac3c660a9975f74ecf716aa"
+    },
+    {
+      "at": "2026-10-13T23:25:17Z",
+      "ticket": "WV-05",
+      "role": "shuttle",
+      "id": "subagent:WV-05",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:32:11Z",
+      "ticket": "WV-07",
+      "role": "bugbot",
+      "id": "bugbot:WV-07:28af5b455fcd1d7b1560e3c897cd98ecd01d0dfe"
+    },
+    {
+      "at": "2026-10-13T23:34:10Z",
+      "ticket": "WV-05",
+      "role": "bugbot",
+      "id": "bugbot:WV-05:9ae36602289de796158f4a44c48fd4a61a88e733"
+    },
+    {
+      "at": "2026-10-13T23:39:24Z",
+      "ticket": "WV-09",
+      "role": "shuttle",
+      "id": "subagent:WV-09",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:39:24Z",
+      "ticket": "WV-10",
+      "role": "shuttle",
+      "id": "subagent:WV-10",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:39:24Z",
+      "ticket": "WV-13",
+      "role": "shuttle",
+      "id": "subagent:WV-13",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:39:24Z",
+      "ticket": "WV-11",
+      "role": "shuttle",
+      "id": "subagent:WV-11",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:39:24Z",
+      "ticket": "WV-12",
+      "role": "shuttle",
+      "id": "subagent:WV-12",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-13T23:39:24Z",
+      "ticket": "WV-14",
+      "role": "shuttle",
+      "id": "subagent:WV-14",
+      "step": "implement"
     }
   ]
 }

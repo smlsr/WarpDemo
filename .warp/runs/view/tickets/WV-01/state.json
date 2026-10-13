@@ -1,0 +1,22 @@
+{
+  "id": "WV-01",
+  "state": "lock-escape",
+  "startedAt": "2026-10-13T18:50:40Z",
+  "updatedAt": "2026-10-13T19:00:24Z",
+  "heartbeatAt": "",
+  "pr": {
+    "url": ""
+  },
+  "check": {
+    "result": "",
+    "name": "",
+    "log": ""
+  },
+  "error": "",
+  "alarm": "lock-escape",
+  "escaped": [
+    "WARPDEMO/WarpView/app/package-lock.json",
+    "WARPDEMO/WarpView/app/src/core/util.test.mjs"
+  ],
+  "agent": "subagent:WV-01"
+}

@@ -1,3 +1,10 @@
 {"gates": 4, "tickets": 16, "ts": "2026-10-13T18:43:57Z", "type": "ingest"}
 {"gates": 4, "tickets": 16, "ts": "2026-10-13T18:48:23Z", "type": "ingest"}
 {"reason": null, "ts": "2026-10-13T18:49:58Z", "type": "running"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WV-01", "result": "moved", "to": "In Progress", "ts": "2026-10-13T18:51:30Z", "type": "jira"}
+{"ts": "2026-10-13T18:54:03Z", "type": "subagent-stop"}
+{"action": "start", "added": ["WARPDEMO/WarpView/app/package-lock.json", "WARPDEMO/WarpView/app/src/core/util.test.mjs"], "agent": "repair-WV-01-1", "attempts": 1, "id": "WV-01", "ts": "2026-10-13T19:00:34Z", "type": "alarm-repair"}
+{"actions": ["in-review"], "id": "WV-01", "ts": "2026-10-13T19:01:17Z", "type": "jira-intent"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WV-01", "result": "no-transition", "to": "In Review", "ts": "2026-10-13T19:01:32Z", "type": "jira"}
+{"action": "failed", "attempts": 1, "error": null, "id": "WV-01", "ts": "2026-10-13T19:02:06Z", "type": "alarm-repair"}
+{"reason": null, "ts": "2026-10-13T19:15:00Z", "type": "running"}

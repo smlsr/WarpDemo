@@ -1,6 +1,6 @@
 {
   "run": "view",
-  "generatedAt": "2026-10-13T18:49:58Z",
+  "generatedAt": "2026-10-13T19:15:00Z",
   "totals": {
     "tokens": 0,
     "minutes": 0,
@@ -12,11 +12,12 @@
     "tokensCached": 0
   },
   "byStatus": {
-    "queued": 16
+    "alarm": 1,
+    "queued": 15
   },
   "tickets": {
     "WV-01": {
-      "status": "queued",
+      "status": "alarm",
       "size": "S",
       "tokens": 0,
       "minutes": 0,
@@ -26,8 +27,8 @@
       "tokensIn": 0,
       "tokensOut": 0,
       "tokensCached": 0,
-      "claimedAt": null,
-      "openedAt": null,
+      "claimedAt": "2026-10-13T19:00:34Z",
+      "openedAt": "2026-10-13T19:01:16Z",
       "mergedAt": null
     },
     "WV-06": {

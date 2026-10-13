@@ -1,6 +1,6 @@
 {
   "run": "view",
-  "generatedAt": "2026-10-13T19:15:00Z",
+  "generatedAt": "2026-10-13T19:44:14Z",
   "totals": {
     "tokens": 0,
     "minutes": 0,
@@ -12,12 +12,12 @@
     "tokensCached": 0
   },
   "byStatus": {
-    "alarm": 1,
+    "claimed": 1,
     "queued": 15
   },
   "tickets": {
     "WV-01": {
-      "status": "alarm",
+      "status": "claimed",
       "size": "S",
       "tokens": 0,
       "minutes": 0,

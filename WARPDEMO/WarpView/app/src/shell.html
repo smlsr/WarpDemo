@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Warp run dashboard</title>
+<!--warp:styles-->
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <svg width="26" height="26" viewBox="0 0 64 64" aria-hidden="true"><rect width="64" height="64" rx="12" fill="#0E1719"/><path d="M14 12v40M24 12v40M40 12v40M50 12v40" stroke="#43B3AD" stroke-width="3"/><path d="M14 20h36M14 32h36M14 44h36" stroke="#F7FAFA" stroke-width="2.4" opacity=".85"/><circle cx="32" cy="32" r="4" fill="#0B6E6E"/></svg>
+      Warp <small>Run dashboard</small>
+    </div>
+    <div class="meta" id="meta"></div>
+    <div class="actions">
+      <div class="menu" id="fileMenu">
+        <button class="btn primary" id="fileBtn" aria-haspopup="true" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+          <span class="lbl">File</span>
+        </button>
+        <div class="menu-list" role="menu">
+          <button data-act="open-files" role="menuitem">Open status files… <kbd>O</kbd></button>
+          <button data-act="open-folder" role="menuitem">Open .warp folder… <kbd>⇧O</kbd></button>
+          <hr>
+          <button data-act="reload" role="menuitem">Reload <kbd>R</kbd></button>
+          <label><input type="checkbox" id="autoRefresh"> Auto-reload every 30s</label>
+          <hr>
+          <button data-act="print" role="menuitem">Print… <kbd>P</kbd></button>
+          <button data-act="clear" role="menuitem">Close all files</button>
+        </div>
+      </div>
+      <button class="btn icon" id="reloadBtn" title="Reload (R)" aria-label="Reload"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 1 1-2.64-6.36"/><path d="M21 3v6h-6"/></svg></button>
+      <button class="btn icon" id="themeBtn" title="Light or dark" aria-label="Toggle theme"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg></button>
+      <button class="btn icon" id="printBtn" title="Print (P)" aria-label="Print"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><path d="M6 14h12v7H6z"/></svg></button>
+    </div>
+  </div>
+  <div class="wrap hidden" id="actionsBar"></div>
+</header>
+
+<div class="wrap">
+  <section id="emptyState" class="empty"></section>
+
+  <div id="app" class="hidden">
+    <section class="headline">
+      <h1 id="title">Warp run</h1>
+      <div class="sub" id="subline"></div>
+      <div class="chain" id="chainline"></div>
+      <div class="tabs" id="tabs"></div>
+    </section>
+    <section class="metrics" id="metrics"></section>
+    <details class="panel util" id="util"></details>
+    <section class="controls">
+      <div class="legend" id="legend"></div>
+      <div class="search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="q" type="search" placeholder="Search tickets, Jira keys, modules  /" autocomplete="off">
+      </div>
+      <div class="seg" id="viewSeg"><button data-view="timeline" class="on">Swimlane</button><button data-view="board">Board</button><button data-view="table">Table</button></div>
+      <label class="ctl" id="groupCtl">Lanes
+        <select id="groupBy"><option value="block">Gate block</option><option value="status">Status</option><option value="module">Module</option><option value="lane">Lane</option><option value="repo">Repo</option><option value="size">Size</option></select>
+      </label>
+      <label class="ctl" id="colorCtl">Color
+        <select id="colorBy"><option value="status">Status</option><option value="module">Module</option><option value="lane">Lane</option></select>
+      </label>
+      <label class="ctl" id="zoomCtl">Zoom <input id="zoom" type="range" min="0" max="100" value="0"></label>
+    </section>
+    <main id="view"></main>
+    <div class="foot-note"><span id="sources"></span><span id="generated"></span></div>
+  </div>
+</div>
+
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-hidden="true"></aside>
+<div class="drop"><div>Drop beam.json, status.json, state.json, or a .warp folder</div></div>
+<div class="tip" id="tip"></div>
+<div class="toasts" id="toasts"></div>
+<input type="file" id="fileInput" accept=".json,application/json" multiple class="hidden" hidden>
+<input type="file" id="dirInput" webkitdirectory directory multiple class="hidden" hidden>
+
+<script id="warp-data" type="application/json">null</script>
+<!--warp:script-->
+</body>
+</html>

@@ -4,95 +4,13 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import { plan, layoutPlan, layoutActual } from "./plan.mjs";
-import { catOf, normStatus } from "../../core/status.mjs";
-import { num, parseTime } from "../../core/util.mjs";
+import { runFromBeam, runFromSchedule } from "../../load/parse/parse.mjs";
+import { parseTime } from "../../core/util.mjs";
 
 const PACK = join(dirname(fileURLToPath(import.meta.url)), "../../../..");
 const load = (p) => JSON.parse(readFileSync(join(PACK, p), "utf8"));
-const list = (v) => [].concat(v || []).map(String);
-const SIZE_HOURS = { S: 4, M: 7, L: 11, XL: 16 };
-
-function ticketRow(t) {
-  const status = normStatus(t.status);
-  const m = /^(XL|S|M|L)\b/i.exec(String(t.size || "").trim());
-  const size = m ? m[1].toUpperCase() : null;
-  const own = num(t.hours);
-  const pr = t.pr && typeof t.pr === "object" ? t.pr : {};
-  return {
-    id: String(t.id),
-    size,
-    status,
-    cat: catOf(status),
-    hours: own != null && own > 0 ? own : SIZE_HOURS[size || "M"],
-    autoMerge: typeof t.autoMerge === "boolean" ? t.autoMerge : size ? size === "S" || size === "M" : true,
-    deps: list(t.deps).concat(list(t.after)),
-    gate: t.gate || null,
-    critical: !!t.critical,
-    starred: !!t.starred,
-    rank: num(t.rank),
-    priorityGate: t.priorityGate || t.priority_gate || null,
-    pr: { openedAt: pr.openedAt || null, mergedAt: pr.mergedAt || null },
-    claimedAt: t.claimedAt || null,
-    updatedAt: t.updatedAt || null,
-    events: Array.isArray(t.events) ? t.events : [],
-    planned: t.planned && typeof t.planned === "object" ? t.planned : null,
-  };
-}
-
-function fromBeam(b) {
-  const cfg = b.config || {};
-  const program = b.program || {};
-  const raw = Array.isArray(b.tickets) ? b.tickets : Object.entries(b.tickets || {}).map(([id, v]) => ({ id, ...v }));
-  const tickets = raw.map(ticketRow);
-  return {
-    kind: "beam",
-    gateOrder: b.gateOrder || cfg.gateOrder || program.gateOrder || "strict",
-    gates: (b.gates || []).map((g) => ({
-      key: String(g.key),
-      status: g.status || "pending",
-      members: list(g.members),
-      greenAt: parseTime(g.greenAt),
-      at: num(g.at),
-    })),
-    tickets,
-    critical: list(program.criticalPath || b.criticalPath),
-    estimate: program.estimate || b.estimate || null,
-    cap: num(cfg.maxAgents) || 18,
-    runState: b.runState || null,
-    paused: !!b.paused,
-    runStartedAt: parseTime(b.runStartedAt),
-    runEndedAt: parseTime(b.runEndedAt),
-    updated: Math.max(parseTime(b.checkpointAt) || 0, ...tickets.map((t) => parseTime(t.updatedAt) || 0)) || null,
-  };
-}
-
-function fromSchedule(d) {
-  const model = d.model || {};
-  const order = String(model.gate_order || "").toLowerCase() === "strict" ? "strict" : "deps";
-  return {
-    kind: "schedule",
-    gateOrder: order,
-    gates: (d.gates || []).map((g) => ({ key: String(g.key), status: "pending", members: list(g.members), greenAt: null, at: num(g.at) })),
-    tickets: (d.tickets || []).map((t) =>
-      ticketRow({
-        ...t,
-        hours: t.h != null ? t.h : t.hours,
-        deps: [],
-        after: t.after || [],
-        status: t.status || "queued",
-        planned: { slot: t.slot, start: t.start, merge: t.merge, ready: t.ready, latest_start: t.latest_start },
-      }),
-    ),
-    critical: list(d.critical_chain),
-    estimate: { elapsedHours: num((d.numbers || {}).finish_h), approvalHours: 0.5 },
-    cap: num(model.slots) || 18,
-    runState: "plan",
-    paused: false,
-    runStartedAt: null,
-    runEndedAt: null,
-    updated: null,
-  };
-}
+const fromBeam = (doc) => runFromBeam(doc, "beam.json", null);
+const fromSchedule = (doc) => runFromSchedule(doc, "schedule.json", null);
 
 const r4 = (x) => +x.toFixed(4);
 const planOf = (run) => ({

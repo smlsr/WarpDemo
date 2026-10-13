@@ -12,3 +12,7 @@
 {"seq":11,"at":"2026-10-13T21:10:26Z","id":"WV-01","state":"review-pass","error":"","sha":"579fb1873f14055f8397c9ffac21b6c8109b2f4b","findings":[],"source":"shuttle"}
 {"seq":12,"at":"2026-10-13T21:44:11Z","id":"WV-01","state":"review-pass","error":"","sha":"579fb1873f14055f8397c9ffac21b6c8109b2f4b","findings":[],"source":"shuttle"}
 {"seq":13,"at":"2026-10-13T21:44:11Z","id":"WV-01","state":"done","error":"","agent":"shuttle-WV-01-r3"}
+{"at":"2026-10-13T22:06:52Z","type":"stall","id":"WV-01","state":"reviewing","reason":"no progress in reviewing for 49m"}
+{"seq":14,"at":"2026-10-13T22:08:03Z","id":"WV-01","state":"done","error":"","agent":"shuttle-WV-01-r3","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}
+{"seq":15,"at":"2026-10-13T22:09:39Z","id":"WV-01","state":"review-pass","error":"","agent":"shuttle-WV-01-r4","sha":"579fb1873f14055f8397c9ffac21b6c8109b2f4b","findings":[],"source":"shuttle"}
+{"seq":16,"at":"2026-10-13T22:09:39Z","id":"WV-01","state":"done","error":"","agent":"shuttle-WV-01-r4","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}

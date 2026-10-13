@@ -1,28 +1,28 @@
 {
   "run": "view",
-  "generatedAt": "2026-10-13T22:06:42Z",
+  "generatedAt": "2026-10-13T22:10:34Z",
   "totals": {
     "tokens": 0,
     "minutes": 0,
     "attempts": 0,
-    "recoveries": 2,
+    "recoveries": 3,
     "cost": 0.0,
     "tokensIn": 0,
     "tokensOut": 0,
     "tokensCached": 0
   },
   "byStatus": {
-    "review": 1,
+    "merged": 1,
     "queued": 15
   },
   "tickets": {
     "WV-01": {
-      "status": "review",
+      "status": "merged",
       "size": "S",
       "tokens": 0,
       "minutes": 0,
       "attempts": 0,
-      "recoveries": 2,
+      "recoveries": 3,
       "cost": 0.0,
       "tokensIn": 0,
       "tokensOut": 0,

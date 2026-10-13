@@ -1,0 +1,403 @@
+{
+ "kind": "warp-plan",
+ "version": 1,
+ "exportedAt": "2026-10-13T12:10:06Z",
+ "estimate": {
+  "agentHours": 127.0,
+  "humanHours": 4.5,
+  "elapsedHours": 58.5,
+  "criticalAgentHours": 55.0,
+  "criticalHumanHours": 1.5,
+  "approvalHours": 0.5,
+  "reviewTickets": 5,
+  "gates": 4,
+  "maxAgents": 18,
+  "assumptions": [
+   "Agent hours are S=4, M=7, L=11, XL=16 unless the ticket has hours.",
+   "Each approval for a size not in autoMergeSizes is provided within 30 minutes.",
+   "Each blocking gate check is signed within 30 minutes.",
+   "Sizes in autoMergeSizes add no human wait. The default list is S, M.",
+   "Elapsed hours are the longer of the critical chain plus those waits, and agent hours divided by maxAgents."
+  ]
+ },
+ "suggestion": {
+  "summary": "Critical path first. Parallel only across non-overlapping locks. Sizes in autoMergeSizes auto-merge; sizes not in autoMergeSizes wait for APPROVED.",
+  "firstBatch": [],
+  "parallelBatches": [],
+  "reviewRequired": [
+   "WV-07",
+   "WV-09",
+   "WV-10",
+   "WV-13",
+   "WV-15"
+  ],
+  "autoMerge": [
+   "WV-01",
+   "WV-06",
+   "WV-03",
+   "WV-02",
+   "WV-08",
+   "WV-04",
+   "WV-05",
+   "WV-11",
+   "WV-12",
+   "WV-14",
+   "WV-16"
+  ]
+ },
+ "gates": [
+  {
+   "key": "G0",
+   "name": "Skeleton builds",
+   "blocking": true,
+   "members": [
+    "WV-01"
+   ],
+   "checks": [
+    "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test",
+    "npm --prefix WARPDEMO/WarpView/app run build writes dist/viewer.html and it opens empty"
+   ],
+   "ifRed": "Stop: nothing else can be tested until the build and test runner work.",
+   "status": "green",
+   "evidence": "members merged: WV-01",
+   "greenAt": "2026-10-11T15:31:00Z"
+  },
+  {
+   "key": "G1",
+   "name": "Data and model match the reference",
+   "blocking": true,
+   "members": [
+    "WV-02",
+    "WV-03",
+    "WV-04",
+    "WV-05",
+    "WV-06",
+    "WV-07",
+    "WV-08"
+   ],
+   "checks": [
+    "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)",
+    "tokens.css matches SPEC §12.1"
+   ],
+   "ifRed": "Do not start the views on a model that disagrees with fixtures/expected; fix the model first.",
+   "status": "green",
+   "evidence": "members merged: WV-02, WV-03, WV-04, WV-05, WV-06, WV-07, WV-08",
+   "greenAt": "2026-10-11T23:05:56Z"
+  },
+  {
+   "key": "G2",
+   "name": "Panes agree",
+   "blocking": true,
+   "members": [
+    "WV-09",
+    "WV-10",
+    "WV-11",
+    "WV-12",
+    "WV-13",
+    "WV-14",
+    "WV-15"
+   ],
+   "checks": [
+    "Legend, cards, swimlane, board and table counts agree on every fixture",
+    "No control changes a status",
+    "createApp hooks work with a test plugin"
+   ],
+   "ifRed": "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.",
+   "status": "pending",
+   "evidence": null,
+   "greenAt": null
+  },
+  {
+   "key": "G3",
+   "name": "Ship",
+   "blocking": true,
+   "members": [
+    "WV-16"
+   ],
+   "checks": [
+    "viewer.html committed, under 400 kB, parity.test.mjs green"
+   ],
+   "ifRed": "Do not announce the viewer until parity is green.",
+   "status": "pending",
+   "evidence": null,
+   "greenAt": null
+  }
+ ],
+ "criticalPath": [
+  "WV-01",
+  "WV-06",
+  "WV-07",
+  "WV-09",
+  "WV-15",
+  "WV-16"
+ ],
+ "tickets": [
+  {
+   "id": "WV-01",
+   "jiraKey": "WAR-101",
+   "jiraKeySource": "external",
+   "summary": "App scaffold: one-file build, test runner, empty page",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/package.json",
+    "WARPDEMO/WarpView/app/build.mjs",
+    "WARPDEMO/WarpView/app/.gitignore",
+    "WARPDEMO/WarpView/app/src/shell.html",
+    "WARPDEMO/WarpView/app/src/main.mjs",
+    "WARPDEMO/WarpView/app/src/core/util.mjs",
+    "WARPDEMO/WarpView/app/test/"
+   ],
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "critical": true,
+   "status": "done",
+   "gate": "G0"
+  },
+  {
+   "id": "WV-06",
+   "jiraKey": "WAR-102",
+   "jiraKeySource": "external",
+   "summary": "Gate blocks: assign each ticket to a block and clear blocks",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/blocks/"
+   ],
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "critical": true,
+   "status": "done",
+   "gate": "G1"
+  },
+  {
+   "id": "WV-03",
+   "jiraKey": "WAR-103",
+   "jiraKeySource": "external",
+   "summary": "Status model: sixteen Warp statuses on six colors",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/core/status.mjs",
+    "WARPDEMO/WarpView/app/src/core/status.test.mjs"
+   ],
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "critical": false,
+   "status": "done",
+   "gate": "G1"
+  },
+  {
+   "id": "WV-02",
+   "jiraKey": "WAR-104",
+   "jiraKeySource": "external",
+   "summary": "Theme tokens, layout styles, dark mode, phone width and print",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/styles/"
+   ],
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "critical": false,
+   "status": "merged",
+   "gate": "G1"
+  },
+  {
+   "id": "WV-07",
+   "jiraKey": "WAR-105",
+   "jiraKeySource": "external",
+   "summary": "Planned swimlane and actual timeline layouts",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/plan/"
+   ],
+   "size": "L",
+   "complexity": "HIGH",
+   "autoMerge": false,
+   "critical": true,
+   "status": "merged",
+   "gate": "G1"
+  },
+  {
+   "id": "WV-08",
+   "jiraKey": "WAR-106",
+   "jiraKeySource": "external",
+   "summary": "Run totals: estimate, agent hours, people hours, tickets",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/metrics/"
+   ],
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "critical": false,
+   "status": "merged",
+   "gate": "G1"
+  },
+  {
+   "id": "WV-04",
+   "jiraKey": "WAR-107",
+   "jiraKeySource": "external",
+   "summary": "Read beam, status, ticket state and export files into runs",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/load/parse/"
+   ],
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "critical": false,
+   "status": "merged",
+   "gate": "G1"
+  },
+  {
+   "id": "WV-05",
+   "jiraKey": "WAR-108",
+   "jiraKeySource": "external",
+   "summary": "Open files and folders, drag and drop, reload and auto-reload",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/load/sources/"
+   ],
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "critical": false,
+   "status": "merged",
+   "gate": "G1"
+  },
+  {
+   "id": "WV-09",
+   "jiraKey": "WAR-109",
+   "jiraKeySource": "external",
+   "summary": "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/swimlane/"
+   ],
+   "size": "XL",
+   "complexity": "CRITICAL",
+   "autoMerge": false,
+   "critical": true,
+   "status": "coding",
+   "gate": "G2"
+  },
+  {
+   "id": "WV-10",
+   "jiraKey": "WAR-110",
+   "jiraKeySource": "external",
+   "summary": "Board view: lanes by block, status, module or size",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/board/"
+   ],
+   "size": "L",
+   "complexity": "HIGH",
+   "autoMerge": false,
+   "critical": false,
+   "status": "review",
+   "gate": "G2"
+  },
+  {
+   "id": "WV-13",
+   "jiraKey": "WAR-111",
+   "jiraKeySource": "external",
+   "summary": "Header, run tabs, the four totals and utilization panel",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/header/"
+   ],
+   "size": "L",
+   "complexity": "HIGH",
+   "autoMerge": false,
+   "critical": false,
+   "status": "awaiting_approval",
+   "gate": "G2"
+  },
+  {
+   "id": "WV-11",
+   "jiraKey": "WAR-112",
+   "jiraKeySource": "external",
+   "summary": "Table view: sortable columns with the four PR timestamps",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/table/"
+   ],
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "critical": false,
+   "status": "claimed",
+   "gate": "G2"
+  },
+  {
+   "id": "WV-12",
+   "jiraKey": "WAR-113",
+   "jiraKeySource": "external",
+   "summary": "Ticket drawer, timestamps and bar tooltip",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/drawer/"
+   ],
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "critical": false,
+   "status": "merged",
+   "gate": "G2"
+  },
+  {
+   "id": "WV-14",
+   "jiraKey": "WAR-114",
+   "jiraKeySource": "external",
+   "summary": "Filters, search, view switch, theme, keyboard and File menu",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/controls/"
+   ],
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "critical": false,
+   "status": "alarm",
+   "gate": "G2"
+  },
+  {
+   "id": "WV-15",
+   "jiraKey": "WAR-115",
+   "jiraKeySource": "external",
+   "summary": "Wire the app: store, render loop, drawer, tabs, print, plugin hooks",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/main.mjs",
+    "WARPDEMO/WarpView/app/src/store/",
+    "WARPDEMO/WarpView/app/src/app.test.mjs"
+   ],
+   "size": "XL",
+   "complexity": "CRITICAL",
+   "autoMerge": false,
+   "critical": true,
+   "status": "queued",
+   "gate": "G2"
+  },
+  {
+   "id": "WV-16",
+   "jiraKey": "WAR-116",
+   "jiraKeySource": "external",
+   "summary": "Release viewer.html, README and parity check",
+   "deps": [],
+   "locks": [
+    "WARPDEMO/WarpView/viewer.html",
+    "WARPDEMO/WarpView/app/README.md",
+    "WARPDEMO/WarpView/app/test/parity.test.mjs"
+   ],
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "critical": true,
+   "status": "queued",
+   "gate": "G3"
+  }
+ ]
+}

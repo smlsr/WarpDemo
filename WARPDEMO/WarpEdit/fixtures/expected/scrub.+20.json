@@ -1,0 +1,22 @@
+{
+ "t": 20,
+ "at": "2026-10-12T10:00:00Z",
+ "phase": {
+  "WV-01": "done",
+  "WV-02": "merged",
+  "WV-03": "done",
+  "WV-04": "merged",
+  "WV-05": "merged",
+  "WV-06": "done",
+  "WV-07": "merged",
+  "WV-08": "merged",
+  "WV-09": "coding",
+  "WV-10": "merged",
+  "WV-11": "merged",
+  "WV-12": "merged",
+  "WV-13": "coding",
+  "WV-14": "merged",
+  "WV-15": "queued",
+  "WV-16": "queued"
+ }
+}

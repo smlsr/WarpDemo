@@ -1,0 +1,1040 @@
+{
+ "schema": "build-schedule/2",
+ "program": "WarpEdit",
+ "rebuilt": "2026-10-13",
+ "source": {
+  "from": "WARPDEMO/tools/tickets_edit.py (ticket graph, sizes, gates, locks)",
+  "generated": "2026-10-13",
+  "tool": "WARPDEMO/tools/make_all.py"
+ },
+ "model": {
+  "orchestrators": 1,
+  "slots": 18,
+  "merge": "continuous: each PR merges when green; sizes outside autoMergeSizes (S, M) wait 0.5 h for approval before dependents start",
+  "clock": "estimate hours (S=4, M=7, L=11, XL=16), continuous: no working day, no merge windows",
+  "priority": "critical chain first, then rank (ascending latest_start), then natural id; gateOrder strict: a gate block starts when every earlier block has merged; the run starts after view:G2"
+ },
+ "numbers": {
+  "tickets": 14,
+  "waves": 7,
+  "agent_hours": 110,
+  "finish_h": 76.0,
+  "critical_path_h": 69.0,
+  "critical_tickets": 7,
+  "peak": 3,
+  "utilisation": 0.08,
+  "hours_at_cap": 0,
+  "delayed_by_cap": 0,
+  "steps": 16,
+  "max_queue": 0,
+  "finish_by_slots": {
+   "1": 110.5,
+   "2": 76.0,
+   "4": 76.0,
+   "6": 76.0,
+   "8": 76.0,
+   "12": 76.0,
+   "18": 76.0
+  },
+  "lock_pairs": 0,
+  "old_plan": {
+   "finish": null,
+   "people": null,
+   "agents_per_person": null,
+   "merge_windows": null,
+   "hours_per_day": null
+  }
+ },
+ "critical_chain": [
+  "WE-01",
+  "WE-02",
+  "WE-04",
+  "WE-05",
+  "WE-11",
+  "WE-12",
+  "WE-14"
+ ],
+ "lanes": [
+  "platform",
+  "model",
+  "console",
+  "quality",
+  "release"
+ ],
+ "repos": [
+  "smlsr/WarpDemo"
+ ],
+ "gates": [
+  {
+   "key": "G0",
+   "name": "Editor builds, viewer untouched",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "WE-01"
+   ],
+   "behind": 1,
+   "at": 4.0,
+   "closes_with": [
+    "WE-01"
+   ],
+   "checks": [
+    "npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green)",
+    "app/dist/editor.html opens with the Editing badge"
+   ],
+   "if_red": "Stop the edit run: the viewer can change a phase or the editor cannot import it.",
+   "old_reached": null
+  },
+  {
+   "key": "G1",
+   "name": "Reset is safe",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "WE-02",
+    "WE-03",
+    "WE-04",
+    "WE-05",
+    "WE-06",
+    "WE-07",
+    "WE-08",
+    "WE-09"
+   ],
+   "behind": 9,
+   "at": 36.5,
+   "closes_with": [
+    "WE-09"
+   ],
+   "checks": [
+    "reset, dependents, validate and save equal fixtures/expected",
+    "undo restores the loaded ticket exactly"
+   ],
+   "if_red": "Do not build screens on a reset that loses data.",
+   "old_reached": null
+  },
+  {
+   "key": "G2",
+   "name": "Editor screens",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "WE-10",
+    "WE-11",
+    "WE-12",
+    "WE-13"
+   ],
+   "behind": 13,
+   "at": 64.5,
+   "closes_with": [
+    "WE-12"
+   ],
+   "checks": [
+    "Drawer reset, header actions, banner and scrubber match ui/screens",
+    "Totals follow a reset"
+   ],
+   "if_red": "Fix before release.",
+   "old_reached": null
+  },
+  {
+   "key": "G3",
+   "name": "Ship",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "WE-14"
+   ],
+   "behind": 14,
+   "at": 76.0,
+   "closes_with": [
+    "WE-14"
+   ],
+   "checks": [
+    "editor.html committed; round trip green; viewer audit green"
+   ],
+   "if_red": "Do not announce the editor until the round trip is green.",
+   "old_reached": null
+  }
+ ],
+ "lock_pairs": [],
+ "tickets": [
+  {
+   "id": "WE-01",
+   "summary": "Editor scaffold on WarpView's modules, and the read-only audit",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "platform",
+   "wave": 1,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 1,
+   "latest_start": 0.0,
+   "critical": true,
+   "slot": 1,
+   "start": 0.0,
+   "merge": 4.0,
+   "ready": 0.0,
+   "waited": 0.0,
+   "why": "blocker in another run, met when this run starts",
+   "after": [
+    "view:WV-15"
+   ],
+   "after_other_modules": [
+    "view:WV-15"
+   ],
+   "unlocks": [
+    "WE-02",
+    "WE-03"
+   ],
+   "gate": "G0",
+   "first_gate": "G0",
+   "checks": [
+    "npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green)",
+    "app/dist/editor.html opens with the Editing badge"
+   ],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/package.json",
+    "WARPDEMO/WarpEdit/app/build.mjs",
+    "WARPDEMO/WarpEdit/app/.gitignore",
+    "WARPDEMO/WarpEdit/app/src/main.mjs",
+    "WARPDEMO/WarpEdit/app/src/plugins.mjs",
+    "WARPDEMO/WarpEdit/app/test/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WE-02",
+   "summary": "Edit store: change log, undo and redo, unsaved count",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 2,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 2,
+   "latest_start": 4.0,
+   "critical": true,
+   "slot": 1,
+   "start": 4.0,
+   "merge": 11.0,
+   "ready": 4.0,
+   "waited": 0.0,
+   "why": "unblocked by WE-01",
+   "after": [
+    "WE-01"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-04",
+    "WE-07"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/store/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WE-03",
+   "summary": "Phase menu: allowed targets, same-phase and unknown refused",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 2,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 3,
+   "latest_start": 7.0,
+   "critical": false,
+   "slot": 2,
+   "start": 4.0,
+   "merge": 8.0,
+   "ready": 4.0,
+   "waited": 0.0,
+   "why": "unblocked by WE-01",
+   "after": [
+    "WE-01"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-04",
+    "WE-06"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/phases/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WE-06",
+   "summary": "Confirm dialog: ticket, from and to phase, dependents, note",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 11,
+   "latest_start": 46.5,
+   "critical": false,
+   "slot": 2,
+   "start": 8.0,
+   "merge": 12.0,
+   "ready": 8.0,
+   "waited": 0.0,
+   "why": "unblocked by WE-03",
+   "after": [
+    "WE-03"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-10"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/confirm/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png"
+  },
+  {
+   "id": "WE-04",
+   "summary": "Reset a ticket's phase: event, reset log, timestamps kept",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "L",
+   "h": 11,
+   "rank": 4,
+   "latest_start": 11.0,
+   "critical": true,
+   "slot": 1,
+   "start": 11.0,
+   "merge": 22.5,
+   "ready": 11.0,
+   "waited": 0.0,
+   "why": "unblocked by WE-02",
+   "after": [
+    "WE-02",
+    "WE-03"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-05",
+    "WE-11",
+    "WE-08",
+    "WE-09",
+    "WE-10"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/reset/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WE-07",
+   "summary": "Undo, redo and unsaved count in the header",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 9,
+   "latest_start": 43.5,
+   "critical": false,
+   "slot": 3,
+   "start": 11.0,
+   "merge": 18.0,
+   "ready": 11.0,
+   "waited": 0.0,
+   "why": "unblocked by WE-02",
+   "after": [
+    "WE-02"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-13"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/history/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+  },
+  {
+   "id": "WE-05",
+   "summary": "Dependents of an un-merged ticket go back to blocked",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 4,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 5,
+   "latest_start": 22.5,
+   "critical": true,
+   "slot": 1,
+   "start": 22.5,
+   "merge": 29.5,
+   "ready": 22.5,
+   "waited": 0.0,
+   "why": "unblocked by WE-04",
+   "after": [
+    "WE-04"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-11",
+    "WE-10"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/dependents/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WE-08",
+   "summary": "Validate before save: missing ids, cycles, reset log",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "quality",
+   "wave": 4,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 7,
+   "latest_start": 36.5,
+   "critical": false,
+   "slot": 2,
+   "start": 22.5,
+   "merge": 29.5,
+   "ready": 22.5,
+   "waited": 0.0,
+   "why": "unblocked by WE-04",
+   "after": [
+    "WE-04"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-09"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/validate/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WE-09",
+   "summary": "Save in the loaded shape; copy the edits as Warp commands",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 5,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 10,
+   "latest_start": 43.5,
+   "critical": false,
+   "slot": 1,
+   "start": 29.5,
+   "merge": 36.5,
+   "ready": 29.5,
+   "waited": 0.0,
+   "why": "unblocked by WE-08",
+   "after": [
+    "WE-04",
+    "WE-08"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-13"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [
+    "reset, dependents, validate and save equal fixtures/expected",
+    "undo restores the loaded ticket exactly"
+   ],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/save/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WE-11",
+   "summary": "Totals, legend and every view follow each reset",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 5,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "L",
+   "h": 11,
+   "rank": 6,
+   "latest_start": 29.5,
+   "critical": true,
+   "slot": 1,
+   "start": 36.5,
+   "merge": 48.0,
+   "ready": 36.5,
+   "waited": 0.0,
+   "why": "its gate block opened",
+   "after": [
+    "WE-04",
+    "WE-05"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-12",
+    "WE-14"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/recompute/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WE-10",
+   "summary": "Drawer Reset section: phase menu, button and reset log",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 5,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 12,
+   "latest_start": 50.5,
+   "critical": false,
+   "slot": 2,
+   "start": 36.5,
+   "merge": 43.5,
+   "ready": 36.5,
+   "waited": 0.0,
+   "why": "its gate block opened",
+   "after": [
+    "WE-04",
+    "WE-05",
+    "WE-06"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-14"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/drawer-panel/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png"
+  },
+  {
+   "id": "WE-13",
+   "summary": "Save button, validation banner and Copy as commands",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 6,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 13,
+   "latest_start": 50.5,
+   "critical": false,
+   "slot": 3,
+   "start": 36.5,
+   "merge": 43.5,
+   "ready": 36.5,
+   "waited": 0.0,
+   "why": "unblocked by WE-09",
+   "after": [
+    "WE-07",
+    "WE-09"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-14"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/save-ui/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-validation.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+  },
+  {
+   "id": "WE-12",
+   "summary": "Phase scrubber on the actual swimlane",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 6,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "XL",
+   "h": 16,
+   "rank": 8,
+   "latest_start": 41.0,
+   "critical": true,
+   "slot": 1,
+   "start": 48.0,
+   "merge": 64.5,
+   "ready": 48.0,
+   "waited": 0.0,
+   "why": "unblocked by WE-11",
+   "after": [
+    "WE-11"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WE-14"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [
+    "Drawer reset, header actions, banner and scrubber match ui/screens",
+    "Totals follow a reset"
+   ],
+   "locks": [
+    "WARPDEMO/WarpEdit/app/src/edit/scrubber/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+  },
+  {
+   "id": "WE-14",
+   "summary": "Release editor.html: round trip, audit again, README",
+   "module": "WarpEdit",
+   "layer": "ui",
+   "lane": "release",
+   "wave": 7,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "L",
+   "h": 11,
+   "rank": 14,
+   "latest_start": 57.5,
+   "critical": true,
+   "slot": 1,
+   "start": 64.5,
+   "merge": 76.0,
+   "ready": 64.5,
+   "waited": 0.0,
+   "why": "unblocked by WE-12",
+   "after": [
+    "WE-10",
+    "WE-11",
+    "WE-12",
+    "WE-13"
+   ],
+   "after_other_modules": [],
+   "unlocks": [],
+   "gate": "G3",
+   "first_gate": "G3",
+   "checks": [
+    "editor.html committed; round trip green; viewer audit green"
+   ],
+   "locks": [
+    "WARPDEMO/WarpEdit/editor.html",
+    "WARPDEMO/WarpEdit/app/README.md",
+    "WARPDEMO/WarpEdit/app/test/roundtrip.test.mjs"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-validation.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png"
+  }
+ ],
+ "steps": [
+  {
+   "n": 0,
+   "t": 0.0,
+   "merges": [],
+   "starts": [
+    "WE-01"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-01"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 1,
+   "t": 4.0,
+   "merges": [
+    "WE-01"
+   ],
+   "starts": [
+    "WE-02",
+    "WE-03"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-02",
+    "WE-03"
+   ],
+   "free": 16,
+   "gates": [
+    "G0"
+   ]
+  },
+  {
+   "n": 2,
+   "t": 8.0,
+   "merges": [
+    "WE-03"
+   ],
+   "starts": [
+    "WE-06"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-02",
+    "WE-06"
+   ],
+   "free": 16,
+   "gates": []
+  },
+  {
+   "n": 3,
+   "t": 11.0,
+   "merges": [
+    "WE-02"
+   ],
+   "starts": [
+    "WE-04",
+    "WE-07"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-04",
+    "WE-06",
+    "WE-07"
+   ],
+   "free": 15,
+   "gates": []
+  },
+  {
+   "n": 4,
+   "t": 12.0,
+   "merges": [
+    "WE-06"
+   ],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-04",
+    "WE-07"
+   ],
+   "free": 16,
+   "gates": []
+  },
+  {
+   "n": 5,
+   "t": 18.0,
+   "merges": [
+    "WE-07"
+   ],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-04"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 6,
+   "t": 22.0,
+   "merges": [],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-04"
+   ],
+   "free": 18,
+   "gates": []
+  },
+  {
+   "n": 7,
+   "t": 22.5,
+   "merges": [
+    "WE-04"
+   ],
+   "starts": [
+    "WE-05",
+    "WE-08"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-05",
+    "WE-08"
+   ],
+   "free": 16,
+   "gates": []
+  },
+  {
+   "n": 8,
+   "t": 29.5,
+   "merges": [
+    "WE-05",
+    "WE-08"
+   ],
+   "starts": [
+    "WE-09"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-09"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 9,
+   "t": 36.5,
+   "merges": [
+    "WE-09"
+   ],
+   "starts": [
+    "WE-11",
+    "WE-10",
+    "WE-13"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-11",
+    "WE-10",
+    "WE-13"
+   ],
+   "free": 15,
+   "gates": [
+    "G1"
+   ]
+  },
+  {
+   "n": 10,
+   "t": 43.5,
+   "merges": [
+    "WE-10",
+    "WE-13"
+   ],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-11"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 11,
+   "t": 47.5,
+   "merges": [],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-11"
+   ],
+   "free": 18,
+   "gates": []
+  },
+  {
+   "n": 12,
+   "t": 48.0,
+   "merges": [
+    "WE-11"
+   ],
+   "starts": [
+    "WE-12"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-12"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 13,
+   "t": 64.0,
+   "merges": [],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-12"
+   ],
+   "free": 18,
+   "gates": []
+  },
+  {
+   "n": 14,
+   "t": 64.5,
+   "merges": [
+    "WE-12"
+   ],
+   "starts": [
+    "WE-14"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WE-14"
+   ],
+   "free": 17,
+   "gates": [
+    "G2"
+   ]
+  },
+  {
+   "n": 15,
+   "t": 76.0,
+   "merges": [
+    "WE-14"
+   ],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [],
+   "free": 18,
+   "gates": [
+    "G3"
+   ]
+  }
+ ],
+ "fields": {
+  "schema": "Format name and version (build-schedule/2), shared by every program's schedule.json.",
+  "model": "How the run works: orchestrators, slots, merge rule, clock, priority rule.",
+  "numbers": "Totals for the run. finish_by_slots = finish in estimate-hours at other slot caps. old_plan = the plan this replaces (null where unknown).",
+  "critical_chain": "Ticket ids on the longest blocker chain, in order.",
+  "lanes": "Lane names; ticket.lane is one of these.",
+  "repos": "Repositories; ticket.repo is one of these. One serial merge queue per repository.",
+  "gates": "Milestones, checked the moment the last member merges. blocking=true: a red gate stops everyone; false: it stops only `scope`. behind = tickets that must be merged for it to be reached. With gateOrder strict, a gate's members are its block and a block starts when the blocks before it have merged.",
+  "lock_pairs": "Pairs of tickets that share a lock folder and have no blocker between them; never in flight together. Empty when every overlap is already ordered by a blocker.",
+  "tickets": {
+   "id / summary / module / layer / lane / wave / repo / file": "Identity. wave = dependency level (longest chain of blockers under the ticket). file is the main file the ticket writes, null when it owns a folder.",
+   "size / h": "T-shirt size and estimate-hours (S=4, M=7, L=11, XL=16).",
+   "rank / latest_start / critical": "Dispatch priority (1 first), the latest start in estimate-hours that still finishes on time, and whether the ticket is on the critical chain. Rank is ascending latest_start.",
+   "slot / start / merge / ready / waited / why": "Simulated run: slot 1..slots, start and merge in estimate-hours, when the last blocker merged (or its block opened), hours spent ready but waiting, and why it could start then.",
+   "after / after_other_modules / unlocks": "Blockers (Warp reads `after` as blockers; `run:id` names a ticket in another run), the subset in another run, and the tickets this one blocks.",
+   "gate / first_gate / checks": "Gate the ticket is a member of ('' if none), the earliest gate that needs it ('' if none), and checks to run when this ticket merges.",
+   "locks / locks_more / lock_pairs": "Lock folders and files (repo-root-relative), how many more were truncated (0 = complete), and lock-pair partners.",
+   "screens / mock": "UI design files the ticket must match (empty / null when none)."
+  },
+  "steps": "One entry per moment something merges (step 0 = start). merges, starts, queued (ready, no slot), held (ready, lock partner in flight -> holders), running, free slots, gates reached."
+ }
+}

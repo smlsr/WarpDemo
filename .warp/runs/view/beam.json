@@ -333,11 +333,37 @@
         "WARPDEMO/WarpView/ui/screens/empty.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/empty.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given a clean checkout, when `npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app run build` runs, then `WARPDEMO/WarpView/app/dist/viewer.html` exists, has exactly one inline <script> without src, no <link rel=stylesheet>, and shows the text 'Open a Warp run' when opened."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given util.mjs, when called, then fmtH(null) is '\u2014', fmtH(7) is '7h', fmtH(105.5) is '106h', fmtH(36.24) is '36.2h', natCmp('WV-2','WV-10') < 0 and esc('<a href=\"x\">') is '&lt;a href=&quot;x&quot;&gt;'."
+        },
+        {
+          "id": "AC-3",
+          "kind": "negative",
+          "text": "Given the built file, when searched for 'http://' and 'https://', then neither appears outside string literals that the spec allows (none in the scaffold): the page fetches nothing."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given a CSS file that fails to parse or a missing src/main.mjs, when build runs, then it exits with status 1 and prints the file name; no partial viewer.html is left behind."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then the util and build tests pass."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "review",
-      "agent": "shuttle-WV-01-r2",
+      "agent": "shuttle-WV-01-r3",
       "worktree": ".warp/worktrees/WV-01",
       "checkout": "worktree",
       "branch": "warp/view/WV-01-WAR-47",
@@ -568,16 +594,22 @@
           "value": "pass",
           "source": "shuttle",
           "sha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b"
+        },
+        {
+          "at": "2026-10-13T21:44:11Z",
+          "type": "status",
+          "from": "recovering",
+          "to": "review"
         }
       ],
-      "updatedAt": "2026-10-13T21:10:26Z",
+      "updatedAt": "2026-10-13T21:44:11Z",
       "jiraMapping": "mapped",
       "watch": {
         "progressToken": "reviewing|579fb1873f14055f8397c9ffac21b6c8109b2f4b|absent|absent|green|pass|||",
         "state": "reviewing",
         "since": "2026-10-13T21:17:47Z",
         "progressAt": "2026-10-13T21:17:47Z",
-        "lastActive": "2026-10-13T21:10:26Z",
+        "lastActive": "2026-10-13T21:44:11Z",
         "lastFix": "lock-escape",
         "lastFixAt": "2026-10-13T19:52:32Z",
         "stalled": false
@@ -586,12 +618,15 @@
         "pending": false,
         "step": "restart",
         "hadPr": true,
-        "session": "2026-10-13T21:09:25Z-7cb82892"
+        "session": "2026-10-13T21:43:28Z-4299317e",
+        "startedAt": "2026-10-13T21:43:38Z",
+        "returned": true,
+        "returnedAt": "2026-10-13T21:44:11Z"
       },
       "phase": "reviewing",
-      "needsReplacement": true,
+      "needsReplacement": false,
       "isolation": "worktree",
-      "workerStartedAt": "2026-10-13T21:09:27Z",
+      "workerStartedAt": "2026-10-13T21:43:30Z",
       "stalled": false,
       "escaped": [],
       "addedLocks": [],
@@ -611,25 +646,26 @@
       "remote": {
         "seen": [
           "045e827251aa46de3c14",
+          "1a1458d8d287dee1d55c",
           "35b455b9b5706f493cbb",
           "3a53b9a7626b3648f1f6",
           "5fe7a44081f6c39225a5",
           "8c3e5063f5c4f1f48267",
           "94d892365c35db85782e",
           "9774181921fa720a07b0",
+          "9f9f272eee38cd8b370a",
           "a315e510a24145e4bfb5",
           "a70cbc3624bc230318e6",
           "cdace9acbaffed081df6",
           "d1d5eb9c52bb06c42e8f",
           "e7520a132205d29f62f1"
         ],
-        "state": "review",
-        "stateKey": "9dcb90ea94e256bedce6"
+        "state": "done",
+        "stateKey": "f4ba0b93e7c97f488e79"
       },
-      "recoveryPriorStatus": "coding",
-      "recoveredAt": "2026-10-13T21:09:27Z",
-      "recoveries": 2,
-      "haltResume": true
+      "recoveryPriorStatus": "review",
+      "recoveredAt": "2026-10-13T21:43:30Z",
+      "recoveries": 2
     },
     "WV-06": {
       "id": "WV-06",
@@ -673,7 +709,38 @@
         "ready": 4.0,
         "latest_start": 4.0
       },
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when assignBlocks runs, then every ticket's block equals `WARPDEMO/WarpView/fixtures/expected/view.blocks.json`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/big/beam.sample.json` (68 tickets, gates G0\u2013G5), when assignBlocks runs, then the result equals `WARPDEMO/WarpView/fixtures/expected/big.blocks.json`."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json`, where every gate has `at`, when gateKeys runs, then the order is G0, G-RBAC, G1, G2 and the blocks equal `WARPDEMO/WarpView/fixtures/expected/two-repos.blocks.json`."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given a ticket with no gate, no membership and a dependency cycle A\u2192B\u2192A, when assignBlocks runs, then it terminates and both get the highest block of their other dependencies or the first block."
+        },
+        {
+          "id": "AC-5",
+          "kind": "negative",
+          "text": "Given a run with no gates, when blockStates runs, then it returns an empty list and every ticket's block is null."
+        },
+        {
+          "id": "AC-6",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then blocks.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -757,7 +824,33 @@
         "ready": 4.0,
         "latest_start": 13.5
       },
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given each of the sixteen statuses in SPEC \u00a75.1, when catOf runs, then it returns the category listed there; merged, done and skipped are 'done'; awaiting_approval is 'qa'; alarm, parked and blocked are 'err'."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given 'In Progress', 'QA-Ready' and 'to do', when normStatus runs, then it returns coding, awaiting_approval and queued."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given an empty string, null or 'teleporting', when normStatus and catOf run, then empty and null become queued and 'teleporting' stays as is with category todo."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given STATE_STATUS, when asked for 'heartbeat' or 'done', then it returns undefined: those states never move a ticket."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then status.test.mjs passes and checks every key in `WARPDEMO/WarpView/fixtures/expected/categories.json`."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -847,7 +940,33 @@
         "WARPDEMO/WarpView/ui/screens/print.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given tokens.css, when parsed, then every custom property listed in SPEC \u00a712.1 is defined on :root with the listed light value and redefined in both dark blocks with the listed dark value."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given the built page with `WARPDEMO/WarpView/fixtures/beam.sample.json`, when rendered at 1600 px, then cards, chips and panels match `WARPDEMO/WarpView/ui/screens/swimlane-plan.png` in order, spacing and color (same tokens, no new colors)."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given a 390 px wide viewport, when the page renders, then document.documentElement.scrollWidth equals the viewport width (no sideways scroll) and metric cards are in one column."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given any CSS file in src/, when searched, then no color literal for a status appears outside tokens.css (views use var(--c-*) only)."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then the tokens test (parses tokens.css and compares to SPEC \u00a712.1) passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -936,7 +1055,43 @@
         "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when plan runs, then slot, start and mergeAt of every ticket and finish, peak, slots and gateAt equal `WARPDEMO/WarpView/fixtures/expected/view.plan.json` to 0.01 h."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/big/beam.sample.json`, when plan runs, then the result equals `WARPDEMO/WarpView/fixtures/expected/big.plan.json` (finish T+177, peak 10, 10 slots)."
+        },
+        {
+          "id": "AC-3",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/plan/schedule.json`, when plan runs, then every slot, start and mergeAt equals the schedule's own slot, start and merge, finish equals numbers.finish_h and planSource is schedule \u2014 `WARPDEMO/WarpView/fixtures/expected/schedule.plan.json`."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given gateOrder deps on the same big beam, when plan runs, then no block waits for an earlier block and the finish is earlier than the strict finish."
+        },
+        {
+          "id": "AC-5",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and now = 2026-10-12T20:00:00Z, when layoutActual runs, then items, rows, unstarted and the now line equal `WARPDEMO/WarpView/fixtures/expected/view.actual.json`."
+        },
+        {
+          "id": "AC-6",
+          "kind": "negative",
+          "text": "Given a dependency cycle, when plan runs, then it returns within 100 ms, every ticket has a slot and the cycle members are flagged unplaced."
+        },
+        {
+          "id": "AC-7",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then plan.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1020,7 +1175,33 @@
         "ready": 8.0,
         "latest_start": 17.5
       },
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when computeMetrics runs, then every number equals `WARPDEMO/WarpView/fixtures/expected/view.metrics.json`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/big/beam.sample.json`, when computeMetrics runs, then run estimate is 105.5, agent hours 752, people hours 25 and tickets 68 with 25 completed, as in `WARPDEMO/WarpView/fixtures/expected/big.metrics.json`."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpView/fixtures/status.sample.json` alone (no estimate), when computeMetrics runs, then estTotal and every share are null while agent hours and tickets are computed."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given a ticket with status teleporting and no size, when computeMetrics runs, then it counts as to do with 7 h and nothing throws."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then metrics.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1103,7 +1284,48 @@
         "ready": 8.0,
         "latest_start": 22.0
       },
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when buildRuns runs, then one run named view with 16 tickets results and every ticket field of SPEC \u00a74.2 is filled as in `WARPDEMO/WarpView/fixtures/expected/view.run.json`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and `WARPDEMO/WarpView/fixtures/tickets/WV-11/state.json` (state coding, newer), when buildRuns runs, then WV-11 has status coding, stateNote set, and overlaid is 1."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpView/fixtures/runs/view/beam.json` and `WARPDEMO/WarpView/fixtures/runs/edit/beam.json` plus an older copy of the view beam, when buildRuns runs, then two runs result, sorted by name, and the newer view copy is kept."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given only `WARPDEMO/WarpView/fixtures/status.sample.json`, when buildRuns runs, then one run of kind status results with no gates and hours taken from size (S=4, M=7, L=11, XL=16)."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/plan/schedule.json`, when buildRuns runs, then one run of kind schedule named WarpView results, gateOrder strict, every ticket queued with lane, repo, priorityGate and planned as in `WARPDEMO/WarpView/fixtures/expected/schedule.run.json`."
+        },
+        {
+          "id": "AC-6",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json` (no model.gate_order), when buildRuns runs, then gateOrder is deps, every gate holds red, repo reads 'Demo-API + Demo-UI', AD-02 has priorityGate G-RBAC and one check {name, check} \u2014 `WARPDEMO/WarpView/fixtures/expected/two-repos.run.json`."
+        },
+        {
+          "id": "AC-7",
+          "kind": "negative",
+          "text": "Given a JSON file with neither tickets nor done/working/left nor id+state, when buildRuns runs, then it is counted in skipped and creates no run; a merged ticket with a newer state.json saying coding stays merged."
+        },
+        {
+          "id": "AC-8",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then parse.test.mjs passes against every fixture under `WARPDEMO/WarpView/fixtures/`."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1200,7 +1422,33 @@
         "WARPDEMO/WarpView/ui/screens/empty.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/empty.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given a fake directory handle holding `.warp/beam.json`, `.warp/tickets/WV-11/state.json`, `.warp/agents.json` and `node_modules/x/beam.json`, when the folder is read, then exactly the beam and the state file are returned with paths starting with the folder name."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given the warp-data slot holds {files:[{path,data}]}, when embeddedDocs runs, then it returns those docs and reload() calls location.reload."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given a browser without showOpenFilePicker, when Open status files is chosen, then the hidden file input is clicked and its files are read on change."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given localStorage throws on access, when auto-reload is toggled, then no exception escapes and the toggle still works for the session."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then sources.test.mjs passes using fake handles and jsdom."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1293,7 +1541,38 @@
         "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json` at 1600 px, when rendered with layoutPlan, then it matches `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`: same rows, bar positions to 1 px, gate labels G0\u2013G3 and colors by status."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given the actual clock, when rendered with layoutActual at the expected now, then it matches `WARPDEMO/WarpView/ui/screens/swimlane-actual.png` with the dashed now line."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given two gates reached at the same hour, when rendered, then one label 'G1 \u00b7 G2' is drawn and no two labels overlap at any zoom from 0 to 100."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given a bar narrower than 70 px, when rendered, then only the id shows; given a search that matches it, then it gets the hit outline and every non-matching bar is dimmed."
+        },
+        {
+          "id": "AC-5",
+          "kind": "negative",
+          "text": "Given a run with zero tickets, when rendered, then one empty slot row and the axis render and nothing throws."
+        },
+        {
+          "id": "AC-6",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then swimlane.test.mjs passes (HTML snapshot against the expected layouts)."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1383,7 +1662,38 @@
         "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/board.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when rendered by block, then four lanes G0\u2013G3 appear, G0 is collapsed and cleared, and the result matches `WARPDEMO/WarpView/ui/screens/board.png`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given groupBy status, when rendered, then six lanes appear in the CATS order with counts that equal the legend counts."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given jiraSite is empty, when a card renders, then the Jira key is plain text, not a link; given 'acme.atlassian.net', then the link is https://acme.atlassian.net/browse/<key>."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json` grouped by Repo, when rendered, then two lanes Demo-API and Demo-UI appear as in `WARPDEMO/WarpView/ui/screens/schedule-repos.png`; grouped by block, the G-RBAC lane shows the pills 'priority' and 'starts Demo-Portal' and its gate tooltip names its scope and on-green command."
+        },
+        {
+          "id": "AC-5",
+          "kind": "negative",
+          "text": "Given a filter that hides every ticket in a lane, when rendered, then the lane shows '0 shown' and no cards, and the other lanes are unchanged."
+        },
+        {
+          "id": "AC-6",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then board.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1474,7 +1784,38 @@
         "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when the header renders, then chips, subline, chain and the four cards match `WARPDEMO/WarpView/ui/screens/swimlane-plan.png` and the numbers equal `WARPDEMO/WarpView/fixtures/expected/view.metrics.json`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given both beams in `WARPDEMO/WarpView/fixtures/runs/`, when rendered, then tabs read 'All runs (2)', 'edit \u00b7 d/t' and 'view \u00b7 d/t' and the meta shows '2 runs \u00b7 n running'."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given estTotal null, when the run estimate card renders, then the big number and every row read '\u2014' and the bar is empty."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given only `WARPDEMO/WarpView/plan/schedule.json`, when the header renders, then the state chip reads plan, the subline ends with 'plan as written in schedule.json', and it matches `WARPDEMO/WarpView/ui/screens/schedule-plan.png`."
+        },
+        {
+          "id": "AC-5",
+          "kind": "negative",
+          "text": "Given a run with no repo, no instance and no owner, when the meta renders, then those chips are omitted, not shown empty."
+        },
+        {
+          "id": "AC-6",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then header.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1563,7 +1904,33 @@
         "WARPDEMO/WarpView/ui/screens/table.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/table.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when sorted by Merged descending, then the first rows are the most recently merged tickets as listed in `WARPDEMO/WarpView/fixtures/expected/view.table.json` and the screen matches `WARPDEMO/WarpView/ui/screens/table.png`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given a click on Status, when sorted, then rows follow the category order Completed, Errored / Parked, In Progress, In Review, QA Ready, To Do."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given a ticket with pr.openedAt but no reviewedAt, approvedAt or mergedAt, when rendered, then those three cells read '\u2014' and sorting by Merged puts it last ascending."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given a timestamp value 'not-a-date', when rendered, then the cell reads '\u2014' and nothing throws."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then table.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1652,7 +2019,38 @@
         "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/drawer.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given WV-05 in `WARPDEMO/WarpView/fixtures/beam.sample.json`, when the drawer renders, then the fields and the timestamp list match `WARPDEMO/WarpView/ui/screens/drawer.png` in order and value."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given one extra section {id:'x', render: () => '<p id=\"x\">X</p>'}, when the drawer renders, then the paragraph appears after Events and nothing else changes."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given AD-02 in `WARPDEMO/WarpView/fixtures/schedule/two-repos.json`, when the drawer renders, then Lane / repo reads '1 API \u00b7 Demo-API', Priority gate starts with 'G-RBAC', Schedule reads 'slot 2 \u00b7 T+7h \u2192 T+14h \u00b7 latest start T+11h' and 'Checks when it merges' lists 'Roles live (G-RBAC) \u2014 make rbac-ready', as in `WARPDEMO/WarpView/ui/screens/schedule-repos.png`."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given a ticket with 40 events, when rendered, then 25 are listed, newest first."
+        },
+        {
+          "id": "AC-5",
+          "kind": "negative",
+          "text": "Given a title containing '<img src=x onerror=alert(1)>', when rendered, then it shows as text (escaped) in the header, the tooltip and the key list."
+        },
+        {
+          "id": "AC-6",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then drawer.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1741,7 +2139,33 @@
         "WARPDEMO/WarpView/ui/screens/dark.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given the legend, when In Progress is clicked, then those tickets dim on the swimlane and hide on the board and table, and the chip shows as off; a double-click on QA Ready leaves only QA Ready."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given search 'rubric merged', when typed, then only tickets whose fields contain both words match."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given focus in the search box, when 'r' and 'o' are typed, then they go into the box and do not reload or open files."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given localStorage throws, when the view is switched and the theme toggled, then both work and nothing throws."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then controls.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1854,7 +2278,38 @@
         "WARPDEMO/WarpView/ui/screens/print.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given the built page with `WARPDEMO/WarpView/fixtures/beam.sample.json`, when each view is shown, then legend counts, card ticket counts, board lane counts and table row counts agree for every category."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given both run beams in `WARPDEMO/WarpView/fixtures/runs/`, when the edit tab is chosen, then every pane shows only the edit run and the meta shows run edit."
+        },
+        {
+          "id": "AC-3",
+          "kind": "happy",
+          "text": "Given a plugin {drawerSections:[{id:'p', render:() => '<b id=p>P</b>'}]} passed to createApp, when a drawer opens, then #p is in it; with no plugins it is not."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given the built viewer, when every button, select, input and menu item is exercised, then no ticket status in the store changes and the page contains no element with data-edit."
+        },
+        {
+          "id": "AC-5",
+          "kind": "edge",
+          "text": "Given print is triggered on the swimlane, when beforeprint fires, then the swimlane width is 1020 px plus the label column, and afterprint restores the zoomed width."
+        },
+        {
+          "id": "AC-6",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then app.test.mjs passes on every fixture."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -1960,7 +2415,33 @@
         "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-      "acs": null,
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app run release`, when run, then `WARPDEMO/WarpView/viewer.html` is written, is under 400 kB and opens from disk with the empty state."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given viewer.html with `WARPDEMO/WarpView/fixtures/beam.sample.json` dropped on it, when compared, then blocks, plan, metrics and table order equal `WARPDEMO/WarpView/fixtures/expected/`."
+        },
+        {
+          "id": "AC-3",
+          "kind": "negative",
+          "text": "Given viewer.html, when searched, then it has no element with data-edit, no 'Reset' control and no network URL in markup or script."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given the README, when read, then it names WarpEdit for resets and gives the sample path fixtures/beam.sample.json."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then parity.test.mjs passes."
+        }
+      ],
       "plannedStart": null,
       "plannedMerge": null,
       "status": "queued",
@@ -2026,11 +2507,11 @@
     "byModule": {
       "WarpView": 16
     },
-    "computedAt": "2026-10-13T21:20:27Z"
+    "computedAt": "2026-10-13T21:44:25Z"
   },
   "run": "view",
   "openWork": {
-    "at": "2026-10-13T21:17:47Z",
+    "at": "2026-10-13T21:46:04Z",
     "alarms": [],
     "stalls": [],
     "counts": {
@@ -2038,14 +2519,14 @@
       "queued": 15
     },
     "inProgress": "in progress 1/20",
-    "liveShuttles": "live shuttles 1/18, 0 fix workers running",
+    "liveShuttles": "live shuttles 0/18, 0 fix workers running",
     "tickets": [
       {
         "id": "WV-01",
         "state": "reviewing",
         "step": "restart",
-        "age": "0m",
-        "last": "2026-10-13T21:10:26Z",
+        "age": "28m",
+        "last": "2026-10-13T21:44:11Z",
         "pr": "https://github.com/smlsr/WarpDemo/pull/4",
         "bugbot": "pass",
         "ci": "green",
@@ -2053,13 +2534,13 @@
         "stalled": "no",
         "retries": 0,
         "alarm": "none",
-        "next": "wait for the Shuttle"
+        "next": "continue reviewing"
       },
       {
         "id": "WV-02",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2074,7 +2555,7 @@
         "id": "WV-03",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2089,7 +2570,7 @@
         "id": "WV-04",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2104,7 +2585,7 @@
         "id": "WV-05",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2119,7 +2600,7 @@
         "id": "WV-06",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2134,7 +2615,7 @@
         "id": "WV-07",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2149,7 +2630,7 @@
         "id": "WV-08",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2164,7 +2645,7 @@
         "id": "WV-09",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2179,7 +2660,7 @@
         "id": "WV-10",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2194,7 +2675,7 @@
         "id": "WV-11",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2209,7 +2690,7 @@
         "id": "WV-12",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2224,7 +2705,7 @@
         "id": "WV-13",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2239,7 +2720,7 @@
         "id": "WV-14",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2254,7 +2735,7 @@
         "id": "WV-15",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2269,7 +2750,7 @@
         "id": "WV-16",
         "state": "queued",
         "step": "queued",
-        "age": "2h27m",
+        "age": "2h55m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2282,12 +2763,12 @@
       }
     ],
     "sweep": {
-      "at": "2026-10-13T21:10:07Z",
+      "at": "2026-10-13T21:44:01Z",
       "findings": [
         {
           "kind": "listener",
           "id": "listener",
-          "detail": "idle"
+          "detail": "live"
         },
         {
           "kind": "gate",
@@ -2311,7 +2792,13 @@
         }
       ],
       "actions": [],
-      "skipped": [],
+      "skipped": [
+        {
+          "kind": "listener",
+          "id": "listener",
+          "reason": "running"
+        }
+      ],
       "escalated": [
         {
           "kind": "gate",
@@ -2348,20 +2835,20 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-13T21:43:27Z",
+    "at": "2026-10-13T22:06:42Z",
     "ref": "origin/main",
     "status": {},
     "locks": []
   },
   "runComplete": false,
   "stoppedAt": null,
-  "parentSession": "2026-10-13T21:43:28Z-4299317e",
+  "parentSession": "2026-10-13T22:06:42Z-724cc919",
   "owner": {
     "by": "Cursor Agent",
     "machine": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
     "host": "cursor",
-    "at": "2026-10-13T21:43:28Z",
-    "session": "2026-10-13T21:43:28Z-4299317e"
+    "at": "2026-10-13T22:06:42Z",
+    "session": "2026-10-13T22:06:42Z-724cc919"
   },
   "instance": {
     "id": "207cfb",
@@ -2399,13 +2886,12 @@
         "id": "listener",
         "ticket": "",
         "role": "listener",
-        "polls": 6,
-        "session": "2026-10-13T19:44:14Z-3cba6c6d",
-        "started": "2026-10-13T19:52:31Z",
-        "ended": "2026-10-13T21:20:25Z",
-        "endReason": "stopped",
-        "state": "stopped",
-        "halted": true
+        "polls": 8,
+        "session": "2026-10-13T21:43:28Z-4299317e",
+        "started": "2026-10-13T21:46:03Z",
+        "ended": "2026-10-13T22:06:42Z",
+        "endReason": "orphaned",
+        "state": "ended"
       },
       {
         "id": "repair-WV-01-1",
@@ -2509,7 +2995,8 @@
         "ended": "2026-10-13T21:20:25Z",
         "state": "stopped",
         "halted": true,
-        "endReason": "stopped"
+        "endReason": "stopped",
+        "reaped": "2026-10-13T21:44:11Z"
       },
       {
         "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
@@ -2517,6 +3004,28 @@
         "role": "parent",
         "session": "2026-10-13T21:43:28Z-4299317e",
         "started": "2026-10-13T21:43:28Z",
+        "ended": "2026-10-13T22:06:42Z",
+        "state": "ended",
+        "superseded": true,
+        "endReason": "replaced"
+      },
+      {
+        "id": "shuttle-WV-01-r3",
+        "ticket": "WV-01",
+        "role": "shuttle",
+        "session": "2026-10-13T21:43:28Z-4299317e",
+        "started": "2026-10-13T21:43:30Z",
+        "ended": "2026-10-13T21:44:26Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned"
+      },
+      {
+        "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+        "ticket": "",
+        "role": "parent",
+        "session": "2026-10-13T22:06:42Z-724cc919",
+        "started": "2026-10-13T22:06:42Z",
         "ended": null,
         "state": "running"
       }
@@ -2548,45 +3057,53 @@
         "role": "shuttle",
         "id": "shuttle-WV-01-r2",
         "step": "replace"
+      },
+      {
+        "at": "2026-10-13T21:43:30Z",
+        "ticket": "WV-01",
+        "role": "shuttle",
+        "id": "shuttle-WV-01-r3",
+        "step": "restart"
       }
     ]
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791927808267685698,
-    4833
+    1791929202322556561,
+    5630
   ],
   "watch": {},
   "listener": {
-    "parentSeenAt": "2026-10-13T21:20:25Z",
-    "generation": 10,
+    "parentSeenAt": "2026-10-13T21:46:03Z",
+    "generation": 13,
     "holder": "",
     "previousHolder": "listener",
     "state": "stopped",
     "agentId": "listener",
-    "startedAt": "2026-10-13T19:52:31Z",
-    "generationStartedAt": "2026-10-13T19:52:31Z",
-    "stoppedAt": "2026-10-13T21:10:06Z",
-    "polls": 6,
+    "startedAt": "2026-10-13T21:46:03Z",
+    "generationStartedAt": "2026-10-13T21:46:03Z",
+    "stoppedAt": "2026-10-13T22:06:42Z",
+    "polls": 8,
     "reads": 0,
-    "returnReason": "stopped",
-    "returnedAt": "2026-10-13T21:20:27Z",
+    "returnReason": "orphaned",
+    "returnedAt": "2026-10-13T22:06:42Z",
     "awaitReturn": false,
     "interval": "slow",
-    "lastSeenAt": "2026-10-13T19:50:19Z",
-    "cursor": "1791920333.226529",
-    "lastCount": 0
+    "lastSeenAt": "2026-10-13T22:06:42Z",
+    "cursor": "1791927762.207949",
+    "lastCount": 0,
+    "session": "2026-10-13T21:43:28Z-4299317e"
   },
   "statusDigest": {
     "at": "2026-10-13T21:10:07Z"
   },
   "repairSweep": {
-    "at": "2026-10-13T21:10:07Z",
+    "at": "2026-10-13T21:44:01Z",
     "findings": [
       {
         "kind": "listener",
         "id": "listener",
-        "detail": "idle"
+        "detail": "live"
       },
       {
         "kind": "gate",
@@ -2610,7 +3127,13 @@
       }
     ],
     "actions": [],
-    "skipped": [],
+    "skipped": [
+      {
+        "kind": "listener",
+        "id": "listener",
+        "reason": "running"
+      }
+    ],
     "escalated": [
       {
         "kind": "gate",
@@ -2642,8 +3165,8 @@
     ]
   },
   "pass": {
-    "startedAt": "2026-10-13T21:17:46Z",
-    "count": 16
+    "startedAt": "2026-10-13T21:46:03Z",
+    "count": 19
   },
   "alarmRepair": {
     "tried": [
@@ -2663,7 +3186,7 @@
     "gate:G3",
     "WV-01:stalled"
   ],
-  "checkpointAt": "2026-10-13T21:43:28Z",
+  "checkpointAt": "2026-10-13T22:06:42Z",
   "reportGeneratedAt": "2026-10-13T21:20:27Z",
   "runEndedAt": "2026-10-13T21:20:27Z",
   "runStartedAt": "2026-10-13T18:48:23Z"

@@ -36,3 +36,9 @@
 {"pulled": ["beam origin/main"], "ts": "2026-10-13T21:20:27Z", "type": "update-state", "won": []}
 {"partial": true, "path": ".warp/warp-complete.html", "ts": "2026-10-13T21:20:28Z", "type": "report"}
 {"reason": null, "ts": "2026-10-13T21:43:28Z", "type": "running"}
+{"agent": "shuttle-WV-01-r2", "reason": "stopped", "ticket": "WV-01", "ts": "2026-10-13T21:44:11Z", "type": "reap"}
+{"line": "WV-01 done", "ts": "2026-10-13T21:44:25Z", "type": "remote"}
+{"agentId": "listener", "reason": "stopped", "ts": "2026-10-13T21:45:39Z", "type": "listener-stop"}
+{"ts": "2026-10-13T21:45:39Z", "type": "session-stop"}
+{"ts": "2026-10-13T21:46:03Z", "type": "subagent-stop"}
+{"reason": null, "ts": "2026-10-13T22:06:42Z", "type": "running"}

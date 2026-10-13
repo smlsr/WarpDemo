@@ -1,6 +1,6 @@
 {
   "run": "view",
-  "generatedAt": "2026-10-13T22:10:34Z",
+  "generatedAt": "2026-10-13T23:06:26Z",
   "totals": {
     "tokens": 0,
     "minutes": 0,
@@ -12,12 +12,12 @@
     "tokensCached": 0
   },
   "byStatus": {
-    "merged": 1,
+    "review": 1,
     "queued": 15
   },
   "tickets": {
     "WV-01": {
-      "status": "merged",
+      "status": "review",
       "size": "S",
       "tokens": 0,
       "minutes": 0,

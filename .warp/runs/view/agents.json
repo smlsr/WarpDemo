@@ -34,7 +34,8 @@
       "ended": "2026-10-13T22:10:34Z",
       "endReason": "paused",
       "state": "stopped",
-      "halted": true
+      "halted": true,
+      "reaped": "2026-10-13T22:10:36Z"
     },
     {
       "id": "repair-WV-01-1",
@@ -175,7 +176,8 @@
       "ended": "2026-10-13T22:10:34Z",
       "state": "stopped",
       "halted": true,
-      "endReason": "paused"
+      "endReason": "paused",
+      "superseded": true
     },
     {
       "id": "shuttle-WV-01-r3",
@@ -201,6 +203,15 @@
       "lastSeenAt": "",
       "endReason": "returned",
       "halted": true
+    },
+    {
+      "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+      "ticket": "",
+      "role": "parent",
+      "session": "2026-10-13T23:06:25Z-b0bde350",
+      "started": "2026-10-13T23:06:25Z",
+      "ended": null,
+      "state": "running"
     }
   ],
   "spawns": [

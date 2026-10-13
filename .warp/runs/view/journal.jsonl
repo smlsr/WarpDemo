@@ -46,3 +46,8 @@
 {"line": "WV-01 acceptance: 5 recorded, all pass.", "ts": "2026-10-13T22:08:20Z", "type": "remote"}
 {"reason": "WV-01 marked merged but PR #4 is still open; G1 must not start on main without the scaffold", "ts": "2026-10-13T22:10:34Z", "type": "paused"}
 {"ts": "2026-10-13T22:10:34Z", "type": "session-stop"}
+{"agent": "listener", "reason": "paused", "ticket": "", "ts": "2026-10-13T22:10:36Z", "type": "reap"}
+{"pulled": ["beam origin/main"], "ts": "2026-10-13T22:10:40Z", "type": "update-state", "won": []}
+{"ts": "2026-10-13T22:11:17Z", "type": "subagent-stop"}
+{"reason": null, "ts": "2026-10-13T23:06:25Z", "type": "running"}
+{"ts": "2026-10-13T23:06:26Z", "type": "heal", "unmerged": ["WV-01"]}

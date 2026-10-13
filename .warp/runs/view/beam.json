@@ -166,9 +166,9 @@
     "mergeQueue": false,
     "run": "view"
   },
-  "paused": true,
-  "pauseReason": "WV-01 marked merged but PR #4 is still open; G1 must not start on main without the scaffold",
-  "runState": "paused",
+  "paused": false,
+  "pauseReason": null,
+  "runState": "running",
   "gates": [
     {
       "key": "G0",
@@ -186,9 +186,9 @@
       "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
       "at": 4.0,
       "hold": "green",
-      "status": "green",
-      "evidence": "members merged: WV-01",
-      "greenAt": "2026-10-13T22:09:47Z"
+      "status": "pending",
+      "evidence": null,
+      "greenAt": null
     },
     {
       "key": "G1",
@@ -368,7 +368,7 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "merged",
+      "status": "review",
       "agent": "shuttle-WV-01-r4",
       "worktree": ".warp/worktrees/WV-01",
       "checkout": "worktree",
@@ -428,8 +428,7 @@
           "AC-4": "pass",
           "AC-5": "pass"
         },
-        "acSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
-        "sha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b"
+        "acSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b"
       },
       "jira": {
         "status": "Code Review",
@@ -641,7 +640,7 @@
         "returned": true,
         "returnedAt": "2026-10-13T22:09:39Z"
       },
-      "phase": "merged",
+      "phase": "ready",
       "needsReplacement": false,
       "isolation": "worktree",
       "workerStartedAt": "2026-10-13T22:07:58Z",
@@ -2524,7 +2523,7 @@
   "metrics": {
     "total": 16,
     "byStatus": {
-      "recovering": 1,
+      "review": 1,
       "queued": 15,
       "merged": 0,
       "done": 0
@@ -2544,7 +2543,7 @@
     "byModule": {
       "WarpView": 16
     },
-    "computedAt": "2026-10-13T22:09:47Z"
+    "computedAt": "2026-10-13T23:06:26Z"
   },
   "run": "view",
   "openWork": {
@@ -2872,20 +2871,20 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-13T22:06:42Z",
+    "at": "2026-10-13T23:06:25Z",
     "ref": "origin/main",
     "status": {},
     "locks": []
   },
   "runComplete": false,
   "stoppedAt": null,
-  "parentSession": "2026-10-13T22:06:42Z-724cc919",
+  "parentSession": "2026-10-13T23:06:25Z-b0bde350",
   "owner": {
     "by": "Cursor Agent",
     "machine": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
     "host": "cursor",
-    "at": "2026-10-13T22:06:42Z",
-    "session": "2026-10-13T22:06:42Z-724cc919"
+    "at": "2026-10-13T23:06:25Z",
+    "session": "2026-10-13T23:06:25Z-b0bde350"
   },
   "instance": {
     "id": "207cfb",
@@ -2929,7 +2928,8 @@
         "ended": "2026-10-13T22:10:34Z",
         "endReason": "paused",
         "state": "stopped",
-        "halted": true
+        "halted": true,
+        "reaped": "2026-10-13T22:10:36Z"
       },
       {
         "id": "repair-WV-01-1",
@@ -3070,7 +3070,8 @@
         "ended": "2026-10-13T22:10:34Z",
         "state": "stopped",
         "halted": true,
-        "endReason": "paused"
+        "endReason": "paused",
+        "superseded": true
       },
       {
         "id": "shuttle-WV-01-r3",
@@ -3096,6 +3097,15 @@
         "lastSeenAt": "",
         "endReason": "returned",
         "halted": true
+      },
+      {
+        "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+        "ticket": "",
+        "role": "parent",
+        "session": "2026-10-13T23:06:25Z-b0bde350",
+        "started": "2026-10-13T23:06:25Z",
+        "ended": null,
+        "state": "running"
       }
     ],
     "spawns": [
@@ -3151,13 +3161,13 @@
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791929434335002083,
-    6800
+    1791932785771410958,
+    7115
   ],
   "watch": {},
   "listener": {
     "parentSeenAt": "2026-10-13T22:09:46Z",
-    "generation": 15,
+    "generation": 16,
     "holder": "",
     "previousHolder": "listener",
     "state": "stopped",
@@ -3168,7 +3178,7 @@
     "polls": 9,
     "reads": 3,
     "returnReason": "stopped",
-    "returnedAt": "2026-10-13T22:10:34Z",
+    "returnedAt": "2026-10-13T22:10:40Z",
     "awaitReturn": false,
     "interval": "slow",
     "lastSeenAt": "2026-10-13T22:10:19Z",
@@ -3283,7 +3293,7 @@
     "WV-15:stalled",
     "WV-16:stalled"
   ],
-  "checkpointAt": "2026-10-13T22:10:34Z",
+  "checkpointAt": "2026-10-13T23:06:26Z",
   "reportGeneratedAt": "2026-10-13T21:20:27Z",
   "runEndedAt": "2026-10-13T21:20:27Z",
   "runStartedAt": "2026-10-13T18:48:23Z"

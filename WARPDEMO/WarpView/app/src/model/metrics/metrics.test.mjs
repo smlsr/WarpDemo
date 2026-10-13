@@ -147,3 +147,10 @@ test("AC-5: utilization reports active over cap, spent over estimate, and rows b
     byAgent: [],
   });
 });
+
+test("AC-1: elapsed hours read ISO strings and stop at runEndedAt or updated when the run is not running", () => {
+  const base = { tickets: [], gates: [], runStartedAt: "2026-10-11T14:00:00Z" };
+  assert.equal(computeMetrics([{ ...base, runState: "running" }], NOW).elapsed, 30);
+  assert.equal(computeMetrics([{ ...base, runState: "paused", updated: "2026-10-11T16:00:00Z" }], NOW).elapsed, 2);
+  assert.equal(computeMetrics([{ ...base, runState: "running", runEndedAt: "2026-10-11T15:30:00Z" }], NOW).elapsed, 1.5);
+});

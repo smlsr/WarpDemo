@@ -1,5 +1,5 @@
 import { ACTIVE, TERMINAL, bucketOf, catOf, normStatus } from "../../core/status.mjs";
-import { natCmp, num } from "../../core/util.mjs";
+import { natCmp, num, parseTime } from "../../core/util.mjs";
 
 const SIZE_HOURS = { S: 4, M: 7, L: 11, XL: 16 };
 const DEFAULT_APPROVAL = 0.5;
@@ -56,10 +56,12 @@ export function etaOf(run) {
   return Math.round(Math.max(crit, parallel) * 10) / 10;
 }
 
+const ms = (v) => (typeof v === "string" ? parseTime(v) : num(v));
+
 export function elapsedOf(run, now = Date.now()) {
-  const start = num(run.runStartedAt);
+  const start = ms(run.runStartedAt);
   if (start == null) return null;
-  const end = num(run.runEndedAt) ?? (run.runState === "running" ? now : num(run.updated) ?? now);
+  const end = ms(run.runEndedAt) ?? (run.runState === "running" ? now : ms(run.updated) ?? now);
   return Math.max(0, (end - start) / HOUR_MS);
 }
 

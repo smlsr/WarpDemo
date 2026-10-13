@@ -166,9 +166,9 @@
     "mergeQueue": false,
     "run": "view"
   },
-  "paused": true,
-  "pauseReason": "user stop",
-  "runState": "stopped",
+  "paused": false,
+  "pauseReason": null,
+  "runState": "running",
   "gates": [
     {
       "key": "G0",
@@ -2026,7 +2026,7 @@
     "byModule": {
       "WarpView": 16
     },
-    "computedAt": "2026-10-13T21:17:40Z"
+    "computedAt": "2026-10-13T21:20:27Z"
   },
   "run": "view",
   "openWork": {
@@ -2348,20 +2348,20 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-13T21:15:51Z",
+    "at": "2026-10-13T21:43:27Z",
     "ref": "origin/main",
     "status": {},
     "locks": []
   },
   "runComplete": false,
-  "stoppedAt": "2026-10-13T21:20:25Z",
-  "parentSession": "2026-10-13T21:09:25Z-7cb82892",
+  "stoppedAt": null,
+  "parentSession": "2026-10-13T21:43:28Z-4299317e",
   "owner": {
     "by": "Cursor Agent",
     "machine": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
     "host": "cursor",
-    "at": "2026-10-13T21:09:25Z",
-    "session": "2026-10-13T21:09:25Z-7cb82892"
+    "at": "2026-10-13T21:43:28Z",
+    "session": "2026-10-13T21:43:28Z-4299317e"
   },
   "instance": {
     "id": "207cfb",
@@ -2497,7 +2497,8 @@
         "ended": "2026-10-13T21:20:25Z",
         "state": "stopped",
         "halted": true,
-        "endReason": "stopped"
+        "endReason": "stopped",
+        "superseded": true
       },
       {
         "id": "shuttle-WV-01-r2",
@@ -2509,6 +2510,15 @@
         "state": "stopped",
         "halted": true,
         "endReason": "stopped"
+      },
+      {
+        "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+        "ticket": "",
+        "role": "parent",
+        "session": "2026-10-13T21:43:28Z-4299317e",
+        "started": "2026-10-13T21:43:28Z",
+        "ended": null,
+        "state": "running"
       }
     ],
     "spawns": [
@@ -2543,13 +2553,13 @@
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791926425316172299,
-    4558
+    1791927808267685698,
+    4833
   ],
   "watch": {},
   "listener": {
     "parentSeenAt": "2026-10-13T21:20:25Z",
-    "generation": 9,
+    "generation": 10,
     "holder": "",
     "previousHolder": "listener",
     "state": "stopped",
@@ -2560,7 +2570,7 @@
     "polls": 6,
     "reads": 0,
     "returnReason": "stopped",
-    "returnedAt": "2026-10-13T21:20:25Z",
+    "returnedAt": "2026-10-13T21:20:27Z",
     "awaitReturn": false,
     "interval": "slow",
     "lastSeenAt": "2026-10-13T19:50:19Z",
@@ -2653,5 +2663,8 @@
     "gate:G3",
     "WV-01:stalled"
   ],
-  "checkpointAt": "2026-10-13T21:20:25Z"
+  "checkpointAt": "2026-10-13T21:43:28Z",
+  "reportGeneratedAt": "2026-10-13T21:20:27Z",
+  "runEndedAt": "2026-10-13T21:20:27Z",
+  "runStartedAt": "2026-10-13T18:48:23Z"
 }

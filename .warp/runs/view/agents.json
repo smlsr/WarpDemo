@@ -126,7 +126,8 @@
       "ended": "2026-10-13T21:20:25Z",
       "state": "stopped",
       "halted": true,
-      "endReason": "stopped"
+      "endReason": "stopped",
+      "superseded": true
     },
     {
       "id": "shuttle-WV-01-r2",
@@ -138,6 +139,15 @@
       "state": "stopped",
       "halted": true,
       "endReason": "stopped"
+    },
+    {
+      "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+      "ticket": "",
+      "role": "parent",
+      "session": "2026-10-13T21:43:28Z-4299317e",
+      "started": "2026-10-13T21:43:28Z",
+      "ended": null,
+      "state": "running"
     }
   ],
   "spawns": [

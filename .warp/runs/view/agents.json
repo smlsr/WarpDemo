@@ -26,12 +26,12 @@
       "id": "listener",
       "ticket": "",
       "role": "listener",
-      "polls": 5,
+      "polls": 6,
       "session": "2026-10-13T19:44:14Z-3cba6c6d",
-      "started": "2026-10-13T19:50:39Z",
-      "ended": "2026-10-13T19:51:56Z",
-      "endReason": "stopped",
-      "state": "ended"
+      "started": "2026-10-13T19:52:31Z",
+      "ended": null,
+      "endReason": "",
+      "state": "running"
     },
     {
       "id": "repair-WV-01-1",
@@ -80,8 +80,10 @@
       "role": "parent",
       "session": "2026-10-13T19:44:14Z-3cba6c6d",
       "started": "2026-10-13T19:44:14Z",
-      "ended": null,
-      "state": "running"
+      "ended": "2026-10-13T21:09:25Z",
+      "state": "ended",
+      "superseded": true,
+      "endReason": "replaced"
     },
     {
       "id": "repair-WV-01-2",
@@ -102,6 +104,15 @@
       "ended": null,
       "state": "running",
       "lastSeenAt": ""
+    },
+    {
+      "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+      "ticket": "",
+      "role": "parent",
+      "session": "2026-10-13T21:09:25Z-7cb82892",
+      "started": "2026-10-13T21:09:25Z",
+      "ended": null,
+      "state": "running"
     }
   ],
   "spawns": [

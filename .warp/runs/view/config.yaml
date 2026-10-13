@@ -353,3 +353,21 @@ autoAllowTools: true
 # false: init skips that write. /warp-allow-notify still can.
 # User-level ~/.cursor files are never written by init. Undo: /warp-allow-notify --revoke.
 # /warp-init --no-allow skips one run without changing this key.
+
+bugbotTrigger: shuttle
+# How Warp gets a Bugbot review.
+#   auto:    every new pull request and push gets a review on its own. If no Bugbot check
+#            shows up within bugbotStartMinutes, Warp sets this to comment and says so.
+#   comment: the Cursor Bugbot app is on the repo and hears comments. Warp posts
+#            `bugbot run` each time it asks. Two unanswered comments: Warp sets manual.
+#   manual:  nothing can start Bugbot from here (GitHub or Bitbucket not connected to
+#            Cursor). Warp asks once per commit for a review by hand, and the ticket waits
+#            until `bugbot.py record --id <id> --result pass|fail` records it.
+#   shuttle: the Shuttle runs the review. When its pull request is open and its check is
+#            green, it reviews its own diff the way Bugbot does, fixes what it finds, and
+#            records the result. Work that is done with no review recorded (the Shuttle
+#            returned without one, stalled, or is stuck) gets a review-only Shuttle, up to
+#            2 per commit; after that Warp asks for a review by hand.
+
+bugbotStartMinutes: 10
+# Minutes to wait for Bugbot to start after a request or a `bugbot run` comment.

@@ -1,31 +1,31 @@
 {
   "version": 1,
   "name": "warp-beam",
-  "generatedAt": "2026-10-13T18:43:57Z",
+  "generatedAt": "2026-10-13T18:48:23Z",
   "source": {
     "schedule": "/workspace/.warp/_ingested_schedule.json",
-    "plan": "/workspace/WarpView/plan/schedule.json",
-    "generated": "2026-10-13T18:43:57Z",
+    "plan": "/workspace/WARPDEMO/WarpView/plan/schedule.json",
+    "generated": "2026-10-13T18:48:23Z",
     "module": "warp",
     "format": "build-schedule/2",
     "scan": {
       "plans": [
-        "WarpView/plan/CURSOR_PLAN.md"
+        "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
       ],
       "schedules": [
-        "WarpView/plan/schedule.json"
+        "WARPDEMO/WarpView/plan/schedule.json"
       ],
       "jira": [
-        "WarpView/tickets/jira-import.json",
-        "WarpView/tickets/tickets.json"
+        "WARPDEMO/WarpView/tickets/jira-import.json",
+        "WARPDEMO/WarpView/tickets/tickets.json"
       ],
       "warp": [],
       "maps": [],
       "root": "/workspace",
-      "folder": "WarpView",
-      "scannedAt": "2026-10-13T18:43:56Z"
+      "folder": "WARPDEMO/WarpView",
+      "scannedAt": "2026-10-13T18:48:23Z"
     },
-    "folder": "WarpView"
+    "folder": "WARPDEMO/WarpView"
   },
   "program": {
     "tickets": 16,
@@ -59,16 +59,16 @@
         "quality",
         "release"
       ],
-      "gateOrder": "deps",
+      "gateOrder": "strict",
       "slots": 18,
-      "priority": "critical chain first, then rank (ascending latest_start), then natural id; gateOrder strict: a gate block starts when every earlier block has merged",
+      "priority": "critical chain first, then the members and ancestors of priority gates (G2), then rank (ascending latest_start), then natural id; gate_order strict: a gate block starts when every earlier block has merged",
       "finishHours": 59.0,
       "agentHours": 127,
       "criticalHours": 56.5,
       "peak": 6,
       "waves": 6
     },
-    "gateOrder": "deps",
+    "gateOrder": "strict",
     "estimate": {
       "agentHours": 127.0,
       "humanHours": 2.0,
@@ -183,8 +183,9 @@
       ],
       "ifRed": "Stop: nothing else can be tested until the build and test runner work.",
       "scope": "everyone",
+      "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
       "at": 4.0,
-      "hold": "red",
+      "hold": "green",
       "status": "pending",
       "evidence": null,
       "greenAt": null
@@ -208,8 +209,9 @@
       ],
       "ifRed": "Do not start the views on a model that disagrees with fixtures/expected; fix the model first.",
       "scope": "everyone",
+      "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
       "at": 22.0,
-      "hold": "red",
+      "hold": "green",
       "status": "pending",
       "evidence": null,
       "greenAt": null
@@ -234,8 +236,16 @@
       ],
       "ifRed": "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.",
       "scope": "everyone",
+      "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+      "priority": true,
+      "starts": [
+        "WarpEdit"
+      ],
+      "siblings": [
+        "WarpEdit"
+      ],
       "at": 55.0,
-      "hold": "red",
+      "hold": "green",
       "status": "pending",
       "evidence": null,
       "greenAt": null
@@ -252,8 +262,9 @@
       ],
       "ifRed": "Do not announce the viewer until parity is green.",
       "scope": "everyone",
+      "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
       "at": 59.0,
-      "hold": "red",
+      "hold": "green",
       "status": "pending",
       "evidence": null,
       "greenAt": null
@@ -262,10 +273,10 @@
   "tickets": {
     "WV-01": {
       "id": "WV-01",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-47",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "App scaffold: one-file build, test runner, empty page",
       "module": "WarpView",
       "layer": "ui",
@@ -298,13 +309,14 @@
       "lane": "platform",
       "repo": "smlsr/WarpDemo",
       "wave": 1,
+      "priorityGate": "G2",
       "checks": [
         {
-          "name": "",
+          "name": "Skeleton builds (G0)",
           "check": "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test"
         },
         {
-          "name": "",
+          "name": "Skeleton builds (G0)",
           "check": "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
         }
       ],
@@ -343,18 +355,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10417",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-06": {
       "id": "WV-06",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-52",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Gate blocks: assign each ticket to a block and clear blocks",
       "module": "WarpView",
       "layer": "ui",
@@ -383,6 +397,7 @@
       "lane": "model",
       "repo": "smlsr/WarpDemo",
       "wave": 2,
+      "priorityGate": "G2",
       "planned": {
         "slot": 1,
         "start": 4.0,
@@ -414,18 +429,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10422",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-03": {
       "id": "WV-03",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-49",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Status model: sixteen Warp statuses on six colors",
       "module": "WarpView",
       "layer": "ui",
@@ -455,6 +472,7 @@
       "lane": "model",
       "repo": "smlsr/WarpDemo",
       "wave": 2,
+      "priorityGate": "G2",
       "planned": {
         "slot": 2,
         "start": 4.0,
@@ -486,18 +504,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10419",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-02": {
       "id": "WV-02",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-48",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Theme tokens, layout styles, dark mode, phone width and print",
       "module": "WarpView",
       "layer": "ui",
@@ -526,6 +546,7 @@
       "lane": "platform",
       "repo": "smlsr/WarpDemo",
       "wave": 2,
+      "priorityGate": "G2",
       "planned": {
         "slot": 3,
         "start": 4.0,
@@ -564,18 +585,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10418",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-07": {
       "id": "WV-07",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-53",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Planned swimlane and actual timeline layouts",
       "module": "WarpView",
       "layer": "ui",
@@ -604,6 +627,7 @@
       "lane": "model",
       "repo": "smlsr/WarpDemo",
       "wave": 3,
+      "priorityGate": "G2",
       "planned": {
         "slot": 1,
         "start": 8.0,
@@ -613,7 +637,8 @@
       },
       "screens": [
         "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-        "WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+        "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+        "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
       "acs": null,
@@ -640,18 +665,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10423",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-08": {
       "id": "WV-08",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-54",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Run totals: estimate, agent hours, people hours, tickets",
       "module": "WarpView",
       "layer": "ui",
@@ -681,6 +708,7 @@
       "lane": "model",
       "repo": "smlsr/WarpDemo",
       "wave": 3,
+      "priorityGate": "G2",
       "planned": {
         "slot": 2,
         "start": 8.0,
@@ -712,18 +740,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10424",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-04": {
       "id": "WV-04",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-50",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Read beam, status, ticket state and export files into runs",
       "module": "WarpView",
       "layer": "ui",
@@ -752,6 +782,7 @@
       "lane": "model",
       "repo": "smlsr/WarpDemo",
       "wave": 3,
+      "priorityGate": "G2",
       "planned": {
         "slot": 3,
         "start": 8.0,
@@ -783,18 +814,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10420",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-05": {
       "id": "WV-05",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-51",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Open files and folders, drag and drop, reload and auto-reload",
       "module": "WarpView",
       "layer": "ui",
@@ -823,13 +856,14 @@
       "lane": "platform",
       "repo": "smlsr/WarpDemo",
       "wave": 4,
+      "priorityGate": "G2",
       "checks": [
         {
-          "name": "",
+          "name": "Data and model match the reference (G1)",
           "check": "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)"
         },
         {
-          "name": "",
+          "name": "Data and model match the reference (G1)",
           "check": "tokens.css matches SPEC \u00a712.1"
         }
       ],
@@ -868,18 +902,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10421",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-09": {
       "id": "WV-09",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-55",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
       "module": "WarpView",
       "layer": "ui",
@@ -910,6 +946,7 @@
       "lane": "console",
       "repo": "smlsr/WarpDemo",
       "wave": 4,
+      "priorityGate": "G2",
       "planned": {
         "slot": 1,
         "start": 22.0,
@@ -921,7 +958,8 @@
         "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
         "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
         "WARPDEMO/WarpView/ui/screens/print.png",
-        "WARPDEMO/WarpView/ui/screens/phone.png"
+        "WARPDEMO/WarpView/ui/screens/phone.png",
+        "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
       "acs": null,
@@ -948,19 +986,21 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10425",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-10": {
       "id": "WV-10",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-56",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
-      "summary": "Board view: lanes by block, status, module or size",
+      "jiraKeyConfidence": "high",
+      "summary": "Board view: lanes by block, status, module, lane, repo or size",
       "module": "WarpView",
       "layer": "ui",
       "group": null,
@@ -990,6 +1030,7 @@
       "lane": "console",
       "repo": "smlsr/WarpDemo",
       "wave": 3,
+      "priorityGate": "G2",
       "planned": {
         "slot": 2,
         "start": 22.0,
@@ -998,7 +1039,8 @@
         "latest_start": 24.5
       },
       "screens": [
-        "WARPDEMO/WarpView/ui/screens/board.png"
+        "WARPDEMO/WarpView/ui/screens/board.png",
+        "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/board.png",
       "acs": null,
@@ -1025,18 +1067,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10426",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-13": {
       "id": "WV-13",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-59",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Header, run tabs, the four totals and utilization panel",
       "module": "WarpView",
       "layer": "ui",
@@ -1066,6 +1110,7 @@
       "lane": "console",
       "repo": "smlsr/WarpDemo",
       "wave": 4,
+      "priorityGate": "G2",
       "planned": {
         "slot": 3,
         "start": 22.0,
@@ -1076,7 +1121,8 @@
       "screens": [
         "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
         "WARPDEMO/WarpView/ui/screens/utilization.png",
-        "WARPDEMO/WarpView/ui/screens/multi-run.png"
+        "WARPDEMO/WarpView/ui/screens/multi-run.png",
+        "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
       "acs": null,
@@ -1103,18 +1149,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10429",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-11": {
       "id": "WV-11",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-57",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Table view: sortable columns with the four PR timestamps",
       "module": "WarpView",
       "layer": "ui",
@@ -1145,6 +1193,7 @@
       "lane": "console",
       "repo": "smlsr/WarpDemo",
       "wave": 4,
+      "priorityGate": "G2",
       "planned": {
         "slot": 4,
         "start": 22.0,
@@ -1180,18 +1229,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10427",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-12": {
       "id": "WV-12",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-58",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Ticket drawer, timestamps and bar tooltip",
       "module": "WarpView",
       "layer": "ui",
@@ -1221,6 +1272,7 @@
       "lane": "console",
       "repo": "smlsr/WarpDemo",
       "wave": 3,
+      "priorityGate": "G2",
       "planned": {
         "slot": 5,
         "start": 22.0,
@@ -1229,7 +1281,8 @@
         "latest_start": 29.0
       },
       "screens": [
-        "WARPDEMO/WarpView/ui/screens/drawer.png"
+        "WARPDEMO/WarpView/ui/screens/drawer.png",
+        "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/drawer.png",
       "acs": null,
@@ -1256,18 +1309,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10428",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-14": {
       "id": "WV-14",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-60",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Filters, search, view switch, theme, keyboard and File menu",
       "module": "WarpView",
       "layer": "ui",
@@ -1297,6 +1352,7 @@
       "lane": "console",
       "repo": "smlsr/WarpDemo",
       "wave": 3,
+      "priorityGate": "G2",
       "planned": {
         "slot": 6,
         "start": 22.0,
@@ -1333,18 +1389,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10430",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-15": {
       "id": "WV-15",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-61",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Wire the app: store, render loop, drawer, tabs, print, plugin hooks",
       "module": "WarpView",
       "layer": "ui",
@@ -1381,17 +1439,18 @@
       "lane": "quality",
       "repo": "smlsr/WarpDemo",
       "wave": 5,
+      "priorityGate": "G2",
       "checks": [
         {
-          "name": "",
+          "name": "Panes agree (G2)",
           "check": "Legend, cards, swimlane, board and table counts agree on every fixture"
         },
         {
-          "name": "",
+          "name": "Panes agree (G2)",
           "check": "No control changes a status"
         },
         {
-          "name": "",
+          "name": "Panes agree (G2)",
           "check": "createApp hooks work with a test plugin"
         }
       ],
@@ -1434,18 +1493,20 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10431",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     },
     "WV-16": {
       "id": "WV-16",
-      "jiraKey": null,
-      "jiraKeySource": null,
+      "jiraKey": "WAR-62",
+      "jiraKeySource": "external",
       "jiraKeyForced": false,
-      "jiraKeyConfidence": null,
+      "jiraKeyConfidence": "high",
       "summary": "Release viewer.html, README and parity check",
       "module": "WarpView",
       "layer": "ui",
@@ -1478,7 +1539,7 @@
       "wave": 6,
       "checks": [
         {
-          "name": "",
+          "name": "Ship (G3)",
           "check": "viewer.html committed, under 400 kB, parity.test.mjs green"
         }
       ],
@@ -1500,7 +1561,9 @@
         "WARPDEMO/WarpView/ui/screens/empty.png",
         "WARPDEMO/WarpView/ui/screens/dark.png",
         "WARPDEMO/WarpView/ui/screens/phone.png",
-        "WARPDEMO/WarpView/ui/screens/print.png"
+        "WARPDEMO/WarpView/ui/screens/print.png",
+        "WARPDEMO/WarpView/ui/screens/schedule-plan.png",
+        "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
       ],
       "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
       "acs": null,
@@ -1527,11 +1590,13 @@
       },
       "jira": {
         "status": null,
-        "lastCommentAt": null
+        "lastCommentAt": null,
+        "id": "10432",
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "needs mapping"
+      "jiraMapping": "mapped"
     }
   },
   "agents": {},
@@ -1557,8 +1622,8 @@
     "byModule": {
       "WarpView": 16
     },
-    "computedAt": "2026-10-13T18:43:57Z"
+    "computedAt": "2026-10-13T18:48:23Z"
   },
   "run": "view",
-  "checkpointAt": "2026-10-13T18:43:57Z"
+  "checkpointAt": "2026-10-13T18:48:25Z"
 }

@@ -9,7 +9,7 @@
 # branches, names its branches warp/<name>/<id>-<jira>, and is the only writer of
 # that folder. Lowercase letters, digits, and dashes. No name is one unnamed
 # run, as before.
-scanFolder: "WarpView"
+scanFolder: "WARPDEMO/WarpView"
 # The folder /warp-scan last scanned, for a run that works one segment of the
 # repo. Empty means the whole repo. /warp-scan <folder> sets it, /warp-scan /
 # clears it, and a bare /warp-scan reuses it. The run's copy in the repo

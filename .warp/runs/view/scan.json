@@ -1,16 +1,16 @@
 {
   "plans": [
-    "WarpView/plan/CURSOR_PLAN.md"
+    "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
   ],
   "schedules": [
-    "WarpView/plan/schedule.json"
+    "WARPDEMO/WarpView/plan/schedule.json"
   ],
   "jira": [
-    "WarpView/tickets/jira-import.json",
-    "WarpView/tickets/tickets.json"
+    "WARPDEMO/WarpView/tickets/jira-import.json",
+    "WARPDEMO/WarpView/tickets/tickets.json"
   ],
   "warp": [],
   "maps": [],
-  "folder": "WarpView",
-  "scannedAt": "2026-10-13T18:43:56Z"
+  "folder": "WARPDEMO/WarpView",
+  "scannedAt": "2026-10-13T18:48:23Z"
 }

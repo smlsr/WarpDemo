@@ -1,0 +1,381 @@
+{
+  "kind": "warp-plan",
+  "version": 1,
+  "exportedAt": "2026-10-05T19:08:06Z",
+  "estimate": {
+    "agentHours": 119,
+    "humanHours": 3.5,
+    "elapsedHours": 63.5,
+    "criticalAgentHours": 60,
+    "criticalHumanHours": 2.5,
+    "approvalHours": 0.5,
+    "reviewTickets": 5,
+    "gates": 2,
+    "maxAgents": 18,
+    "assumptions": [
+      "Agent hours are S=4, M=7, L=11, XL=16 unless the ticket has hours.",
+      "Each L/XL approval is provided within 30 minutes.",
+      "Each blocking gate check is signed within 30 minutes.",
+      "S/M auto-merge and add no human wait.",
+      "Elapsed hours are the longer of the critical chain plus those waits, and agent hours divided by maxAgents."
+    ]
+  },
+  "suggestion": {
+    "summary": "Critical path first. Parallel only across non-overlapping locks. S/M auto-merge; L/XL wait for APPROVED.",
+    "firstBatch": [],
+    "parallelBatches": [],
+    "reviewRequired": [
+      "WV-04",
+      "WV-07",
+      "WV-10",
+      "WV-13",
+      "WV-15"
+    ],
+    "autoMerge": [
+      "WV-01",
+      "WV-02",
+      "WV-03",
+      "WV-05",
+      "WV-06",
+      "WV-08",
+      "WV-09",
+      "WV-11",
+      "WV-12",
+      "WV-14",
+      "WV-16"
+    ]
+  },
+  "gates": [
+    {
+      "key": "G0",
+      "name": "Model loads",
+      "blocking": true,
+      "members": [
+        "WV-01",
+        "WV-03"
+      ],
+      "checks": [
+        "Open ui/build-map.html and read 16 tickets from the fixture beam"
+      ],
+      "ifRed": "Nobody starts panes. Fix the parser on the WV-03 branch.",
+      "status": "green",
+      "evidence": "Opened WarpView/ui/build-map.html. Header reads 16 tickets. Embedded fixture lists WV-01 through WV-16. WarpView/fixtures/beam.sample.json has the same 16 ids.",
+      "greenAt": "2026-10-05T14:40:00Z"
+    },
+    {
+      "key": "G1",
+      "name": "Timeline agrees",
+      "blocking": true,
+      "members": [
+        "WV-07",
+        "WV-09"
+      ],
+      "checks": [
+        "Gate line sits on the G0 forecast",
+        "Ready set matches the tracker"
+      ],
+      "ifRed": "Do not wire the offline demo until the timeline and gates match.",
+      "status": "green",
+      "evidence": "G0 line is day 1.38, the later finish of WV-01 and WV-03. Tracker start-now now uses the graph ready set: only WV-01 while apps/viewer overlaps apps/viewer/styles. After WV-01 merges, WV-02 is ready. Tracker, graph, timeline, and gates tests passed (71).",
+      "greenAt": "2026-10-05T16:53:43Z"
+    }
+  ],
+  "criticalPath": [
+    "WV-04",
+    "WV-07",
+    "WV-10",
+    "WV-13",
+    "WV-15"
+  ],
+  "tickets": [
+    {
+      "id": "WV-01",
+      "jiraKey": "WAR-1",
+      "jiraKeySource": "external",
+      "summary": "Viewer repo skeleton and static host",
+      "deps": [],
+      "locks": [
+        "apps/viewer"
+      ],
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": "G0"
+    },
+    {
+      "id": "WV-02",
+      "jiraKey": "WAR-2",
+      "jiraKeySource": "summary",
+      "summary": "Theme tokens matching the build-map palette",
+      "deps": [],
+      "locks": [
+        "apps/viewer/styles"
+      ],
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": null
+    },
+    {
+      "id": "WV-03",
+      "jiraKey": "WAR-3",
+      "jiraKeySource": "summary",
+      "summary": "Parse beam.json, STATUS, and schedule into one model",
+      "deps": [
+        "WV-01"
+      ],
+      "locks": [
+        "apps/viewer/src/parse"
+      ],
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": "G0"
+    },
+    {
+      "id": "WV-04",
+      "jiraKey": "WAR-4",
+      "jiraKeySource": "summary",
+      "summary": "Dependency graph and ready-set from blockers",
+      "deps": [
+        "WV-03"
+      ],
+      "locks": [
+        "apps/viewer/src/graph"
+      ],
+      "size": "L",
+      "complexity": "HIGH",
+      "autoMerge": false,
+      "critical": true,
+      "status": "done",
+      "gate": null
+    },
+    {
+      "id": "WV-05",
+      "jiraKey": "WAR-5",
+      "jiraKeySource": "summary",
+      "summary": "Status chips: todo, running, merged, critical, gate",
+      "deps": [
+        "WV-02"
+      ],
+      "locks": [
+        "apps/viewer/src/chips"
+      ],
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": null
+    },
+    {
+      "id": "WV-06",
+      "jiraKey": "WAR-6",
+      "jiraKeySource": "summary",
+      "summary": "Tracker: start-now queue and board",
+      "deps": [
+        "WV-03",
+        "WV-05"
+      ],
+      "locks": [
+        "apps/viewer/src/tracker"
+      ],
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": null
+    },
+    {
+      "id": "WV-07",
+      "jiraKey": "WAR-7",
+      "jiraKeySource": "summary",
+      "summary": "Agent timeline with day columns and gate lines",
+      "deps": [
+        "WV-04",
+        "WV-06"
+      ],
+      "locks": [
+        "apps/viewer/src/timeline"
+      ],
+      "size": "L",
+      "complexity": "HIGH",
+      "autoMerge": false,
+      "critical": true,
+      "status": "done",
+      "gate": "G1"
+    },
+    {
+      "id": "WV-08",
+      "jiraKey": "WAR-8",
+      "jiraKeySource": "summary",
+      "summary": "Ticket search across id, summary, and locks",
+      "deps": [
+        "WV-06"
+      ],
+      "locks": [
+        "apps/viewer/src/search"
+      ],
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": null
+    },
+    {
+      "id": "WV-09",
+      "jiraKey": "WAR-9",
+      "jiraKeySource": "summary",
+      "summary": "Gates pane with checks and if-red text",
+      "deps": [
+        "WV-04"
+      ],
+      "locks": [
+        "apps/viewer/src/gates"
+      ],
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "critical": false,
+      "status": "done",
+      "gate": "G1"
+    },
+    {
+      "id": "WV-10",
+      "jiraKey": "WAR-10",
+      "jiraKeySource": "summary",
+      "summary": "Ticket drawer: locks, blockers, acceptance criteria",
+      "deps": [
+        "WV-06"
+      ],
+      "locks": [
+        "apps/viewer/src/drawer"
+      ],
+      "size": "L",
+      "complexity": "HIGH",
+      "autoMerge": false,
+      "critical": true,
+      "status": "done",
+      "gate": null
+    },
+    {
+      "id": "WV-11",
+      "jiraKey": "WAR-11",
+      "jiraKeySource": "summary",
+      "summary": "Ticket table sorted by forecast start",
+      "deps": [
+        "WV-06"
+      ],
+      "locks": [
+        "apps/viewer/src/table"
+      ],
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": null
+    },
+    {
+      "id": "WV-12",
+      "jiraKey": "WAR-12",
+      "jiraKeySource": "summary",
+      "summary": "Empty states for a beam with nothing ready",
+      "deps": [
+        "WV-06"
+      ],
+      "locks": [
+        "apps/viewer/src/empty"
+      ],
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": null
+    },
+    {
+      "id": "WV-13",
+      "jiraKey": "WAR-13",
+      "jiraKeySource": "summary",
+      "summary": "Wire all panes to the fixture beam offline",
+      "deps": [
+        "WV-07",
+        "WV-09",
+        "WV-10",
+        "WV-11"
+      ],
+      "locks": [
+        "apps/viewer/src"
+      ],
+      "size": "XL",
+      "complexity": "CRITICAL",
+      "autoMerge": false,
+      "critical": true,
+      "status": "done",
+      "gate": null
+    },
+    {
+      "id": "WV-14",
+      "jiraKey": "WAR-14",
+      "jiraKeySource": "summary",
+      "summary": "Persist started and merged in localStorage",
+      "deps": [
+        "WV-06"
+      ],
+      "locks": [
+        "apps/viewer/src/state"
+      ],
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "critical": false,
+      "status": "merged",
+      "gate": null
+    },
+    {
+      "id": "WV-15",
+      "jiraKey": "WAR-15",
+      "jiraKeySource": "summary",
+      "summary": "Keyboard path through tabs, rows, and drawer",
+      "deps": [
+        "WV-13"
+      ],
+      "locks": [
+        "apps/viewer/src/a11y"
+      ],
+      "size": "L",
+      "complexity": "HIGH",
+      "autoMerge": false,
+      "critical": true,
+      "status": "done",
+      "gate": null
+    },
+    {
+      "id": "WV-16",
+      "jiraKey": "WAR-16",
+      "jiraKeySource": "summary",
+      "summary": "Viewer README and fixture pointer",
+      "deps": [
+        "WV-13"
+      ],
+      "locks": [
+        "docs"
+      ],
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "critical": false,
+      "status": "done",
+      "gate": null
+    }
+  ]
+}

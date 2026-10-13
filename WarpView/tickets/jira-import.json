@@ -1,0 +1,469 @@
+{
+  "projects": [
+    {
+      "name": "WarpView",
+      "key": "WAR",
+      "issues": [
+        {
+          "externalId": "WV-01",
+          "summary": "Single HTML starts empty and loads a Warp export",
+          "description": "h2. What\nSingle HTML starts empty and loads a Warp export\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Open shows zero tickets\n* Load accepts kind warp-plan\n* Save downloads the same shape\n\nh2. External ID\nWV-01",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:platform",
+            "ext:WV-01"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-01"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-02",
+          "summary": "Read every timestamp the export and beam can carry",
+          "description": "h2. What\nRead every timestamp the export and beam can carry\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-01\n\nh2. Acceptance\n* Shows exportedAt, updatedAt, pr.openedAt, pr.reviewedAt, pr.approvedAt, pr.mergedAt, jira.lastCommentAt, gate.greenAt\n* A missing timestamp renders as an em dash\n\nh2. External ID\nWV-02",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:api",
+            "ext:WV-02"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-02"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-03",
+          "summary": "Ticket drawer lists those timestamps in order",
+          "description": "h2. What\nTicket drawer lists those timestamps in order\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* Drawer order is claimed, opened, reviewed, approved, merged\n* jiraKey is shown when present\n\nh2. External ID\nWV-03",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:console",
+            "ext:WV-03"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-03"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-04",
+          "summary": "Utilization from tokens, minutes, and maxAgents",
+          "description": "h2. What\nUtilization from tokens, minutes, and maxAgents\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* Header shows tokens and minutes summed\n* Active count over maxAgents is a bar\n* Agent hours spent versus estimate.agentHours is a second bar\n\nh2. External ID\nWV-04",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:api",
+            "ext:WV-04"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-04"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-05",
+          "summary": "Chip for each beam phase",
+          "description": "h2. What\nChip for each beam phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* All 13 phases have a chip\n* merged and done share the done color; alarm is distinct\n\nh2. External ID\nWV-05",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console",
+            "ext:WV-05"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-05"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-06",
+          "summary": "Interactive tracker: filter, hover, click",
+          "description": "h2. What\nInteractive tracker: filter, hover, click\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-03, WV-05\n\nh2. Acceptance\n* Hover shows openedAt and mergedAt\n* Click opens the drawer\n* Filter by phase keeps only that phase\n\nh2. External ID\nWV-06",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:console",
+            "ext:WV-06"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-06"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-07",
+          "summary": "Interactive timeline with timestamp markers",
+          "description": "h2. What\nInteractive timeline with timestamp markers\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-04, WV-06\n\nh2. Acceptance\n* A bar spans openedAt to mergedAt when both exist\n* Scrubbing a day dims tickets outside that day\n* Gate greenAt is a line\n\nh2. External ID\nWV-07",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:console",
+            "ext:WV-07"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-07"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-08",
+          "summary": "Search id, summary, jiraKey, lock",
+          "description": "h2. What\nSearch id, summary, jiraKey, lock\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-06\n\nh2. Acceptance\n* Query WAR-7 filters to that jiraKey\n* Clear shows every loaded ticket\n\nh2. External ID\nWV-08",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console",
+            "ext:WV-08"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-08"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-09",
+          "summary": "Gates pane shows status, greenAt, and evidence",
+          "description": "h2. What\nGates pane shows status, greenAt, and evidence\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* Green gate shows greenAt\n* Pending gate does not say green\n\nh2. External ID\nWV-09",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:quality",
+            "ext:WV-09"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-09"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-10",
+          "summary": "Utilization board by phase, size, and agent",
+          "description": "h2. What\nUtilization board by phase, size, and agent\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-04, WV-06\n\nh2. Acceptance\n* Board counts tickets in each phase\n* Tokens and minutes split by size\n* Clicking a phase filters the tracker\n\nh2. External ID\nWV-10",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:console",
+            "ext:WV-10"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-10"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-11",
+          "summary": "Table columns for status and the four PR timestamps",
+          "description": "h2. What\nTable columns for status and the four PR timestamps\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-03\n\nh2. Acceptance\n* Columns include opened, reviewed, approved, merged\n* Sort by mergedAt\n\nh2. External ID\nWV-11",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:console",
+            "ext:WV-11"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-11"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-12",
+          "summary": "Empty and partial-timestamp states",
+          "description": "h2. What\nEmpty and partial-timestamp states\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-01\n\nh2. Acceptance\n* No file says load a Warp export\n* A ticket with no pr.openedAt still renders\n\nh2. External ID\nWV-12",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console",
+            "ext:WV-12"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-12"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-13",
+          "summary": "Wire panes so tracker, timeline, and utilization agree",
+          "description": "h2. What\nWire panes so tracker, timeline, and utilization agree\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-07, WV-09, WV-10, WV-11\n\nh2. Acceptance\n* Sample export loads 16 tickets\n* No control can change status\n* Save writes the loaded plan unchanged except exportedAt\n\nh2. External ID\nWV-13",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:XL",
+            "needs-approval",
+            "area:quality",
+            "ext:WV-13"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-13"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-14",
+          "summary": "Estimate block with assumptions",
+          "description": "h2. What\nEstimate block with assumptions\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-04\n\nh2. Acceptance\n* agentHours, humanHours, elapsedHours visible\n* Assumptions text is readable\n\nh2. External ID\nWV-14",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:platform",
+            "ext:WV-14"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-14"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-15",
+          "summary": "Keyboard path across filter, table, and drawer",
+          "description": "h2. What\nKeyboard path across filter, table, and drawer\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-13\n\nh2. Acceptance\n* Phase filter is keyboard reachable\n* Escape closes the drawer\n\nh2. External ID\nWV-15",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:quality",
+            "ext:WV-15"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-15"
+            }
+          ]
+        },
+        {
+          "externalId": "WV-16",
+          "summary": "README: viewer is read-only",
+          "description": "h2. What\nREADME: viewer is read-only\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs\n\nh2. Blocked by\nWV-13\n\nh2. Acceptance\n* README says reset lives in WarpEdit\n* Sample path is fixtures/WARP_PLAN.sample.json\n\nh2. External ID\nWV-16",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:install",
+            "ext:WV-16"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WV-16"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "name": "Blocks",
+      "sourceId": "WV-01",
+      "destinationId": "WV-02"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-02",
+      "destinationId": "WV-03"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-02",
+      "destinationId": "WV-04"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-02",
+      "destinationId": "WV-05"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-03",
+      "destinationId": "WV-06"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-05",
+      "destinationId": "WV-06"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-04",
+      "destinationId": "WV-07"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-06",
+      "destinationId": "WV-07"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-06",
+      "destinationId": "WV-08"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-02",
+      "destinationId": "WV-09"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-04",
+      "destinationId": "WV-10"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-06",
+      "destinationId": "WV-10"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-03",
+      "destinationId": "WV-11"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-01",
+      "destinationId": "WV-12"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-07",
+      "destinationId": "WV-13"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-09",
+      "destinationId": "WV-13"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-10",
+      "destinationId": "WV-13"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-11",
+      "destinationId": "WV-13"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-04",
+      "destinationId": "WV-14"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-13",
+      "destinationId": "WV-15"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WV-13",
+      "destinationId": "WV-16"
+    }
+  ]
+}

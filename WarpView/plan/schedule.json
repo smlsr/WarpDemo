@@ -1,0 +1,334 @@
+{
+  "module": "WarpView",
+  "generated": "2026-10-05",
+  "tickets": [
+    {
+      "id": "WV-01",
+      "summary": "Single HTML starts empty and loads a Warp export",
+      "deps": [],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": "G0",
+      "module": "WarpView",
+      "acs": 3
+    },
+    {
+      "id": "WV-02",
+      "summary": "Read every timestamp the export and beam can carry",
+      "deps": [
+        "WV-01"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": "G0",
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-03",
+      "summary": "Ticket drawer lists those timestamps in order",
+      "deps": [
+        "WV-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-04",
+      "summary": "Utilization from tokens, minutes, and maxAgents",
+      "deps": [
+        "WV-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 3
+    },
+    {
+      "id": "WV-05",
+      "summary": "Chip for each beam phase",
+      "deps": [
+        "WV-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-06",
+      "summary": "Interactive tracker: filter, hover, click",
+      "deps": [
+        "WV-03",
+        "WV-05"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 3
+    },
+    {
+      "id": "WV-07",
+      "summary": "Interactive timeline with timestamp markers",
+      "deps": [
+        "WV-04",
+        "WV-06"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 3
+    },
+    {
+      "id": "WV-08",
+      "summary": "Search id, summary, jiraKey, lock",
+      "deps": [
+        "WV-06"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-09",
+      "summary": "Gates pane shows status, greenAt, and evidence",
+      "deps": [
+        "WV-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-10",
+      "summary": "Utilization board by phase, size, and agent",
+      "deps": [
+        "WV-04",
+        "WV-06"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 3
+    },
+    {
+      "id": "WV-11",
+      "summary": "Table columns for status and the four PR timestamps",
+      "deps": [
+        "WV-03"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-12",
+      "summary": "Empty and partial-timestamp states",
+      "deps": [
+        "WV-01"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-13",
+      "summary": "Wire panes so tracker, timeline, and utilization agree",
+      "deps": [
+        "WV-07",
+        "WV-09",
+        "WV-10",
+        "WV-11"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "XL",
+      "hours": 16,
+      "critical": true,
+      "rankDays": 16,
+      "gate": "G1",
+      "module": "WarpView",
+      "acs": 3
+    },
+    {
+      "id": "WV-14",
+      "summary": "Estimate block with assumptions",
+      "deps": [
+        "WV-04"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-15",
+      "summary": "Keyboard path across filter, table, and drawer",
+      "deps": [
+        "WV-13"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-16",
+      "summary": "README: viewer is read-only",
+      "deps": [
+        "WV-13"
+      ],
+      "unlocks": [],
+      "locks": [
+        "docs"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpView",
+      "acs": 2
+    }
+  ],
+  "gates": [
+    {
+      "key": "G0",
+      "name": "Timestamps load",
+      "blocking": true,
+      "members": [
+        "WV-01",
+        "WV-02"
+      ],
+      "checks": [
+        "Open viewer.html empty",
+        "Load the sample and show exportedAt"
+      ],
+      "ifRed": "Do not build utilization until load shows timestamps."
+    },
+    {
+      "key": "G1",
+      "name": "Read-only agreement",
+      "blocking": true,
+      "members": [
+        "WV-13"
+      ],
+      "checks": [
+        "Tracker, timeline, and utilization counts match",
+        "No control changes status"
+      ],
+      "ifRed": "Do not call the viewer done if a click can reset a ticket."
+    }
+  ],
+  "criticalPath": [
+    "WV-04",
+    "WV-07",
+    "WV-10",
+    "WV-13",
+    "WV-15"
+  ]
+}

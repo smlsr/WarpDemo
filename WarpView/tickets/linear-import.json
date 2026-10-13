@@ -1,0 +1,250 @@
+{
+  "importer": "linear-api",
+  "team": "WAR",
+  "issues": [
+    {
+      "tempId": "WV-01",
+      "title": "Single HTML starts empty and loads a Warp export",
+      "description": "h2. What\nSingle HTML starts empty and loads a Warp export\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Open shows zero tickets\n* Load accepts kind warp-plan\n* Save downloads the same shape\n\nh2. External ID\nWV-01",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WV-01"
+      ],
+      "blockedBy": []
+    },
+    {
+      "tempId": "WV-02",
+      "title": "Read every timestamp the export and beam can carry",
+      "description": "h2. What\nRead every timestamp the export and beam can carry\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-01\n\nh2. Acceptance\n* Shows exportedAt, updatedAt, pr.openedAt, pr.reviewedAt, pr.approvedAt, pr.mergedAt, jira.lastCommentAt, gate.greenAt\n* A missing timestamp renders as an em dash\n\nh2. External ID\nWV-02",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WV-02"
+      ],
+      "blockedBy": [
+        "WV-01"
+      ]
+    },
+    {
+      "tempId": "WV-03",
+      "title": "Ticket drawer lists those timestamps in order",
+      "description": "h2. What\nTicket drawer lists those timestamps in order\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* Drawer order is claimed, opened, reviewed, approved, merged\n* jiraKey is shown when present\n\nh2. External ID\nWV-03",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WV-03"
+      ],
+      "blockedBy": [
+        "WV-02"
+      ]
+    },
+    {
+      "tempId": "WV-04",
+      "title": "Utilization from tokens, minutes, and maxAgents",
+      "description": "h2. What\nUtilization from tokens, minutes, and maxAgents\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* Header shows tokens and minutes summed\n* Active count over maxAgents is a bar\n* Agent hours spent versus estimate.agentHours is a second bar\n\nh2. External ID\nWV-04",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval",
+        "ext:WV-04"
+      ],
+      "blockedBy": [
+        "WV-02"
+      ]
+    },
+    {
+      "tempId": "WV-05",
+      "title": "Chip for each beam phase",
+      "description": "h2. What\nChip for each beam phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* All 13 phases have a chip\n* merged and done share the done color; alarm is distinct\n\nh2. External ID\nWV-05",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WV-05"
+      ],
+      "blockedBy": [
+        "WV-02"
+      ]
+    },
+    {
+      "tempId": "WV-06",
+      "title": "Interactive tracker: filter, hover, click",
+      "description": "h2. What\nInteractive tracker: filter, hover, click\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-03, WV-05\n\nh2. Acceptance\n* Hover shows openedAt and mergedAt\n* Click opens the drawer\n* Filter by phase keeps only that phase\n\nh2. External ID\nWV-06",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WV-06"
+      ],
+      "blockedBy": [
+        "WV-03",
+        "WV-05"
+      ]
+    },
+    {
+      "tempId": "WV-07",
+      "title": "Interactive timeline with timestamp markers",
+      "description": "h2. What\nInteractive timeline with timestamp markers\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-04, WV-06\n\nh2. Acceptance\n* A bar spans openedAt to mergedAt when both exist\n* Scrubbing a day dims tickets outside that day\n* Gate greenAt is a line\n\nh2. External ID\nWV-07",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval",
+        "ext:WV-07"
+      ],
+      "blockedBy": [
+        "WV-04",
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-08",
+      "title": "Search id, summary, jiraKey, lock",
+      "description": "h2. What\nSearch id, summary, jiraKey, lock\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-06\n\nh2. Acceptance\n* Query WAR-7 filters to that jiraKey\n* Clear shows every loaded ticket\n\nh2. External ID\nWV-08",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WV-08"
+      ],
+      "blockedBy": [
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-09",
+      "title": "Gates pane shows status, greenAt, and evidence",
+      "description": "h2. What\nGates pane shows status, greenAt, and evidence\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-02\n\nh2. Acceptance\n* Green gate shows greenAt\n* Pending gate does not say green\n\nh2. External ID\nWV-09",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WV-09"
+      ],
+      "blockedBy": [
+        "WV-02"
+      ]
+    },
+    {
+      "tempId": "WV-10",
+      "title": "Utilization board by phase, size, and agent",
+      "description": "h2. What\nUtilization board by phase, size, and agent\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-04, WV-06\n\nh2. Acceptance\n* Board counts tickets in each phase\n* Tokens and minutes split by size\n* Clicking a phase filters the tracker\n\nh2. External ID\nWV-10",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval",
+        "ext:WV-10"
+      ],
+      "blockedBy": [
+        "WV-04",
+        "WV-06"
+      ]
+    },
+    {
+      "tempId": "WV-11",
+      "title": "Table columns for status and the four PR timestamps",
+      "description": "h2. What\nTable columns for status and the four PR timestamps\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-03\n\nh2. Acceptance\n* Columns include opened, reviewed, approved, merged\n* Sort by mergedAt\n\nh2. External ID\nWV-11",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WV-11"
+      ],
+      "blockedBy": [
+        "WV-03"
+      ]
+    },
+    {
+      "tempId": "WV-12",
+      "title": "Empty and partial-timestamp states",
+      "description": "h2. What\nEmpty and partial-timestamp states\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-01\n\nh2. Acceptance\n* No file says load a Warp export\n* A ticket with no pr.openedAt still renders\n\nh2. External ID\nWV-12",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WV-12"
+      ],
+      "blockedBy": [
+        "WV-01"
+      ]
+    },
+    {
+      "tempId": "WV-13",
+      "title": "Wire panes so tracker, timeline, and utilization agree",
+      "description": "h2. What\nWire panes so tracker, timeline, and utilization agree\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-07, WV-09, WV-10, WV-11\n\nh2. Acceptance\n* Sample export loads 16 tickets\n* No control can change status\n* Save writes the loaded plan unchanged except exportedAt\n\nh2. External ID\nWV-13",
+      "priority": 1,
+      "estimate": 5,
+      "labelNames": [
+        "size:XL",
+        "needs-approval",
+        "ext:WV-13"
+      ],
+      "blockedBy": [
+        "WV-07",
+        "WV-09",
+        "WV-10",
+        "WV-11"
+      ]
+    },
+    {
+      "tempId": "WV-14",
+      "title": "Estimate block with assumptions",
+      "description": "h2. What\nEstimate block with assumptions\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-04\n\nh2. Acceptance\n* agentHours, humanHours, elapsedHours visible\n* Assumptions text is readable\n\nh2. External ID\nWV-14",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WV-14"
+      ],
+      "blockedBy": [
+        "WV-04"
+      ]
+    },
+    {
+      "tempId": "WV-15",
+      "title": "Keyboard path across filter, table, and drawer",
+      "description": "h2. What\nKeyboard path across filter, table, and drawer\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWV-13\n\nh2. Acceptance\n* Phase filter is keyboard reachable\n* Escape closes the drawer\n\nh2. External ID\nWV-15",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval",
+        "ext:WV-15"
+      ],
+      "blockedBy": [
+        "WV-13"
+      ]
+    },
+    {
+      "tempId": "WV-16",
+      "title": "README: viewer is read-only",
+      "description": "h2. What\nREADME: viewer is read-only\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs\n\nh2. Blocked by\nWV-13\n\nh2. Acceptance\n* README says reset lives in WarpEdit\n* Sample path is fixtures/WARP_PLAN.sample.json\n\nh2. External ID\nWV-16",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WV-16"
+      ],
+      "blockedBy": [
+        "WV-13"
+      ]
+    }
+  ]
+}

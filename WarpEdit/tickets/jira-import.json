@@ -1,0 +1,415 @@
+{
+  "projects": [
+    {
+      "name": "WarpEdit",
+      "key": "WAR",
+      "issues": [
+        {
+          "externalId": "WE-01",
+          "summary": "Audit that WarpView cannot change a phase",
+          "description": "h2. What\nAudit that WarpView cannot change a phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs/audit\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Audit lists the 13 phases\n* Day 0 says viewer.html already loads the sample export\n\nh2. External ID\nWE-01",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:platform",
+            "ext:WE-01"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-01"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-02",
+          "summary": "Phase menu matches the beam status list",
+          "description": "h2. What\nPhase menu matches the beam status list\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-01\n\nh2. Acceptance\n* Menu offers queued, claimed, planning, coding, review, fix, awaiting_approval, merging, merged, done, blocked, alarm, skipped\n* Unknown phase is refused\n\nh2. External ID\nWE-02",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:api",
+            "ext:WE-02"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-02"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-03",
+          "summary": "Reset a merged ticket back to an earlier phase",
+          "description": "h2. What\nReset a merged ticket back to an earlier phase\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* From merged or done, choose claimed, planning, coding, review, fix, awaiting_approval, merging, or queued\n* Status on the ticket changes\n* Dependents are no longer treated as unblocked\n\nh2. External ID\nWE-03",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:console",
+            "ext:WE-03"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-03"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-04",
+          "summary": "Confirm names the from phase and the to phase",
+          "description": "h2. What\nConfirm names the from phase and the to phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* Confirm shows the id, from phase, and to phase\n* Cancel leaves status untouched\n\nh2. External ID\nWE-04",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console",
+            "ext:WE-04"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-04"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-05",
+          "summary": "Reset appends an event and keeps old timestamps",
+          "description": "h2. What\nReset appends an event and keeps old timestamps\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* pr.mergedAt is not deleted\n* A reset event stores from, to, at, and note\n* Drawer shows the event under the timestamps\n\nh2. External ID\nWE-05",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:api",
+            "ext:WE-05"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-05"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-06",
+          "summary": "Un-merge puts dependents back to blocked",
+          "description": "h2. What\nUn-merge puts dependents back to blocked\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* A ticket that depended on the reset id leaves start-now\n* Ready set matches the new status\n\nh2. External ID\nWE-06",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:api",
+            "ext:WE-06"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-06"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-07",
+          "summary": "Refuse a reset onto the same phase",
+          "description": "h2. What\nRefuse a reset onto the same phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* merged to merged is a no-op with a message\n* skipped to skipped is a no-op\n\nh2. External ID\nWE-07",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console",
+            "ext:WE-07"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-07"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-08",
+          "summary": "Undo and redo a reset",
+          "description": "h2. What\nUndo and redo a reset\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-05\n\nh2. Acceptance\n* Undo restores the prior status\n* The reset event is removed on undo\n\nh2. External ID\nWE-08",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:platform",
+            "ext:WE-08"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-08"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-09",
+          "summary": "Validate the plan before save",
+          "description": "h2. What\nValidate the plan before save\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03, WE-06\n\nh2. Acceptance\n* A dep that names a missing id blocks save\n* The error names the ticket\n\nh2. External ID\nWE-09",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:quality",
+            "ext:WE-09"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-09"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-10",
+          "summary": "Utilization updates when a ticket leaves merged",
+          "description": "h2. What\nUtilization updates when a ticket leaves merged\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03, WE-06\n\nh2. Acceptance\n* Active count rises when status becomes coding\n* Merged count falls\n* Tokens and minutes stay, they are not zeroed\n\nh2. External ID\nWE-10",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:console",
+            "ext:WE-10"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-10"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-11",
+          "summary": "Save writes status and the reset log",
+          "description": "h2. What\nSave writes status and the reset log\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-05, WE-09\n\nh2. Acceptance\n* Downloaded file is kind warp-plan\n* resets array is on the ticket\n* jiraKey survives\n\nh2. External ID\nWE-11",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:M",
+            "auto-merge",
+            "area:api",
+            "ext:WE-11"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-11"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-12",
+          "summary": "Reload shows the reset phase and the event",
+          "description": "h2. What\nReload shows the reset phase and the event\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-11\n\nh2. Acceptance\n* Load of the saved file shows the reset phase\n* Timestamps from before the reset are still visible\n\nh2. External ID\nWE-12",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "Medium",
+          "labels": [
+            "warp-harness",
+            "size:S",
+            "auto-merge",
+            "area:console",
+            "ext:WE-12"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-12"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-13",
+          "summary": "Interactive phase scrubber on the timeline",
+          "description": "h2. What\nInteractive phase scrubber on the timeline\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-08, WE-10\n\nh2. Acceptance\n* Dragging a merged bar offers the phase menu\n* A drop that would pass a dependent snaps back\n* Utilization board follows the drop\n\nh2. External ID\nWE-13",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:XL",
+            "needs-approval",
+            "area:console",
+            "ext:WE-13"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-13"
+            }
+          ]
+        },
+        {
+          "externalId": "WE-14",
+          "summary": "Round trip reset, save, load, compare",
+          "description": "h2. What\nRound trip reset, save, load, compare\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-11, WE-12, WE-13\n\nh2. Acceptance\n* Loaded status equals saved status\n* Old mergedAt is still present\n* Viewer file is not given this control\n\nh2. External ID\nWE-14",
+          "issueType": "Story",
+          "status": "To Do",
+          "priority": "High",
+          "labels": [
+            "warp-harness",
+            "size:L",
+            "needs-approval",
+            "area:quality",
+            "ext:WE-14"
+          ],
+          "customFieldValues": [
+            {
+              "fieldName": "External ID",
+              "fieldType": "com.atlassian.jira.plugin.system.customfieldtypes:textfield",
+              "value": "WE-14"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "links": [
+    {
+      "name": "Blocks",
+      "sourceId": "WE-01",
+      "destinationId": "WE-02"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-02",
+      "destinationId": "WE-03"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-03",
+      "destinationId": "WE-04"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-03",
+      "destinationId": "WE-05"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-03",
+      "destinationId": "WE-06"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-02",
+      "destinationId": "WE-07"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-05",
+      "destinationId": "WE-08"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-03",
+      "destinationId": "WE-09"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-06",
+      "destinationId": "WE-09"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-03",
+      "destinationId": "WE-10"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-06",
+      "destinationId": "WE-10"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-05",
+      "destinationId": "WE-11"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-09",
+      "destinationId": "WE-11"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-11",
+      "destinationId": "WE-12"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-08",
+      "destinationId": "WE-13"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-10",
+      "destinationId": "WE-13"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-11",
+      "destinationId": "WE-14"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-12",
+      "destinationId": "WE-14"
+    },
+    {
+      "name": "Blocks",
+      "sourceId": "WE-13",
+      "destinationId": "WE-14"
+    }
+  ]
+}

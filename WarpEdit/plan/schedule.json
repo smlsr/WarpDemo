@@ -1,0 +1,297 @@
+{
+  "module": "WarpEdit",
+  "generated": "2026-10-05",
+  "tickets": [
+    {
+      "id": "WE-01",
+      "summary": "Audit that WarpView cannot change a phase",
+      "deps": [],
+      "unlocks": [],
+      "locks": [
+        "docs/audit"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": "G0",
+      "module": "WarpEdit",
+      "acs": 2
+    },
+    {
+      "id": "WE-02",
+      "summary": "Phase menu matches the beam status list",
+      "deps": [
+        "WE-01"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 2
+    },
+    {
+      "id": "WE-03",
+      "summary": "Reset a merged ticket back to an earlier phase",
+      "deps": [
+        "WE-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": "G1",
+      "module": "WarpEdit",
+      "acs": 3
+    },
+    {
+      "id": "WE-04",
+      "summary": "Confirm names the from phase and the to phase",
+      "deps": [
+        "WE-03"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 2
+    },
+    {
+      "id": "WE-05",
+      "summary": "Reset appends an event and keeps old timestamps",
+      "deps": [
+        "WE-03"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": "G1",
+      "module": "WarpEdit",
+      "acs": 3
+    },
+    {
+      "id": "WE-06",
+      "summary": "Un-merge puts dependents back to blocked",
+      "deps": [
+        "WE-03"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 2
+    },
+    {
+      "id": "WE-07",
+      "summary": "Refuse a reset onto the same phase",
+      "deps": [
+        "WE-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 2
+    },
+    {
+      "id": "WE-08",
+      "summary": "Undo and redo a reset",
+      "deps": [
+        "WE-05"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 2
+    },
+    {
+      "id": "WE-09",
+      "summary": "Validate the plan before save",
+      "deps": [
+        "WE-03",
+        "WE-06"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 2
+    },
+    {
+      "id": "WE-10",
+      "summary": "Utilization updates when a ticket leaves merged",
+      "deps": [
+        "WE-03",
+        "WE-06"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 3
+    },
+    {
+      "id": "WE-11",
+      "summary": "Save writes status and the reset log",
+      "deps": [
+        "WE-05",
+        "WE-09"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "M",
+      "hours": 7,
+      "critical": false,
+      "rankDays": 7,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 3
+    },
+    {
+      "id": "WE-12",
+      "summary": "Reload shows the reset phase and the event",
+      "deps": [
+        "WE-11"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 2
+    },
+    {
+      "id": "WE-13",
+      "summary": "Interactive phase scrubber on the timeline",
+      "deps": [
+        "WE-08",
+        "WE-10"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "XL",
+      "hours": 16,
+      "critical": true,
+      "rankDays": 16,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 3
+    },
+    {
+      "id": "WE-14",
+      "summary": "Round trip reset, save, load, compare",
+      "deps": [
+        "WE-11",
+        "WE-12",
+        "WE-13"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
+      ],
+      "size": "L",
+      "hours": 11,
+      "critical": true,
+      "rankDays": 11,
+      "gate": null,
+      "module": "WarpEdit",
+      "acs": 3
+    }
+  ],
+  "gates": [
+    {
+      "key": "G0",
+      "name": "Viewer has no reset",
+      "blocking": true,
+      "members": [
+        "WE-01"
+      ],
+      "checks": [
+        "WarpView viewer.html loads the sample and cannot change a phase"
+      ],
+      "ifRed": "Do not add reset until the viewer is read-only."
+    },
+    {
+      "key": "G1",
+      "name": "Reset keeps history",
+      "blocking": true,
+      "members": [
+        "WE-03",
+        "WE-05"
+      ],
+      "checks": [
+        "merged to coding keeps pr.mergedAt",
+        "A reset event is appended"
+      ],
+      "ifRed": "Do not ship the scrubber until history is kept."
+    }
+  ],
+  "criticalPath": [
+    "WE-03",
+    "WE-05",
+    "WE-10",
+    "WE-13",
+    "WE-14"
+  ]
+}

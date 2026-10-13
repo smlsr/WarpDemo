@@ -1,0 +1,220 @@
+{
+  "importer": "linear-api",
+  "team": "WED",
+  "issues": [
+    {
+      "tempId": "WE-01",
+      "title": "Audit that WarpView cannot change a phase",
+      "description": "h2. What\nAudit that WarpView cannot change a phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs/audit\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Audit lists the 13 phases\n* Day 0 says viewer.html already loads the sample export\n\nh2. External ID\nWE-01",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WE-01"
+      ],
+      "blockedBy": []
+    },
+    {
+      "tempId": "WE-02",
+      "title": "Phase menu matches the beam status list",
+      "description": "h2. What\nPhase menu matches the beam status list\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-01\n\nh2. Acceptance\n* Menu offers queued, claimed, planning, coding, review, fix, awaiting_approval, merging, merged, done, blocked, alarm, skipped\n* Unknown phase is refused\n\nh2. External ID\nWE-02",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WE-02"
+      ],
+      "blockedBy": [
+        "WE-01"
+      ]
+    },
+    {
+      "tempId": "WE-03",
+      "title": "Reset a merged ticket back to an earlier phase",
+      "description": "h2. What\nReset a merged ticket back to an earlier phase\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* From merged or done, choose claimed, planning, coding, review, fix, awaiting_approval, merging, or queued\n* Status on the ticket changes\n* Dependents are no longer treated as unblocked\n\nh2. External ID\nWE-03",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval",
+        "ext:WE-03"
+      ],
+      "blockedBy": [
+        "WE-02"
+      ]
+    },
+    {
+      "tempId": "WE-04",
+      "title": "Confirm names the from phase and the to phase",
+      "description": "h2. What\nConfirm names the from phase and the to phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* Confirm shows the id, from phase, and to phase\n* Cancel leaves status untouched\n\nh2. External ID\nWE-04",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WE-04"
+      ],
+      "blockedBy": [
+        "WE-03"
+      ]
+    },
+    {
+      "tempId": "WE-05",
+      "title": "Reset appends an event and keeps old timestamps",
+      "description": "h2. What\nReset appends an event and keeps old timestamps\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* pr.mergedAt is not deleted\n* A reset event stores from, to, at, and note\n* Drawer shows the event under the timestamps\n\nh2. External ID\nWE-05",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval",
+        "ext:WE-05"
+      ],
+      "blockedBy": [
+        "WE-03"
+      ]
+    },
+    {
+      "tempId": "WE-06",
+      "title": "Un-merge puts dependents back to blocked",
+      "description": "h2. What\nUn-merge puts dependents back to blocked\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* A ticket that depended on the reset id leaves start-now\n* Ready set matches the new status\n\nh2. External ID\nWE-06",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WE-06"
+      ],
+      "blockedBy": [
+        "WE-03"
+      ]
+    },
+    {
+      "tempId": "WE-07",
+      "title": "Refuse a reset onto the same phase",
+      "description": "h2. What\nRefuse a reset onto the same phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* merged to merged is a no-op with a message\n* skipped to skipped is a no-op\n\nh2. External ID\nWE-07",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WE-07"
+      ],
+      "blockedBy": [
+        "WE-02"
+      ]
+    },
+    {
+      "tempId": "WE-08",
+      "title": "Undo and redo a reset",
+      "description": "h2. What\nUndo and redo a reset\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-05\n\nh2. Acceptance\n* Undo restores the prior status\n* The reset event is removed on undo\n\nh2. External ID\nWE-08",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WE-08"
+      ],
+      "blockedBy": [
+        "WE-05"
+      ]
+    },
+    {
+      "tempId": "WE-09",
+      "title": "Validate the plan before save",
+      "description": "h2. What\nValidate the plan before save\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03, WE-06\n\nh2. Acceptance\n* A dep that names a missing id blocks save\n* The error names the ticket\n\nh2. External ID\nWE-09",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WE-09"
+      ],
+      "blockedBy": [
+        "WE-03",
+        "WE-06"
+      ]
+    },
+    {
+      "tempId": "WE-10",
+      "title": "Utilization updates when a ticket leaves merged",
+      "description": "h2. What\nUtilization updates when a ticket leaves merged\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03, WE-06\n\nh2. Acceptance\n* Active count rises when status becomes coding\n* Merged count falls\n* Tokens and minutes stay, they are not zeroed\n\nh2. External ID\nWE-10",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval",
+        "ext:WE-10"
+      ],
+      "blockedBy": [
+        "WE-03",
+        "WE-06"
+      ]
+    },
+    {
+      "tempId": "WE-11",
+      "title": "Save writes status and the reset log",
+      "description": "h2. What\nSave writes status and the reset log\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-05, WE-09\n\nh2. Acceptance\n* Downloaded file is kind warp-plan\n* resets array is on the ticket\n* jiraKey survives\n\nh2. External ID\nWE-11",
+      "priority": 3,
+      "estimate": 2,
+      "labelNames": [
+        "size:M",
+        "auto-merge",
+        "ext:WE-11"
+      ],
+      "blockedBy": [
+        "WE-05",
+        "WE-09"
+      ]
+    },
+    {
+      "tempId": "WE-12",
+      "title": "Reload shows the reset phase and the event",
+      "description": "h2. What\nReload shows the reset phase and the event\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-11\n\nh2. Acceptance\n* Load of the saved file shows the reset phase\n* Timestamps from before the reset are still visible\n\nh2. External ID\nWE-12",
+      "priority": 4,
+      "estimate": 1,
+      "labelNames": [
+        "size:S",
+        "auto-merge",
+        "ext:WE-12"
+      ],
+      "blockedBy": [
+        "WE-11"
+      ]
+    },
+    {
+      "tempId": "WE-13",
+      "title": "Interactive phase scrubber on the timeline",
+      "description": "h2. What\nInteractive phase scrubber on the timeline\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-08, WE-10\n\nh2. Acceptance\n* Dragging a merged bar offers the phase menu\n* A drop that would pass a dependent snaps back\n* Utilization board follows the drop\n\nh2. External ID\nWE-13",
+      "priority": 1,
+      "estimate": 5,
+      "labelNames": [
+        "size:XL",
+        "needs-approval",
+        "ext:WE-13"
+      ],
+      "blockedBy": [
+        "WE-08",
+        "WE-10"
+      ]
+    },
+    {
+      "tempId": "WE-14",
+      "title": "Round trip reset, save, load, compare",
+      "description": "h2. What\nRound trip reset, save, load, compare\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-11, WE-12, WE-13\n\nh2. Acceptance\n* Loaded status equals saved status\n* Old mergedAt is still present\n* Viewer file is not given this control\n\nh2. External ID\nWE-14",
+      "priority": 2,
+      "estimate": 3,
+      "labelNames": [
+        "size:L",
+        "needs-approval",
+        "ext:WE-14"
+      ],
+      "blockedBy": [
+        "WE-11",
+        "WE-12",
+        "WE-13"
+      ]
+    }
+  ]
+}

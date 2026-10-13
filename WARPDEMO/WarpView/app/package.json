@@ -1,0 +1,15 @@
+{
+  "name": "warpview",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "build": "node build.mjs",
+    "release": "node build.mjs --release"
+  },
+  "devDependencies": {
+    "esbuild": "0.24.0",
+    "jsdom": "25.0.1"
+  }
+}

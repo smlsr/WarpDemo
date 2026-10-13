@@ -1,0 +1,13 @@
+{
+  "server": "atlassian",
+  "tools": [
+    "getAccessibleAtlassianResources",
+    "getVisibleJiraProjects"
+  ],
+  "candidates": [
+    "AD"
+  ],
+  "repo": "WarpDemo",
+  "projectName": "",
+  "setCommand": "python3 scripts/jira_sync.py project --set"
+}

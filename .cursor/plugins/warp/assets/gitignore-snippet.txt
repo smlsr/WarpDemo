@@ -1,0 +1,17 @@
+# Warp state is committed so the next agent sees who is in flight.
+# .warp/config.yaml and other secrets stay ignored. The old ".warp/" line
+# ignored the beam, journal, and board; /warp-init replaces that line.
+.warp/config.yaml
+.warp/worktrees/
+.warp/outbox.md
+.warp/notify-post.json
+.warp/events.jsonl
+.warp/dashboard.html
+.warp/secrets.yaml
+.warp/*.token
+.warp/**/token
+.warp/**/tokens
+.warp/**/credentials*
+.warp/**/*webhook*
+.warp/**/*.pem
+.warp/**/*.key

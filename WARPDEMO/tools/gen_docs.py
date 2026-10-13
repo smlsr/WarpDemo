@@ -239,14 +239,15 @@ def cursor_plan(pack, sched):
          "## Rules", "",
          f"1. One ticket = one agent = one branch = one PR. Start an agent with `Implement <ID>`. Branch `warp/{m['run']}/<ID>-<jira>` (Warp names it).",
          f"2. The pack (`{pack.d}/spec`, `plan`, `tickets`, `fixtures`, `ui`) is read-only. Code goes under the ticket's lock paths inside `{pack.app}/`.",
-         "3. Ready = every blocker merged; with `gateOrder: strict` (Warp's default) a gate block starts when every earlier block has merged.",
+         "3. Ready = every blocker merged; a gate block starts when every earlier block has merged. The schedule says so (`model.gate_order: strict`), so Warp 1.6.2 keeps its block order for this build-schedule/2 file instead of treating gates as milestones.",
          "4. Two tickets in flight never share a lock path. Append-only files (keep both sides on conflict): " + (f"`{pack.app}/src/plugins.mjs`." if pack.key == "edit" else "none."),
          f"5. Sizes {', '.join(AUTO_MERGE_SIZES)} auto-merge after Bugbot; L and XL wait for APPROVED ({APPROVAL_HOURS} h in the plan).",
          f"6. Tests: `npm --prefix {pack.app} test` must be green before a PR is opened. Each AC has a test.",
-         "7. Priority: ★ critical chain first, then rank, then id.",
+         "7. Priority: ★ critical chain first, then the members and ancestors of a priority gate" + (f" ({', '.join(g_['key'] for g_ in sched['gates'] if g_['priority'])})" if any(g_["priority"] for g_ in sched["gates"]) else " (none in this run)") + ", then rank, then id.",
+         "8. When a gate turns green Warp prints its `on_green` command for the parent to run (`blocks.py show`, the block summary) and the programs it starts.",
          ]
     if m["startAfter"]:
-        o += [f"8. This run starts after **{m['startAfter']}** (`startAfter: {m['startAfter']}` in its config). WE-01 is blocked by view:WV-15 in the other run."]
+        o += [f"9. This run starts after **{m['startAfter']}** (`startAfter: {m['startAfter']}` in its config). WE-01 is blocked by view:WV-15 in the other run."]
     o += ["", "## Day 0", "",
           f"1. `/warp-init {m['run']}` in this repo's checkout. Set in `.warp/config.yaml`: `paths: {m['paths'][0]}`" + (f", `startAfter: {m['startAfter']}`" if m["startAfter"] else "") +
           (f", `appendOnlyPaths: {pack.app}/src/plugins.mjs`" if pack.key == "edit" else "") + ", `jiraProject: WAR`.",
@@ -256,9 +257,10 @@ def cursor_plan(pack, sched):
           "## Numbers", "",
           f"{n['tickets']} tickets · {n['agent_hours']} agent-hours · finish T+{g(n['finish_h'])}h · critical chain {g(n['critical_path_h'])}h over {n['critical_tickets']} tickets · peak {n['peak']} in flight · {n['waves']} waves", "",
           "★ " + " → ".join(sched["critical_chain"]), "",
-          "## Gates", "", "| Gate | Name | Members | Reached | Checks | If red |", "|---|---|---|---|---|---|"]
+          "## Gates", "", "| Gate | Name | Members | Reached | Checks | If red | Priority · starts |", "|---|---|---|---|---|---|---|"]
     for gt in sched["gates"]:
-        o.append(f"| {gt['key']} | {gt['name']} | {', '.join(gt['members'])} | T+{g(gt['at'])}h | {'; '.join(gt['checks'])} | {gt['if_red']} |")
+        extra = " · ".join(x for x in (("priority" if gt["priority"] else ""), ("starts " + ", ".join(gt["starts"]) if gt["starts"] else "")) if x) or "—"
+        o.append(f"| {gt['key']} | {gt['name']} | {', '.join(gt['members'])} | T+{g(gt['at'])}h | {'; '.join(gt['checks'])} | {gt['if_red']} | {extra} |")
     o += ["", "## Dependency levels", "", "Tickets in one level can run in parallel (∥) unless their gate block is not open yet.", ""]
     for w in sorted(waves):
         o.append(f"### Level {w}")
@@ -294,7 +296,8 @@ def build_plan(pack, sched):
          "- `T+h` is estimate-hours on a continuous clock from the moment the run starts" + (f" (this run starts when {m['startAfter']} is reached)." if m["startAfter"] else "."),
          "- Hours are the size estimates (S=4, M=7, L=11, XL=16). Real runs drift; the order does not.",
          f"- L and XL tickets wait {APPROVAL_HOURS} h for approval before their dependents start.",
-         "- A gate block (gateOrder strict) starts when every earlier block has merged.", "",
+         "- A gate block starts when every earlier block has merged (`model.gate_order: strict` in schedule.json).",
+         "- Priority: ★ critical chain, then tickets on a priority gate's path (`priority_gate`), then rank.", "",
          "## Gates", "", "| Gate | Name | Reached | Closes with | Checks | If red |", "|---|---|---|---|---|---|"]
     for gt in sched["gates"]:
         o.append(f"| {gt['key']} | {gt['name']} | {tp(gt['at'])} | {ids(gt['closes_with'])} | {'; '.join(gt['checks'])} | {gt['if_red']} |")

@@ -29,6 +29,23 @@
  "result": {},
  "gate": "G1",
  "priority": null,
+ "lane": "model",
+ "repo": "smlsr/WarpDemo",
+ "wave": 3,
+ "priorityGate": "G2",
+ "planned": {
+  "slot": 1,
+  "start": 8.0,
+  "merge": 19.5,
+  "ready": 8.0,
+  "latest_start": 8.0
+ },
+ "screens": [
+  "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+  "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+  "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
+ ],
+ "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
  "acs": null,
  "plannedStart": null,
  "plannedMerge": null,

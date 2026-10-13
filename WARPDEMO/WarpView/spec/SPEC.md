@@ -1,10 +1,10 @@
 # WarpView — SPEC
 
-Normative. Tickets may only reference what this file, `ACCEPTANCE.md`, the fixtures and the screens define. The design of record is `WARPDEMO/WarpView/ui/reference/warp-dashboard.html` (Warp 1.6.1's run dashboard loaded with `fixtures/beam.sample.json`) and the PNGs in `WARPDEMO/WarpView/ui/screens/`. Where this text and the reference disagree, this text wins and the disagreement is a bug in the pack.
+Normative. Tickets may only reference what this file, `ACCEPTANCE.md`, the fixtures and the screens define. The design of record is `WARPDEMO/WarpView/ui/reference/warp-dashboard.html` (Warp 1.6.2's run dashboard loaded with `fixtures/beam.sample.json`) and the PNGs in `WARPDEMO/WarpView/ui/screens/`. Where this text and the reference disagree, this text wins and the disagreement is a bug in the pack.
 
 ## 1. What it is
 
-One HTML file, `WARPDEMO/WarpView/viewer.html`, opened from disk. No server, no install, no network. It reads a Warp run's files and shows every ticket on a slot swimlane (like the plan's CURSOR_SWIMLANE.pdf), a board and a table, colored by status, with run totals in the header.
+One HTML file, `WARPDEMO/WarpView/viewer.html`, opened from disk. No server, no install, no network. It reads a Warp run's files, or a plan's `schedule.json` (build-schedule/2) before any run exists, and shows every ticket on a slot swimlane (like the plan's CURSOR_SWIMLANE.pdf), a board and a table, colored by status, with run totals in the header.
 
 It is **read-only**. No control changes a ticket's status or writes a file. Resetting a phase is WarpEdit (`WARPDEMO/WarpEdit/`), which imports these modules and adds controls through the hooks of §11.
 
@@ -39,6 +39,7 @@ Modules are ES modules (`.mjs`). Views are pure: `render…(state) → HTML stri
 
 | Kind | Rule |
 |---|---|
+| schedule | object with an array `tickets` and `schema: "build-schedule/2"`; or, unlabelled, an array `critical_chain` and a first ticket with `h`, `after` and `slot` (§3.5). Tested before beam |
 | beam | object with `tickets` (object or array) and any of `gates`, `program`, `runState`, `config`, `instance`; or any object with `tickets` |
 | status | object with an array `done`, `working` or `left` (Warp's `.warp/status.json`) |
 | ticket | object with a string `state` and an `id`, no `tickets` (Warp's `.warp/tickets/<id>/state.json`) |
@@ -48,7 +49,7 @@ A Warp export (`kind: "warp-plan"`, from `/warp-export`) is a beam: tickets as a
 
 ### 3.2 Runs
 
-1. One run per beam. Key: `run` name, else `instance.id`, else the folder path.
+1. One run per beam. Key: `run` name, else `instance.id`, else the folder path. One run per schedule, key `sched:` + `program` (else the folder); a schedule never merges with a beam.
 2. Two beams with one key (a run's local `.warp/beam.json` and its mirror `.warp/runs/<name>/beam.json`) are one run: the newer wins (`updated`, §4.1).
 3. A status.json joins the run with the same instance id or folder and only moves `updated`; alone it makes a run of kind `status` (no gates, no estimate, hours from size).
 4. A ticket state attaches to the run whose folder holds `tickets/<id>/`, else to any run with that id.
@@ -67,18 +68,30 @@ Only for a ticket that is not merged, done or skipped, and only when the state's
 - Embedded: `<script id="warp-data" type="application/json">` holds `null` or `{generatedAt, repo, jiraSite, files:[{path, data}]}` (written by Warp's `/warp-dashboard`).
 - Reload re-reads handles; embedded pages reload the page; plain input files are re-read and, if that fails, the toast says to open them again. Auto-reload every 30 s while the tab is visible.
 - localStorage keys are prefixed `warp-dash:` and every access is inside try/catch.
+- A `schedule.json` is read when it is picked with Open status files or dropped as a file; the folder walk above does not pick it up.
+
+### 3.5 A plan's schedule.json (build-schedule/2)
+
+The format every pack writes (`WARPDEMO/WarpView/plan/schedule.json`, `WARPDEMO/WarpEdit/plan/schedule.json`, HOS, HOS-Admin, FORGEQA). `runFromSchedule(doc)` makes a run of kind `schedule`:
+
+- Tickets: `h` → hours, `after` → deps, `gate` (`""` = none), `priority_gate` → `priorityGate` (`""` = none), `lane`, `repo`, `wave`, `checks` (each `{name, check, wave}`, or a string → `{name: "", check}`), and `planned = {slot, start, merge, ready, latest_start}`. Status queued unless the ticket has one. Locks are kept as written (a `<repo>/` prefix stays).
+- Gates: `key name blocking members checks` (strings), `if_red` → ifRed, `scope`, `on_green` → onGreen, `priority` (bool), `starts` (program names), `at`; status pending, greenAt null; `hold` green when `model.gate_order` is `strict`, else red.
+- Run: `name` = `program`; `runState` "plan"; `gateOrder` = strict when `model.gate_order` is `"strict"`, else deps (gates are milestones: nothing waits for a gate to be reached); `cap` = `model.slots` (else 18); `critical` = `critical_chain`; `estimate` = `{elapsedHours: numbers.finish_h, agentHours: numbers.agent_hours, approvalHours: 0.5, assumptions: [model.clock, model.merge, model.priority]}` (missing ones dropped); `project` = `program`; `updated` = `rebuilt`; `repo` = `repos` joined with " + "; `schedule` = `{program, repos, lanes, finishHours, agentHours, priority, rebuilt}`.
+- Ignored: `numbers` beyond the above, `steps`, `lock_pairs`, `fields`, `source`, gate `sibling`, `siblings`, `behind`, `closes_with`, `old_reached`, ticket `why`, `waited`, `unlocks`, `locks_more`, `lock_pairs`, `screens`, `mock`, `file`, `first_gate`.
+
+A beam that Warp 1.6.2 scanned from a schedule carries the same ticket fields (`lane repo wave priorityGate checks planned`), the gate fields (`scope onGreen priority starts at hold otherMembers`) and `program.schedule` / `program.gateOrder`; `runFromBeam` reads them the same way.
 
 ## 4. Model
 
 ### 4.1 Run
 
-`kind` (beam | status) · `export` (bool) · `exportedAt` · `path` · `dir` · `name` · `instance` · `host` · `runState` · `paused` · `pauseReason` · `range` · `owner` · `gateOrder` (beam → config → `strict`) · `startAfter` · `gates[]` (`key name status blocking members greenAt evidence checks ifRed`) · `tickets[]` · `critical[]` (program.criticalPath, else top-level criticalPath) · `estimate` (program.estimate, else top-level estimate) · `metrics` (beam.metrics) · `cap` (config.maxAgents, default 18) · `jiraSite` · `project` · `runStartedAt` · `runEndedAt` · `updated` (max of checkpointAt, exportedAt, every ticket updatedAt, else the file's modified time) · `repo`.
+`kind` (beam | status | schedule) · `export` (bool) · `exportedAt` · `path` · `dir` · `name` · `instance` · `host` · `runState` · `paused` · `pauseReason` · `range` · `owner` · `gateOrder` (beam → config → program.gateOrder → `strict`; a schedule per §3.5) · `startAfter` · `schedule` (program.schedule, §3.5) · `gates[]` (`key name status blocking members greenAt evidence checks ifRed scope onGreen priority starts at hold otherMembers`) · `tickets[]` · `critical[]` (program.criticalPath, else top-level criticalPath) · `estimate` (program.estimate, else top-level estimate) · `metrics` (beam.metrics) · `cap` (config.maxAgents, default 18) · `jiraSite` · `project` · `runStartedAt` · `runEndedAt` · `updated` (max of checkpointAt, exportedAt, every ticket updatedAt, else the file's modified time) · `repo`.
 
-Computed: `blockRank`, `waves`, `finish`, `peak`, `slots`, `critHours`, `critCount`, `gateAt` (§6–§7).
+Computed: `blockRank`, `waves`, `finish`, `peak`, `slots`, `critHours`, `critCount`, `gateAt`, `planSource` (§6–§7).
 
 ### 4.2 Ticket
 
-`id` · `title` (summary, else title) · `size` (S/M/L/XL from the leading token, else null) · `status` (normStatus) · `cat` · `hours` (ticket hours when > 0, else S=4, M=7, L=11, XL=16, else 7) · `hoursFrom` ("ticket" | "size X" | "default M") · `autoMerge` (field when boolean, else size S or M) · `deps` (deps + after, strings) · `locks` · `gate` · `module` · `layer` · `critical` · `starred` · `rank` · `priority` · `pr` {`url ci bugbot sha via openedAt reviewedAt approvedAt mergedAt`} · `jiraKey` (jiraKey, else jira.key) · `jiraStatus` · `jiraDone` (jira.doneAt or jiraDone) · `jiraCommentAt` (jira.lastCommentAt) · `alarm` · `agent` · `attempts` · `recoveries` · `minutes` · `tokens` · `cost` (usage.cost) · `claimedAt` · `updatedAt` · `events[]` · `stateNote`.
+`id` · `title` (summary, else title) · `size` (S/M/L/XL from the leading token, else null) · `status` (normStatus) · `cat` · `hours` (ticket hours when > 0, else S=4, M=7, L=11, XL=16, else 7) · `hoursFrom` ("ticket" | "size X" | "default M") · `autoMerge` (field when boolean, else size S or M) · `deps` (deps + after, strings) · `locks` · `gate` · `module` · `layer` · `critical` · `starred` · `rank` · `priority` · `pr` {`url ci bugbot sha via openedAt reviewedAt approvedAt mergedAt`} · `jiraKey` (jiraKey, else jira.key) · `jiraStatus` · `jiraDone` (jira.doneAt or jiraDone) · `jiraCommentAt` (jira.lastCommentAt) · `alarm` · `agent` · `attempts` · `recoveries` · `minutes` · `tokens` · `cost` (usage.cost) · `claimedAt` · `updatedAt` · `events[]` · `stateNote` · `lane` · `repo` · `wave` · `priorityGate` (priorityGate, else priority_gate) · `checks[]` ({name, check}) · `planned` ({slot start merge ready latest_start} or null).
 
 Computed: `block`, `slot`, `start`, `end`, `mergeAt`, `unplaced`.
 
@@ -111,11 +124,13 @@ started → claimed, planning, coding, review, bugbot → bugbot_running, fix, p
 
 ## 6. Gate blocks (port of Warp's scripts/blocks.py)
 
-Keys in run order: `G<n>` keys by number, then other keys in plan order. A ticket's block: its own `gate` when that gate exists; else the lowest gate listing it in `members`; else the highest block among its in-run dependencies (cycles cut); else the first key. No gates → every block is null. A block is cleared when every ticket in it is merged, done or skipped and its gate is not red.
+Keys in run order: when every gate has a numeric `at` (build-schedule/2), by `at`, ties by G-number (other keys after) then plan order, so `G-RBAC` at T+58 sits between G0 and G1; otherwise `G<n>` keys by number, then other keys in plan order. A ticket's block: its own `gate` when that gate exists; else the lowest gate listing it in `members`; else the highest block among its in-run dependencies (cycles cut); else the first key. No gates → every block is null. A block is cleared when every ticket in it is merged, done or skipped and its gate is not red.
 
 ## 7. Planned layout (`plan(run)`)
 
-Estimate-hour clock, continuous. `cap = min(run.cap, 64)` slots. Approval wait = `estimate.approvalHours`, default 0.5. A ticket's merge = its end + the approval wait when `autoMerge` is false. Priority order: critical, starred, rank (null last), longest downstream chain (hours), natural id. A ticket is critical when the run's critical list names it.
+**As written.** When every ticket has `planned` with a numeric slot, start and merge (a schedule.json, or a beam Warp scanned from one), the plan is the schedule's own: slot = planned.slot − 1, start = planned.start, end = start + hours, mergeAt = max(planned.merge, end), nothing unplaced; `peak` = the most bars overlapping (an end at t comes before a start at t); `slots` = highest slot + 1; `gateAt` = the gate's `at` when it has one, else the max mergeAt of its members; `planSource` = "schedule". Blocks and waves are still computed.
+
+**Simulated** (`planSource` = "simulated"), every other run: estimate-hour clock, continuous. `cap = min(run.cap, 64)` slots. Approval wait = `estimate.approvalHours`, default 0.5. A ticket's merge = its end + the approval wait when `autoMerge` is false. Priority order: critical, starred, on a priority gate's path (`priorityGate` set), rank (null last), longest downstream chain (hours), natural id. A ticket is critical when the run's critical list names it.
 
 Loop from t = 0: release tickets whose merge ≤ t (their block's open count falls); ready = pending tickets whose in-run dependencies have merged by t and — when `gateOrder` is not `deps`, the run is a beam and has more than one block — every earlier block has no open ticket and its last merge ≤ t; sort ready by priority; give each the lowest slot free at t (slot frees at the ticket's end); next t = the smallest future slot-free time or merge. If nothing can happen and tickets remain (cycle or a blocker that never merges), lay the rest one after another on the earliest free slots and flag them `unplaced`.
 
@@ -159,11 +174,11 @@ Every screen has a PNG and an HTML capture in `ui/screens/` (index in `ui/screen
 
 ### 10.2 Meta chips
 
-repo · run · `warp:<instance>` (mono) · state with dot (running: pulsing green; paused: amber; stopped: gray; done: brand) and pause reason · range spec · owner · "updated <ago> · <stamp>" (stamp hidden ≤ 640 px). All runs view: "n runs · m running". Chips with no value are omitted.
+repo · run · `warp:<instance>` (mono) · state with dot (running: pulsing green; paused: amber; stopped: gray; done: brand; a schedule run: "plan", brand2) and pause reason · range spec · owner · "updated <ago> · <stamp>" (stamp hidden ≤ 640 px). All runs view: "n runs · m running". Chips with no value are omitted.
 
 ### 10.3 Headline
 
-Title: "<run> — <repo> swimlane" (one run) or "<repo> — n runs". Subline: n tickets · w waves (beam) · agent-hours · cap agent slots · planned finish T+h · peak n in flight · critical chain h over n tickets · gate order · starts after. Chain line: "★ id → id → …" in planned start order.
+Title: "<run> — <repo> swimlane" (one run) or "<repo> — n runs". Subline: n tickets · w waves (beam or schedule) · agent-hours · cap agent slots · planned finish T+h · peak n in flight · critical chain h over n tickets · gate order · starts after · "plan as written in schedule.json" when one run is shown and its planSource is schedule. A schedule's repo label is its repos joined with " + ". Chain line: "★ id → id → …" in planned start order.
 
 ### 10.4 Tabs
 
@@ -171,15 +186,15 @@ Shown with two or more runs: "All runs (n)", then one per run "label · done/tot
 
 ### 10.5 Controls
 
-Legend chips (§5.1 order, with counts) are the status filter. Search box. View switch Swimlane / Board / Table. Lanes select (board): Gate block, Status, Module, Size. Color select: Status, Module (module hue from hashHue, lighter for UI layers). Zoom range 0–100 (swimlane).
+Legend chips (§5.1 order, with counts) are the status filter. Search box. View switch Swimlane / Board / Table. Lanes select (board): Gate block, Status, Module, Lane, Repo, Size. Color select: Status, Module, Lane (hue from hashHue of the module, or of the lane else the module; lighter for UI layers). Zoom range 0–100 (swimlane).
 
 ### 10.6 Swimlane
 
-Panel header: title, note, Plan/Actual switch. Sticky label column (76 px, 54 px ≤ 640 px) and sticky head rows (gates 38 px, axis 26 px). Rows 46 px. px per hour = max(7 when narrower than 700 px else 2, (width − label − 24) ÷ span) × 6^(zoom/100); print: (1020 − label) ÷ span. Tick step = first of 1,2,5,10,20,25,50,100,200 with step × pph ≥ 56. Gate labels sit left of their line; gates within 6 px share one label ("G1 · G2"); a label lifts to the upper row when there is no room (odd index); the gate name shows only when there is room. Bars: left 4 px accent and a tint of the status color (To Do lighter), 2 px ink outline for critical, "★ id", "S·4h" (plan) or the duration (actual), title on the second line, ⚠ for an alarm, ✗ for red CI; under 70 px only the id. Filtered-out bars dim to 14 %; search hits get the focus outline. Actual clock adds the dashed now line. Hover shows the tooltip; click opens the drawer. Foot text as in the reference.
+Panel header: title, note, Plan/Actual switch. Sticky label column (76 px, 54 px ≤ 640 px) and sticky head rows (gates 38 px, axis 26 px). Rows 46 px. px per hour = max(7 when narrower than 700 px else 2, (width − label − 24) ÷ span) × 6^(zoom/100); print: (1020 − label) ÷ span. Tick step = first of 1,2,5,10,20,25,50,100,200 with step × pph ≥ 56. Gate labels sit left of their line; gates within 6 px share one label ("G1 · G2"); a label lifts to the upper row when there is no room (odd index); the gate name shows only when there is room. Bars: left 4 px accent and a tint of the status color (To Do lighter), 2 px ink outline for critical, "★ id", "S·4h" (plan) or the duration (actual), title on the second line, ⚠ for an alarm, ✗ for red CI; under 70 px only the id. Filtered-out bars dim to 14 %; search hits get the focus outline. Actual clock adds the dashed now line. Hover shows the tooltip; click opens the drawer. Gate tooltip lines: "key name — status", "blocking: a red gate stops everyone" or "scope: <scope>", "priority gate: its path dispatches ahead of rank", "starts: <programs>", green time, evidence, "check: …" per check, "on green: <command>", "if red: …" (lines without a value are left out). Panel note: "n of cap slots · planned finish T+h" plus " · as written in schedule.json" (planSource schedule), " · dependency order" (gateOrder deps) or " · blocks finish in order" (beam). Foot text as in the reference.
 
 ### 10.7 Board
 
-Lanes per §10.5 (block lanes prefixed by run label with several runs). Header: chevron, name, gate name, gate pill (status, greenAt; tooltip with evidence, checks, if-red), cleared pill, "n/m done", agent hours, "k shown" when filtered, stack bar. Cleared block lanes start collapsed when there is more than one lane. Cards in a grid (min 232 px): id with ★, size badge, status text in its color, two-line title, "est 7h", "spent 1.8h", "PR #n ↗", Jira key (link to `https://<jiraSite>/browse/<key>` when jiraSite is set), "CI ✓", alarm line.
+Lanes per §10.5 (block lanes prefixed by run label with several runs; Lane = ticket lane, else module, else "No lane"; Repo = ticket repo, else "No repo"; both in natural order). Header: chevron, name, gate name, "priority" pill for a priority gate, "starts <programs>" pill, gate pill (status, greenAt; tooltip with scope for a non-blocking gate, starts, greenAt, evidence, checks, on green, if-red), cleared pill (block lanes), "n/m done", agent hours, "k shown" when filtered, stack bar. Cleared block lanes start collapsed when there is more than one lane. Cards in a grid (min 232 px): id with ★, size badge, status text in its color, two-line title, "est 7h", "spent 1.8h", "PR #n ↗", Jira key (link to `https://<jiraSite>/browse/<key>` when jiraSite is set), "CI ✓", alarm line.
 
 ### 10.8 Table
 
@@ -191,7 +206,7 @@ Logo, "Open a Warp run", the two explanation paragraphs, buttons Open status fil
 
 ### 10.10 Drawer
 
-Right panel, 480 px (full width on phones), scrim behind. Header: 5 px status color bar, id with ★, title, close. Key list: Status (category in its color · status), Alarm (when present, second), Run, Block, Size (· auto-merge | needs approval), Estimate (hours and source), Planned (T+start → T+merge · slot n · unplaced note), Spent, Tokens / cost, Pull request, CI / Bugbot, Jira (key, status, Done), Merged (sha 10, via, mergedAt), Agent, Attempts (· recoveries), Module, Updated, Note. Then **Timestamps**: Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment, Updated. Then Depends on, Locks (tags), Events (newest first, ≤ 25), then plugin sections (§11).
+Right panel, 480 px (full width on phones), scrim behind. Header: 5 px status color bar, id with ★, title, close. Key list: Status (category in its color · status), Alarm (when present, second), Run, Block, Size (· auto-merge | needs approval), Estimate (hours and source), Planned (T+start → T+merge · slot n · unplaced note), Spent, Tokens / cost, Pull request, CI / Bugbot, Jira (key, status, Done), Merged (sha 10, via, mergedAt), Agent, Attempts (· recoveries), Module, Lane / repo (when either: "lane · repo"), Priority gate (when set: "<key> · dispatched after the critical chain, ahead of rank"), Schedule (when planned: "slot n · T+start h → T+merge h · latest start T+h"), Updated, Note. Then **Timestamps**: Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment, Updated. Then **Checks when it merges** (when any: "<b>name</b> — check" per item), Depends on, Locks (tags), Events (newest first, ≤ 25), then plugin sections (§11).
 
 ### 10.11 Phone (≤ 640 px)
 

@@ -1,0 +1,663 @@
+{
+ "kind": "schedule",
+ "name": "WarpView",
+ "instance": null,
+ "runState": "plan",
+ "cap": 18,
+ "gateOrder": "strict",
+ "repo": "smlsr/WarpDemo",
+ "updated": "2026-10-13T00:00:00.000Z",
+ "schedule": {
+  "program": "WarpView",
+  "repos": [
+   "smlsr/WarpDemo"
+  ],
+  "lanes": [
+   "platform",
+   "model",
+   "console",
+   "quality",
+   "release"
+  ],
+  "finishHours": 59,
+  "agentHours": 127,
+  "priority": "critical chain first, then the members and ancestors of priority gates (G2), then rank (ascending latest_start), then natural id; gate_order strict: a gate block starts when every earlier block has merged",
+  "rebuilt": "2026-10-13"
+ },
+ "gateKeys": [
+  "G0",
+  "G1",
+  "G2",
+  "G3"
+ ],
+ "gates": [
+  {
+   "key": "G0",
+   "status": "pending",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": false,
+   "starts": [],
+   "at": 4,
+   "hold": "green"
+  },
+  {
+   "key": "G1",
+   "status": "pending",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": false,
+   "starts": [],
+   "at": 22,
+   "hold": "green"
+  },
+  {
+   "key": "G2",
+   "status": "pending",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": true,
+   "starts": [
+    "WarpEdit"
+   ],
+   "at": 55,
+   "hold": "green"
+  },
+  {
+   "key": "G3",
+   "status": "pending",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": false,
+   "starts": [],
+   "at": 59,
+   "hold": "green"
+  }
+ ],
+ "overlaid": 0,
+ "skipped": 0,
+ "tickets": [
+  {
+   "id": "WV-01",
+   "title": "App scaffold: one-file build, test runner, empty page",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [],
+   "gate": "G0",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 1,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Skeleton builds (G0)",
+     "check": "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test"
+    },
+    {
+     "name": "Skeleton builds (G0)",
+     "check": "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": -0.0,
+    "merge": 4,
+    "ready": -0.0,
+    "latest_start": -0.0
+   }
+  },
+  {
+   "id": "WV-06",
+   "title": "Gate blocks: assign each ticket to a block and clear blocks",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-01"
+   ],
+   "gate": "G1",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 1,
+    "start": 4,
+    "merge": 8,
+    "ready": 4,
+    "latest_start": 4
+   }
+  },
+  {
+   "id": "WV-03",
+   "title": "Status model: sixteen Warp statuses on six colors",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-01"
+   ],
+   "gate": "G1",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 2,
+    "start": 4,
+    "merge": 8,
+    "ready": 4,
+    "latest_start": 13.5
+   }
+  },
+  {
+   "id": "WV-02",
+   "title": "Theme tokens, layout styles, dark mode, phone width and print",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-01"
+   ],
+   "gate": "G1",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 3,
+    "start": 4,
+    "merge": 8,
+    "ready": 4,
+    "latest_start": 15.5
+   }
+  },
+  {
+   "id": "WV-07",
+   "title": "Planned swimlane and actual timeline layouts",
+   "size": "L",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 11,
+   "hoursFrom": "ticket",
+   "autoMerge": false,
+   "deps": [
+    "WV-06"
+   ],
+   "gate": "G1",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 1,
+    "start": 8,
+    "merge": 19.5,
+    "ready": 8,
+    "latest_start": 8
+   }
+  },
+  {
+   "id": "WV-08",
+   "title": "Run totals: estimate, agent hours, people hours, tickets",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-03",
+    "WV-06"
+   ],
+   "gate": "G1",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 2,
+    "start": 8,
+    "merge": 15,
+    "ready": 8,
+    "latest_start": 17.5
+   }
+  },
+  {
+   "id": "WV-04",
+   "title": "Read beam, status, ticket state and export files into runs",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-03"
+   ],
+   "gate": "G1",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 3,
+    "start": 8,
+    "merge": 15,
+    "ready": 8,
+    "latest_start": 22
+   }
+  },
+  {
+   "id": "WV-05",
+   "title": "Open files and folders, drag and drop, reload and auto-reload",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-04"
+   ],
+   "gate": "G1",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Data and model match the reference (G1)",
+     "check": "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)"
+    },
+    {
+     "name": "Data and model match the reference (G1)",
+     "check": "tokens.css matches SPEC §12.1"
+    }
+   ],
+   "planned": {
+    "slot": 2,
+    "start": 15,
+    "merge": 22,
+    "ready": 15,
+    "latest_start": 29
+   }
+  },
+  {
+   "id": "WV-09",
+   "title": "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
+   "size": "XL",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 16,
+   "hoursFrom": "ticket",
+   "autoMerge": false,
+   "deps": [
+    "WV-02",
+    "WV-03",
+    "WV-07"
+   ],
+   "gate": "G2",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 1,
+    "start": 22,
+    "merge": 38.5,
+    "ready": 22,
+    "latest_start": 19.5
+   }
+  },
+  {
+   "id": "WV-10",
+   "title": "Board view: lanes by block, status, module, lane, repo or size",
+   "size": "L",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 11,
+   "hoursFrom": "ticket",
+   "autoMerge": false,
+   "deps": [
+    "WV-02",
+    "WV-03",
+    "WV-06"
+   ],
+   "gate": "G2",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 2,
+    "start": 22,
+    "merge": 33.5,
+    "ready": 22,
+    "latest_start": 24.5
+   }
+  },
+  {
+   "id": "WV-13",
+   "title": "Header, run tabs, the four totals and utilization panel",
+   "size": "L",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 11,
+   "hoursFrom": "ticket",
+   "autoMerge": false,
+   "deps": [
+    "WV-02",
+    "WV-08"
+   ],
+   "gate": "G2",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 3,
+    "start": 22,
+    "merge": 33.5,
+    "ready": 22,
+    "latest_start": 24.5
+   }
+  },
+  {
+   "id": "WV-11",
+   "title": "Table view: sortable columns with the four PR timestamps",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-02",
+    "WV-03",
+    "WV-07"
+   ],
+   "gate": "G2",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 4,
+    "start": 22,
+    "merge": 29,
+    "ready": 22,
+    "latest_start": 29
+   }
+  },
+  {
+   "id": "WV-12",
+   "title": "Ticket drawer, timestamps and bar tooltip",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-02",
+    "WV-03"
+   ],
+   "gate": "G2",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 5,
+    "start": 22,
+    "merge": 29,
+    "ready": 22,
+    "latest_start": 29
+   }
+  },
+  {
+   "id": "WV-14",
+   "title": "Filters, search, view switch, theme, keyboard and File menu",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-02",
+    "WV-03"
+   ],
+   "gate": "G2",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 6,
+    "start": 22,
+    "merge": 29,
+    "ready": 22,
+    "latest_start": 29
+   }
+  },
+  {
+   "id": "WV-15",
+   "title": "Wire the app: store, render loop, drawer, tabs, print, plugin hooks",
+   "size": "XL",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 16,
+   "hoursFrom": "ticket",
+   "autoMerge": false,
+   "deps": [
+    "WV-05",
+    "WV-09",
+    "WV-10",
+    "WV-11",
+    "WV-12",
+    "WV-13",
+    "WV-14"
+   ],
+   "gate": "G2",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "quality",
+   "repo": "smlsr/WarpDemo",
+   "wave": 5,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Panes agree (G2)",
+     "check": "Legend, cards, swimlane, board and table counts agree on every fixture"
+    },
+    {
+     "name": "Panes agree (G2)",
+     "check": "No control changes a status"
+    },
+    {
+     "name": "Panes agree (G2)",
+     "check": "createApp hooks work with a test plugin"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 38.5,
+    "merge": 55,
+    "ready": 38.5,
+    "latest_start": 36
+   }
+  },
+  {
+   "id": "WV-16",
+   "title": "Release viewer.html, README and parity check",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "WV-15"
+   ],
+   "gate": "G3",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "release",
+   "repo": "smlsr/WarpDemo",
+   "wave": 6,
+   "priorityGate": null,
+   "checks": [
+    {
+     "name": "Ship (G3)",
+     "check": "viewer.html committed, under 400 kB, parity.test.mjs green"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 55,
+    "merge": 59,
+    "ready": 55,
+    "latest_start": 52.5
+   }
+  }
+ ]
+}

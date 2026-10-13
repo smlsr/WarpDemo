@@ -19,6 +19,8 @@ SIZE_HOURS = {"S": 4, "M": 7, "L": 11, "XL": 16}
 AUTO_MERGE_SIZES = ("S", "M")          # Warp's default autoMergeSizes
 APPROVAL_HOURS = 0.5
 SLOTS = 18                             # Warp's default maxAgents
+GATE_ORDER = "strict"                  # model.gate_order: the packs run block by block (see schedule.py)
+ON_GREEN = "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json"
 
 MODULES = {
     "view": {
@@ -151,5 +153,10 @@ class Pack:
         self.tickets.append(t)
         return t
 
-    def gate(self, key, name, members, checks, if_red, blocking=True):
-        self.gates.append({"key": key, "name": name, "blocking": blocking, "members": list(members), "checks": list(checks), "if_red": if_red})
+    def gate(self, key, name, members, checks, if_red, blocking=True, scope=None, priority=False, starts=None, siblings=None, on_green=ON_GREEN):
+        """One gate of the plan. build-schedule/2 extras: scope (what a red non-blocking gate stops), priority (members
+        and their ancestors dispatch after the critical chain, ahead of rank), starts (programs that start at this
+        gate), siblings ([{program, prefix, relation}]) and on_green (the command the parent runs when it turns green)."""
+        self.gates.append({"key": key, "name": name, "blocking": blocking, "members": list(members), "checks": list(checks), "if_red": if_red,
+                           "scope": scope or ("everyone" if blocking else "members"), "priority": bool(priority), "starts": list(starts or []),
+                           "siblings": list(siblings or []), "on_green": on_green})

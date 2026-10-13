@@ -1,0 +1,327 @@
+{
+ "kind": "schedule",
+ "name": "Demo-Admin",
+ "instance": null,
+ "runState": "plan",
+ "cap": 4,
+ "gateOrder": "deps",
+ "repo": "Demo-API + Demo-UI",
+ "updated": "2026-10-12T20:00:00.000Z",
+ "schedule": {
+  "program": "Demo-Admin",
+  "repos": [
+   "Demo-API",
+   "Demo-UI"
+  ],
+  "lanes": [
+   "1 API",
+   "2 UI"
+  ],
+  "finishHours": 22,
+  "agentHours": 37,
+  "priority": "critical chain first, then the members and ancestors of priority gates (G-RBAC), then rank",
+  "rebuilt": "2026-10-12T20:00:00Z"
+ },
+ "gateKeys": [
+  "G0",
+  "G-RBAC",
+  "G1",
+  "G2"
+ ],
+ "gates": [
+  {
+   "key": "G0",
+   "status": "pending",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "make gate-close GATE=G0 PROGRAM=Demo-Admin",
+   "priority": false,
+   "starts": [],
+   "at": 7,
+   "hold": "red"
+  },
+  {
+   "key": "G-RBAC",
+   "status": "pending",
+   "blocking": false,
+   "scope": "Demo-Portal program start",
+   "onGreen": "make gate-close GATE=G-RBAC PROGRAM=Demo-Admin",
+   "priority": true,
+   "starts": [
+    "Demo-Portal"
+   ],
+   "at": 14,
+   "hold": "red"
+  },
+  {
+   "key": "G1",
+   "status": "pending",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "make gate-close GATE=G1 PROGRAM=Demo-Admin",
+   "priority": false,
+   "starts": [],
+   "at": 18,
+   "hold": "red"
+  },
+  {
+   "key": "G2",
+   "status": "pending",
+   "blocking": false,
+   "scope": "Organisation lanes",
+   "onGreen": null,
+   "priority": false,
+   "starts": [],
+   "at": 22,
+   "hold": "red"
+  }
+ ],
+ "overlaid": 0,
+ "skipped": 0,
+ "tickets": [
+  {
+   "id": "AR-00",
+   "title": "Verify the platform is ready and record the contract",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [],
+   "gate": "G0",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "1 API",
+   "repo": "Demo-API",
+   "wave": 0,
+   "priorityGate": "G-RBAC",
+   "checks": [
+    {
+     "name": "ready (G0)",
+     "check": "make ready"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": -0.0,
+    "merge": 7,
+    "ready": -0.0,
+    "latest_start": -0.0
+   }
+  },
+  {
+   "id": "AD-01",
+   "title": "Admin server: router, health, middleware chain",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "AR-00"
+   ],
+   "gate": null,
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "1 API",
+   "repo": "Demo-API",
+   "wave": 1,
+   "priorityGate": "G-RBAC",
+   "checks": [],
+   "planned": {
+    "slot": 1,
+    "start": 7,
+    "merge": 11,
+    "ready": 7,
+    "latest_start": 7
+   }
+  },
+  {
+   "id": "AD-02",
+   "title": "Roles and effective permissions endpoint",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "AR-00"
+   ],
+   "gate": "G-RBAC",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "1 API",
+   "repo": "Demo-API",
+   "wave": 1,
+   "priorityGate": "G-RBAC",
+   "checks": [
+    {
+     "name": "Roles live (G-RBAC)",
+     "check": "make rbac-ready"
+    }
+   ],
+   "planned": {
+    "slot": 2,
+    "start": 7,
+    "merge": 14,
+    "ready": 7,
+    "latest_start": 11
+   }
+  },
+  {
+   "id": "AD-03",
+   "title": "Audit writer: append-only rows from every change",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "AR-00"
+   ],
+   "gate": "G1",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "1 API",
+   "repo": "Demo-API",
+   "wave": 1,
+   "priorityGate": null,
+   "checks": [],
+   "planned": {
+    "slot": 3,
+    "start": 7,
+    "merge": 11,
+    "ready": 7,
+    "latest_start": 18
+   }
+  },
+  {
+   "id": "AU-01",
+   "title": "Admin app shell and login page",
+   "size": "M",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 7,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "AD-01"
+   ],
+   "gate": "G1",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "2 UI",
+   "repo": "Demo-UI",
+   "wave": 2,
+   "priorityGate": null,
+   "checks": [
+    {
+     "name": "ui shell",
+     "check": "pnpm --filter admin test && pnpm --filter admin build"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 11,
+    "merge": 18,
+    "ready": 11,
+    "latest_start": 11
+   }
+  },
+  {
+   "id": "AU-02",
+   "title": "Roles page: who can do what",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "AD-02"
+   ],
+   "gate": "G2",
+   "critical": false,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "2 UI",
+   "repo": "Demo-UI",
+   "wave": 2,
+   "priorityGate": null,
+   "checks": [],
+   "planned": {
+    "slot": 2,
+    "start": 14,
+    "merge": 18,
+    "ready": 14,
+    "latest_start": 18
+   }
+  },
+  {
+   "id": "AD-04",
+   "title": "Organisation API on the admin shell",
+   "size": "S",
+   "status": "queued",
+   "cat": "todo",
+   "hours": 4,
+   "hoursFrom": "ticket",
+   "autoMerge": true,
+   "deps": [
+    "AU-01"
+   ],
+   "gate": "G2",
+   "critical": true,
+   "jiraKey": null,
+   "prUrl": null,
+   "minutes": 0,
+   "tokens": 0,
+   "cost": null,
+   "stateNote": null,
+   "lane": "1 API",
+   "repo": "Demo-API",
+   "wave": 3,
+   "priorityGate": null,
+   "checks": [],
+   "planned": {
+    "slot": 1,
+    "start": 18,
+    "merge": 22,
+    "ready": 18,
+    "latest_start": 18
+   }
+  }
+ ]
+}

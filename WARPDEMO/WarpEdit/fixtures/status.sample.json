@@ -1,5 +1,5 @@
 {
- "updatedAt": "2026-10-13T12:10:06Z",
+ "updatedAt": "2026-10-13T14:26:05Z",
  "instance": {
   "tag": "warp:4e7a21",
   "id": "4e7a21",
@@ -148,7 +148,7 @@
   {
    "id": "WV-10",
    "status": "merged",
-   "summary": "Board view: lanes by block, status, module or size",
+   "summary": "Board view: lanes by block, status, module, lane, repo or size",
    "size": "L",
    "autoMerge": false,
    "pr": "https://github.com/smlsr/WarpDemo/pull/60",
@@ -316,6 +316,6 @@
   "byModule": {
    "WarpView": 16
   },
-  "computedAt": "2026-10-13T12:10:06Z"
+  "computedAt": "2026-10-13T14:26:05Z"
  }
 }

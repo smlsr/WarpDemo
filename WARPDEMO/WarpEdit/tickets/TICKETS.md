@@ -225,7 +225,7 @@ Size **M** (7h) · gate **G1** · lane model · slot 1 · T+29.5h → T+36.5h ·
 
 1. Create `WARPDEMO/WarpEdit/app/src/edit/save/save.mjs` per SPEC §9.
 2. `serialize(loaded, working)`: a beam keeps every key of the loaded beam, with each ticket's status, events and resets from the working copy and `editedAt` and `editedBy: 'warpedit'` added at top level; a `kind: warp-plan` export keeps its shape, gets each ticket's status and resets and a new `exportedAt`.
-3. status.json input cannot be saved (message: open beam.json).
+3. status.json and a plan's schedule.json (build-schedule/2) cannot be saved (messages of SPEC §9); a beam scanned from a schedule keeps its lane, repo, priority gate, checks and planned fields untouched.
 4. File name: the loaded name.
 5. `download(name, text)` with a Blob.
 6. `asCommands(changes)`: one line per change `python3 .cursor/plugins/warp/scripts/beam.py set --beam .warp/beam.json --id <id> --status <to>`, dependents included, in order.
@@ -237,7 +237,8 @@ Size **M** (7h) · gate **G1** · lane model · slot 1 · T+29.5h → T+36.5h ·
 - **AC-2** (happy) Given `WARPDEMO/WarpEdit/fixtures/WARP_PLAN.sample.json` with the same reset, when serialized, then kind stays warp-plan, the ticket has status coding and resets, and jiraKey is kept.
 - **AC-3** (happy) Given the reset and two blocked dependents, when asCommands runs, then three beam.py set lines result in that order.
 - **AC-4** (negative) Given `WARPDEMO/WarpEdit/fixtures/status.sample.json` loaded, when Save is asked, then it refuses with 'Open beam.json to save edits'.
-- **AC-5** (happy) Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then save.test.mjs passes.
+- **AC-5** (edge) Given `WARPDEMO/WarpView/plan/schedule.json` loaded, when Save is asked, then it refuses with 'schedule.json is the plan: open beam.json to save edits'; given `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, the saved WV-07 keeps planned, lane and priorityGate as loaded.
+- **AC-6** (happy) Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then save.test.mjs passes.
 
 **Locks.** `WARPDEMO/WarpEdit/app/src/edit/save/`
 
@@ -256,6 +257,7 @@ Size **M** (7h) · gate **G2** · lane console · slot 2 · T+36.5h → T+43.5h 
 3. Reset → confirmReset → store.apply with the dependents plan.
 4. 'Reset log': every entry of resets[] (from the file) and session changes not yet saved, newest first, with from → to, time and note; unsaved entries marked.
 5. The drawer re-renders after each change.
+6. A run of kind schedule (a plan's schedule.json) shows only the line 'schedule.json is the plan: open beam.json to reset a phase'.
 
 **Acceptance.**
 
@@ -263,7 +265,8 @@ Size **M** (7h) · gate **G2** · lane console · slot 2 · T+36.5h → T+43.5h 
 - **AC-2** (happy) Given coding chosen and confirmed with a note, when applied, then the drawer shows status coding and a reset log entry with the note, marked unsaved.
 - **AC-3** (edge) Given `WARPDEMO/WarpEdit/fixtures/expected/saved.beam.json` loaded, when WV-07's drawer opens, then the reset log lists the saved entry, not marked unsaved.
 - **AC-4** (negative) Given the confirm dialog cancelled, when the drawer re-renders, then status and log are unchanged.
-- **AC-5** (happy) Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then panel.test.mjs passes.
+- **AC-5** (edge) Given `WARPDEMO/WarpView/plan/schedule.json` loaded, when WV-07's drawer opens, then the Reset section holds only 'schedule.json is the plan: open beam.json to reset a phase' and no select or button.
+- **AC-6** (happy) Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then panel.test.mjs passes.
 
 **Locks.** `WARPDEMO/WarpEdit/app/src/edit/drawer-panel/`
 
@@ -338,7 +341,7 @@ Size **M** (7h) · gate **G2** · lane console · slot 3 · T+36.5h → T+43.5h 
 2. Save button: disabled when nothing is unsaved or validate has errors; on click serialize, download, `markSaved()` and toast 'Saved <name> (n changes)'.
 3. Validation banner under the header when errors exist: each error with its ticket id as a button that opens the drawer; warnings in a lighter style.
 4. 'Copy as commands' copies asCommands() to the clipboard and toasts the line count.
-5. A status.json load shows Save disabled with the reason as tooltip.
+5. A status.json or schedule.json load shows Save disabled with the reason of SPEC §7.4 as tooltip.
 
 **Acceptance.**
 

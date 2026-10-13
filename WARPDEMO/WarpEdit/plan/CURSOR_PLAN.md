@@ -8,12 +8,13 @@ One orchestrator (Warp, run **edit**) drives up to 18 agents; every ticket merge
 
 1. One ticket = one agent = one branch = one PR. Start an agent with `Implement <ID>`. Branch `warp/edit/<ID>-<jira>` (Warp names it).
 2. The pack (`WARPDEMO/WarpEdit/spec`, `plan`, `tickets`, `fixtures`, `ui`) is read-only. Code goes under the ticket's lock paths inside `WARPDEMO/WarpEdit/app/`.
-3. Ready = every blocker merged; with `gateOrder: strict` (Warp's default) a gate block starts when every earlier block has merged.
+3. Ready = every blocker merged; a gate block starts when every earlier block has merged. The schedule says so (`model.gate_order: strict`), so Warp 1.6.2 keeps its block order for this build-schedule/2 file instead of treating gates as milestones.
 4. Two tickets in flight never share a lock path. Append-only files (keep both sides on conflict): `WARPDEMO/WarpEdit/app/src/plugins.mjs`.
 5. Sizes S, M auto-merge after Bugbot; L and XL wait for APPROVED (0.5 h in the plan).
 6. Tests: `npm --prefix WARPDEMO/WarpEdit/app test` must be green before a PR is opened. Each AC has a test.
-7. Priority: ★ critical chain first, then rank, then id.
-8. This run starts after **view:G2** (`startAfter: view:G2` in its config). WE-01 is blocked by view:WV-15 in the other run.
+7. Priority: ★ critical chain first, then the members and ancestors of a priority gate (none in this run), then rank, then id.
+8. When a gate turns green Warp prints its `on_green` command for the parent to run (`blocks.py show`, the block summary) and the programs it starts.
+9. This run starts after **view:G2** (`startAfter: view:G2` in its config). WE-01 is blocked by view:WV-15 in the other run.
 
 ## Day 0
 
@@ -30,12 +31,12 @@ One orchestrator (Warp, run **edit**) drives up to 18 agents; every ticket merge
 
 ## Gates
 
-| Gate | Name | Members | Reached | Checks | If red |
-|---|---|---|---|---|---|
-| G0 | Editor builds, viewer untouched | WE-01 | T+4h | npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green); app/dist/editor.html opens with the Editing badge | Stop the edit run: the viewer can change a phase or the editor cannot import it. |
-| G1 | Reset is safe | WE-02, WE-03, WE-04, WE-05, WE-06, WE-07, WE-08, WE-09 | T+36.5h | reset, dependents, validate and save equal fixtures/expected; undo restores the loaded ticket exactly | Do not build screens on a reset that loses data. |
-| G2 | Editor screens | WE-10, WE-11, WE-12, WE-13 | T+64.5h | Drawer reset, header actions, banner and scrubber match ui/screens; Totals follow a reset | Fix before release. |
-| G3 | Ship | WE-14 | T+76h | editor.html committed; round trip green; viewer audit green | Do not announce the editor until the round trip is green. |
+| Gate | Name | Members | Reached | Checks | If red | Priority · starts |
+|---|---|---|---|---|---|---|
+| G0 | Editor builds, viewer untouched | WE-01 | T+4h | npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green); app/dist/editor.html opens with the Editing badge | Stop the edit run: the viewer can change a phase or the editor cannot import it. | — |
+| G1 | Reset is safe | WE-02, WE-03, WE-04, WE-05, WE-06, WE-07, WE-08, WE-09 | T+36.5h | reset, dependents, validate and save equal fixtures/expected; undo restores the loaded ticket exactly | Do not build screens on a reset that loses data. | — |
+| G2 | Editor screens | WE-10, WE-11, WE-12, WE-13 | T+64.5h | Drawer reset, header actions, banner and scrubber match ui/screens; Totals follow a reset | Fix before release. | — |
+| G3 | Ship | WE-14 | T+76h | editor.html committed; round trip green; viewer audit green | Do not announce the editor until the round trip is green. | — |
 
 ## Dependency levels
 

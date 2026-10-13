@@ -8,11 +8,12 @@ One orchestrator (Warp, run **view**) drives up to 18 agents; every ticket merge
 
 1. One ticket = one agent = one branch = one PR. Start an agent with `Implement <ID>`. Branch `warp/view/<ID>-<jira>` (Warp names it).
 2. The pack (`WARPDEMO/WarpView/spec`, `plan`, `tickets`, `fixtures`, `ui`) is read-only. Code goes under the ticket's lock paths inside `WARPDEMO/WarpView/app/`.
-3. Ready = every blocker merged; with `gateOrder: strict` (Warp's default) a gate block starts when every earlier block has merged.
+3. Ready = every blocker merged; a gate block starts when every earlier block has merged. The schedule says so (`model.gate_order: strict`), so Warp 1.6.2 keeps its block order for this build-schedule/2 file instead of treating gates as milestones.
 4. Two tickets in flight never share a lock path. Append-only files (keep both sides on conflict): none.
 5. Sizes S, M auto-merge after Bugbot; L and XL wait for APPROVED (0.5 h in the plan).
 6. Tests: `npm --prefix WARPDEMO/WarpView/app test` must be green before a PR is opened. Each AC has a test.
-7. Priority: ★ critical chain first, then rank, then id.
+7. Priority: ★ critical chain first, then the members and ancestors of a priority gate (G2), then rank, then id.
+8. When a gate turns green Warp prints its `on_green` command for the parent to run (`blocks.py show`, the block summary) and the programs it starts.
 
 ## Day 0
 
@@ -29,12 +30,12 @@ One orchestrator (Warp, run **view**) drives up to 18 agents; every ticket merge
 
 ## Gates
 
-| Gate | Name | Members | Reached | Checks | If red |
-|---|---|---|---|---|---|
-| G0 | Skeleton builds | WV-01 | T+4h | npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test; npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty | Stop: nothing else can be tested until the build and test runner work. |
-| G1 | Data and model match the reference | WV-02, WV-03, WV-04, WV-05, WV-06, WV-07, WV-08 | T+22h | npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected); tokens.css matches SPEC §12.1 | Do not start the views on a model that disagrees with fixtures/expected; fix the model first. |
-| G2 | Panes agree | WV-09, WV-10, WV-11, WV-12, WV-13, WV-14, WV-15 | T+55h | Legend, cards, swimlane, board and table counts agree on every fixture; No control changes a status; createApp hooks work with a test plugin | WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting. |
-| G3 | Ship | WV-16 | T+59h | viewer.html committed, under 400 kB, parity.test.mjs green | Do not announce the viewer until parity is green. |
+| Gate | Name | Members | Reached | Checks | If red | Priority · starts |
+|---|---|---|---|---|---|---|
+| G0 | Skeleton builds | WV-01 | T+4h | npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test; npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty | Stop: nothing else can be tested until the build and test runner work. | — |
+| G1 | Data and model match the reference | WV-02, WV-03, WV-04, WV-05, WV-06, WV-07, WV-08 | T+22h | npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected); tokens.css matches SPEC §12.1 | Do not start the views on a model that disagrees with fixtures/expected; fix the model first. | — |
+| G2 | Panes agree | WV-09, WV-10, WV-11, WV-12, WV-13, WV-14, WV-15 | T+55h | Legend, cards, swimlane, board and table counts agree on every fixture; No control changes a status; createApp hooks work with a test plugin | WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting. | priority · starts WarpEdit |
+| G3 | Ship | WV-16 | T+59h | viewer.html committed, under 400 kB, parity.test.mjs green | Do not announce the viewer until parity is green. | — |
 
 ## Dependency levels
 
@@ -55,7 +56,7 @@ Tickets in one level can run in parallel (∥) unless their gate block is not op
 - **WV-07** ★ Planned swimlane and actual timeline layouts · L·11h · gate G1 · rank 3 · after WV-06 · locks `WARPDEMO/WarpView/app/src/model/plan/`
 - **WV-08** Run totals: estimate, agent hours, people hours, tickets · M·7h · gate G1 · rank 6 · after WV-03, WV-06 · locks `WARPDEMO/WarpView/app/src/model/metrics/`
 - **WV-04** Read beam, status, ticket state and export files into runs · M·7h · gate G1 · rank 8 · after WV-03 · locks `WARPDEMO/WarpView/app/src/load/parse/`
-- **WV-10** Board view: lanes by block, status, module or size · L·11h · gate G2 · rank 9 · after WV-02, WV-03, WV-06 · locks `WARPDEMO/WarpView/app/src/view/board/`
+- **WV-10** Board view: lanes by block, status, module, lane, repo or size · L·11h · gate G2 · rank 9 · after WV-02, WV-03, WV-06 · locks `WARPDEMO/WarpView/app/src/view/board/`
 - **WV-12** Ticket drawer, timestamps and bar tooltip · M·7h · gate G2 · rank 13 · after WV-02, WV-03 · locks `WARPDEMO/WarpView/app/src/view/drawer/`
 - **WV-14** Filters, search, view switch, theme, keyboard and File menu · M·7h · gate G2 · rank 14 · after WV-02, WV-03 · locks `WARPDEMO/WarpView/app/src/view/controls/`
 
@@ -87,7 +88,7 @@ Tickets in one level can run in parallel (∥) unless their gate block is not op
 | WV-07 | L | G1 | WV-06 | Planned swimlane and actual timeline layouts |
 | WV-08 | M | G1 | WV-03, WV-06 | Run totals: estimate, agent hours, people hours, tickets |
 | WV-09 | XL | G2 | WV-02, WV-03, WV-07 | Swimlane view: slots, time axis, gates, bars, zoom, actual clock |
-| WV-10 | L | G2 | WV-02, WV-03, WV-06 | Board view: lanes by block, status, module or size |
+| WV-10 | L | G2 | WV-02, WV-03, WV-06 | Board view: lanes by block, status, module, lane, repo or size |
 | WV-11 | M | G2 | WV-02, WV-03, WV-07 | Table view: sortable columns with the four PR timestamps |
 | WV-12 | M | G2 | WV-02, WV-03 | Ticket drawer, timestamps and bar tooltip |
 | WV-13 | L | G2 | WV-02, WV-08 | Header, run tabs, the four totals and utilization panel |

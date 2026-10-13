@@ -102,6 +102,7 @@ Size **M** (7h) · gate **G1** · lane model · slot 3 · T+8h → T+15h · bloc
 4. `runFromStatus` for status.json alone (no gates, hours from size).
 5. `applyState(ticket, state)` per §3.3: only an open ticket, only when newer, never undoes a merge, copies the PR url and alarm.
 6. `buildRuns(docs, extra)` per §3.2: one run per name, else instance, else folder; the newer copy wins; status.json joins its run; ticket states attach by folder then by id; repo from the first PR url; returns `{runs, skipped, overlaid, states}`.
+7. `runFromSchedule(doc)` for a plan's build-schedule/2 schedule.json per §3.5: kind schedule, key `sched:<program>`, every ticket queued with its lane, repo, wave, priority gate, merge checks and planned slot/start/merge; gates with scope, on green, priority, starts, at and hold; gate order strict only when `model.gate_order` says so. runFromBeam reads the same ticket and gate fields from a beam Warp 1.6.2 scanned from such a file.
 
 **Acceptance.**
 
@@ -109,12 +110,14 @@ Size **M** (7h) · gate **G1** · lane model · slot 3 · T+8h → T+15h · bloc
 - **AC-2** (happy) Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and `WARPDEMO/WarpView/fixtures/tickets/WV-11/state.json` (state coding, newer), when buildRuns runs, then WV-11 has status coding, stateNote set, and overlaid is 1.
 - **AC-3** (edge) Given `WARPDEMO/WarpView/fixtures/runs/view/beam.json` and `WARPDEMO/WarpView/fixtures/runs/edit/beam.json` plus an older copy of the view beam, when buildRuns runs, then two runs result, sorted by name, and the newer view copy is kept.
 - **AC-4** (edge) Given only `WARPDEMO/WarpView/fixtures/status.sample.json`, when buildRuns runs, then one run of kind status results with no gates and hours taken from size (S=4, M=7, L=11, XL=16).
-- **AC-5** (negative) Given a JSON file with neither tickets nor done/working/left nor id+state, when buildRuns runs, then it is counted in skipped and creates no run; a merged ticket with a newer state.json saying coding stays merged.
-- **AC-6** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then parse.test.mjs passes against every fixture under `WARPDEMO/WarpView/fixtures/`.
+- **AC-5** (happy) Given `WARPDEMO/WarpView/plan/schedule.json`, when buildRuns runs, then one run of kind schedule named WarpView results, gateOrder strict, every ticket queued with lane, repo, priorityGate and planned as in `WARPDEMO/WarpView/fixtures/expected/schedule.run.json`.
+- **AC-6** (edge) Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json` (no model.gate_order), when buildRuns runs, then gateOrder is deps, every gate holds red, repo reads 'Demo-API + Demo-UI', AD-02 has priorityGate G-RBAC and one check {name, check} — `WARPDEMO/WarpView/fixtures/expected/two-repos.run.json`.
+- **AC-7** (negative) Given a JSON file with neither tickets nor done/working/left nor id+state, when buildRuns runs, then it is counted in skipped and creates no run; a merged ticket with a newer state.json saying coding stays merged.
+- **AC-8** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then parse.test.mjs passes against every fixture under `WARPDEMO/WarpView/fixtures/`.
 
 **Locks.** `WARPDEMO/WarpView/app/src/load/parse/`
 
-**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Expected output: view.run.json](../../../WARPDEMO/WarpView/fixtures/expected/view.run.json)
+**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Expected output: view.run.json](../../../WARPDEMO/WarpView/fixtures/expected/view.run.json) · [Expected output: schedule.run.json](../../../WARPDEMO/WarpView/fixtures/expected/schedule.run.json) · [Expected output: two-repos.run.json](../../../WARPDEMO/WarpView/fixtures/expected/two-repos.run.json)
 
 ## WV-05 — Open files and folders, drag and drop, reload and auto-reload
 
@@ -156,7 +159,7 @@ Size **S** (4h) · gate **G1** · lane model · slot 1 · T+4h → T+8h · ★ c
 **What.**
 
 1. Create `WARPDEMO/WarpView/app/src/model/blocks/blocks.mjs`, a port of Warp's scripts/blocks.py as specified in SPEC §6.
-2. `gateKeys(run)`: G-number keys in numeric order, then other keys in plan order.
+2. `gateKeys(run)`: by `at` when every gate has one (build-schedule/2; ties by G-number, then plan order), else G-number keys in numeric order, then other keys in plan order.
 3. `assignBlocks(run)`: a ticket's block is its own gate when that gate exists, else the lowest gate that lists it as a member, else the highest block among its dependencies (cycles cut), else the first block; with no gates every block is null.
 4. `blockStates(run)`: per block the ticket ids, counts of merged, open, parked and queued, the gate status and `cleared` (every ticket merged, done or skipped and the gate not red).
 5. Sets `run.blockRank`.
@@ -165,13 +168,14 @@ Size **S** (4h) · gate **G1** · lane model · slot 1 · T+4h → T+8h · ★ c
 
 - **AC-1** (happy) Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when assignBlocks runs, then every ticket's block equals `WARPDEMO/WarpView/fixtures/expected/view.blocks.json`.
 - **AC-2** (happy) Given `WARPDEMO/WarpView/fixtures/big/beam.sample.json` (68 tickets, gates G0–G5), when assignBlocks runs, then the result equals `WARPDEMO/WarpView/fixtures/expected/big.blocks.json`.
-- **AC-3** (edge) Given a ticket with no gate, no membership and a dependency cycle A→B→A, when assignBlocks runs, then it terminates and both get the highest block of their other dependencies or the first block.
-- **AC-4** (negative) Given a run with no gates, when blockStates runs, then it returns an empty list and every ticket's block is null.
-- **AC-5** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then blocks.test.mjs passes.
+- **AC-3** (edge) Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json`, where every gate has `at`, when gateKeys runs, then the order is G0, G-RBAC, G1, G2 and the blocks equal `WARPDEMO/WarpView/fixtures/expected/two-repos.blocks.json`.
+- **AC-4** (edge) Given a ticket with no gate, no membership and a dependency cycle A→B→A, when assignBlocks runs, then it terminates and both get the highest block of their other dependencies or the first block.
+- **AC-5** (negative) Given a run with no gates, when blockStates runs, then it returns an empty list and every ticket's block is null.
+- **AC-6** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then blocks.test.mjs passes.
 
 **Locks.** `WARPDEMO/WarpView/app/src/model/blocks/`
 
-**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Expected output: view.blocks.json](../../../WARPDEMO/WarpView/fixtures/expected/view.blocks.json) · [Expected output: big.blocks.json](../../../WARPDEMO/WarpView/fixtures/expected/big.blocks.json)
+**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Expected output: view.blocks.json](../../../WARPDEMO/WarpView/fixtures/expected/view.blocks.json) · [Expected output: big.blocks.json](../../../WARPDEMO/WarpView/fixtures/expected/big.blocks.json) · [Expected output: two-repos.blocks.json](../../../WARPDEMO/WarpView/fixtures/expected/two-repos.blocks.json)
 
 ## WV-07 — Planned swimlane and actual timeline layouts
 
@@ -182,23 +186,25 @@ Size **L** (11h) · gate **G1** · lane model · slot 1 · T+8h → T+19.5h · �
 **What.**
 
 1. Create `WARPDEMO/WarpView/app/src/model/plan/plan.mjs` per SPEC §7 and §8.
-2. `plan(run)`: list scheduling with `run.cap` slots (maxAgents, default 18); a ticket is ready when every in-run dependency has merged (merge = end plus 0.5 h when its size is not auto-merged) and, with gateOrder strict, every earlier block has merged; ready tickets sorted critical first, starred, rank, longest downstream chain, natural id; lowest free slot. Sets `slot start end mergeAt` per ticket and `finish peak slots waves critHours critCount gateAt` on the run; tickets that can never be ready are laid after everything and flagged `unplaced`.
-3. `layoutPlan(run)` and `layoutActual(run, now)` returning `{prefix, label, rows, span, now, unstarted, items, gates}` (§8): actual bars run from claimedAt (else PR opened, else first event) to mergedAt (else now) and pack into the lowest free row.
+2. When every ticket has `planned` slot, start and merge (a schedule.json, or a beam scanned from one), `plan(run)` draws it as written and sets planSource schedule; gateAt comes from each gate's `at`. Otherwise:
+3. `plan(run)`: list scheduling with `run.cap` slots (maxAgents, default 18); a ticket is ready when every in-run dependency has merged (merge = end plus 0.5 h when its size is not auto-merged) and, with gateOrder strict, every earlier block has merged; ready tickets sorted critical first, starred, priority gate path, rank, longest downstream chain, natural id; lowest free slot. Sets `slot start end mergeAt` per ticket and `finish peak slots waves critHours critCount gateAt` on the run; tickets that can never be ready are laid after everything and flagged `unplaced`.
+4. `layoutPlan(run)` and `layoutActual(run, now)` returning `{prefix, label, rows, span, now, unstarted, items, gates}` (§8): actual bars run from claimedAt (else PR opened, else first event) to mergedAt (else now) and pack into the lowest free row.
 
 **Acceptance.**
 
 - **AC-1** (happy) Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when plan runs, then slot, start and mergeAt of every ticket and finish, peak, slots and gateAt equal `WARPDEMO/WarpView/fixtures/expected/view.plan.json` to 0.01 h.
 - **AC-2** (happy) Given `WARPDEMO/WarpView/fixtures/big/beam.sample.json`, when plan runs, then the result equals `WARPDEMO/WarpView/fixtures/expected/big.plan.json` (finish T+177, peak 10, 10 slots).
-- **AC-3** (edge) Given gateOrder deps on the same big beam, when plan runs, then no block waits for an earlier block and the finish is earlier than the strict finish.
-- **AC-4** (edge) Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and now = 2026-10-12T20:00:00Z, when layoutActual runs, then items, rows, unstarted and the now line equal `WARPDEMO/WarpView/fixtures/expected/view.actual.json`.
-- **AC-5** (negative) Given a dependency cycle, when plan runs, then it returns within 100 ms, every ticket has a slot and the cycle members are flagged unplaced.
-- **AC-6** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then plan.test.mjs passes.
+- **AC-3** (happy) Given `WARPDEMO/WarpView/plan/schedule.json`, when plan runs, then every slot, start and mergeAt equals the schedule's own slot, start and merge, finish equals numbers.finish_h and planSource is schedule — `WARPDEMO/WarpView/fixtures/expected/schedule.plan.json`.
+- **AC-4** (edge) Given gateOrder deps on the same big beam, when plan runs, then no block waits for an earlier block and the finish is earlier than the strict finish.
+- **AC-5** (edge) Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and now = 2026-10-12T20:00:00Z, when layoutActual runs, then items, rows, unstarted and the now line equal `WARPDEMO/WarpView/fixtures/expected/view.actual.json`.
+- **AC-6** (negative) Given a dependency cycle, when plan runs, then it returns within 100 ms, every ticket has a slot and the cycle members are flagged unplaced.
+- **AC-7** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then plan.test.mjs passes.
 
 **Locks.** `WARPDEMO/WarpView/app/src/model/plan/`
 
-**Screens.** `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`, `WARPDEMO/WarpView/ui/screens/swimlane-actual.png`
+**Screens.** `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`, `WARPDEMO/WarpView/ui/screens/swimlane-actual.png`, `WARPDEMO/WarpView/ui/screens/schedule-plan.png`
 
-**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Expected output: view.plan.json](../../../WARPDEMO/WarpView/fixtures/expected/view.plan.json) · [Expected output: big.plan.json](../../../WARPDEMO/WarpView/fixtures/expected/big.plan.json) · [Expected output: view.actual.json](../../../WARPDEMO/WarpView/fixtures/expected/view.actual.json) · [Swimlane, plan clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-plan.png) · [Swimlane, actual clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-actual.png)
+**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Expected output: view.plan.json](../../../WARPDEMO/WarpView/fixtures/expected/view.plan.json) · [Expected output: big.plan.json](../../../WARPDEMO/WarpView/fixtures/expected/big.plan.json) · [Expected output: view.actual.json](../../../WARPDEMO/WarpView/fixtures/expected/view.actual.json) · [Expected output: schedule.plan.json](../../../WARPDEMO/WarpView/fixtures/expected/schedule.plan.json) · [Expected output: two-repos.plan.json](../../../WARPDEMO/WarpView/fixtures/expected/two-repos.plan.json) · [Swimlane, plan clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-plan.png) · [Swimlane, actual clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-actual.png) · [A plan's schedule.json](../../../WARPDEMO/WarpView/ui/screens/schedule-plan.png)
 
 ## WV-08 — Run totals: estimate, agent hours, people hours, tickets
 
@@ -236,8 +242,9 @@ Size **XL** (16h) · gate **G2** · lane console · slot 1 · T+22h → T+38.5h 
 1. Create `WARPDEMO/WarpView/app/src/view/swimlane/swimlane.mjs` and `swimlane.css` per SPEC §10.6.
 2. `renderSwimlane(run, layout, opts)` returns HTML: sticky slot labels, a gate row with labels left of each line (labels that collide lift to a second row; names only when there is room; gates reached together share 'G2 · G8'), an axis row (T+ or + labels at steps 1,2,5,10,20,25,50,100,200 so ticks are at least 56 px apart), grid lines, gate lines (red bold when red, green when green), the now line on the actual clock, and one bar per item: left accent and tint in the status color, id with ★ for critical, size·hours, title, ⚠ for an alarm, ✗ for red CI, a tiny form under 70 px, dim when filtered out, outline when a search hits.
 3. Zoom: fit to width times 6^(zoom/100); print width fit.
-4. The Plan/Actual toggle in the panel header.
-5. `tooltipFor(ticket)`.
+4. The Plan/Actual toggle in the panel header and its note ('as written in schedule.json' for a schedule plan).
+5. `tooltipFor(ticket)`, and the gate tooltip with scope, priority, starts, checks, on green and if red.
+6. Color by Lane uses the lane's hue (else the module's).
 
 **Acceptance.**
 
@@ -250,11 +257,11 @@ Size **XL** (16h) · gate **G2** · lane console · slot 1 · T+22h → T+38.5h 
 
 **Locks.** `WARPDEMO/WarpView/app/src/view/swimlane/`
 
-**Screens.** `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`, `WARPDEMO/WarpView/ui/screens/swimlane-actual.png`, `WARPDEMO/WarpView/ui/screens/print.png`, `WARPDEMO/WarpView/ui/screens/phone.png`
+**Screens.** `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`, `WARPDEMO/WarpView/ui/screens/swimlane-actual.png`, `WARPDEMO/WarpView/ui/screens/print.png`, `WARPDEMO/WarpView/ui/screens/phone.png`, `WARPDEMO/WarpView/ui/screens/schedule-plan.png`
 
-**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Design of record (reference page)](../../../WARPDEMO/WarpView/ui/reference/warp-dashboard.html) · [Expected output: view.plan.json](../../../WARPDEMO/WarpView/fixtures/expected/view.plan.json) · [Swimlane, plan clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-plan.png) · [Swimlane, actual clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-actual.png) · [Print](../../../WARPDEMO/WarpView/ui/screens/print.png) · [Phone width](../../../WARPDEMO/WarpView/ui/screens/phone.png)
+**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Design of record (reference page)](../../../WARPDEMO/WarpView/ui/reference/warp-dashboard.html) · [Expected output: view.plan.json](../../../WARPDEMO/WarpView/fixtures/expected/view.plan.json) · [Swimlane, plan clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-plan.png) · [Swimlane, actual clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-actual.png) · [Print](../../../WARPDEMO/WarpView/ui/screens/print.png) · [Phone width](../../../WARPDEMO/WarpView/ui/screens/phone.png) · [A plan's schedule.json](../../../WARPDEMO/WarpView/ui/screens/schedule-plan.png)
 
-## WV-10 — Board view: lanes by block, status, module or size
+## WV-10 — Board view: lanes by block, status, module, lane, repo or size
 
 Size **L** (11h) · gate **G2** · lane console · slot 2 · T+22h → T+33.5h · blocked by WV-02, WV-03, WV-06
 
@@ -263,7 +270,7 @@ Size **L** (11h) · gate **G2** · lane console · slot 2 · T+22h → T+33.5h �
 **What.**
 
 1. Create `WARPDEMO/WarpView/app/src/view/board/board.mjs` and `board.css` per SPEC §10.7.
-2. `lanesFor(runs, groupBy)` for block (gate order, or 'All tickets' without gates), status (the six categories), module (natural order) and size (S, M, L, XL, No size); with several runs the block lanes are prefixed by run label.
+2. `lanesFor(runs, groupBy)` for block (gate order, or 'All tickets' without gates), status (the six categories), module, lane (else module, else 'No lane') and repo ('No repo'), all natural order, and size (S, M, L, XL, No size); with several runs the block lanes are prefixed by run label. A priority gate's lane shows a 'priority' pill and a gate that starts other programs shows 'starts <programs>'.
 3. Lane header: chevron, name and gate name, gate pill (status and greenAt, tooltip with evidence, checks and if-red), cleared pill, 'n/m done', agent hours, a stack bar, 'k shown' when filtered. Cleared block lanes start collapsed when there is more than one lane; the person's choice wins after that.
 4. Card: id with ★, size badge, status text in its color, two-line title, est, spent, 'PR #n ↗', Jira key linked to `<jiraSite>/browse/<key>` when jiraSite is set, CI, alarm line.
 
@@ -272,14 +279,15 @@ Size **L** (11h) · gate **G2** · lane console · slot 2 · T+22h → T+33.5h �
 - **AC-1** (happy) Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when rendered by block, then four lanes G0–G3 appear, G0 is collapsed and cleared, and the result matches `WARPDEMO/WarpView/ui/screens/board.png`.
 - **AC-2** (happy) Given groupBy status, when rendered, then six lanes appear in the CATS order with counts that equal the legend counts.
 - **AC-3** (edge) Given jiraSite is empty, when a card renders, then the Jira key is plain text, not a link; given 'acme.atlassian.net', then the link is https://acme.atlassian.net/browse/<key>.
-- **AC-4** (negative) Given a filter that hides every ticket in a lane, when rendered, then the lane shows '0 shown' and no cards, and the other lanes are unchanged.
-- **AC-5** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then board.test.mjs passes.
+- **AC-4** (edge) Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json` grouped by Repo, when rendered, then two lanes Demo-API and Demo-UI appear as in `WARPDEMO/WarpView/ui/screens/schedule-repos.png`; grouped by block, the G-RBAC lane shows the pills 'priority' and 'starts Demo-Portal' and its gate tooltip names its scope and on-green command.
+- **AC-5** (negative) Given a filter that hides every ticket in a lane, when rendered, then the lane shows '0 shown' and no cards, and the other lanes are unchanged.
+- **AC-6** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then board.test.mjs passes.
 
 **Locks.** `WARPDEMO/WarpView/app/src/view/board/`
 
-**Screens.** `WARPDEMO/WarpView/ui/screens/board.png`
+**Screens.** `WARPDEMO/WarpView/ui/screens/board.png`, `WARPDEMO/WarpView/ui/screens/schedule-repos.png`
 
-**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Design of record (reference page)](../../../WARPDEMO/WarpView/ui/reference/warp-dashboard.html) · [Board](../../../WARPDEMO/WarpView/ui/screens/board.png)
+**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Design of record (reference page)](../../../WARPDEMO/WarpView/ui/reference/warp-dashboard.html) · [Board](../../../WARPDEMO/WarpView/ui/screens/board.png) · [Two-repo schedule](../../../WARPDEMO/WarpView/ui/screens/schedule-repos.png)
 
 ## WV-11 — Table view: sortable columns with the four PR timestamps
 
@@ -319,7 +327,7 @@ Size **M** (7h) · gate **G2** · lane console · slot 5 · T+22h → T+29h · b
 **What.**
 
 1. Create `WARPDEMO/WarpView/app/src/view/drawer/drawer.mjs` and `drawer.css` per SPEC §10.10.
-2. `renderDrawer(ticket, run, sections)`: header with the status color bar, id with ★ and title; key/value list in the order of §10.10 (alarm first when present); 'Timestamps' with Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment, Updated (each stamp() plus the raw value, '—' when missing); Depends on and Locks as tags; Events, newest first, at most
+2. `renderDrawer(ticket, run, sections)`: header with the status color bar, id with ★ and title; key/value list in the order of §10.10 (alarm first when present; Lane / repo, Priority gate and Schedule only when the ticket has them); 'Checks when it merges' when the ticket has checks; 'Timestamps' with Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment, Updated (each stamp() plus the raw value, '—' when missing); Depends on and Locks as tags; Events, newest first, at most
 3. Extra sections: for each `{id, render(ticket, run)}` in `sections`, append its HTML under the events in registration order.
 4. `renderTooltip(ticket)` for bars.
 5. Close button; Escape and the scrim close it (wired by WV-15).
@@ -328,15 +336,16 @@ Size **M** (7h) · gate **G2** · lane console · slot 5 · T+22h → T+29h · b
 
 - **AC-1** (happy) Given WV-05 in `WARPDEMO/WarpView/fixtures/beam.sample.json`, when the drawer renders, then the fields and the timestamp list match `WARPDEMO/WarpView/ui/screens/drawer.png` in order and value.
 - **AC-2** (happy) Given one extra section {id:'x', render: () => '<p id="x">X</p>'}, when the drawer renders, then the paragraph appears after Events and nothing else changes.
-- **AC-3** (edge) Given a ticket with 40 events, when rendered, then 25 are listed, newest first.
-- **AC-4** (negative) Given a title containing '<img src=x onerror=alert(1)>', when rendered, then it shows as text (escaped) in the header, the tooltip and the key list.
-- **AC-5** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then drawer.test.mjs passes.
+- **AC-3** (edge) Given AD-02 in `WARPDEMO/WarpView/fixtures/schedule/two-repos.json`, when the drawer renders, then Lane / repo reads '1 API · Demo-API', Priority gate starts with 'G-RBAC', Schedule reads 'slot 2 · T+7h → T+14h · latest start T+11h' and 'Checks when it merges' lists 'Roles live (G-RBAC) — make rbac-ready', as in `WARPDEMO/WarpView/ui/screens/schedule-repos.png`.
+- **AC-4** (edge) Given a ticket with 40 events, when rendered, then 25 are listed, newest first.
+- **AC-5** (negative) Given a title containing '<img src=x onerror=alert(1)>', when rendered, then it shows as text (escaped) in the header, the tooltip and the key list.
+- **AC-6** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then drawer.test.mjs passes.
 
 **Locks.** `WARPDEMO/WarpView/app/src/view/drawer/`
 
-**Screens.** `WARPDEMO/WarpView/ui/screens/drawer.png`
+**Screens.** `WARPDEMO/WarpView/ui/screens/drawer.png`, `WARPDEMO/WarpView/ui/screens/schedule-repos.png`
 
-**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Ticket drawer](../../../WARPDEMO/WarpView/ui/screens/drawer.png)
+**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Ticket drawer](../../../WARPDEMO/WarpView/ui/screens/drawer.png) · [Two-repo schedule](../../../WARPDEMO/WarpView/ui/screens/schedule-repos.png)
 
 ## WV-13 — Header, run tabs, the four totals and utilization panel
 
@@ -347,7 +356,7 @@ Size **L** (11h) · gate **G2** · lane console · slot 3 · T+22h → T+33.5h �
 **What.**
 
 1. Create `WARPDEMO/WarpView/app/src/view/header/header.mjs` and `header.css` per SPEC §10.2–§10.4.
-2. `renderMeta(runs, tab)`: chips for repo, run, instance (warp:<id>), state with dot (running pulses, paused, stopped, done), pause reason, range, owner, exported time for an export, and 'updated <ago> · <stamp>' (stamp hidden under 640 px).
+2. `renderMeta(runs, tab)`: chips for repo, run, instance (warp:<id>), state with dot (running pulses, paused, stopped, done; 'plan' for a schedule.json), pause reason, range, owner, exported time for an export, and 'updated <ago> · <stamp>' (stamp hidden under 640 px).
 3. `renderHeadline(runs)`: title, the subline of §10.3 and the ★ critical chain line.
 4. `renderTabs(runs, tab)`: 'All runs (n)' plus one tab per run with done/total.
 5. `renderCards(metrics)`: the four cards of §9.2 with big number, stack bar, rows with value and percent, foot line and an Assumptions details list.
@@ -359,14 +368,15 @@ Size **L** (11h) · gate **G2** · lane console · slot 3 · T+22h → T+33.5h �
 - **AC-1** (happy) Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when the header renders, then chips, subline, chain and the four cards match `WARPDEMO/WarpView/ui/screens/swimlane-plan.png` and the numbers equal `WARPDEMO/WarpView/fixtures/expected/view.metrics.json`.
 - **AC-2** (happy) Given both beams in `WARPDEMO/WarpView/fixtures/runs/`, when rendered, then tabs read 'All runs (2)', 'edit · d/t' and 'view · d/t' and the meta shows '2 runs · n running'.
 - **AC-3** (edge) Given estTotal null, when the run estimate card renders, then the big number and every row read '—' and the bar is empty.
-- **AC-4** (negative) Given a run with no repo, no instance and no owner, when the meta renders, then those chips are omitted, not shown empty.
-- **AC-5** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then header.test.mjs passes.
+- **AC-4** (edge) Given only `WARPDEMO/WarpView/plan/schedule.json`, when the header renders, then the state chip reads plan, the subline ends with 'plan as written in schedule.json', and it matches `WARPDEMO/WarpView/ui/screens/schedule-plan.png`.
+- **AC-5** (negative) Given a run with no repo, no instance and no owner, when the meta renders, then those chips are omitted, not shown empty.
+- **AC-6** (happy) Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then header.test.mjs passes.
 
 **Locks.** `WARPDEMO/WarpView/app/src/view/header/`
 
-**Screens.** `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`, `WARPDEMO/WarpView/ui/screens/utilization.png`, `WARPDEMO/WarpView/ui/screens/multi-run.png`
+**Screens.** `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`, `WARPDEMO/WarpView/ui/screens/utilization.png`, `WARPDEMO/WarpView/ui/screens/multi-run.png`, `WARPDEMO/WarpView/ui/screens/schedule-plan.png`
 
-**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Expected output: view.metrics.json](../../../WARPDEMO/WarpView/fixtures/expected/view.metrics.json) · [Swimlane, plan clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-plan.png) · [Utilization](../../../WARPDEMO/WarpView/ui/screens/utilization.png) · [Several runs](../../../WARPDEMO/WarpView/ui/screens/multi-run.png)
+**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Expected output: view.metrics.json](../../../WARPDEMO/WarpView/fixtures/expected/view.metrics.json) · [Swimlane, plan clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-plan.png) · [Utilization](../../../WARPDEMO/WarpView/ui/screens/utilization.png) · [Several runs](../../../WARPDEMO/WarpView/ui/screens/multi-run.png) · [A plan's schedule.json](../../../WARPDEMO/WarpView/ui/screens/schedule-plan.png)
 
 ## WV-14 — Filters, search, view switch, theme, keyboard and File menu
 
@@ -378,8 +388,8 @@ Size **M** (7h) · gate **G2** · lane console · slot 6 · T+22h → T+29h · b
 
 1. Create `WARPDEMO/WarpView/app/src/view/controls/controls.mjs` and `controls.css` per SPEC §10.5 and §10.13.
 2. Legend chips with counts per category; click toggles, double-click shows only that category (again: all).
-3. Search: words are ANDed over id, title, Jira key, module, layer, agent, status, block, size and run name, case-insensitive.
-4. Segmented control Swimlane / Board / Table, Lanes select (board only), Color select (status or module), Zoom range (swimlane only); choices remembered in localStorage inside try/catch.
+3. Search: words are ANDed over id, title, Jira key, module, layer, lane, repo, priority gate, agent, status, block, size and run name, case-insensitive.
+4. Segmented control Swimlane / Board / Table, Lanes select (board only: Gate block, Status, Module, Lane, Repo, Size), Color select (Status, Module, Lane), Zoom range (swimlane only); choices remembered in localStorage inside try/catch.
 5. Theme toggle setting data-theme.
 6. File menu: Open status files (O), Open .warp folder (Shift+O), Reload (R), Auto-reload, Print (P), Close all files.
 7. Keys: '/' focuses search, Escape closes menu and drawer, Enter/Space activate cards, rows, lane headers and sortable headers.
@@ -452,6 +462,6 @@ Size **S** (4h) · gate **G3** · lane release · slot 1 · T+55h → T+59h · �
 
 **Locks.** `WARPDEMO/WarpView/viewer.html`, `WARPDEMO/WarpView/app/README.md`, `WARPDEMO/WarpView/app/test/parity.test.mjs`
 
-**Screens.** `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`, `WARPDEMO/WarpView/ui/screens/swimlane-actual.png`, `WARPDEMO/WarpView/ui/screens/board.png`, `WARPDEMO/WarpView/ui/screens/table.png`, `WARPDEMO/WarpView/ui/screens/drawer.png`, `WARPDEMO/WarpView/ui/screens/utilization.png`, `WARPDEMO/WarpView/ui/screens/multi-run.png`, `WARPDEMO/WarpView/ui/screens/empty.png`, `WARPDEMO/WarpView/ui/screens/dark.png`, `WARPDEMO/WarpView/ui/screens/phone.png`, `WARPDEMO/WarpView/ui/screens/print.png`
+**Screens.** `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`, `WARPDEMO/WarpView/ui/screens/swimlane-actual.png`, `WARPDEMO/WarpView/ui/screens/board.png`, `WARPDEMO/WarpView/ui/screens/table.png`, `WARPDEMO/WarpView/ui/screens/drawer.png`, `WARPDEMO/WarpView/ui/screens/utilization.png`, `WARPDEMO/WarpView/ui/screens/multi-run.png`, `WARPDEMO/WarpView/ui/screens/empty.png`, `WARPDEMO/WarpView/ui/screens/dark.png`, `WARPDEMO/WarpView/ui/screens/phone.png`, `WARPDEMO/WarpView/ui/screens/print.png`, `WARPDEMO/WarpView/ui/screens/schedule-plan.png`, `WARPDEMO/WarpView/ui/screens/schedule-repos.png`
 
-**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Design of record (reference page)](../../../WARPDEMO/WarpView/ui/reference/warp-dashboard.html) · [Swimlane, plan clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-plan.png) · [Swimlane, actual clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-actual.png) · [Board](../../../WARPDEMO/WarpView/ui/screens/board.png) · [Table](../../../WARPDEMO/WarpView/ui/screens/table.png) · [Ticket drawer](../../../WARPDEMO/WarpView/ui/screens/drawer.png) · [Utilization](../../../WARPDEMO/WarpView/ui/screens/utilization.png) · [Several runs](../../../WARPDEMO/WarpView/ui/screens/multi-run.png) · [Empty state](../../../WARPDEMO/WarpView/ui/screens/empty.png) · [Dark theme](../../../WARPDEMO/WarpView/ui/screens/dark.png) · [Phone width](../../../WARPDEMO/WarpView/ui/screens/phone.png) · [Print](../../../WARPDEMO/WarpView/ui/screens/print.png)
+**Links.** [Agent rules (preamble)](../../../WARPDEMO/AGENTS.md) · [SPEC](../../../WARPDEMO/WarpView/spec/SPEC.md) · [Acceptance queries](../../../WARPDEMO/WarpView/spec/ACCEPTANCE.md) · [Runbook](../../../WARPDEMO/WarpView/plan/BUILD_PLAN.md) · [Plan and waves](../../../WARPDEMO/WarpView/plan/CURSOR_PLAN.md) · [Design of record (reference page)](../../../WARPDEMO/WarpView/ui/reference/warp-dashboard.html) · [Swimlane, plan clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-plan.png) · [Swimlane, actual clock](../../../WARPDEMO/WarpView/ui/screens/swimlane-actual.png) · [Board](../../../WARPDEMO/WarpView/ui/screens/board.png) · [Table](../../../WARPDEMO/WarpView/ui/screens/table.png) · [Ticket drawer](../../../WARPDEMO/WarpView/ui/screens/drawer.png) · [Utilization](../../../WARPDEMO/WarpView/ui/screens/utilization.png) · [Several runs](../../../WARPDEMO/WarpView/ui/screens/multi-run.png) · [Empty state](../../../WARPDEMO/WarpView/ui/screens/empty.png) · [Dark theme](../../../WARPDEMO/WarpView/ui/screens/dark.png) · [Phone width](../../../WARPDEMO/WarpView/ui/screens/phone.png) · [Print](../../../WARPDEMO/WarpView/ui/screens/print.png) · [A plan's schedule.json](../../../WARPDEMO/WarpView/ui/screens/schedule-plan.png) · [Two-repo schedule](../../../WARPDEMO/WarpView/ui/screens/schedule-repos.png)

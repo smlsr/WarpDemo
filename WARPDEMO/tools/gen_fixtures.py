@@ -3,7 +3,7 @@
 
   python3 WARPDEMO/tools/gen_fixtures.py --warp <Warp plugin folder>
 
-Needs the Warp plugin (1.6.1+: scripts/scan.py, scripts/dashboard.py, assets/warp-dashboard.html,
+Needs the Warp plugin (1.6.2+: scripts/scan.py, scripts/buildsched.py, scripts/dashboard.py, assets/warp-dashboard.html,
 examples/beam.sample.json) and Python Playwright with Chromium. Beams are made by Warp's own scan from
 each pack's plan/schedule.json, then moved to a fixed moment of a run. Golden outputs are what the
 reference page computes for those files; screens are the reference page in each state.
@@ -39,6 +39,69 @@ iso = lambda d: d.strftime("%Y-%m-%dT%H:%M:%SZ")
 VIEW_D = REPO_ROOT / tickets_view.P.d
 EDIT_D = REPO_ROOT / tickets_edit.P.d
 PR = "https://github.com/smlsr/WarpDemo/pull/%d"
+
+
+def two_repos() -> dict:
+    """A small build-schedule/2 in the HOS-Admin shape: two repos, cross-repo blockers, a named non-blocking
+    priority gate (G-RBAC) that starts another program, merge checks as objects, repo-prefixed locks, and no
+    model.gate_order (gates are milestones). Planned as Warp dispatches: ★ chain, then G-RBAC's path, then rank."""
+    T = lambda i, s, repo, lane, size, h, slot, st, after, gate, pg, crit, rank, latest, wave, checks, locks: {
+        "id": i, "summary": s, "module": "ADMIN", "layer": "ui" if repo == "Demo-UI" else "backend", "lane": lane, "wave": wave, "repo": repo,
+        "file": None, "size": size, "h": h, "rank": rank, "latest_start": latest, "critical": crit, "priority_gate": pg,
+        "slot": slot, "start": st, "merge": st + h, "ready": st, "waited": 0.0, "why": "no blockers" if not after else "unblocked by " + ", ".join(after),
+        "after": after, "after_other_modules": [], "unlocks": [], "gate": gate, "first_gate": gate, "checks": checks,
+        "locks": locks, "locks_more": 0, "lock_pairs": [], "screens": [], "mock": None}
+    api, ui = "1 API", "2 UI"
+    tickets = [
+        T("AR-00", "Verify the platform is ready and record the contract", "Demo-API", api, "M", 7, 1, 0.0, [], "G0", "G-RBAC", True, 1, 0.0, 0,
+          [{"name": "ready (G0)", "check": "make ready", "wave": 0}], ["Demo-API/scripts/ready-check.sh"]),
+        T("AD-01", "Admin server: router, health, middleware chain", "Demo-API", api, "S", 4, 1, 7.0, ["AR-00"], "", "G-RBAC", True, 2, 7.0, 1, [], ["Demo-API/server/"]),
+        T("AD-02", "Roles and effective permissions endpoint", "Demo-API", api, "M", 7, 2, 7.0, ["AR-00"], "G-RBAC", "G-RBAC", False, 3, 11.0, 1,
+          [{"name": "Roles live (G-RBAC)", "check": "make rbac-ready", "wave": 1}], ["Demo-API/rbac/"]),
+        T("AD-03", "Audit writer: append-only rows from every change", "Demo-API", api, "S", 4, 3, 7.0, ["AR-00"], "G1", "", False, 5, 18.0, 1, [], ["Demo-API/audit/"]),
+        T("AU-01", "Admin app shell and login page", "Demo-UI", ui, "M", 7, 1, 11.0, ["AD-01"], "G1", "", True, 4, 11.0, 2,
+          [{"name": "ui shell", "check": "pnpm --filter admin test && pnpm --filter admin build", "wave": 2}], ["Demo-UI/apps/admin/shell/"]),
+        T("AU-02", "Roles page: who can do what", "Demo-UI", ui, "S", 4, 2, 14.0, ["AD-02"], "G2", "", False, 7, 18.0, 2, [], ["Demo-UI/apps/admin/roles/"]),
+        T("AD-04", "Organisation API on the admin shell", "Demo-API", api, "S", 4, 1, 18.0, ["AU-01"], "G2", "", True, 6, 18.0, 3, [], ["Demo-API/org/"]),
+    ]
+    for t in tickets:
+        t["unlocks"] = [x["id"] for x in tickets if t["id"] in x["after"]]
+    G = lambda key, name, blocking, scope, members, at, closes, checks, if_red, on_green, priority=False, starts=(), siblings=(): {
+        "key": key, "name": name, "blocking": blocking, "scope": scope, "members": members, "behind": 0, "at": at, "closes_with": closes,
+        "checks": checks, "if_red": if_red, "on_green": on_green, "sibling": (list(siblings) or [None])[0], "siblings": list(siblings),
+        "priority": priority, "starts": list(starts), "old_reached": None}
+    gates = [
+        G("G0", "Platform ready", True, "everyone", ["AR-00"], 7.0, ["AR-00"], ["make ready exits 0"], "Stop: nothing can be tested.", "make gate-close GATE=G0 PROGRAM=Demo-Admin"),
+        G("G-RBAC", "Roles live (Demo-Portal start)", False, "Demo-Portal program start", ["AD-02"], 14.0, ["AD-02"], ["make rbac-ready exits 0"],
+          "Demo-Portal keeps waiting; fix roles first.", "make gate-close GATE=G-RBAC PROGRAM=Demo-Admin", True, ["Demo-Portal"],
+          [{"program": "Demo-Portal", "prefix": "/PACK/Demo-Portal", "relation": "consumer; Demo-Portal starts at Demo-Admin gate G-RBAC and never blocks it."}]),
+        G("G1", "Server and login", True, "everyone", ["AD-03", "AU-01"], 18.0, ["AU-01"], ["login works in both apps"], "Stop the UI lanes.", "make gate-close GATE=G1 PROGRAM=Demo-Admin"),
+        G("G2", "Organisation and roles pages", False, "Organisation lanes", ["AU-02", "AD-04"], 22.0, ["AD-04"], ["org and roles e2e green"], "Hold the organisation lanes.", None),
+    ]
+    for g in gates:
+        ids = set(g["members"])
+        grow = True
+        while grow:
+            more = {d for t in tickets if t["id"] in ids for d in t["after"]} - ids
+            grow = bool(more)
+            ids |= more
+        g["behind"] = len(ids)
+    return {
+        "schema": "build-schedule/2", "program": "Demo-Admin", "rebuilt": "2026-10-12T20:00:00Z",
+        "source": {"from": "WARPDEMO/tools/gen_fixtures.py two_repos()", "generated": "2026-10-12T20:00:00Z"},
+        "model": {"orchestrators": 1, "slots": 4, "merge": "continuous: each PR merges when green",
+                  "clock": "estimate hours (S 4 · M 7 · L 11 · XL 16), continuous", "priority": "critical chain first, then the members and ancestors of priority gates (G-RBAC), then rank"},
+        "numbers": {"tickets": 7, "waves": 4, "agent_hours": 37, "finish_h": 22.0, "critical_path_h": 22.0, "critical_tickets": 4, "peak": 3},
+        "critical_chain": ["AR-00", "AD-01", "AU-01", "AD-04"], "lanes": [api, ui], "repos": ["Demo-API", "Demo-UI"],
+        "gates": gates, "lock_pairs": [], "tickets": tickets,
+        "steps": [{"n": 0, "t": 0.0, "merges": [], "starts": ["AR-00"], "gates": []},
+                  {"n": 1, "t": 7.0, "merges": ["AR-00"], "starts": ["AD-01", "AD-02", "AD-03"], "gates": ["G0"]},
+                  {"n": 2, "t": 11.0, "merges": ["AD-01", "AD-03"], "starts": ["AU-01"], "gates": []},
+                  {"n": 3, "t": 14.0, "merges": ["AD-02"], "starts": ["AU-02"], "gates": ["G-RBAC"]},
+                  {"n": 4, "t": 18.0, "merges": ["AU-01", "AU-02"], "starts": ["AD-04"], "gates": ["G1"]},
+                  {"n": 5, "t": 22.0, "merges": ["AD-04"], "starts": [], "gates": ["G2"]}],
+        "fields": {"note": "Field meanings as in WARPDEMO/WarpView/plan/schedule.json `fields`."},
+    }
 JIRA_SITE = "example.atlassian.net"
 
 
@@ -227,15 +290,18 @@ EVAL_MODEL = """async ([docs, nowMs]) => {
   const m = computeMetrics(built.runs);
   const act = layoutActual(r);
   const pick = (t) => ({id: t.id, title: t.title, size: t.size, status: t.status, cat: t.cat, hours: t.hours, hoursFrom: t.hoursFrom, autoMerge: t.autoMerge,
-    deps: t.deps, gate: t.gate, critical: t.critical, jiraKey: t.jiraKey, prUrl: t.pr.url, minutes: t.minutes, tokens: t.tokens, cost: t.cost, stateNote: t.stateNote});
+    deps: t.deps, gate: t.gate, critical: t.critical, jiraKey: t.jiraKey, prUrl: t.pr.url, minutes: t.minutes, tokens: t.tokens, cost: t.cost, stateNote: t.stateNote,
+    lane: t.lane, repo: t.repo, wave: t.wave, priorityGate: t.priorityGate, checks: t.checks, planned: t.planned});
   const rows = r.tickets.slice();
   const col = COLS.find((c) => c.key === "merged");
   rows.sort((a, b) => { const x = col.val(a), y = col.val(b); return (x < y ? -1 : x > y ? 1 : natCmp(a.id, b.id)) * -1; });
   return {
-    run: {name: r.name, instance: r.instance, runState: r.runState, cap: r.cap, gateOrder: r.gateOrder, repo: r.repo, updated: r.updated ? new Date(r.updated).toISOString() : null,
+    run: {kind: r.kind, name: r.name, instance: r.instance, runState: r.runState, cap: r.cap, gateOrder: r.gateOrder, repo: r.repo, updated: r.updated ? new Date(r.updated).toISOString() : null,
+          schedule: r.schedule || null, gateKeys: gateKeys(r),
+          gates: r.gates.map((g) => ({key: g.key, status: g.status, blocking: g.blocking, scope: g.scope, onGreen: g.onGreen, priority: g.priority, starts: g.starts, at: g.at, hold: g.hold})),
           overlaid: built.overlaid, skipped: built.skipped, tickets: r.tickets.map(pick)},
     blocks: Object.fromEntries(r.tickets.map((t) => [t.id, t.block])),
-    plan: {finish: r.finish, peak: r.peak, slots: r.slots, waves: r.waves, critHours: r.critHours, critCount: r.critCount,
+    plan: {planSource: r.planSource, finish: r.finish, peak: r.peak, slots: r.slots, waves: r.waves, critHours: r.critHours, critCount: r.critCount,
            gateAt: Object.fromEntries([...r.gateAt.entries()]),
            tickets: Object.fromEntries(r.tickets.map((t) => [t.id, {slot: t.slot, start: +t.start.toFixed(4), end: +t.end.toFixed(4), mergeAt: +t.mergeAt.toFixed(4), unplaced: !!t.unplaced}]))},
     actual: {now: act.now, rows: act.rows, span: act.span, unstarted: act.unstarted,
@@ -349,7 +415,7 @@ window.__mock = function (what) {
 """
 
 
-async def shots(warp: Path, view_beam, view_state, view_status, view_plan, edit_beam_view, edit_run_beam, big, edit_after, edit_invalid):
+async def shots(warp: Path, view_beam, view_state, view_status, view_plan, edit_beam_view, edit_run_beam, big, edit_after, edit_invalid, vsched, repos2):
     from playwright.async_api import async_playwright
 
     ui_v = VIEW_D / "ui"
@@ -365,6 +431,8 @@ async def shots(warp: Path, view_beam, view_state, view_status, view_plan, edit_
     edit_scrub = embed(warp, [{"path": ".warp/beam.json", "data": edit_after}])
     edit_bad = embed(warp, [{"path": ".warp/beam.json", "data": edit_invalid}])
     empty = (warp / "assets/warp-dashboard.html").read_text()
+    sched_page = embed(warp, [{"path": "WARPDEMO/WarpView/plan/schedule.json", "data": vsched}])
+    repos_page = embed(warp, [{"path": "fixtures/schedule/two-repos.json", "data": repos2}], repo="")
     V = [
         ("swimlane-plan", reference, {"view": "timeline", "clock": "plan", "now": now_ms}, 1600, None, False),
         ("swimlane-actual", reference, {"view": "timeline", "clock": "actual", "now": now_ms}, 1600, None, False),
@@ -376,6 +444,8 @@ async def shots(warp: Path, view_beam, view_state, view_status, view_plan, edit_
         ("empty", empty, {}, 1600, None, False),
         ("dark", reference, {"view": "timeline", "theme": "dark", "now": now_ms}, 1600, "dark", False),
         ("phone", reference, {"view": "timeline", "now": now_ms}, 390, None, True),
+        ("schedule-plan", sched_page, {"view": "timeline", "clock": "plan", "now": now_ms}, 1600, None, True),
+        ("schedule-repos", repos_page, {"view": "board", "groupBy": "repo", "drawer": "AD-02", "now": now_ms}, 1600, None, False),
     ]
     E = [
         ("edit-drawer", edit_ref, {"view": "board", "groupBy": "block", "drawer": "WV-07", "mock": "drawer", "now": now_ms}),
@@ -436,12 +506,14 @@ async def shots(warp: Path, view_beam, view_state, view_status, view_plan, edit_
         after_m = await model_of(pg, [{"path": ".warp/beam.json", "data": edit_after}], now_ms)
         status_m = await model_of(pg, [{"path": ".warp/status.json", "data": view_status}], now_ms)
         plan_m = await model_of(pg, [{"path": ".warp/beam.json", "data": view_plan}], now_ms)
+        sched_m = await model_of(pg, [{"path": "WARPDEMO/WarpView/plan/schedule.json", "data": vsched}], now_ms)
+        repos_m = await model_of(pg, [{"path": "fixtures/schedule/two-repos.json", "data": repos2}], now_ms)
         await b.close()
     assert not errs, errs
-    return view_m, big_m, dep_m, after_m, status_m, plan_m
+    return view_m, big_m, dep_m, after_m, status_m, plan_m, sched_m, repos_m
 
 
-def write_acceptance(view_m, big_m, status_m, plan_m, vplan, dep, after_m, dep_m):
+def write_acceptance(view_m, big_m, status_m, plan_m, vplan, dep, after_m, dep_m, sched_m, repos_m):
     g = lambda x: "—" if x is None else ("%g" % round(x, 2))
     vm, bm, sm = view_m["metrics"], big_m["metrics"], status_m["metrics"]
     cnt = lambda m: f"{m['count']['done']} completed, {m['count']['prog']} in progress, {m['count']['err']} errored or parked, {m['count']['todo']} to do"
@@ -463,6 +535,9 @@ Generated by `WARPDEMO/tools/gen_fixtures.py` from what the reference page compu
 | Q10 | `beam.sample.json`, table sorted by Merged descending | row order | {", ".join(view_m['table'][:5])}, … — `view.table.json` |
 | Q11 | `runs/view/beam.json` + `runs/edit/beam.json` | tabs | All runs (2), edit · 0/14, view · 9/16 |
 | Q12 | the built viewer, every control exercised | statuses | unchanged; no element with data-edit |
+| Q13 | `WARPDEMO/WarpView/plan/schedule.json` alone (build-schedule/2) | run and plan | 1 run of kind schedule `{sched_m['run']['name']}`, state plan, gate order {sched_m['run']['gateOrder']}, {len(sched_m['run']['tickets'])} tickets To Do, plan as written: finish T+{g(sched_m['plan']['finish'])}h, peak {sched_m['plan']['peak']}, {sched_m['plan']['slots']} slots; priority gate {", ".join(x['key'] for x in sched_m['run']['gates'] if x['priority'])} on {sum(1 for t in sched_m['run']['tickets'] if t['priorityGate'])} tickets — `schedule.run.json`, `schedule.plan.json` |
+| Q14 | `schedule/two-repos.json` (two repos, no gate_order) | run, blocks, plan | repo {repos_m['run']['repo']}, gate order {repos_m['run']['gateOrder']}, gate keys {", ".join(repos_m['run']['gateKeys'])}, every gate hold {"/".join(sorted({x['hold'] for x in repos_m['run']['gates']}))}; finish T+{g(repos_m['plan']['finish'])}h, peak {repos_m['plan']['peak']} — `two-repos.run.json`, `two-repos.blocks.json`, `two-repos.plan.json` |
+| Q15 | `schedule/two-repos.json`, drawer AD-02 | drawer rows | Lane / repo 1 API · Demo-API; Priority gate G-RBAC; Schedule slot 2 · T+7h → T+14h · latest start T+11h; Checks when it merges: Roles live (G-RBAC) — make rbac-ready |
 """)
     am, bm2 = after_m["metrics"], dep_m["metrics"]
     (EDIT_D / "spec/ACCEPTANCE.md").write_text(f"""# WarpEdit — acceptance queries
@@ -549,6 +624,8 @@ def main():
     big = json.loads((warp / "examples/beam.sample.json").read_text())
     dump(FV / "big/beam.sample.json", big)
     view_plan = copy.deepcopy(fresh_view)  # every ticket queued: the planned picture equals plan/schedule.json
+    repos2 = two_repos()
+    dump(FV / "schedule/two-repos.json", repos2)
 
     # WarpEdit: the subject run (WarpView near the end of G2)
     subject = live(fresh_view, vplan, EDIT_SUBJECT, "view", "4e7a21", 23, 40, 100)
@@ -583,8 +660,8 @@ def main():
     dump(E_ / "scrub.+20.json", {"t": 20, "at": iso(START + timedelta(hours=20)),
                                  "phase": {i: phase_at(t, base + 20 * 3600e3) for i, t in sorted(after["tickets"].items())}})
 
-    view_m, big_m, dep_m, after_m, status_m, plan_m = asyncio.run(
-        shots(warp, view_beam, state, status, view_plan, subject, edit_run, big, after, bad))
+    view_m, big_m, dep_m, after_m, status_m, plan_m, sched_m, repos_m = asyncio.run(
+        shots(warp, view_beam, state, status, view_plan, subject, edit_run, big, after, bad, vplan, repos2))
     EV = FV / "expected"
     dump(EV / "categories.json", view_m["categories"])
     dump(EV / "view.run.json", view_m["run"])
@@ -598,6 +675,23 @@ def main():
     dump(EV / "status-only.metrics.json", status_m["metrics"])
     dump(EV / "view.table.json", {"sort": "merged", "dir": "descending", "ids": view_m["table"]})
     dump(EV / "fresh.plan.json", plan_m["plan"])
+    dump(EV / "schedule.run.json", sched_m["run"])
+    dump(EV / "schedule.plan.json", sched_m["plan"])
+    dump(EV / "two-repos.run.json", repos_m["run"])
+    dump(EV / "two-repos.blocks.json", repos_m["blocks"])
+    dump(EV / "two-repos.plan.json", repos_m["plan"])
+    # a schedule opened directly is drawn exactly as written
+    for doc, m in ((vplan, sched_m), (repos2, repos_m)):
+        assert m["run"]["kind"] == "schedule" and m["plan"]["planSource"] == "schedule", m["run"]["kind"]
+        for t in doc["tickets"]:
+            row = m["plan"]["tickets"][t["id"]]
+            assert row["slot"] == t["slot"] - 1 and abs(row["start"] - t["start"]) < 1e-6 and abs(row["mergeAt"] - t["merge"]) < 1e-6, (t["id"], row)
+    assert repos_m["run"]["gateKeys"] == ["G0", "G-RBAC", "G1", "G2"] and repos_m["run"]["gateOrder"] == "deps", repos_m["run"]["gateKeys"]
+    assert sched_m["run"]["gateOrder"] == "strict"
+    # Warp reads the two-repo file the same way (repo split, cross-repo blockers)
+    import buildsched  # noqa: E402
+    split = buildsched.parse(repos2, FV / "schedule/two-repos.json")
+    assert [x["key"] for x in sorted(split["gates"], key=lambda x: x["at"])] == ["G0", "G-RBAC", "G1", "G2"]
     dump(E_ / "after-reset.metrics.json", after_m["metrics"])
     dump(E_ / "before-reset.metrics.json", dep_m["metrics"])
     # the planned picture of a fresh beam equals the schedule
@@ -605,7 +699,7 @@ def main():
     for tid, row in plan_m["plan"]["tickets"].items():
         assert abs(row["start"] - sched[tid]["start"]) < 1e-6 and abs(row["mergeAt"] - sched[tid]["merge"]) < 1e-6, (tid, row, sched[tid])
     assert abs(plan_m["plan"]["finish"] - vplan["numbers"]["finish_h"]) < 1e-6
-    write_acceptance(view_m, big_m, status_m, plan_m, vplan, dep, after_m, dep_m)
+    write_acceptance(view_m, big_m, status_m, plan_m, vplan, dep, after_m, dep_m, sched_m, repos_m)
     dump(VIEW_D / "ui/screens/screens.json", screens_json(tickets_view.P, SCR.VIEW))
     dump(EDIT_D / "ui/screens/screens.json", screens_json(tickets_edit.P, SCR.EDIT))
     # README for fixtures
@@ -621,7 +715,8 @@ Made by `WARPDEMO/tools/gen_fixtures.py` with Warp's own scan from `plan/schedul
 | `WARP_PLAN.sample.json` | Warp's export of that beam (`kind: warp-plan`) |
 | `runs/view/beam.json`, `runs/edit/beam.json` | two named runs for the tabs |
 | `big/beam.sample.json` | Warp's 68-ticket example (gates G0–G5) for layout and totals |
-| `expected/` | what the reference page computes for these files (categories, run, blocks, plan, actual, metrics, table); `fresh.plan.json` equals `plan/schedule.json` |
+| `schedule/two-repos.json` | a build-schedule/2 file in the HOS-Admin shape: two repos (Demo-API, Demo-UI), cross-repo blockers, a named non-blocking priority gate G-RBAC that starts Demo-Portal, merge checks as objects, no `model.gate_order` |
+| `expected/` | what the reference page computes for these files (categories, run, blocks, plan, actual, metrics, table); `fresh.plan.json` equals `plan/schedule.json`; `schedule.*.json` is `plan/schedule.json` opened directly; `two-repos.*.json` is the two-repo schedule |
 """)
     (FE / "README.md").write_text(f"""# WarpEdit fixtures
 

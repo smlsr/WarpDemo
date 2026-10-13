@@ -568,7 +568,7 @@
     "WV-03"
    ],
    "why": "The viewer is only as good as what it reads. Warp writes a beam, a status file, one state file per ticket,\n    a plan export and, for named runs, a mirror per run. File names change between Warp versions, so the reader must\n    classify by content, merge the copies of one run, and let a newer ticket state move an open ticket. Getting this\n    wrong shows stale or doubled tickets and wrong totals.",
-   "what": "Create `WARPDEMO/WarpView/app/src/load/parse/parse.mjs` per SPEC §3 and §4. 1. `classify(data)` returns beam, status, ticket\n    or null by content (§3.1). 2. `runFromBeam(doc)` builds the Run model of §4 from a beam or a `kind: warp-plan`\n    export (estimate at top level, exportedAt), including gate greenAt, evidence, checks and if-red. 3. `runFromStatus`\n    for status.json alone (no gates, hours from size). 4. `applyState(ticket, state)` per §3.3: only an open ticket,\n    only when newer, never undoes a merge, copies the PR url and alarm. 5. `buildRuns(docs, extra)` per §3.2: one\n    run per name, else instance, else folder; the newer copy wins; status.json joins its run; ticket states attach by\n    folder then by id; repo from the first PR url; returns `{runs, skipped, overlaid, states}`.",
+   "what": "Create `WARPDEMO/WarpView/app/src/load/parse/parse.mjs` per SPEC §3 and §4. 1. `classify(data)` returns beam, status, ticket\n    or null by content (§3.1). 2. `runFromBeam(doc)` builds the Run model of §4 from a beam or a `kind: warp-plan`\n    export (estimate at top level, exportedAt), including gate greenAt, evidence, checks and if-red. 3. `runFromStatus`\n    for status.json alone (no gates, hours from size). 4. `applyState(ticket, state)` per §3.3: only an open ticket,\n    only when newer, never undoes a merge, copies the PR url and alarm. 5. `buildRuns(docs, extra)` per §3.2: one\n    run per name, else instance, else folder; the newer copy wins; status.json joins its run; ticket states attach by\n    folder then by id; repo from the first PR url; returns `{runs, skipped, overlaid, states}`. 6. `runFromSchedule(doc)`\n    for a plan's build-schedule/2 schedule.json per §3.5: kind schedule, key `sched:<program>`, every ticket queued\n    with its lane, repo, wave, priority gate, merge checks and planned slot/start/merge; gates with scope, on green,\n    priority, starts, at and hold; gate order strict only when `model.gate_order` says so. runFromBeam reads the same\n    ticket and gate fields from a beam Warp 1.6.2 scanned from such a file.",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -593,11 +593,21 @@
     },
     {
      "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/plan/schedule.json`, when buildRuns runs, then one run of kind schedule named WarpView results, gateOrder strict, every ticket queued with lane, repo, priorityGate and planned as in `WARPDEMO/WarpView/fixtures/expected/schedule.run.json`."
+    },
+    {
+     "id": "AC-6",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json` (no model.gate_order), when buildRuns runs, then gateOrder is deps, every gate holds red, repo reads 'Demo-API + Demo-UI', AD-02 has priorityGate G-RBAC and one check {name, check} — `WARPDEMO/WarpView/fixtures/expected/two-repos.run.json`."
+    },
+    {
+     "id": "AC-7",
      "kind": "negative",
      "text": "Given a JSON file with neither tickets nor done/working/left nor id+state, when buildRuns runs, then it is counted in skipped and creates no run; a merged ticket with a newer state.json saying coding stays merged."
     },
     {
-     "id": "AC-6",
+     "id": "AC-8",
      "kind": "happy",
      "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then parse.test.mjs passes against every fixture under `WARPDEMO/WarpView/fixtures/`."
     }
@@ -658,7 +668,7 @@
    "analyticsEvents": [],
    "environment": {
     "name": "local browser + node 22",
-    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json, WARPDEMO/WarpView/fixtures/status.sample.json, WARPDEMO/WarpView/fixtures/tickets/WV-11/state.json, WARPDEMO/WarpView/fixtures/WARP_PLAN.sample.json, WARPDEMO/WarpView/fixtures/runs/"
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json, WARPDEMO/WarpView/fixtures/status.sample.json, WARPDEMO/WarpView/fixtures/tickets/WV-11/state.json, WARPDEMO/WarpView/fixtures/WARP_PLAN.sample.json, WARPDEMO/WarpView/fixtures/runs/, WARPDEMO/WarpView/fixtures/schedule/two-repos.json, WARPDEMO/WarpView/plan/schedule.json"
    },
    "dependenciesRisks": {
     "dependsOn": [
@@ -693,6 +703,14 @@
     {
      "title": "Expected output: view.run.json",
      "url": "WARPDEMO/WarpView/fixtures/expected/view.run.json"
+    },
+    {
+     "title": "Expected output: schedule.run.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/schedule.run.json"
+    },
+    {
+     "title": "Expected output: two-repos.run.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/two-repos.run.json"
     }
    ]
   },
@@ -896,7 +914,7 @@
     "WV-01"
    ],
    "why": "Warp runs a plan in gate blocks and, by default, starts a block only when the blocks before it are\n    cleared. The swimlane, the board lanes and the people-hour totals all depend on which block a ticket belongs to.\n    If the viewer assigns blocks differently from Warp, the plan it draws is not the plan Warp runs and the gate\n    lines land in the wrong place.",
-   "what": "Create `WARPDEMO/WarpView/app/src/model/blocks/blocks.mjs`, a port of Warp's scripts/blocks.py as specified in SPEC §6.\n    1. `gateKeys(run)`: G-number keys in numeric order, then other keys in plan order. 2. `assignBlocks(run)`: a\n    ticket's block is its own gate when that gate exists, else the lowest gate that lists it as a member, else the\n    highest block among its dependencies (cycles cut), else the first block; with no gates every block is null.\n    3. `blockStates(run)`: per block the ticket ids, counts of merged, open, parked and queued, the gate status and\n    `cleared` (every ticket merged, done or skipped and the gate not red). 4. Sets `run.blockRank`.",
+   "what": "Create `WARPDEMO/WarpView/app/src/model/blocks/blocks.mjs`, a port of Warp's scripts/blocks.py as specified in SPEC §6.\n    1. `gateKeys(run)`: by `at` when every gate has one (build-schedule/2; ties by G-number, then plan order), else\n    G-number keys in numeric order, then other keys in plan order. 2. `assignBlocks(run)`: a\n    ticket's block is its own gate when that gate exists, else the lowest gate that lists it as a member, else the\n    highest block among its dependencies (cycles cut), else the first block; with no gates every block is null.\n    3. `blockStates(run)`: per block the ticket ids, counts of merged, open, parked and queued, the gate status and\n    `cleared` (every ticket merged, done or skipped and the gate not red). 4. Sets `run.blockRank`.",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -912,15 +930,20 @@
     {
      "id": "AC-3",
      "kind": "edge",
-     "text": "Given a ticket with no gate, no membership and a dependency cycle A→B→A, when assignBlocks runs, then it terminates and both get the highest block of their other dependencies or the first block."
+     "text": "Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json`, where every gate has `at`, when gateKeys runs, then the order is G0, G-RBAC, G1, G2 and the blocks equal `WARPDEMO/WarpView/fixtures/expected/two-repos.blocks.json`."
     },
     {
      "id": "AC-4",
+     "kind": "edge",
+     "text": "Given a ticket with no gate, no membership and a dependency cycle A→B→A, when assignBlocks runs, then it terminates and both get the highest block of their other dependencies or the first block."
+    },
+    {
+     "id": "AC-5",
      "kind": "negative",
      "text": "Given a run with no gates, when blockStates runs, then it returns an empty list and every ticket's block is null."
     },
     {
-     "id": "AC-5",
+     "id": "AC-6",
      "kind": "happy",
      "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then blocks.test.mjs passes."
     }
@@ -981,7 +1004,7 @@
    "analyticsEvents": [],
    "environment": {
     "name": "local browser + node 22",
-    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json, WARPDEMO/WarpView/fixtures/big/beam.sample.json"
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json, WARPDEMO/WarpView/fixtures/big/beam.sample.json, WARPDEMO/WarpView/fixtures/schedule/two-repos.json"
    },
    "dependenciesRisks": {
     "dependsOn": [
@@ -1020,6 +1043,10 @@
     {
      "title": "Expected output: big.blocks.json",
      "url": "WARPDEMO/WarpView/fixtures/expected/big.blocks.json"
+    },
+    {
+     "title": "Expected output: two-repos.blocks.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/two-repos.blocks.json"
     }
    ]
   },
@@ -1052,7 +1079,7 @@
     "WV-06"
    ],
    "why": "The swimlane is the main screen: one row per agent slot on an estimate-hour clock, like the plan's swimlane\n    PDF, and an actual clock of what happened. Both are computed, not drawn by hand. If the simulation differs from\n    Warp's dispatch rule the picture lies about the finish and the critical chain; if the actual layout overlaps bars\n    nobody can read it. This ticket owns both layouts as pure functions with golden outputs.",
-   "what": "Create `WARPDEMO/WarpView/app/src/model/plan/plan.mjs` per SPEC §7 and §8. 1. `plan(run)`: list scheduling with\n    `run.cap` slots (maxAgents, default 18); a ticket is ready when every in-run dependency has merged (merge = end\n    plus 0.5 h when its size is not auto-merged) and, with gateOrder strict, every earlier block has merged; ready\n    tickets sorted critical first, starred, rank, longest downstream chain, natural id; lowest free slot. Sets\n    `slot start end mergeAt` per ticket and `finish peak slots waves critHours critCount gateAt` on the run; tickets\n    that can never be ready are laid after everything and flagged `unplaced`. 2. `layoutPlan(run)` and\n    `layoutActual(run, now)` returning `{prefix, label, rows, span, now, unstarted, items, gates}` (§8): actual\n    bars run from claimedAt (else PR opened, else first event) to mergedAt (else now) and pack into the lowest free row.",
+   "what": "Create `WARPDEMO/WarpView/app/src/model/plan/plan.mjs` per SPEC §7 and §8. 0. When every ticket has `planned` slot, start\n    and merge (a schedule.json, or a beam scanned from one), `plan(run)` draws it as written and sets planSource\n    schedule; gateAt comes from each gate's `at`. Otherwise: 1. `plan(run)`: list scheduling with\n    `run.cap` slots (maxAgents, default 18); a ticket is ready when every in-run dependency has merged (merge = end\n    plus 0.5 h when its size is not auto-merged) and, with gateOrder strict, every earlier block has merged; ready\n    tickets sorted critical first, starred, priority gate path, rank, longest downstream chain, natural id; lowest free slot. Sets\n    `slot start end mergeAt` per ticket and `finish peak slots waves critHours critCount gateAt` on the run; tickets\n    that can never be ready are laid after everything and flagged `unplaced`. 2. `layoutPlan(run)` and\n    `layoutActual(run, now)` returning `{prefix, label, rows, span, now, unstarted, items, gates}` (§8): actual\n    bars run from claimedAt (else PR opened, else first event) to mergedAt (else now) and pack into the lowest free row.",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -1067,21 +1094,26 @@
     },
     {
      "id": "AC-3",
-     "kind": "edge",
-     "text": "Given gateOrder deps on the same big beam, when plan runs, then no block waits for an earlier block and the finish is earlier than the strict finish."
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/plan/schedule.json`, when plan runs, then every slot, start and mergeAt equals the schedule's own slot, start and merge, finish equals numbers.finish_h and planSource is schedule — `WARPDEMO/WarpView/fixtures/expected/schedule.plan.json`."
     },
     {
      "id": "AC-4",
      "kind": "edge",
-     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and now = 2026-10-12T20:00:00Z, when layoutActual runs, then items, rows, unstarted and the now line equal `WARPDEMO/WarpView/fixtures/expected/view.actual.json`."
+     "text": "Given gateOrder deps on the same big beam, when plan runs, then no block waits for an earlier block and the finish is earlier than the strict finish."
     },
     {
      "id": "AC-5",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and now = 2026-10-12T20:00:00Z, when layoutActual runs, then items, rows, unstarted and the now line equal `WARPDEMO/WarpView/fixtures/expected/view.actual.json`."
+    },
+    {
+     "id": "AC-6",
      "kind": "negative",
      "text": "Given a dependency cycle, when plan runs, then it returns within 100 ms, every ticket has a slot and the cycle members are flagged unplaced."
     },
     {
-     "id": "AC-6",
+     "id": "AC-7",
      "kind": "happy",
      "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then plan.test.mjs passes."
     }
@@ -1114,7 +1146,8 @@
    "userInterface": {
     "screens": [
      "Swimlane, plan clock",
-     "Swimlane, actual clock"
+     "Swimlane, actual clock",
+     "A plan's schedule.json"
     ],
     "routes": [
      "file://…/viewer.html"
@@ -1123,7 +1156,9 @@
     "states": [
      "filtered",
      "loaded",
+     "plan as written",
      "running",
+     "schedule",
      "search hit"
     ],
     "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
@@ -1133,7 +1168,7 @@
      "Safari 17+",
      "Firefox 121+"
     ],
-    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png · WARPDEMO/WarpView/ui/screens/schedule-plan.png"
    },
    "logging": {
     "events": [
@@ -1210,12 +1245,24 @@
      "url": "WARPDEMO/WarpView/fixtures/expected/view.actual.json"
     },
     {
+     "title": "Expected output: schedule.plan.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/schedule.plan.json"
+    },
+    {
+     "title": "Expected output: two-repos.plan.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/two-repos.plan.json"
+    },
+    {
      "title": "Swimlane, plan clock",
      "url": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
     },
     {
      "title": "Swimlane, actual clock",
      "url": "WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+    },
+    {
+     "title": "A plan's schedule.json",
+     "url": "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
     }
    ]
   },
@@ -1408,7 +1455,7 @@
     "WV-07"
    ],
    "why": "This is the screen people open the viewer for: the run as a swimlane of agent slots like the plan's PDF,\n    colored by each ticket's status now, with gate lines and the critical chain. It must stay readable from 16 to\n    400 tickets, at any zoom, on a phone and on paper, and switch to the actual clock without changing what a color\n    means. Without it the viewer is a list.",
-   "what": "Create `WARPDEMO/WarpView/app/src/view/swimlane/swimlane.mjs` and `swimlane.css` per SPEC §10.6. 1. `renderSwimlane(run,\n    layout, opts)` returns HTML: sticky slot labels, a gate row with labels left of each line (labels that collide\n    lift to a second row; names only when there is room; gates reached together share 'G2 · G8'), an axis row\n    (T+ or + labels at steps 1,2,5,10,20,25,50,100,200 so ticks are at least 56 px apart), grid lines, gate lines\n    (red bold when red, green when green), the now line on the actual clock, and one bar per item: left accent and\n    tint in the status color, id with ★ for critical, size·hours, title, ⚠ for an alarm, ✗ for red CI, a tiny form\n    under 70 px, dim when filtered out, outline when a search hits. 2. Zoom: fit to width times 6^(zoom/100);\n    print width fit. 3. The Plan/Actual toggle in the panel header. 4. `tooltipFor(ticket)`.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/swimlane/swimlane.mjs` and `swimlane.css` per SPEC §10.6. 1. `renderSwimlane(run,\n    layout, opts)` returns HTML: sticky slot labels, a gate row with labels left of each line (labels that collide\n    lift to a second row; names only when there is room; gates reached together share 'G2 · G8'), an axis row\n    (T+ or + labels at steps 1,2,5,10,20,25,50,100,200 so ticks are at least 56 px apart), grid lines, gate lines\n    (red bold when red, green when green), the now line on the actual clock, and one bar per item: left accent and\n    tint in the status color, id with ★ for critical, size·hours, title, ⚠ for an alarm, ✗ for red CI, a tiny form\n    under 70 px, dim when filtered out, outline when a search hits. 2. Zoom: fit to width times 6^(zoom/100);\n    print width fit. 3. The Plan/Actual toggle in the panel header and its note ('as written in schedule.json' for a\n    schedule plan). 4. `tooltipFor(ticket)`, and the gate tooltip with scope, priority, starts, checks, on green and\n    if red. 5. Color by Lane uses the lane's hue (else the module's).",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -1472,7 +1519,8 @@
      "Swimlane, plan clock",
      "Swimlane, actual clock",
      "Print",
-     "Phone width"
+     "Phone width",
+     "A plan's schedule.json"
     ],
     "routes": [
      "file://…/viewer.html"
@@ -1482,8 +1530,10 @@
      "filtered",
      "loaded",
      "narrow",
+     "plan as written",
      "print",
      "running",
+     "schedule",
      "search hit"
     ],
     "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
@@ -1493,7 +1543,7 @@
      "Safari 17+",
      "Firefox 121+"
     ],
-    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png · WARPDEMO/WarpView/ui/screens/print.png · WARPDEMO/WarpView/ui/screens/phone.png"
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png · WARPDEMO/WarpView/ui/screens/print.png · WARPDEMO/WarpView/ui/screens/phone.png · WARPDEMO/WarpView/ui/screens/schedule-plan.png"
    },
    "logging": {
     "events": [
@@ -1582,12 +1632,16 @@
     {
      "title": "Phone width",
      "url": "WARPDEMO/WarpView/ui/screens/phone.png"
+    },
+    {
+     "title": "A plan's schedule.json",
+     "url": "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
     }
    ]
   },
   {
    "tempId": "WV-10",
-   "summary": "Board view: lanes by block, status, module or size",
+   "summary": "Board view: lanes by block, status, module, lane, repo or size",
    "issueType": "Story",
    "priority": "Medium",
    "labels": [
@@ -1616,7 +1670,7 @@
     "WV-06"
    ],
    "why": "The swimlane shows time; the board shows where each ticket stands and lets people scan a block or a status\n    at a glance, open the pull request and the Jira issue in one click, and see alarms. Cleared blocks fold away so\n    the open work stays on screen. Without it people go back to reading Warp's STATUS.md.",
-   "what": "Create `WARPDEMO/WarpView/app/src/view/board/board.mjs` and `board.css` per SPEC §10.7. 1. `lanesFor(runs, groupBy)`\n    for block (gate order, or 'All tickets' without gates), status (the six categories), module (natural order)\n    and size (S, M, L, XL, No size); with several runs the block lanes are prefixed by run label. 2. Lane header:\n    chevron, name and gate name, gate pill (status and greenAt, tooltip with evidence, checks and if-red), cleared\n    pill, 'n/m done', agent hours, a stack bar, 'k shown' when filtered. Cleared block lanes start collapsed when\n    there is more than one lane; the person's choice wins after that. 3. Card: id with ★, size badge, status text in\n    its color, two-line title, est, spent, 'PR #n ↗', Jira key linked to `<jiraSite>/browse/<key>` when jiraSite is\n    set, CI, alarm line.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/board/board.mjs` and `board.css` per SPEC §10.7. 1. `lanesFor(runs, groupBy)`\n    for block (gate order, or 'All tickets' without gates), status (the six categories), module, lane (else module,\n    else 'No lane') and repo ('No repo'), all natural order, and size (S, M, L, XL, No size); with several runs the\n    block lanes are prefixed by run label. A priority gate's lane shows a 'priority' pill and a gate that starts\n    other programs shows 'starts <programs>'. 2. Lane header:\n    chevron, name and gate name, gate pill (status and greenAt, tooltip with evidence, checks and if-red), cleared\n    pill, 'n/m done', agent hours, a stack bar, 'k shown' when filtered. Cleared block lanes start collapsed when\n    there is more than one lane; the person's choice wins after that. 3. Card: id with ★, size badge, status text in\n    its color, two-line title, est, spent, 'PR #n ↗', Jira key linked to `<jiraSite>/browse/<key>` when jiraSite is\n    set, CI, alarm line.",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -1636,11 +1690,16 @@
     },
     {
      "id": "AC-4",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpView/fixtures/schedule/two-repos.json` grouped by Repo, when rendered, then two lanes Demo-API and Demo-UI appear as in `WARPDEMO/WarpView/ui/screens/schedule-repos.png`; grouped by block, the G-RBAC lane shows the pills 'priority' and 'starts Demo-Portal' and its gate tooltip names its scope and on-green command."
+    },
+    {
+     "id": "AC-5",
      "kind": "negative",
      "text": "Given a filter that hides every ticket in a lane, when rendered, then the lane shows '0 shown' and no cards, and the other lanes are unchanged."
     },
     {
-     "id": "AC-5",
+     "id": "AC-6",
      "kind": "happy",
      "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then board.test.mjs passes."
     }
@@ -1664,23 +1723,27 @@
    },
    "featureFlag": null,
    "releaseNotes": {
-    "title": "Board view: lanes by block, status, module or size",
-    "description": "Board view: lanes by block, status, module or size",
+    "title": "Board view: lanes by block, status, module, lane, repo or size",
+    "description": "Board view: lanes by block, status, module, lane, repo or size",
     "impacts": [],
     "audience": "internal",
     "visibility": "silent"
    },
    "userInterface": {
     "screens": [
-     "Board"
+     "Board",
+     "Two-repo schedule"
     ],
     "routes": [
      "file://…/viewer.html"
     ],
     "designLink": "WARPDEMO/WarpView/ui/screens/board.png",
     "states": [
+     "drawer open",
      "lane collapsed",
-     "loaded"
+     "lanes by repo",
+     "loaded",
+     "schedule"
     ],
     "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
     "browsers": [
@@ -1689,7 +1752,7 @@
      "Safari 17+",
      "Firefox 121+"
     ],
-    "visualBaseline": "WARPDEMO/WarpView/ui/screens/board.png"
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/board.png · WARPDEMO/WarpView/ui/screens/schedule-repos.png"
    },
    "logging": {
     "events": [
@@ -1762,6 +1825,10 @@
     {
      "title": "Board",
      "url": "WARPDEMO/WarpView/ui/screens/board.png"
+    },
+    {
+     "title": "Two-repo schedule",
+     "url": "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
     }
    ]
   },
@@ -1975,7 +2042,7 @@
     "WV-03"
    ],
    "why": "Every bar, card and row leads to one place that answers everything about a ticket: status, estimate,\n    plan, time and cost spent, pull request, CI and Bugbot, Jira, agent, attempts, every timestamp in order, what it\n    depends on, what it locks and what happened. The drawer is also where WarpEdit adds its reset section, so it\n    must take extra sections without being edited.",
-   "what": "Create `WARPDEMO/WarpView/app/src/view/drawer/drawer.mjs` and `drawer.css` per SPEC §10.10. 1. `renderDrawer(ticket, run,\n    sections)`: header with the status color bar, id with ★ and title; key/value list in the order of §10.10 (alarm\n    first when present); 'Timestamps' with Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment,\n    Updated (each stamp() plus the raw value, '—' when missing); Depends on and Locks as tags; Events, newest first,\n    at most 25. 2. Extra sections: for each `{id, render(ticket, run)}` in `sections`, append its HTML under the\n    events in registration order. 3. `renderTooltip(ticket)` for bars. 4. Close button; Escape and the scrim close\n    it (wired by WV-15).",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/drawer/drawer.mjs` and `drawer.css` per SPEC §10.10. 1. `renderDrawer(ticket, run,\n    sections)`: header with the status color bar, id with ★ and title; key/value list in the order of §10.10 (alarm\n    first when present; Lane / repo, Priority gate and Schedule only when the ticket has them); 'Checks when it\n    merges' when the ticket has checks; 'Timestamps' with Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment,\n    Updated (each stamp() plus the raw value, '—' when missing); Depends on and Locks as tags; Events, newest first,\n    at most 25. 2. Extra sections: for each `{id, render(ticket, run)}` in `sections`, append its HTML under the\n    events in registration order. 3. `renderTooltip(ticket)` for bars. 4. Close button; Escape and the scrim close\n    it (wired by WV-15).",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -1991,15 +2058,20 @@
     {
      "id": "AC-3",
      "kind": "edge",
-     "text": "Given a ticket with 40 events, when rendered, then 25 are listed, newest first."
+     "text": "Given AD-02 in `WARPDEMO/WarpView/fixtures/schedule/two-repos.json`, when the drawer renders, then Lane / repo reads '1 API · Demo-API', Priority gate starts with 'G-RBAC', Schedule reads 'slot 2 · T+7h → T+14h · latest start T+11h' and 'Checks when it merges' lists 'Roles live (G-RBAC) — make rbac-ready', as in `WARPDEMO/WarpView/ui/screens/schedule-repos.png`."
     },
     {
      "id": "AC-4",
+     "kind": "edge",
+     "text": "Given a ticket with 40 events, when rendered, then 25 are listed, newest first."
+    },
+    {
+     "id": "AC-5",
      "kind": "negative",
      "text": "Given a title containing '<img src=x onerror=alert(1)>', when rendered, then it shows as text (escaped) in the header, the tooltip and the key list."
     },
     {
-     "id": "AC-5",
+     "id": "AC-6",
      "kind": "happy",
      "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then drawer.test.mjs passes."
     }
@@ -2031,14 +2103,18 @@
    },
    "userInterface": {
     "screens": [
-     "Ticket drawer"
+     "Ticket drawer",
+     "Two-repo schedule"
     ],
     "routes": [
      "file://…/viewer.html"
     ],
     "designLink": "WARPDEMO/WarpView/ui/screens/drawer.png",
     "states": [
-     "open"
+     "drawer open",
+     "lanes by repo",
+     "open",
+     "schedule"
     ],
     "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
     "browsers": [
@@ -2047,7 +2123,7 @@
      "Safari 17+",
      "Firefox 121+"
     ],
-    "visualBaseline": "WARPDEMO/WarpView/ui/screens/drawer.png"
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/drawer.png · WARPDEMO/WarpView/ui/screens/schedule-repos.png"
    },
    "logging": {
     "events": [
@@ -2115,6 +2191,10 @@
     {
      "title": "Ticket drawer",
      "url": "WARPDEMO/WarpView/ui/screens/drawer.png"
+    },
+    {
+     "title": "Two-repo schedule",
+     "url": "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
     }
    ]
   },
@@ -2148,7 +2228,7 @@
     "WV-08"
    ],
    "why": "The header is the summary a lead reads first: which repo, run and instance, whether it is running, when it\n    last changed, and the four totals with their splits and bars. With several runs open it switches between them.\n    The utilization panel answers whether the agents are busy and where tokens went. If these disagree with the\n    swimlane or with Warp, people stop trusting the page.",
-   "what": "Create `WARPDEMO/WarpView/app/src/view/header/header.mjs` and `header.css` per SPEC §10.2–§10.4. 1. `renderMeta(runs, tab)`:\n    chips for repo, run, instance (warp:<id>), state with dot (running pulses, paused, stopped, done), pause reason,\n    range, owner, exported time for an export, and 'updated <ago> · <stamp>' (stamp hidden under 640 px). 2.\n    `renderHeadline(runs)`: title, the subline of §10.3 and the ★ critical chain line. 3. `renderTabs(runs, tab)`:\n    'All runs (n)' plus one tab per run with done/total. 4. `renderCards(metrics)`: the four cards of §9.2 with big\n    number, stack bar, rows with value and percent, foot line and an Assumptions details list. 5. `renderUtil(util)`:\n    a collapsed details panel with the summary line, three meters and the by-size and by-agent tables (8 rows, 'n more').\n    6. A slot for header actions registered by plugins (§11).",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/header/header.mjs` and `header.css` per SPEC §10.2–§10.4. 1. `renderMeta(runs, tab)`:\n    chips for repo, run, instance (warp:<id>), state with dot (running pulses, paused, stopped, done; 'plan' for a\n    schedule.json), pause reason,\n    range, owner, exported time for an export, and 'updated <ago> · <stamp>' (stamp hidden under 640 px). 2.\n    `renderHeadline(runs)`: title, the subline of §10.3 and the ★ critical chain line. 3. `renderTabs(runs, tab)`:\n    'All runs (n)' plus one tab per run with done/total. 4. `renderCards(metrics)`: the four cards of §9.2 with big\n    number, stack bar, rows with value and percent, foot line and an Assumptions details list. 5. `renderUtil(util)`:\n    a collapsed details panel with the summary line, three meters and the by-size and by-agent tables (8 rows, 'n more').\n    6. A slot for header actions registered by plugins (§11).",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -2168,11 +2248,16 @@
     },
     {
      "id": "AC-4",
+     "kind": "edge",
+     "text": "Given only `WARPDEMO/WarpView/plan/schedule.json`, when the header renders, then the state chip reads plan, the subline ends with 'plan as written in schedule.json', and it matches `WARPDEMO/WarpView/ui/screens/schedule-plan.png`."
+    },
+    {
+     "id": "AC-5",
      "kind": "negative",
      "text": "Given a run with no repo, no instance and no owner, when the meta renders, then those chips are omitted, not shown empty."
     },
     {
-     "id": "AC-5",
+     "id": "AC-6",
      "kind": "happy",
      "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then header.test.mjs passes."
     }
@@ -2206,7 +2291,8 @@
     "screens": [
      "Swimlane, plan clock",
      "Utilization",
-     "Several runs"
+     "Several runs",
+     "A plan's schedule.json"
     ],
     "routes": [
      "file://…/viewer.html"
@@ -2218,6 +2304,8 @@
      "filtered",
      "loaded",
      "one run",
+     "plan as written",
+     "schedule",
      "search hit"
     ],
     "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
@@ -2227,7 +2315,7 @@
      "Safari 17+",
      "Firefox 121+"
     ],
-    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/utilization.png · WARPDEMO/WarpView/ui/screens/multi-run.png"
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/utilization.png · WARPDEMO/WarpView/ui/screens/multi-run.png · WARPDEMO/WarpView/ui/screens/schedule-plan.png"
    },
    "logging": {
     "events": [
@@ -2307,6 +2395,10 @@
     {
      "title": "Several runs",
      "url": "WARPDEMO/WarpView/ui/screens/multi-run.png"
+    },
+    {
+     "title": "A plan's schedule.json",
+     "url": "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
     }
    ]
   },
@@ -2340,7 +2432,7 @@
     "WV-03"
    ],
    "why": "People narrow a run of hundreds of tickets to what matters now: the errored ones, one module, one Jira key.\n    The status chips are both the legend and the filter, search covers every field people quote, and every action has\n    a key so the page works without a mouse. Theme and the File menu live here too. Without them the views are a\n    wall of color.",
-   "what": "Create `WARPDEMO/WarpView/app/src/view/controls/controls.mjs` and `controls.css` per SPEC §10.5 and §10.13. 1. Legend chips\n    with counts per category; click toggles, double-click shows only that category (again: all). 2. Search: words\n    are ANDed over id, title, Jira key, module, layer, agent, status, block, size and run name, case-insensitive.\n    3. Segmented control Swimlane / Board / Table, Lanes select (board only), Color select (status or module), Zoom\n    range (swimlane only); choices remembered in localStorage inside try/catch. 4. Theme toggle setting data-theme.\n    5. File menu: Open status files (O), Open .warp folder (Shift+O), Reload (R), Auto-reload, Print (P), Close all\n    files. 6. Keys: '/' focuses search, Escape closes menu and drawer, Enter/Space activate cards, rows, lane headers\n    and sortable headers. 7. Export `matches(ticket, run, state)`.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/controls/controls.mjs` and `controls.css` per SPEC §10.5 and §10.13. 1. Legend chips\n    with counts per category; click toggles, double-click shows only that category (again: all). 2. Search: words\n    are ANDed over id, title, Jira key, module, layer, lane, repo, priority gate, agent, status, block, size and run\n    name, case-insensitive. 3. Segmented control Swimlane / Board / Table, Lanes select (board only: Gate block,\n    Status, Module, Lane, Repo, Size), Color select (Status, Module, Lane), Zoom\n    range (swimlane only); choices remembered in localStorage inside try/catch. 4. Theme toggle setting data-theme.\n    5. File menu: Open status files (O), Open .warp folder (Shift+O), Reload (R), Auto-reload, Print (P), Close all\n    files. 6. Keys: '/' focuses search, Escape closes menu and drawer, Enter/Space activate cards, rows, lane headers\n    and sortable headers. 7. Export `matches(ticket, run, state)`.",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -2809,7 +2901,9 @@
      "Empty state",
      "Dark theme",
      "Phone width",
-     "Print"
+     "Print",
+     "A plan's schedule.json",
+     "Two-repo schedule"
     ],
     "routes": [
      "file://…/viewer.html"
@@ -2818,16 +2912,20 @@
     "states": [
      "all runs",
      "dark",
+     "drawer open",
      "empty",
      "expanded",
      "filtered",
      "lane collapsed",
+     "lanes by repo",
      "loaded",
      "narrow",
      "one run",
      "open",
+     "plan as written",
      "print",
      "running",
+     "schedule",
      "search hit",
      "sorted"
     ],
@@ -2838,7 +2936,7 @@
      "Safari 17+",
      "Firefox 121+"
     ],
-    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png · WARPDEMO/WarpView/ui/screens/board.png · WARPDEMO/WarpView/ui/screens/table.png · WARPDEMO/WarpView/ui/screens/drawer.png · WARPDEMO/WarpView/ui/screens/utilization.png · WARPDEMO/WarpView/ui/screens/multi-run.png · WARPDEMO/WarpView/ui/screens/empty.png · WARPDEMO/WarpView/ui/screens/dark.png · WARPDEMO/WarpView/ui/screens/phone.png · WARPDEMO/WarpView/ui/screens/print.png"
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png · WARPDEMO/WarpView/ui/screens/board.png · WARPDEMO/WarpView/ui/screens/table.png · WARPDEMO/WarpView/ui/screens/drawer.png · WARPDEMO/WarpView/ui/screens/utilization.png · WARPDEMO/WarpView/ui/screens/multi-run.png · WARPDEMO/WarpView/ui/screens/empty.png · WARPDEMO/WarpView/ui/screens/dark.png · WARPDEMO/WarpView/ui/screens/phone.png · WARPDEMO/WarpView/ui/screens/print.png · WARPDEMO/WarpView/ui/screens/schedule-plan.png · WARPDEMO/WarpView/ui/screens/schedule-repos.png"
    },
    "logging": {
     "events": [
@@ -2949,6 +3047,14 @@
     {
      "title": "Print",
      "url": "WARPDEMO/WarpView/ui/screens/print.png"
+    },
+    {
+     "title": "A plan's schedule.json",
+     "url": "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
+    },
+    {
+     "title": "Two-repo schedule",
+     "url": "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
     }
    ]
   }

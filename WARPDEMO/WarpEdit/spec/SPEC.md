@@ -71,7 +71,7 @@ Undo restores every dependent's prior status. Golden output: `fixtures/expected/
 
 ### 7.1 Drawer section "Reset phase" (`drawerSections`)
 
-Phase select (`targetsFrom`), Reset button (primary), a preview line ("Blocks 2 queued dependents · 1 in flight · 1 already merged"), then "Reset log": entries from `resets[]` and unsaved session changes, newest first: "merged → coding · Oct 13, 08:00 · note", unsaved ones marked "unsaved". Screen: `ui/screens/edit-drawer.png`.
+For a run of kind schedule (a plan's `schedule.json`, build-schedule/2, WarpView SPEC §3.5) the section holds only the line "schedule.json is the plan: open beam.json to reset a phase" — no select, no button. Otherwise: phase select (`targetsFrom`), Reset button (primary), a preview line ("Blocks 2 queued dependents · 1 in flight · 1 already merged"), then "Reset log": entries from `resets[]` and unsaved session changes, newest first: "merged → coding · Oct 13, 08:00 · note", unsaved ones marked "unsaved". Screen: `ui/screens/edit-drawer.png`.
 
 ### 7.2 Confirm dialog
 
@@ -83,7 +83,7 @@ In WarpView's `#actionsBar` (the row under the top bar, tinted with `--c-qa` at 
 
 ### 7.4 Save (`headerActions`)
 
-Save button (primary; disabled when nothing is unsaved, when validation has errors, or for a status.json load with the tooltip "Open beam.json to save edits"); "Copy as commands" button. Validation banner under the header when errors exist: each error with its ticket id as a button that opens the drawer; warnings lighter. Toast "Saved beam.json (n changes)". Screen: `ui/screens/edit-validation.png`.
+Save button (primary; disabled when nothing is unsaved, when validation has errors, for a status.json load with the tooltip "Open beam.json to save edits", or for a schedule.json load with the tooltip "schedule.json is the plan: open beam.json to save edits"); "Copy as commands" button. Validation banner under the header when errors exist: each error with its ticket id as a button that opens the drawer; warnings lighter. Toast "Saved beam.json (n changes)". Screen: `ui/screens/edit-validation.png`.
 
 ## 8. Validation
 
@@ -107,6 +107,7 @@ Fixtures: `fixtures/invalid/missing-dep.json`, `fixtures/invalid/cycle.json`.
 - beam → every key of the loaded beam, tickets' `status`, `events`, `resets` from the working copy; top-level `editedAt` (ISO) and `editedBy: "warpedit"`. Golden: `fixtures/expected/saved.beam.json` (editedAt excepted).
 - warp-plan export → same shape; each ticket's `status` and `resets`; `exportedAt` = now.
 - status.json → refused: "Open beam.json to save edits".
+- schedule.json (build-schedule/2) → refused: "schedule.json is the plan: open beam.json to save edits". A beam Warp scanned from a schedule is a beam: its extra ticket and gate fields (`lane repo wave priorityGate checks planned`, `scope onGreen priority starts at hold`) are kept as loaded.
 - File name = the loaded name. Download through a Blob URL.
 
 `asCommands(changes)`: one line per change, dependents after their reset, in order:

@@ -1,0 +1,129 @@
+{
+ "planSource": "schedule",
+ "finish": 59,
+ "peak": 6,
+ "slots": 6,
+ "waves": 6,
+ "critHours": 55,
+ "critCount": 6,
+ "gateAt": {
+  "G0": 4,
+  "G1": 22,
+  "G2": 55,
+  "G3": 59
+ },
+ "tickets": {
+  "WV-01": {
+   "slot": 0,
+   "start": 0,
+   "end": 4,
+   "mergeAt": 4,
+   "unplaced": false
+  },
+  "WV-06": {
+   "slot": 0,
+   "start": 4,
+   "end": 8,
+   "mergeAt": 8,
+   "unplaced": false
+  },
+  "WV-03": {
+   "slot": 1,
+   "start": 4,
+   "end": 8,
+   "mergeAt": 8,
+   "unplaced": false
+  },
+  "WV-02": {
+   "slot": 2,
+   "start": 4,
+   "end": 8,
+   "mergeAt": 8,
+   "unplaced": false
+  },
+  "WV-07": {
+   "slot": 0,
+   "start": 8,
+   "end": 19,
+   "mergeAt": 19.5,
+   "unplaced": false
+  },
+  "WV-08": {
+   "slot": 1,
+   "start": 8,
+   "end": 15,
+   "mergeAt": 15,
+   "unplaced": false
+  },
+  "WV-04": {
+   "slot": 2,
+   "start": 8,
+   "end": 15,
+   "mergeAt": 15,
+   "unplaced": false
+  },
+  "WV-05": {
+   "slot": 1,
+   "start": 15,
+   "end": 22,
+   "mergeAt": 22,
+   "unplaced": false
+  },
+  "WV-09": {
+   "slot": 0,
+   "start": 22,
+   "end": 38,
+   "mergeAt": 38.5,
+   "unplaced": false
+  },
+  "WV-10": {
+   "slot": 1,
+   "start": 22,
+   "end": 33,
+   "mergeAt": 33.5,
+   "unplaced": false
+  },
+  "WV-13": {
+   "slot": 2,
+   "start": 22,
+   "end": 33,
+   "mergeAt": 33.5,
+   "unplaced": false
+  },
+  "WV-11": {
+   "slot": 3,
+   "start": 22,
+   "end": 29,
+   "mergeAt": 29,
+   "unplaced": false
+  },
+  "WV-12": {
+   "slot": 4,
+   "start": 22,
+   "end": 29,
+   "mergeAt": 29,
+   "unplaced": false
+  },
+  "WV-14": {
+   "slot": 5,
+   "start": 22,
+   "end": 29,
+   "mergeAt": 29,
+   "unplaced": false
+  },
+  "WV-15": {
+   "slot": 0,
+   "start": 38.5,
+   "end": 54.5,
+   "mergeAt": 55,
+   "unplaced": false
+  },
+  "WV-16": {
+   "slot": 0,
+   "start": 55,
+   "end": 59,
+   "mergeAt": 59,
+   "unplaced": false
+  }
+ }
+}

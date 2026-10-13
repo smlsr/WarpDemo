@@ -12,7 +12,8 @@
   "slots": 18,
   "merge": "continuous: each PR merges when green; sizes outside autoMergeSizes (S, M) wait 0.5 h for approval before dependents start",
   "clock": "estimate hours (S=4, M=7, L=11, XL=16), continuous: no working day, no merge windows",
-  "priority": "critical chain first, then rank (ascending latest_start), then natural id; gateOrder strict: a gate block starts when every earlier block has merged"
+  "priority": "critical chain first, then the members and ancestors of priority gates (G2), then rank (ascending latest_start), then natural id; gate_order strict: a gate block starts when every earlier block has merged",
+  "gate_order": "strict"
  },
  "numbers": {
   "tickets": 16,
@@ -82,6 +83,11 @@
     "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
    ],
    "if_red": "Stop: nothing else can be tested until the build and test runner work.",
+   "on_green": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
    "old_reached": null
   },
   {
@@ -108,6 +114,11 @@
     "tokens.css matches SPEC §12.1"
    ],
    "if_red": "Do not start the views on a model that disagrees with fixtures/expected; fix the model first.",
+   "on_green": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
    "old_reached": null
   },
   {
@@ -135,6 +146,23 @@
     "createApp hooks work with a test plugin"
    ],
    "if_red": "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.",
+   "on_green": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "sibling": {
+    "program": "WarpEdit",
+    "prefix": "WARPDEMO/WarpEdit",
+    "relation": "consumer; WarpEdit starts at WarpView gate G2 (startAfter view:G2) and imports WarpView's modules; WarpView never depends on WarpEdit."
+   },
+   "siblings": [
+    {
+     "program": "WarpEdit",
+     "prefix": "WARPDEMO/WarpEdit",
+     "relation": "consumer; WarpEdit starts at WarpView gate G2 (startAfter view:G2) and imports WarpView's modules; WarpView never depends on WarpEdit."
+    }
+   ],
+   "priority": true,
+   "starts": [
+    "WarpEdit"
+   ],
    "old_reached": null
   },
   {
@@ -154,6 +182,11 @@
     "viewer.html committed, under 400 kB, parity.test.mjs green"
    ],
    "if_red": "Do not announce the viewer until parity is green.",
+   "on_green": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
    "old_reached": null
   }
  ],
@@ -173,6 +206,7 @@
    "rank": 1,
    "latest_start": 0.0,
    "critical": true,
+   "priority_gate": "G2",
    "slot": 1,
    "start": 0.0,
    "merge": 4.0,
@@ -189,8 +223,16 @@
    "gate": "G0",
    "first_gate": "G0",
    "checks": [
-    "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test",
-    "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
+    {
+     "name": "Skeleton builds (G0)",
+     "check": "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test",
+     "wave": 1
+    },
+    {
+     "name": "Skeleton builds (G0)",
+     "check": "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty",
+     "wave": 1
+    }
    ],
    "locks": [
     "WARPDEMO/WarpView/app/package.json",
@@ -222,6 +264,7 @@
    "rank": 2,
    "latest_start": 4.0,
    "critical": true,
+   "priority_gate": "G2",
    "slot": 1,
    "start": 4.0,
    "merge": 8.0,
@@ -262,6 +305,7 @@
    "rank": 4,
    "latest_start": 13.5,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 2,
    "start": 4.0,
    "merge": 8.0,
@@ -307,6 +351,7 @@
    "rank": 5,
    "latest_start": 15.5,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 3,
    "start": 4.0,
    "merge": 8.0,
@@ -355,6 +400,7 @@
    "rank": 3,
    "latest_start": 8.0,
    "critical": true,
+   "priority_gate": "G2",
    "slot": 1,
    "start": 8.0,
    "merge": 19.5,
@@ -379,7 +425,8 @@
    "lock_pairs": [],
    "screens": [
     "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
-    "WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+    "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
    ],
    "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
   },
@@ -397,6 +444,7 @@
    "rank": 6,
    "latest_start": 17.5,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 2,
    "start": 8.0,
    "merge": 15.0,
@@ -436,6 +484,7 @@
    "rank": 8,
    "latest_start": 22.0,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 3,
    "start": 8.0,
    "merge": 15.0,
@@ -474,6 +523,7 @@
    "rank": 11,
    "latest_start": 29.0,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 2,
    "start": 15.0,
    "merge": 22.0,
@@ -490,8 +540,16 @@
    "gate": "G1",
    "first_gate": "G1",
    "checks": [
-    "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)",
-    "tokens.css matches SPEC §12.1"
+    {
+     "name": "Data and model match the reference (G1)",
+     "check": "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)",
+     "wave": 4
+    },
+    {
+     "name": "Data and model match the reference (G1)",
+     "check": "tokens.css matches SPEC §12.1",
+     "wave": 4
+    }
    ],
    "locks": [
     "WARPDEMO/WarpView/app/src/load/sources/"
@@ -517,6 +575,7 @@
    "rank": 7,
    "latest_start": 19.5,
    "critical": true,
+   "priority_gate": "G2",
    "slot": 1,
    "start": 22.0,
    "merge": 38.5,
@@ -544,13 +603,14 @@
     "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
     "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
     "WARPDEMO/WarpView/ui/screens/print.png",
-    "WARPDEMO/WarpView/ui/screens/phone.png"
+    "WARPDEMO/WarpView/ui/screens/phone.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
    ],
    "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
   },
   {
    "id": "WV-10",
-   "summary": "Board view: lanes by block, status, module or size",
+   "summary": "Board view: lanes by block, status, module, lane, repo or size",
    "module": "WarpView",
    "layer": "ui",
    "lane": "console",
@@ -562,6 +622,7 @@
    "rank": 9,
    "latest_start": 24.5,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 2,
    "start": 22.0,
    "merge": 33.5,
@@ -586,7 +647,8 @@
    "locks_more": 0,
    "lock_pairs": [],
    "screens": [
-    "WARPDEMO/WarpView/ui/screens/board.png"
+    "WARPDEMO/WarpView/ui/screens/board.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
    ],
    "mock": "WARPDEMO/WarpView/ui/screens/board.png"
   },
@@ -604,6 +666,7 @@
    "rank": 10,
    "latest_start": 24.5,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 3,
    "start": 22.0,
    "merge": 33.5,
@@ -629,7 +692,8 @@
    "screens": [
     "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
     "WARPDEMO/WarpView/ui/screens/utilization.png",
-    "WARPDEMO/WarpView/ui/screens/multi-run.png"
+    "WARPDEMO/WarpView/ui/screens/multi-run.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
    ],
    "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
   },
@@ -647,6 +711,7 @@
    "rank": 12,
    "latest_start": 29.0,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 4,
    "start": 22.0,
    "merge": 29.0,
@@ -689,6 +754,7 @@
    "rank": 13,
    "latest_start": 29.0,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 5,
    "start": 22.0,
    "merge": 29.0,
@@ -712,7 +778,8 @@
    "locks_more": 0,
    "lock_pairs": [],
    "screens": [
-    "WARPDEMO/WarpView/ui/screens/drawer.png"
+    "WARPDEMO/WarpView/ui/screens/drawer.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
    ],
    "mock": "WARPDEMO/WarpView/ui/screens/drawer.png"
   },
@@ -730,6 +797,7 @@
    "rank": 14,
    "latest_start": 29.0,
    "critical": false,
+   "priority_gate": "G2",
    "slot": 6,
    "start": 22.0,
    "merge": 29.0,
@@ -772,6 +840,7 @@
    "rank": 15,
    "latest_start": 36.0,
    "critical": true,
+   "priority_gate": "G2",
    "slot": 1,
    "start": 38.5,
    "merge": 55.0,
@@ -794,9 +863,21 @@
    "gate": "G2",
    "first_gate": "G2",
    "checks": [
-    "Legend, cards, swimlane, board and table counts agree on every fixture",
-    "No control changes a status",
-    "createApp hooks work with a test plugin"
+    {
+     "name": "Panes agree (G2)",
+     "check": "Legend, cards, swimlane, board and table counts agree on every fixture",
+     "wave": 5
+    },
+    {
+     "name": "Panes agree (G2)",
+     "check": "No control changes a status",
+     "wave": 5
+    },
+    {
+     "name": "Panes agree (G2)",
+     "check": "createApp hooks work with a test plugin",
+     "wave": 5
+    }
    ],
    "locks": [
     "WARPDEMO/WarpView/app/src/main.mjs",
@@ -828,6 +909,7 @@
    "rank": 16,
    "latest_start": 52.5,
    "critical": true,
+   "priority_gate": "",
    "slot": 1,
    "start": 55.0,
    "merge": 59.0,
@@ -842,7 +924,11 @@
    "gate": "G3",
    "first_gate": "G3",
    "checks": [
-    "viewer.html committed, under 400 kB, parity.test.mjs green"
+    {
+     "name": "Ship (G3)",
+     "check": "viewer.html committed, under 400 kB, parity.test.mjs green",
+     "wave": 6
+    }
    ],
    "locks": [
     "WARPDEMO/WarpView/viewer.html",
@@ -862,7 +948,9 @@
     "WARPDEMO/WarpView/ui/screens/empty.png",
     "WARPDEMO/WarpView/ui/screens/dark.png",
     "WARPDEMO/WarpView/ui/screens/phone.png",
-    "WARPDEMO/WarpView/ui/screens/print.png"
+    "WARPDEMO/WarpView/ui/screens/print.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-plan.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
    ],
    "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
   }
@@ -1136,20 +1224,20 @@
  ],
  "fields": {
   "schema": "Format name and version (build-schedule/2), shared by every program's schedule.json.",
-  "model": "How the run works: orchestrators, slots, merge rule, clock, priority rule.",
+  "model": "How the run works: orchestrators, slots, merge rule, clock, priority rule, gate_order. gate_order strict: gate blocks run in order and a pending blocking gate holds the tickets that need its members (Warp's gateOrder strict); absent or deps: gates are milestones and nothing waits for a gate to be reached.",
   "numbers": "Totals for the run. finish_by_slots = finish in estimate-hours at other slot caps. old_plan = the plan this replaces (null where unknown).",
   "critical_chain": "Ticket ids on the longest blocker chain, in order.",
   "lanes": "Lane names; ticket.lane is one of these.",
   "repos": "Repositories; ticket.repo is one of these. One serial merge queue per repository.",
-  "gates": "Milestones, checked the moment the last member merges. blocking=true: a red gate stops everyone; false: it stops only `scope`. behind = tickets that must be merged for it to be reached. With gateOrder strict, a gate's members are its block and a block starts when the blocks before it have merged.",
+  "gates": "Milestones, checked the moment the last member merges. blocking=true: a red gate stops everyone; false: it stops only `scope`. behind = tickets that must be merged for it to be reached. on_green = the command the orchestrator runs when the checks pass (null when none). siblings = the sibling programs that start at this gate ([{program, prefix, relation}]; `sibling` = its first entry, null otherwise). starts = the program names that start at this gate. priority = members and their ancestors dispatch ahead of rank. With model.gate_order strict, a gate's members are its block and a block starts when the blocks before it have merged.",
   "lock_pairs": "Pairs of tickets that share a lock folder and have no blocker between them; never in flight together. Empty when every overlap is already ordered by a blocker.",
   "tickets": {
    "id / summary / module / layer / lane / wave / repo / file": "Identity. wave = dependency level (longest chain of blockers under the ticket). file is the main file the ticket writes, null when it owns a folder.",
    "size / h": "T-shirt size and estimate-hours (S=4, M=7, L=11, XL=16).",
-   "rank / latest_start / critical": "Dispatch priority (1 first), the latest start in estimate-hours that still finishes on time, and whether the ticket is on the critical chain. Rank is ascending latest_start.",
+   "rank / latest_start / critical / priority_gate": "Dispatch priority (1 first), the latest start in estimate-hours that still finishes on time, whether the ticket is on the critical chain, and the priority gate whose path the ticket is on ('' if none): such tickets dispatch after the critical chain and ahead of rank. Rank is ascending latest_start.",
    "slot / start / merge / ready / waited / why": "Simulated run: slot 1..slots, start and merge in estimate-hours, when the last blocker merged (or its block opened), hours spent ready but waiting, and why it could start then.",
    "after / after_other_modules / unlocks": "Blockers (Warp reads `after` as blockers; `run:id` names a ticket in another run), the subset in another run, and the tickets this one blocks.",
-   "gate / first_gate / checks": "Gate the ticket is a member of ('' if none), the earliest gate that needs it ('' if none), and checks to run when this ticket merges.",
+   "gate / first_gate / checks": "Gate the ticket is a member of ('' if none), the earliest gate that needs it ('' if none), and checks to run when this ticket merges: [{name, check, wave}], the checks of each gate this ticket closes.",
    "locks / locks_more / lock_pairs": "Lock folders and files (repo-root-relative), how many more were truncated (0 = complete), and lock-pair partners.",
    "screens / mock": "UI design files the ticket must match (empty / null when none)."
   },

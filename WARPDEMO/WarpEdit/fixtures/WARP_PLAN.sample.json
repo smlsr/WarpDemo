@@ -1,7 +1,7 @@
 {
  "kind": "warp-plan",
  "version": 1,
- "exportedAt": "2026-10-13T12:10:06Z",
+ "exportedAt": "2026-10-13T14:26:05Z",
  "estimate": {
   "agentHours": 127.0,
   "humanHours": 4.5,
@@ -55,9 +55,13 @@
    ],
    "checks": [
     "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test",
-    "npm --prefix WARPDEMO/WarpView/app run build writes dist/viewer.html and it opens empty"
+    "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
    ],
    "ifRed": "Stop: nothing else can be tested until the build and test runner work.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 4.0,
+   "hold": "green",
    "status": "green",
    "evidence": "members merged: WV-01",
    "greenAt": "2026-10-11T15:56:20Z"
@@ -80,6 +84,10 @@
     "tokens.css matches SPEC §12.1"
    ],
    "ifRed": "Do not start the views on a model that disagrees with fixtures/expected; fix the model first.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 22.0,
+   "hold": "green",
    "status": "green",
    "evidence": "members merged: WV-02, WV-03, WV-04, WV-05, WV-06, WV-07, WV-08",
    "greenAt": "2026-10-11T22:21:17Z"
@@ -103,6 +111,17 @@
     "createApp hooks work with a test plugin"
    ],
    "ifRed": "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": true,
+   "starts": [
+    "WarpEdit"
+   ],
+   "siblings": [
+    "WarpEdit"
+   ],
+   "at": 55.0,
+   "hold": "green",
    "status": "pending",
    "evidence": null,
    "greenAt": null
@@ -118,6 +137,10 @@
     "viewer.html committed, under 400 kB, parity.test.mjs green"
    ],
    "ifRed": "Do not announce the viewer until parity is green.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 59.0,
+   "hold": "green",
    "status": "pending",
    "evidence": null,
    "greenAt": null
@@ -287,7 +310,7 @@
    "id": "WV-10",
    "jiraKey": "WAR-110",
    "jiraKeySource": "external",
-   "summary": "Board view: lanes by block, status, module or size",
+   "summary": "Board view: lanes by block, status, module, lane, repo or size",
    "deps": [],
    "locks": [
     "WARPDEMO/WarpView/app/src/view/board/"

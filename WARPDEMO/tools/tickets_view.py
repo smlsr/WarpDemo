@@ -100,17 +100,23 @@ P.T("WV-04", "Read beam, status, ticket state and export files into runs",
     for status.json alone (no gates, hours from size). 4. `applyState(ticket, state)` per §3.3: only an open ticket,
     only when newer, never undoes a merge, copies the PR url and alarm. 5. `buildRuns(docs, extra)` per §3.2: one
     run per name, else instance, else folder; the newer copy wins; status.json joins its run; ticket states attach by
-    folder then by id; repo from the first PR url; returns `{{runs, skipped, overlaid, states}}`.""",
+    folder then by id; repo from the first PR url; returns `{{runs, skipped, overlaid, states}}`. 6. `runFromSchedule(doc)`
+    for a plan's build-schedule/2 schedule.json per §3.5: kind schedule, key `sched:<program>`, every ticket queued
+    with its lane, repo, wave, priority gate, merge checks and planned slot/start/merge; gates with scope, on green,
+    priority, starts, at and hold; gate order strict only when `model.gate_order` says so. runFromBeam reads the same
+    ticket and gate fields from a beam Warp 1.6.2 scanned from such a file.""",
     acs=[
         ("happy", f"Given `{F}/beam.sample.json`, when buildRuns runs, then one run named view with 16 tickets results and every ticket field of SPEC §4.2 is filled as in `{F}/expected/view.run.json`."),
         ("happy", f"Given `{F}/beam.sample.json` and `{F}/tickets/WV-11/state.json` (state coding, newer), when buildRuns runs, then WV-11 has status coding, stateNote set, and overlaid is 1."),
         ("edge", f"Given `{F}/runs/view/beam.json` and `{F}/runs/edit/beam.json` plus an older copy of the view beam, when buildRuns runs, then two runs result, sorted by name, and the newer view copy is kept."),
         ("edge", f"Given only `{F}/status.sample.json`, when buildRuns runs, then one run of kind status results with no gates and hours taken from size (S=4, M=7, L=11, XL=16)."),
+        ("happy", f"Given `{P.d}/plan/schedule.json`, when buildRuns runs, then one run of kind schedule named WarpView results, gateOrder strict, every ticket queued with lane, repo, priorityGate and planned as in `{F}/expected/schedule.run.json`."),
+        ("edge", f"Given `{F}/schedule/two-repos.json` (no model.gate_order), when buildRuns runs, then gateOrder is deps, every gate holds red, repo reads 'Demo-API + Demo-UI', AD-02 has priorityGate G-RBAC and one check {{name, check}} — `{F}/expected/two-repos.run.json`."),
         ("negative", "Given a JSON file with neither tickets nor done/working/left nor id+state, when buildRuns runs, then it is counted in skipped and creates no run; a merged ticket with a newer state.json saying coding stays merged."),
         ("happy", f"Given `{TEST}`, when run, then parse.test.mjs passes against every fixture under `{F}/`."),
     ],
-    test_data=f"{F}/beam.sample.json, {F}/status.sample.json, {F}/tickets/WV-11/state.json, {F}/WARP_PLAN.sample.json, {F}/runs/",
-    links=[P.spec("3"), P.spec("4"), EXP("view.run.json")])
+    test_data=f"{F}/beam.sample.json, {F}/status.sample.json, {F}/tickets/WV-11/state.json, {F}/WARP_PLAN.sample.json, {F}/runs/, {F}/schedule/two-repos.json, {P.d}/plan/schedule.json",
+    links=[P.spec("3"), P.spec("3.5"), P.spec("4"), EXP("view.run.json"), EXP("schedule.run.json"), EXP("two-repos.run.json")])
 
 P.T("WV-05", "Open files and folders, drag and drop, reload and auto-reload",
     size="M", lane="platform", gate="G1", deps=["WV-04"],
@@ -144,7 +150,8 @@ P.T("WV-06", "Gate blocks: assign each ticket to a block and clear blocks",
     If the viewer assigns blocks differently from Warp, the plan it draws is not the plan Warp runs and the gate
     lines land in the wrong place.""",
     what=f"""Create `{A}/src/model/blocks/blocks.mjs`, a port of Warp's scripts/blocks.py as specified in SPEC §6.
-    1. `gateKeys(run)`: G-number keys in numeric order, then other keys in plan order. 2. `assignBlocks(run)`: a
+    1. `gateKeys(run)`: by `at` when every gate has one (build-schedule/2; ties by G-number, then plan order), else
+    G-number keys in numeric order, then other keys in plan order. 2. `assignBlocks(run)`: a
     ticket's block is its own gate when that gate exists, else the lowest gate that lists it as a member, else the
     highest block among its dependencies (cycles cut), else the first block; with no gates every block is null.
     3. `blockStates(run)`: per block the ticket ids, counts of merged, open, parked and queued, the gate status and
@@ -152,12 +159,13 @@ P.T("WV-06", "Gate blocks: assign each ticket to a block and clear blocks",
     acs=[
         ("happy", f"Given `{F}/beam.sample.json`, when assignBlocks runs, then every ticket's block equals `{F}/expected/view.blocks.json`."),
         ("happy", f"Given `{F}/big/beam.sample.json` (68 tickets, gates G0–G5), when assignBlocks runs, then the result equals `{F}/expected/big.blocks.json`."),
+        ("edge", f"Given `{F}/schedule/two-repos.json`, where every gate has `at`, when gateKeys runs, then the order is G0, G-RBAC, G1, G2 and the blocks equal `{F}/expected/two-repos.blocks.json`."),
         ("edge", "Given a ticket with no gate, no membership and a dependency cycle A→B→A, when assignBlocks runs, then it terminates and both get the highest block of their other dependencies or the first block."),
         ("negative", "Given a run with no gates, when blockStates runs, then it returns an empty list and every ticket's block is null."),
         ("happy", f"Given `{TEST}`, when run, then blocks.test.mjs passes."),
     ],
-    test_data=f"{F}/beam.sample.json, {F}/big/beam.sample.json",
-    links=[P.spec("6"), EXP("view.blocks.json"), EXP("big.blocks.json")])
+    test_data=f"{F}/beam.sample.json, {F}/big/beam.sample.json, {F}/schedule/two-repos.json",
+    links=[P.spec("6"), EXP("view.blocks.json"), EXP("big.blocks.json"), EXP("two-repos.blocks.json")])
 
 P.T("WV-07", "Planned swimlane and actual timeline layouts",
     size="L", lane="model", gate="G1", deps=["WV-06"], critical_hint=True,
@@ -166,10 +174,12 @@ P.T("WV-07", "Planned swimlane and actual timeline layouts",
     PDF, and an actual clock of what happened. Both are computed, not drawn by hand. If the simulation differs from
     Warp's dispatch rule the picture lies about the finish and the critical chain; if the actual layout overlaps bars
     nobody can read it. This ticket owns both layouts as pure functions with golden outputs.""",
-    what=f"""Create `{A}/src/model/plan/plan.mjs` per SPEC §7 and §8. 1. `plan(run)`: list scheduling with
+    what=f"""Create `{A}/src/model/plan/plan.mjs` per SPEC §7 and §8. 0. When every ticket has `planned` slot, start
+    and merge (a schedule.json, or a beam scanned from one), `plan(run)` draws it as written and sets planSource
+    schedule; gateAt comes from each gate's `at`. Otherwise: 1. `plan(run)`: list scheduling with
     `run.cap` slots (maxAgents, default 18); a ticket is ready when every in-run dependency has merged (merge = end
     plus 0.5 h when its size is not auto-merged) and, with gateOrder strict, every earlier block has merged; ready
-    tickets sorted critical first, starred, rank, longest downstream chain, natural id; lowest free slot. Sets
+    tickets sorted critical first, starred, priority gate path, rank, longest downstream chain, natural id; lowest free slot. Sets
     `slot start end mergeAt` per ticket and `finish peak slots waves critHours critCount gateAt` on the run; tickets
     that can never be ready are laid after everything and flagged `unplaced`. 2. `layoutPlan(run)` and
     `layoutActual(run, now)` returning `{{prefix, label, rows, span, now, unstarted, items, gates}}` (§8): actual
@@ -177,14 +187,15 @@ P.T("WV-07", "Planned swimlane and actual timeline layouts",
     acs=[
         ("happy", f"Given `{F}/beam.sample.json`, when plan runs, then slot, start and mergeAt of every ticket and finish, peak, slots and gateAt equal `{F}/expected/view.plan.json` to 0.01 h."),
         ("happy", f"Given `{F}/big/beam.sample.json`, when plan runs, then the result equals `{F}/expected/big.plan.json` (finish T+177, peak 10, 10 slots)."),
+        ("happy", f"Given `{P.d}/plan/schedule.json`, when plan runs, then every slot, start and mergeAt equals the schedule's own slot, start and merge, finish equals numbers.finish_h and planSource is schedule — `{F}/expected/schedule.plan.json`."),
         ("edge", "Given gateOrder deps on the same big beam, when plan runs, then no block waits for an earlier block and the finish is earlier than the strict finish."),
         ("edge", f"Given `{F}/beam.sample.json` and now = 2026-10-12T20:00:00Z, when layoutActual runs, then items, rows, unstarted and the now line equal `{F}/expected/view.actual.json`."),
         ("negative", "Given a dependency cycle, when plan runs, then it returns within 100 ms, every ticket has a slot and the cycle members are flagged unplaced."),
         ("happy", f"Given `{TEST}`, when run, then plan.test.mjs passes."),
     ],
     test_data=f"{F}/beam.sample.json, {F}/big/beam.sample.json",
-    screens=[S["swimlane-plan"], S["swimlane-actual"]],
-    links=[P.spec("7"), P.spec("8"), EXP("view.plan.json"), EXP("big.plan.json"), EXP("view.actual.json")])
+    screens=[S["swimlane-plan"], S["swimlane-actual"], S["schedule-plan"]],
+    links=[P.spec("7"), P.spec("8"), EXP("view.plan.json"), EXP("big.plan.json"), EXP("view.actual.json"), EXP("schedule.plan.json"), EXP("two-repos.plan.json")])
 
 P.T("WV-08", "Run totals: estimate, agent hours, people hours, tickets",
     size="M", lane="model", gate="G1", deps=["WV-03", "WV-06"],
@@ -225,7 +236,9 @@ P.T("WV-09", "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
     (red bold when red, green when green), the now line on the actual clock, and one bar per item: left accent and
     tint in the status color, id with ★ for critical, size·hours, title, ⚠ for an alarm, ✗ for red CI, a tiny form
     under 70 px, dim when filtered out, outline when a search hits. 2. Zoom: fit to width times 6^(zoom/100);
-    print width fit. 3. The Plan/Actual toggle in the panel header. 4. `tooltipFor(ticket)`.""",
+    print width fit. 3. The Plan/Actual toggle in the panel header and its note ('as written in schedule.json' for a
+    schedule plan). 4. `tooltipFor(ticket)`, and the gate tooltip with scope, priority, starts, checks, on green and
+    if red. 5. Color by Lane uses the lane's hue (else the module's).""",
     acs=[
         ("happy", f"Given `{F}/beam.sample.json` at 1600 px, when rendered with layoutPlan, then it matches `{P.d}/ui/screens/swimlane-plan.png`: same rows, bar positions to 1 px, gate labels G0–G3 and colors by status."),
         ("happy", f"Given the actual clock, when rendered with layoutActual at the expected now, then it matches `{P.d}/ui/screens/swimlane-actual.png` with the dashed now line."),
@@ -234,18 +247,20 @@ P.T("WV-09", "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
         ("negative", "Given a run with zero tickets, when rendered, then one empty slot row and the axis render and nothing throws."),
         ("happy", f"Given `{TEST}`, when run, then swimlane.test.mjs passes (HTML snapshot against the expected layouts)."),
     ],
-    screens=[S["swimlane-plan"], S["swimlane-actual"], S["print"], S["phone"]],
+    screens=[S["swimlane-plan"], S["swimlane-actual"], S["print"], S["phone"], S["schedule-plan"]],
     links=[P.spec("10.6"), REF, EXP("view.plan.json")])
 
-P.T("WV-10", "Board view: lanes by block, status, module or size",
+P.T("WV-10", "Board view: lanes by block, status, module, lane, repo or size",
     size="L", lane="console", gate="G2", deps=["WV-02", "WV-03", "WV-06"],
     locks=[f"{A}/src/view/board/"],
     why="""The swimlane shows time; the board shows where each ticket stands and lets people scan a block or a status
     at a glance, open the pull request and the Jira issue in one click, and see alarms. Cleared blocks fold away so
     the open work stays on screen. Without it people go back to reading Warp's STATUS.md.""",
     what=f"""Create `{A}/src/view/board/board.mjs` and `board.css` per SPEC §10.7. 1. `lanesFor(runs, groupBy)`
-    for block (gate order, or 'All tickets' without gates), status (the six categories), module (natural order)
-    and size (S, M, L, XL, No size); with several runs the block lanes are prefixed by run label. 2. Lane header:
+    for block (gate order, or 'All tickets' without gates), status (the six categories), module, lane (else module,
+    else 'No lane') and repo ('No repo'), all natural order, and size (S, M, L, XL, No size); with several runs the
+    block lanes are prefixed by run label. A priority gate's lane shows a 'priority' pill and a gate that starts
+    other programs shows 'starts <programs>'. 2. Lane header:
     chevron, name and gate name, gate pill (status and greenAt, tooltip with evidence, checks and if-red), cleared
     pill, 'n/m done', agent hours, a stack bar, 'k shown' when filtered. Cleared block lanes start collapsed when
     there is more than one lane; the person's choice wins after that. 3. Card: id with ★, size badge, status text in
@@ -255,10 +270,11 @@ P.T("WV-10", "Board view: lanes by block, status, module or size",
         ("happy", f"Given `{F}/beam.sample.json`, when rendered by block, then four lanes G0–G3 appear, G0 is collapsed and cleared, and the result matches `{P.d}/ui/screens/board.png`."),
         ("happy", "Given groupBy status, when rendered, then six lanes appear in the CATS order with counts that equal the legend counts."),
         ("edge", "Given jiraSite is empty, when a card renders, then the Jira key is plain text, not a link; given 'acme.atlassian.net', then the link is https://acme.atlassian.net/browse/<key>."),
+        ("edge", f"Given `{F}/schedule/two-repos.json` grouped by Repo, when rendered, then two lanes Demo-API and Demo-UI appear as in `{P.d}/ui/screens/schedule-repos.png`; grouped by block, the G-RBAC lane shows the pills 'priority' and 'starts Demo-Portal' and its gate tooltip names its scope and on-green command."),
         ("negative", "Given a filter that hides every ticket in a lane, when rendered, then the lane shows '0 shown' and no cards, and the other lanes are unchanged."),
         ("happy", f"Given `{TEST}`, when run, then board.test.mjs passes."),
     ],
-    screens=[S["board"]], links=[P.spec("10.7"), REF])
+    screens=[S["board"], S["schedule-repos"]], links=[P.spec("10.7"), REF])
 
 P.T("WV-11", "Table view: sortable columns with the four PR timestamps",
     size="M", lane="console", gate="G2", deps=["WV-02", "WV-03", "WV-07"],
@@ -291,7 +307,8 @@ P.T("WV-12", "Ticket drawer, timestamps and bar tooltip",
     must take extra sections without being edited.""",
     what=f"""Create `{A}/src/view/drawer/drawer.mjs` and `drawer.css` per SPEC §10.10. 1. `renderDrawer(ticket, run,
     sections)`: header with the status color bar, id with ★ and title; key/value list in the order of §10.10 (alarm
-    first when present); 'Timestamps' with Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment,
+    first when present; Lane / repo, Priority gate and Schedule only when the ticket has them); 'Checks when it
+    merges' when the ticket has checks; 'Timestamps' with Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment,
     Updated (each stamp() plus the raw value, '—' when missing); Depends on and Locks as tags; Events, newest first,
     at most 25. 2. Extra sections: for each `{{id, render(ticket, run)}}` in `sections`, append its HTML under the
     events in registration order. 3. `renderTooltip(ticket)` for bars. 4. Close button; Escape and the scrim close
@@ -299,11 +316,12 @@ P.T("WV-12", "Ticket drawer, timestamps and bar tooltip",
     acs=[
         ("happy", f"Given WV-05 in `{F}/beam.sample.json`, when the drawer renders, then the fields and the timestamp list match `{P.d}/ui/screens/drawer.png` in order and value."),
         ("happy", "Given one extra section {id:'x', render: () => '<p id=\"x\">X</p>'}, when the drawer renders, then the paragraph appears after Events and nothing else changes."),
+        ("edge", f"Given AD-02 in `{F}/schedule/two-repos.json`, when the drawer renders, then Lane / repo reads '1 API · Demo-API', Priority gate starts with 'G-RBAC', Schedule reads 'slot 2 · T+7h → T+14h · latest start T+11h' and 'Checks when it merges' lists 'Roles live (G-RBAC) — make rbac-ready', as in `{P.d}/ui/screens/schedule-repos.png`."),
         ("edge", "Given a ticket with 40 events, when rendered, then 25 are listed, newest first."),
         ("negative", "Given a title containing '<img src=x onerror=alert(1)>', when rendered, then it shows as text (escaped) in the header, the tooltip and the key list."),
         ("happy", f"Given `{TEST}`, when run, then drawer.test.mjs passes."),
     ],
-    screens=[S["drawer"]], links=[P.spec("10.10"), P.spec("11")])
+    screens=[S["drawer"], S["schedule-repos"]], links=[P.spec("10.10"), P.spec("11")])
 
 P.T("WV-13", "Header, run tabs, the four totals and utilization panel",
     size="L", lane="console", gate="G2", deps=["WV-02", "WV-08"],
@@ -313,7 +331,8 @@ P.T("WV-13", "Header, run tabs, the four totals and utilization panel",
     The utilization panel answers whether the agents are busy and where tokens went. If these disagree with the
     swimlane or with Warp, people stop trusting the page.""",
     what=f"""Create `{A}/src/view/header/header.mjs` and `header.css` per SPEC §10.2–§10.4. 1. `renderMeta(runs, tab)`:
-    chips for repo, run, instance (warp:<id>), state with dot (running pulses, paused, stopped, done), pause reason,
+    chips for repo, run, instance (warp:<id>), state with dot (running pulses, paused, stopped, done; 'plan' for a
+    schedule.json), pause reason,
     range, owner, exported time for an export, and 'updated <ago> · <stamp>' (stamp hidden under 640 px). 2.
     `renderHeadline(runs)`: title, the subline of §10.3 and the ★ critical chain line. 3. `renderTabs(runs, tab)`:
     'All runs (n)' plus one tab per run with done/total. 4. `renderCards(metrics)`: the four cards of §9.2 with big
@@ -324,10 +343,11 @@ P.T("WV-13", "Header, run tabs, the four totals and utilization panel",
         ("happy", f"Given `{F}/beam.sample.json`, when the header renders, then chips, subline, chain and the four cards match `{P.d}/ui/screens/swimlane-plan.png` and the numbers equal `{F}/expected/view.metrics.json`."),
         ("happy", f"Given both beams in `{F}/runs/`, when rendered, then tabs read 'All runs (2)', 'edit · d/t' and 'view · d/t' and the meta shows '2 runs · n running'."),
         ("edge", "Given estTotal null, when the run estimate card renders, then the big number and every row read '—' and the bar is empty."),
+        ("edge", f"Given only `{P.d}/plan/schedule.json`, when the header renders, then the state chip reads plan, the subline ends with 'plan as written in schedule.json', and it matches `{P.d}/ui/screens/schedule-plan.png`."),
         ("negative", "Given a run with no repo, no instance and no owner, when the meta renders, then those chips are omitted, not shown empty."),
         ("happy", f"Given `{TEST}`, when run, then header.test.mjs passes."),
     ],
-    screens=[S["swimlane-plan"], S["utilization"], S["multi-run"]], links=[P.spec("9"), P.spec("10.2"), EXP("view.metrics.json")])
+    screens=[S["swimlane-plan"], S["utilization"], S["multi-run"], S["schedule-plan"]], links=[P.spec("9"), P.spec("10.2"), EXP("view.metrics.json")])
 
 P.T("WV-14", "Filters, search, view switch, theme, keyboard and File menu",
     size="M", lane="console", gate="G2", deps=["WV-02", "WV-03"],
@@ -338,8 +358,9 @@ P.T("WV-14", "Filters, search, view switch, theme, keyboard and File menu",
     wall of color.""",
     what=f"""Create `{A}/src/view/controls/controls.mjs` and `controls.css` per SPEC §10.5 and §10.13. 1. Legend chips
     with counts per category; click toggles, double-click shows only that category (again: all). 2. Search: words
-    are ANDed over id, title, Jira key, module, layer, agent, status, block, size and run name, case-insensitive.
-    3. Segmented control Swimlane / Board / Table, Lanes select (board only), Color select (status or module), Zoom
+    are ANDed over id, title, Jira key, module, layer, lane, repo, priority gate, agent, status, block, size and run
+    name, case-insensitive. 3. Segmented control Swimlane / Board / Table, Lanes select (board only: Gate block,
+    Status, Module, Lane, Repo, Size), Color select (Status, Module, Lane), Zoom
     range (swimlane only); choices remembered in localStorage inside try/catch. 4. Theme toggle setting data-theme.
     5. File menu: Open status files (O), Open .warp folder (Shift+O), Reload (R), Auto-reload, Print (P), Close all
     files. 6. Keys: '/' focuses search, Escape closes menu and drawer, Enter/Space activate cards, rows, lane headers
@@ -409,5 +430,8 @@ P.gate("G1", "Data and model match the reference", ["WV-02", "WV-03", "WV-04", "
        "Do not start the views on a model that disagrees with fixtures/expected; fix the model first.")
 P.gate("G2", "Panes agree", ["WV-09", "WV-10", "WV-11", "WV-12", "WV-13", "WV-14", "WV-15"],
        ["Legend, cards, swimlane, board and table counts agree on every fixture", "No control changes a status", "createApp hooks work with a test plugin"],
-       "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.")
+       "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.",
+       priority=True, starts=["WarpEdit"],
+       siblings=[{"program": "WarpEdit", "prefix": "WARPDEMO/WarpEdit",
+                  "relation": "consumer; WarpEdit starts at WarpView gate G2 (startAfter view:G2) and imports WarpView's modules; WarpView never depends on WarpEdit."}])
 P.gate("G3", "Ship", ["WV-16"], ["viewer.html committed, under 400 kB, parity.test.mjs green"], "Do not announce the viewer until parity is green.")

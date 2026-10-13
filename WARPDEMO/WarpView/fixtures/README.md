@@ -10,4 +10,5 @@ Made by `WARPDEMO/tools/gen_fixtures.py` with Warp's own scan from `plan/schedul
 | `WARP_PLAN.sample.json` | Warp's export of that beam (`kind: warp-plan`) |
 | `runs/view/beam.json`, `runs/edit/beam.json` | two named runs for the tabs |
 | `big/beam.sample.json` | Warp's 68-ticket example (gates G0–G5) for layout and totals |
-| `expected/` | what the reference page computes for these files (categories, run, blocks, plan, actual, metrics, table); `fresh.plan.json` equals `plan/schedule.json` |
+| `schedule/two-repos.json` | a build-schedule/2 file in the HOS-Admin shape: two repos (Demo-API, Demo-UI), cross-repo blockers, a named non-blocking priority gate G-RBAC that starts Demo-Portal, merge checks as objects, no `model.gate_order` |
+| `expected/` | what the reference page computes for these files (categories, run, blocks, plan, actual, metrics, table); `fresh.plan.json` equals `plan/schedule.json`; `schedule.*.json` is `plan/schedule.json` opened directly; `two-repos.*.json` is the two-repo schedule |

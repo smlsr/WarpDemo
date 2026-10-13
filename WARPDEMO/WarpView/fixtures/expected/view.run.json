@@ -1,4 +1,5 @@
 {
+ "kind": "beam",
  "name": "view",
  "instance": "4e7a21",
  "runState": "running",
@@ -6,6 +7,83 @@
  "gateOrder": "strict",
  "repo": "smlsr/WarpDemo",
  "updated": "2026-10-12T19:57:00.000Z",
+ "schedule": {
+  "schema": "build-schedule/2",
+  "program": "WarpView",
+  "rebuilt": "2026-10-13",
+  "repos": [
+   "smlsr/WarpDemo"
+  ],
+  "lanes": [
+   "platform",
+   "model",
+   "console",
+   "quality",
+   "release"
+  ],
+  "gateOrder": "strict",
+  "slots": 18,
+  "priority": "critical chain first, then the members and ancestors of priority gates (G2), then rank (ascending latest_start), then natural id; gate_order strict: a gate block starts when every earlier block has merged",
+  "finishHours": 59,
+  "agentHours": 127,
+  "criticalHours": 56.5,
+  "peak": 6,
+  "waves": 6
+ },
+ "gateKeys": [
+  "G0",
+  "G1",
+  "G2",
+  "G3"
+ ],
+ "gates": [
+  {
+   "key": "G0",
+   "status": "green",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": false,
+   "starts": [],
+   "at": 4,
+   "hold": "green"
+  },
+  {
+   "key": "G1",
+   "status": "green",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": false,
+   "starts": [],
+   "at": 22,
+   "hold": "green"
+  },
+  {
+   "key": "G2",
+   "status": "pending",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": true,
+   "starts": [
+    "WarpEdit"
+   ],
+   "at": 55,
+   "hold": "green"
+  },
+  {
+   "key": "G3",
+   "status": "pending",
+   "blocking": true,
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": false,
+   "starts": [],
+   "at": 59,
+   "hold": "green"
+  }
+ ],
  "overlaid": 1,
  "skipped": 0,
  "tickets": [
@@ -26,7 +104,28 @@
    "minutes": 80,
    "tokens": 238240,
    "cost": 1,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 1,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Skeleton builds (G0)",
+     "check": "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test"
+    },
+    {
+     "name": "Skeleton builds (G0)",
+     "check": "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": -0.0,
+    "merge": 4,
+    "ready": -0.0,
+    "latest_start": -0.0
+   }
   },
   {
    "id": "WV-06",
@@ -47,7 +146,19 @@
    "minutes": 77,
    "tokens": 285131,
    "cost": 1.2,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 1,
+    "start": 4,
+    "merge": 8,
+    "ready": 4,
+    "latest_start": 4
+   }
   },
   {
    "id": "WV-03",
@@ -68,7 +179,19 @@
    "minutes": 84,
    "tokens": 345492,
    "cost": 1.45,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 2,
+    "start": 4,
+    "merge": 8,
+    "ready": 4,
+    "latest_start": 13.5
+   }
   },
   {
    "id": "WV-02",
@@ -89,7 +212,19 @@
    "minutes": 65,
    "tokens": 201175,
    "cost": 0.84,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 3,
+    "start": 4,
+    "merge": 8,
+    "ready": 4,
+    "latest_start": 15.5
+   }
   },
   {
    "id": "WV-07",
@@ -110,7 +245,19 @@
    "minutes": 242,
    "tokens": 946462,
    "cost": 3.98,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 1,
+    "start": 8,
+    "merge": 19.5,
+    "ready": 8,
+    "latest_start": 8
+   }
   },
   {
    "id": "WV-08",
@@ -132,7 +279,19 @@
    "minutes": 105,
    "tokens": 290850,
    "cost": 1.22,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 2,
+    "start": 8,
+    "merge": 15,
+    "ready": 8,
+    "latest_start": 17.5
+   }
   },
   {
    "id": "WV-04",
@@ -153,7 +312,19 @@
    "minutes": 124,
    "tokens": 349804,
    "cost": 1.47,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 3,
+    "start": 8,
+    "merge": 15,
+    "ready": 8,
+    "latest_start": 22
+   }
   },
   {
    "id": "WV-05",
@@ -174,7 +345,28 @@
    "minutes": 158,
    "tokens": 479846,
    "cost": 2.02,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Data and model match the reference (G1)",
+     "check": "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)"
+    },
+    {
+     "name": "Data and model match the reference (G1)",
+     "check": "tokens.css matches SPEC §12.1"
+    }
+   ],
+   "planned": {
+    "slot": 2,
+    "start": 15,
+    "merge": 22,
+    "ready": 15,
+    "latest_start": 29
+   }
   },
   {
    "id": "WV-09",
@@ -197,11 +389,23 @@
    "minutes": 371,
    "tokens": 1502921,
    "cost": 6.31,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 1,
+    "start": 22,
+    "merge": 38.5,
+    "ready": 22,
+    "latest_start": 19.5
+   }
   },
   {
    "id": "WV-10",
-   "title": "Board view: lanes by block, status, module or size",
+   "title": "Board view: lanes by block, status, module, lane, repo or size",
    "size": "L",
    "status": "review",
    "cat": "rev",
@@ -220,7 +424,19 @@
    "minutes": 172,
    "tokens": 684904,
    "cost": 2.88,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 2,
+    "start": 22,
+    "merge": 33.5,
+    "ready": 22,
+    "latest_start": 24.5
+   }
   },
   {
    "id": "WV-13",
@@ -242,7 +458,19 @@
    "minutes": 173,
    "tokens": 718296,
    "cost": 3.02,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 3,
+    "start": 22,
+    "merge": 33.5,
+    "ready": 22,
+    "latest_start": 24.5
+   }
   },
   {
    "id": "WV-11",
@@ -265,7 +493,19 @@
    "minutes": 113,
    "tokens": 296286,
    "cost": 1.24,
-   "stateNote": "state.json: coding (beam said claimed)"
+   "stateNote": "state.json: coding (beam said claimed)",
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 4,
+    "start": 22,
+    "merge": 29,
+    "ready": 22,
+    "latest_start": 29
+   }
   },
   {
    "id": "WV-12",
@@ -287,7 +527,19 @@
    "minutes": 155,
    "tokens": 635190,
    "cost": 2.67,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 5,
+    "start": 22,
+    "merge": 29,
+    "ready": 22,
+    "latest_start": 29
+   }
   },
   {
    "id": "WV-14",
@@ -309,7 +561,19 @@
    "minutes": 131,
    "tokens": 446448,
    "cost": 1.88,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "checks": [],
+   "planned": {
+    "slot": 6,
+    "start": 22,
+    "merge": 29,
+    "ready": 22,
+    "latest_start": 29
+   }
   },
   {
    "id": "WV-15",
@@ -336,7 +600,32 @@
    "minutes": 0,
    "tokens": 0,
    "cost": null,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "quality",
+   "repo": "smlsr/WarpDemo",
+   "wave": 5,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Panes agree (G2)",
+     "check": "Legend, cards, swimlane, board and table counts agree on every fixture"
+    },
+    {
+     "name": "Panes agree (G2)",
+     "check": "No control changes a status"
+    },
+    {
+     "name": "Panes agree (G2)",
+     "check": "createApp hooks work with a test plugin"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 38.5,
+    "merge": 55,
+    "ready": 38.5,
+    "latest_start": 36
+   }
   },
   {
    "id": "WV-16",
@@ -357,7 +646,24 @@
    "minutes": 0,
    "tokens": 0,
    "cost": null,
-   "stateNote": null
+   "stateNote": null,
+   "lane": "release",
+   "repo": "smlsr/WarpDemo",
+   "wave": 6,
+   "priorityGate": null,
+   "checks": [
+    {
+     "name": "Ship (G3)",
+     "check": "viewer.html committed, under 400 kB, parity.test.mjs green"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 55,
+    "merge": 59,
+    "ready": 55,
+    "latest_start": 52.5
+   }
   }
  ]
 }

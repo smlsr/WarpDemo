@@ -1,0 +1,66 @@
+{
+ "planSource": "schedule",
+ "finish": 22,
+ "peak": 3,
+ "slots": 3,
+ "waves": 4,
+ "critHours": 22,
+ "critCount": 4,
+ "gateAt": {
+  "G0": 7,
+  "G-RBAC": 14,
+  "G1": 18,
+  "G2": 22
+ },
+ "tickets": {
+  "AR-00": {
+   "slot": 0,
+   "start": 0,
+   "end": 7,
+   "mergeAt": 7,
+   "unplaced": false
+  },
+  "AD-01": {
+   "slot": 0,
+   "start": 7,
+   "end": 11,
+   "mergeAt": 11,
+   "unplaced": false
+  },
+  "AD-02": {
+   "slot": 1,
+   "start": 7,
+   "end": 14,
+   "mergeAt": 14,
+   "unplaced": false
+  },
+  "AD-03": {
+   "slot": 2,
+   "start": 7,
+   "end": 11,
+   "mergeAt": 11,
+   "unplaced": false
+  },
+  "AU-01": {
+   "slot": 0,
+   "start": 11,
+   "end": 18,
+   "mergeAt": 18,
+   "unplaced": false
+  },
+  "AU-02": {
+   "slot": 1,
+   "start": 14,
+   "end": 18,
+   "mergeAt": 18,
+   "unplaced": false
+  },
+  "AD-04": {
+   "slot": 0,
+   "start": 18,
+   "end": 22,
+   "mergeAt": 22,
+   "unplaced": false
+  }
+ }
+}

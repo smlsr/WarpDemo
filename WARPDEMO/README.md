@@ -1,6 +1,6 @@
 # WARPDEMO
 
-Two small products, built by Warp as two named runs in this repo. They are the demo for Warp 1.6: named runs, gate blocks, `startAfter`, cross-run blockers, and the run dashboard.
+Two small products, built by Warp as two named runs in this repo. They are the demo for Warp 1.6: named runs, gate blocks, `startAfter`, cross-run blockers, the run dashboard, and build-schedule/2 schedules (priority gates, merge checks, on-green commands).
 
 | Module | Run | What it builds | Tickets | Plan finish | Starts |
 |---|---|---|---|---|---|
@@ -31,7 +31,7 @@ WARPDEMO/
 
 The pack folders (`spec plan tickets fixtures ui`) are read-only while a run builds; agents write only under `app/` inside their ticket's lock paths.
 
-## Run it with Warp (1.6.1 or later)
+## Run it with Warp (1.6.2 or later)
 
 Day 0, once per repo: `sh WARPDEMO/bootstrap.sh`, then import Jira: `WARPDEMO/JIRA_IMPORT.json` (project **WAR**, see `WarpView/tickets/IMPORT.md`). If the old packs were imported into WAR before, archive those issues first: they carry the same External IDs.
 
@@ -46,6 +46,8 @@ In `.warp/config.yaml`: `paths: WARPDEMO/WarpView`, `jiraProject: WAR`.
 /warp-start
 ```
 `/warp-start G0-G1` runs only the first two gate blocks and pauses when they are cleared.
+
+`plan/schedule.json` is build-schedule/2 with `model.gate_order: "strict"`, so Warp runs the gate blocks in order (without that line Warp 1.6.2 treats build-schedule/2 gates as milestones). G2 is a priority gate: its members and their ancestors go right after the ★ chain, and it `starts` WarpEdit. A green gate prints its `on_green` command for the parent to run. `python3 .cursor/plugins/warp/scripts/buildsched.py show WARPDEMO/WarpView/plan/schedule.json` shows what Warp reads.
 
 **Developer 2 — run `edit`** (another checkout):
 

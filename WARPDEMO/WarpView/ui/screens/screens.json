@@ -173,6 +173,40 @@
     "WV-15",
     "WV-16"
    ]
+  },
+  {
+   "id": "schedule-plan",
+   "title": "A plan's schedule.json",
+   "job": "plan/schedule.json (build-schedule/2) opened before any run: the plan as written, state chip 'plan'",
+   "states": [
+    "schedule",
+    "plan as written"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/schedule-plan.png",
+   "html": "WARPDEMO/WarpView/ui/screens/schedule-plan.html",
+   "tickets": [
+    "WV-07",
+    "WV-09",
+    "WV-13",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "schedule-repos",
+   "title": "Two-repo schedule",
+   "job": "A build-schedule/2 file over two repos: board by Repo, drawer with lane, priority gate, planned times and merge checks",
+   "states": [
+    "schedule",
+    "lanes by repo",
+    "drawer open"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/schedule-repos.png",
+   "html": "WARPDEMO/WarpView/ui/screens/schedule-repos.html",
+   "tickets": [
+    "WV-10",
+    "WV-12",
+    "WV-16"
+   ]
   }
  ]
 }

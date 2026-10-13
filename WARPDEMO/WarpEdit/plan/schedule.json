@@ -12,7 +12,8 @@
   "slots": 18,
   "merge": "continuous: each PR merges when green; sizes outside autoMergeSizes (S, M) wait 0.5 h for approval before dependents start",
   "clock": "estimate hours (S=4, M=7, L=11, XL=16), continuous: no working day, no merge windows",
-  "priority": "critical chain first, then rank (ascending latest_start), then natural id; gateOrder strict: a gate block starts when every earlier block has merged; the run starts after view:G2"
+  "priority": "critical chain first, then the members and ancestors of priority gates, then rank (ascending latest_start), then natural id; gate_order strict: a gate block starts when every earlier block has merged; the run starts after view:G2",
+  "gate_order": "strict"
  },
  "numbers": {
   "tickets": 14,
@@ -83,6 +84,11 @@
     "app/dist/editor.html opens with the Editing badge"
    ],
    "if_red": "Stop the edit run: the viewer can change a phase or the editor cannot import it.",
+   "on_green": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
    "old_reached": null
   },
   {
@@ -110,6 +116,11 @@
     "undo restores the loaded ticket exactly"
    ],
    "if_red": "Do not build screens on a reset that loses data.",
+   "on_green": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
    "old_reached": null
   },
   {
@@ -133,6 +144,11 @@
     "Totals follow a reset"
    ],
    "if_red": "Fix before release.",
+   "on_green": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
    "old_reached": null
   },
   {
@@ -152,6 +168,11 @@
     "editor.html committed; round trip green; viewer audit green"
    ],
    "if_red": "Do not announce the editor until the round trip is green.",
+   "on_green": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
    "old_reached": null
   }
  ],
@@ -171,6 +192,7 @@
    "rank": 1,
    "latest_start": 0.0,
    "critical": true,
+   "priority_gate": "",
    "slot": 1,
    "start": 0.0,
    "merge": 4.0,
@@ -190,8 +212,16 @@
    "gate": "G0",
    "first_gate": "G0",
    "checks": [
-    "npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green)",
-    "app/dist/editor.html opens with the Editing badge"
+    {
+     "name": "Editor builds, viewer untouched (G0)",
+     "check": "npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green)",
+     "wave": 1
+    },
+    {
+     "name": "Editor builds, viewer untouched (G0)",
+     "check": "app/dist/editor.html opens with the Editing badge",
+     "wave": 1
+    }
    ],
    "locks": [
     "WARPDEMO/WarpEdit/app/package.json",
@@ -220,6 +250,7 @@
    "rank": 2,
    "latest_start": 4.0,
    "critical": true,
+   "priority_gate": "",
    "slot": 1,
    "start": 4.0,
    "merge": 11.0,
@@ -259,6 +290,7 @@
    "rank": 3,
    "latest_start": 7.0,
    "critical": false,
+   "priority_gate": "",
    "slot": 2,
    "start": 4.0,
    "merge": 8.0,
@@ -298,6 +330,7 @@
    "rank": 11,
    "latest_start": 46.5,
    "critical": false,
+   "priority_gate": "",
    "slot": 2,
    "start": 8.0,
    "merge": 12.0,
@@ -338,6 +371,7 @@
    "rank": 4,
    "latest_start": 11.0,
    "critical": true,
+   "priority_gate": "",
    "slot": 1,
    "start": 11.0,
    "merge": 22.5,
@@ -381,6 +415,7 @@
    "rank": 9,
    "latest_start": 43.5,
    "critical": false,
+   "priority_gate": "",
    "slot": 3,
    "start": 11.0,
    "merge": 18.0,
@@ -421,6 +456,7 @@
    "rank": 5,
    "latest_start": 22.5,
    "critical": true,
+   "priority_gate": "",
    "slot": 1,
    "start": 22.5,
    "merge": 29.5,
@@ -460,6 +496,7 @@
    "rank": 7,
    "latest_start": 36.5,
    "critical": false,
+   "priority_gate": "",
    "slot": 2,
    "start": 22.5,
    "merge": 29.5,
@@ -498,6 +535,7 @@
    "rank": 10,
    "latest_start": 43.5,
    "critical": false,
+   "priority_gate": "",
    "slot": 1,
    "start": 29.5,
    "merge": 36.5,
@@ -515,8 +553,16 @@
    "gate": "G1",
    "first_gate": "G1",
    "checks": [
-    "reset, dependents, validate and save equal fixtures/expected",
-    "undo restores the loaded ticket exactly"
+    {
+     "name": "Reset is safe (G1)",
+     "check": "reset, dependents, validate and save equal fixtures/expected",
+     "wave": 5
+    },
+    {
+     "name": "Reset is safe (G1)",
+     "check": "undo restores the loaded ticket exactly",
+     "wave": 5
+    }
    ],
    "locks": [
     "WARPDEMO/WarpEdit/app/src/edit/save/"
@@ -540,6 +586,7 @@
    "rank": 6,
    "latest_start": 29.5,
    "critical": true,
+   "priority_gate": "",
    "slot": 1,
    "start": 36.5,
    "merge": 48.0,
@@ -580,6 +627,7 @@
    "rank": 12,
    "latest_start": 50.5,
    "critical": false,
+   "priority_gate": "",
    "slot": 2,
    "start": 36.5,
    "merge": 43.5,
@@ -622,6 +670,7 @@
    "rank": 13,
    "latest_start": 50.5,
    "critical": false,
+   "priority_gate": "",
    "slot": 3,
    "start": 36.5,
    "merge": 43.5,
@@ -664,6 +713,7 @@
    "rank": 8,
    "latest_start": 41.0,
    "critical": true,
+   "priority_gate": "",
    "slot": 1,
    "start": 48.0,
    "merge": 64.5,
@@ -680,8 +730,16 @@
    "gate": "G2",
    "first_gate": "G2",
    "checks": [
-    "Drawer reset, header actions, banner and scrubber match ui/screens",
-    "Totals follow a reset"
+    {
+     "name": "Editor screens (G2)",
+     "check": "Drawer reset, header actions, banner and scrubber match ui/screens",
+     "wave": 6
+    },
+    {
+     "name": "Editor screens (G2)",
+     "check": "Totals follow a reset",
+     "wave": 6
+    }
    ],
    "locks": [
     "WARPDEMO/WarpEdit/app/src/edit/scrubber/"
@@ -707,6 +765,7 @@
    "rank": 14,
    "latest_start": 57.5,
    "critical": true,
+   "priority_gate": "",
    "slot": 1,
    "start": 64.5,
    "merge": 76.0,
@@ -724,7 +783,11 @@
    "gate": "G3",
    "first_gate": "G3",
    "checks": [
-    "editor.html committed; round trip green; viewer audit green"
+    {
+     "name": "Ship (G3)",
+     "check": "editor.html committed; round trip green; viewer audit green",
+     "wave": 7
+    }
    ],
    "locks": [
     "WARPDEMO/WarpEdit/editor.html",
@@ -1018,20 +1081,20 @@
  ],
  "fields": {
   "schema": "Format name and version (build-schedule/2), shared by every program's schedule.json.",
-  "model": "How the run works: orchestrators, slots, merge rule, clock, priority rule.",
+  "model": "How the run works: orchestrators, slots, merge rule, clock, priority rule, gate_order. gate_order strict: gate blocks run in order and a pending blocking gate holds the tickets that need its members (Warp's gateOrder strict); absent or deps: gates are milestones and nothing waits for a gate to be reached.",
   "numbers": "Totals for the run. finish_by_slots = finish in estimate-hours at other slot caps. old_plan = the plan this replaces (null where unknown).",
   "critical_chain": "Ticket ids on the longest blocker chain, in order.",
   "lanes": "Lane names; ticket.lane is one of these.",
   "repos": "Repositories; ticket.repo is one of these. One serial merge queue per repository.",
-  "gates": "Milestones, checked the moment the last member merges. blocking=true: a red gate stops everyone; false: it stops only `scope`. behind = tickets that must be merged for it to be reached. With gateOrder strict, a gate's members are its block and a block starts when the blocks before it have merged.",
+  "gates": "Milestones, checked the moment the last member merges. blocking=true: a red gate stops everyone; false: it stops only `scope`. behind = tickets that must be merged for it to be reached. on_green = the command the orchestrator runs when the checks pass (null when none). siblings = the sibling programs that start at this gate ([{program, prefix, relation}]; `sibling` = its first entry, null otherwise). starts = the program names that start at this gate. priority = members and their ancestors dispatch ahead of rank. With model.gate_order strict, a gate's members are its block and a block starts when the blocks before it have merged.",
   "lock_pairs": "Pairs of tickets that share a lock folder and have no blocker between them; never in flight together. Empty when every overlap is already ordered by a blocker.",
   "tickets": {
    "id / summary / module / layer / lane / wave / repo / file": "Identity. wave = dependency level (longest chain of blockers under the ticket). file is the main file the ticket writes, null when it owns a folder.",
    "size / h": "T-shirt size and estimate-hours (S=4, M=7, L=11, XL=16).",
-   "rank / latest_start / critical": "Dispatch priority (1 first), the latest start in estimate-hours that still finishes on time, and whether the ticket is on the critical chain. Rank is ascending latest_start.",
+   "rank / latest_start / critical / priority_gate": "Dispatch priority (1 first), the latest start in estimate-hours that still finishes on time, whether the ticket is on the critical chain, and the priority gate whose path the ticket is on ('' if none): such tickets dispatch after the critical chain and ahead of rank. Rank is ascending latest_start.",
    "slot / start / merge / ready / waited / why": "Simulated run: slot 1..slots, start and merge in estimate-hours, when the last blocker merged (or its block opened), hours spent ready but waiting, and why it could start then.",
    "after / after_other_modules / unlocks": "Blockers (Warp reads `after` as blockers; `run:id` names a ticket in another run), the subset in another run, and the tickets this one blocks.",
-   "gate / first_gate / checks": "Gate the ticket is a member of ('' if none), the earliest gate that needs it ('' if none), and checks to run when this ticket merges.",
+   "gate / first_gate / checks": "Gate the ticket is a member of ('' if none), the earliest gate that needs it ('' if none), and checks to run when this ticket merges: [{name, check, wave}], the checks of each gate this ticket closes.",
    "locks / locks_more / lock_pairs": "Lock folders and files (repo-root-relative), how many more were truncated (0 = complete), and lock-pair partners.",
    "screens / mock": "UI design files the ticket must match (empty / null when none)."
   },

@@ -22,7 +22,8 @@ The run is chain-bound, not agent-bound: past the slot count where the finish st
 - `T+h` is estimate-hours on a continuous clock from the moment the run starts.
 - Hours are the size estimates (S=4, M=7, L=11, XL=16). Real runs drift; the order does not.
 - L and XL tickets wait 0.5 h for approval before their dependents start.
-- A gate block (gateOrder strict) starts when every earlier block has merged.
+- A gate block starts when every earlier block has merged (`model.gate_order: strict` in schedule.json).
+- Priority: ★ critical chain, then tickets on a priority gate's path (`priority_gate`), then rank.
 
 ## Gates
 

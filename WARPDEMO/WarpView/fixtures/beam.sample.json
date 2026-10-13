@@ -1,11 +1,11 @@
 {
  "version": 1,
  "name": "warp-beam",
- "generatedAt": "2026-10-13T12:10:05Z",
+ "generatedAt": "2026-10-13T14:26:04Z",
  "source": {
   "schedule": ".warp/_ingested_schedule.json",
   "plan": "WARPDEMO/WarpView/plan/schedule.json",
-  "generated": "2026-10-13T12:10:05Z",
+  "generated": "2026-10-13T14:26:04Z",
   "module": "warp",
   "format": "build-schedule/2",
   "scan": {
@@ -23,7 +23,7 @@
    "maps": [],
    "root": ".",
    "folder": "WARPDEMO/WarpView",
-   "scannedAt": "2026-10-13T12:10:05Z"
+   "scannedAt": "2026-10-13T14:26:04Z"
   },
   "folder": "WARPDEMO/WarpView"
  },
@@ -45,6 +45,30 @@
   "lockConflicts": [],
   "peakAgents": null,
   "agentHours": null,
+  "schedule": {
+   "schema": "build-schedule/2",
+   "program": "WarpView",
+   "rebuilt": "2026-10-13",
+   "repos": [
+    "smlsr/WarpDemo"
+   ],
+   "lanes": [
+    "platform",
+    "model",
+    "console",
+    "quality",
+    "release"
+   ],
+   "gateOrder": "strict",
+   "slots": 18,
+   "priority": "critical chain first, then the members and ancestors of priority gates (G2), then rank (ascending latest_start), then natural id; gate_order strict: a gate block starts when every earlier block has merged",
+   "finishHours": 59.0,
+   "agentHours": 127,
+   "criticalHours": 56.5,
+   "peak": 6,
+   "waves": 6
+  },
+  "gateOrder": "strict",
   "estimate": {
    "agentHours": 127.0,
    "humanHours": 4.5,
@@ -153,9 +177,13 @@
    ],
    "checks": [
     "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test",
-    "npm --prefix WARPDEMO/WarpView/app run build writes dist/viewer.html and it opens empty"
+    "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
    ],
    "ifRed": "Stop: nothing else can be tested until the build and test runner work.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 4.0,
+   "hold": "green",
    "status": "green",
    "evidence": "members merged: WV-01",
    "greenAt": "2026-10-11T15:31:00Z"
@@ -178,6 +206,10 @@
     "tokens.css matches SPEC §12.1"
    ],
    "ifRed": "Do not start the views on a model that disagrees with fixtures/expected; fix the model first.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 22.0,
+   "hold": "green",
    "status": "green",
    "evidence": "members merged: WV-02, WV-03, WV-04, WV-05, WV-06, WV-07, WV-08",
    "greenAt": "2026-10-11T23:05:56Z"
@@ -201,6 +233,17 @@
     "createApp hooks work with a test plugin"
    ],
    "ifRed": "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "priority": true,
+   "starts": [
+    "WarpEdit"
+   ],
+   "siblings": [
+    "WarpEdit"
+   ],
+   "at": 55.0,
+   "hold": "green",
    "status": "pending",
    "evidence": null,
    "greenAt": null
@@ -216,6 +259,10 @@
     "viewer.html committed, under 400 kB, parity.test.mjs green"
    ],
    "ifRed": "Do not announce the viewer until parity is green.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 59.0,
+   "hold": "green",
    "status": "pending",
    "evidence": null,
    "greenAt": null
@@ -257,6 +304,31 @@
    "result": {},
    "gate": "G0",
    "priority": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 1,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Skeleton builds (G0)",
+     "check": "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test"
+    },
+    {
+     "name": "Skeleton builds (G0)",
+     "check": "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 0.0,
+    "merge": 4.0,
+    "ready": 0.0,
+    "latest_start": 0.0
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/empty.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/empty.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -360,6 +432,17 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 1,
+    "start": 4.0,
+    "merge": 8.0,
+    "ready": 4.0,
+    "latest_start": 4.0
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -464,6 +547,17 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 2,
+    "start": 4.0,
+    "merge": 8.0,
+    "ready": 4.0,
+    "latest_start": 13.5
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -567,6 +661,24 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 3,
+    "start": 4.0,
+    "merge": 8.0,
+    "ready": 4.0,
+    "latest_start": 15.5
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/dark.png",
+    "WARPDEMO/WarpView/ui/screens/phone.png",
+    "WARPDEMO/WarpView/ui/screens/print.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -670,6 +782,23 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 1,
+    "start": 8.0,
+    "merge": 19.5,
+    "ready": 8.0,
+    "latest_start": 8.0
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -774,6 +903,17 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 2,
+    "start": 8.0,
+    "merge": 15.0,
+    "ready": 8.0,
+    "latest_start": 17.5
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -877,6 +1017,17 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 3,
+    "start": 8.0,
+    "merge": 15.0,
+    "ready": 8.0,
+    "latest_start": 22.0
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -980,6 +1131,31 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Data and model match the reference (G1)",
+     "check": "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)"
+    },
+    {
+     "name": "Data and model match the reference (G1)",
+     "check": "tokens.css matches SPEC §12.1"
+    }
+   ],
+   "planned": {
+    "slot": 2,
+    "start": 15.0,
+    "merge": 22.0,
+    "ready": 15.0,
+    "latest_start": 29.0
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/empty.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/empty.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1085,6 +1261,25 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 1,
+    "start": 22.0,
+    "merge": 38.5,
+    "ready": 22.0,
+    "latest_start": 19.5
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+    "WARPDEMO/WarpView/ui/screens/print.png",
+    "WARPDEMO/WarpView/ui/screens/phone.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1142,7 +1337,7 @@
    "jiraKeySource": "external",
    "jiraKeyForced": false,
    "jiraKeyConfidence": null,
-   "summary": "Board view: lanes by block, status, module or size",
+   "summary": "Board view: lanes by block, status, module, lane, repo or size",
    "module": "WarpView",
    "layer": "ui",
    "group": null,
@@ -1169,6 +1364,22 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 2,
+    "start": 22.0,
+    "merge": 33.5,
+    "ready": 22.0,
+    "latest_start": 24.5
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/board.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/board.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1255,6 +1466,24 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 3,
+    "start": 22.0,
+    "merge": 33.5,
+    "ready": 22.0,
+    "latest_start": 24.5
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/utilization.png",
+    "WARPDEMO/WarpView/ui/screens/multi-run.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-plan.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1348,6 +1577,21 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 4,
+    "start": 22.0,
+    "merge": 29.0,
+    "ready": 22.0,
+    "latest_start": 29.0
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/table.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/table.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1431,6 +1675,22 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 5,
+    "start": 22.0,
+    "merge": 29.0,
+    "ready": 22.0,
+    "latest_start": 29.0
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/drawer.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/drawer.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1535,6 +1795,22 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "priorityGate": "G2",
+   "planned": {
+    "slot": 6,
+    "start": 22.0,
+    "merge": 29.0,
+    "ready": 22.0,
+    "latest_start": 29.0
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/dark.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1633,6 +1909,39 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "quality",
+   "repo": "smlsr/WarpDemo",
+   "wave": 5,
+   "priorityGate": "G2",
+   "checks": [
+    {
+     "name": "Panes agree (G2)",
+     "check": "Legend, cards, swimlane, board and table counts agree on every fixture"
+    },
+    {
+     "name": "Panes agree (G2)",
+     "check": "No control changes a status"
+    },
+    {
+     "name": "Panes agree (G2)",
+     "check": "createApp hooks work with a test plugin"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 38.5,
+    "merge": 55.0,
+    "ready": 38.5,
+    "latest_start": 36.0
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/board.png",
+    "WARPDEMO/WarpView/ui/screens/table.png",
+    "WARPDEMO/WarpView/ui/screens/multi-run.png",
+    "WARPDEMO/WarpView/ui/screens/print.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1697,6 +2006,38 @@
    "result": {},
    "gate": "G3",
    "priority": null,
+   "lane": "release",
+   "repo": "smlsr/WarpDemo",
+   "wave": 6,
+   "checks": [
+    {
+     "name": "Ship (G3)",
+     "check": "viewer.html committed, under 400 kB, parity.test.mjs green"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 55.0,
+    "merge": 59.0,
+    "ready": 55.0,
+    "latest_start": 52.5
+   },
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+    "WARPDEMO/WarpView/ui/screens/board.png",
+    "WARPDEMO/WarpView/ui/screens/table.png",
+    "WARPDEMO/WarpView/ui/screens/drawer.png",
+    "WARPDEMO/WarpView/ui/screens/utilization.png",
+    "WARPDEMO/WarpView/ui/screens/multi-run.png",
+    "WARPDEMO/WarpView/ui/screens/empty.png",
+    "WARPDEMO/WarpView/ui/screens/dark.png",
+    "WARPDEMO/WarpView/ui/screens/phone.png",
+    "WARPDEMO/WarpView/ui/screens/print.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-plan.png",
+    "WARPDEMO/WarpView/ui/screens/schedule-repos.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1753,7 +2094,7 @@
   "byModule": {
    "WarpView": 16
   },
-  "computedAt": "2026-10-13T12:10:05Z"
+  "computedAt": "2026-10-13T14:26:04Z"
  },
  "run": "view",
  "gateOrder": "strict",

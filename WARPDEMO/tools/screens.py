@@ -12,6 +12,8 @@ VIEW = [
     ("dark", "Dark theme", "The swimlane screen in the dark theme", ["dark"]),
     ("phone", "Phone width", "390 px: stacked totals, scrollable swimlane, no page scroll sideways", ["narrow"]),
     ("print", "Print", "Landscape page: header, totals and the swimlane fitted to the page width", ["print"]),
+    ("schedule-plan", "A plan's schedule.json", "plan/schedule.json (build-schedule/2) opened before any run: the plan as written, state chip 'plan'", ["schedule", "plan as written"]),
+    ("schedule-repos", "Two-repo schedule", "A build-schedule/2 file over two repos: board by Repo, drawer with lane, priority gate, planned times and merge checks", ["schedule", "lanes by repo", "drawer open"]),
 ]
 
 EDIT = [

@@ -13,6 +13,7 @@ Sources read: `WarpView/` and `WarpEdit/` in this repo's working copy (Oct 5, vi
 | C5 | The old viewer's look (plain tables) did not match Warp's dashboard | The Warp 1.6.1 run dashboard is the design of record; every screen has a PNG |
 | C6 | `.warp/scan.json` and `_ingested_schedule.json` inside the packs pointed at `/workspace/artifacts/...` | Removed; Warp writes those in `.warp/` |
 | C7 | Old schedule.json in Warp's legacy shape | build-schedule/2 (the FORGEQA/HOS format); Warp 1.6.1 reads it |
+| C8 | The HOS-Admin schedule.json added fields the packs did not write or read (priority gates, merge checks as objects, gate on_green/starts/siblings, two repos, gates as milestones) | Warp 1.6.2 reads them. The packs write them (`priority_gate`, `checks [{name, check, wave}]`, G2 `priority` + `starts WarpEdit`, `on_green`) and say `model.gate_order: strict`, so Warp keeps running block by block. WarpView opens a schedule.json directly (SPEC §3.5, WV-04/06/07/09/10/12/13/14, `fixtures/schedule/two-repos.json`); WarpEdit treats it as read-only (WE-09/10/13) |
 
 ## Requirements
 

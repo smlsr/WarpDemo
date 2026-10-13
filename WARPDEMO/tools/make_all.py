@@ -178,7 +178,21 @@ def main() -> int:
                       f"Warp reads {t['id']} differently: {w}")
             check(got["criticalPath"] == S["critical_chain"], "Warp critical path differs")
             check([g["key"] for g in got["gates"]] == [g["key"] for g in S["gates"]] and all(g.get("ifRed") for g in got["gates"]), "Warp gates differ")
-        print("warp: scan reads both schedules (ids, blockers, hours, sizes, gates, critical chain)")
+            # build-schedule/2 extras (Warp 1.6.2+): plan, priority gates, merge checks, gate order and gate details
+            meta = got.get("schedule") or {}
+            check(meta.get("gateOrder") == S["model"]["gate_order"], f"Warp gate order {meta.get('gateOrder')} differs from model.gate_order {S['model']['gate_order']} (Warp 1.6.2+ needed)")
+            for t in S["tickets"]:
+                w = byid[t["id"]]
+                pl = w.get("planned") or {}
+                check((w.get("priorityGate") or "") == t["priority_gate"], f"Warp reads {t['id']} priority gate as {w.get('priorityGate')}")
+                check(pl.get("slot") == t["slot"] and pl.get("start") == t["start"] and pl.get("merge") == t["merge"], f"Warp reads {t['id']} planned times as {pl}")
+                check([c.get("check") for c in w.get("checks") or []] == [c["check"] for c in t["checks"]], f"Warp reads {t['id']} checks differently")
+                check(w.get("lane") == t["lane"] and w.get("repo") == t["repo"], f"Warp reads {t['id']} lane/repo differently")
+            for g, sg in zip(got["gates"], S["gates"]):
+                check(g.get("at") == sg["at"] and g.get("onGreen") == sg["on_green"] and bool(g.get("priority")) == sg["priority"] and list(g.get("starts") or []) == sg["starts"],
+                      f"Warp reads gate {sg['key']} differently: {g}")
+                check(g.get("hold") == ("green" if S["model"]["gate_order"] == "strict" else "red"), f"gate {sg['key']} hold {g.get('hold')}")
+        print("warp: scan reads both schedules (ids, blockers, hours, sizes, gates, critical chain, plan, priority gates, checks, gate order)")
 
     if args.strict:
         for pack in packs:

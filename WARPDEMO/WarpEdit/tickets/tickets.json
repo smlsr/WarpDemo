@@ -1304,7 +1304,7 @@
     "WE-08"
    ],
    "why": "An edit is worth nothing until Warp sees it. People load a beam.json from a .warp folder or a WARP_PLAN.json\n    export; the saved file must have the same shape so it can go straight back, and must carry the status and the\n    reset log. Some people would rather run Warp's own command than replace a file, so the same edits must be\n    available as commands.",
-   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/save/save.mjs` per SPEC §9. 1. `serialize(loaded, working)`: a beam keeps every\n    key of the loaded beam, with each ticket's status, events and resets from the working copy and `editedAt` and\n    `editedBy: 'warpedit'` added at top level; a `kind: warp-plan` export keeps its shape, gets each ticket's status\n    and resets and a new `exportedAt`. 2. status.json input cannot be saved (message: open beam.json). 3. File name:\n    the loaded name. 4. `download(name, text)` with a Blob. 5. `asCommands(changes)`: one line per change\n    `python3 .cursor/plugins/warp/scripts/beam.py set --beam .warp/beam.json --id <id> --status <to>`, dependents\n    included, in order. 6. Refuses when validate returns errors.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/save/save.mjs` per SPEC §9. 1. `serialize(loaded, working)`: a beam keeps every\n    key of the loaded beam, with each ticket's status, events and resets from the working copy and `editedAt` and\n    `editedBy: 'warpedit'` added at top level; a `kind: warp-plan` export keeps its shape, gets each ticket's status\n    and resets and a new `exportedAt`. 2. status.json and a plan's schedule.json (build-schedule/2) cannot be saved\n    (messages of SPEC §9); a beam scanned from a schedule keeps its lane, repo, priority gate, checks and planned\n    fields untouched. 3. File name:\n    the loaded name. 4. `download(name, text)` with a Blob. 5. `asCommands(changes)`: one line per change\n    `python3 .cursor/plugins/warp/scripts/beam.py set --beam .warp/beam.json --id <id> --status <to>`, dependents\n    included, in order. 6. Refuses when validate returns errors.",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -1329,6 +1329,11 @@
     },
     {
      "id": "AC-5",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpView/plan/schedule.json` loaded, when Save is asked, then it refuses with 'schedule.json is the plan: open beam.json to save edits'; given `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, the saved WV-07 keeps planned, lane and priorityGate as loaded."
+    },
+    {
+     "id": "AC-6",
      "kind": "happy",
      "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then save.test.mjs passes."
     }
@@ -1389,7 +1394,7 @@
    "analyticsEvents": [],
    "environment": {
     "name": "local browser + node 22",
-    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json, WARPDEMO/WarpEdit/fixtures/WARP_PLAN.sample.json, WARPDEMO/WarpEdit/fixtures/status.sample.json"
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json, WARPDEMO/WarpEdit/fixtures/WARP_PLAN.sample.json, WARPDEMO/WarpEdit/fixtures/status.sample.json, WARPDEMO/WarpView/plan/schedule.json"
    },
    "dependenciesRisks": {
     "dependsOn": [
@@ -1459,7 +1464,7 @@
     "WE-06"
    ],
    "why": "The drawer is where people already look at a ticket, so it is where they reset it. The section must offer\n    only allowed phases, go through the confirm dialog, and show the ticket's reset history both from this session\n    and from a file saved earlier, so a reload shows what was done and why.",
-   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/drawer-panel/panel.mjs` and `panel.css` per SPEC §7.1, registered with WarpView's\n    `drawerSections` hook and added to `WARPDEMO/WarpEdit/app/src/plugins.mjs` (append-only). 1. Section 'Reset phase': the phase select\n    from targetsFrom, a Reset button, and the dependents preview. 2. Reset → confirmReset → store.apply with the\n    dependents plan. 3. 'Reset log': every entry of resets[] (from the file) and session changes not yet saved,\n    newest first, with from → to, time and note; unsaved entries marked. 4. The drawer re-renders after each change.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/drawer-panel/panel.mjs` and `panel.css` per SPEC §7.1, registered with WarpView's\n    `drawerSections` hook and added to `WARPDEMO/WarpEdit/app/src/plugins.mjs` (append-only). 1. Section 'Reset phase': the phase select\n    from targetsFrom, a Reset button, and the dependents preview. 2. Reset → confirmReset → store.apply with the\n    dependents plan. 3. 'Reset log': every entry of resets[] (from the file) and session changes not yet saved,\n    newest first, with from → to, time and note; unsaved entries marked. 4. The drawer re-renders after each change.\n    5. A run of kind schedule (a plan's schedule.json) shows only the line 'schedule.json is the plan: open beam.json\n    to reset a phase'.",
    "outOfScope": [],
    "acceptanceCriteria": [
     {
@@ -1484,6 +1489,11 @@
     },
     {
      "id": "AC-5",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpView/plan/schedule.json` loaded, when WV-07's drawer opens, then the Reset section holds only 'schedule.json is the plan: open beam.json to reset a phase' and no select or button."
+    },
+    {
+     "id": "AC-6",
      "kind": "happy",
      "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then panel.test.mjs passes."
     }
@@ -1975,7 +1985,7 @@
     "WE-09"
    ],
    "why": "Save is the last step and the riskiest. People must see when it is blocked and why, which ticket to fix,\n    get the file under the name they loaded, and have the commands to apply the same edits through Warp instead.\n    Without this the save module has no button and validation has no voice.",
-   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/save-ui/save-ui.mjs` and `save-ui.css` per SPEC §7.4, through the `headerActions`\n    hook. 1. Save button: disabled when nothing is unsaved or validate has errors; on click serialize, download,\n    `markSaved()` and toast 'Saved <name> (n changes)'. 2. Validation banner under the header when errors exist:\n    each error with its ticket id as a button that opens the drawer; warnings in a lighter style. 3. 'Copy as\n    commands' copies asCommands() to the clipboard and toasts the line count. 4. A status.json load shows Save\n    disabled with the reason as tooltip.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/save-ui/save-ui.mjs` and `save-ui.css` per SPEC §7.4, through the `headerActions`\n    hook. 1. Save button: disabled when nothing is unsaved or validate has errors; on click serialize, download,\n    `markSaved()` and toast 'Saved <name> (n changes)'. 2. Validation banner under the header when errors exist:\n    each error with its ticket id as a button that opens the drawer; warnings in a lighter style. 3. 'Copy as\n    commands' copies asCommands() to the clipboard and toasts the line count. 4. A status.json or schedule.json\n    load shows Save disabled with the reason of SPEC §7.4 as tooltip.",
    "outOfScope": [],
    "acceptanceCriteria": [
     {

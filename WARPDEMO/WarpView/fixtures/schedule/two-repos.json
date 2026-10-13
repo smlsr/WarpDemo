@@ -1,0 +1,518 @@
+{
+ "schema": "build-schedule/2",
+ "program": "Demo-Admin",
+ "rebuilt": "2026-10-12T20:00:00Z",
+ "source": {
+  "from": "WARPDEMO/tools/gen_fixtures.py two_repos()",
+  "generated": "2026-10-12T20:00:00Z"
+ },
+ "model": {
+  "orchestrators": 1,
+  "slots": 4,
+  "merge": "continuous: each PR merges when green",
+  "clock": "estimate hours (S 4 · M 7 · L 11 · XL 16), continuous",
+  "priority": "critical chain first, then the members and ancestors of priority gates (G-RBAC), then rank"
+ },
+ "numbers": {
+  "tickets": 7,
+  "waves": 4,
+  "agent_hours": 37,
+  "finish_h": 22.0,
+  "critical_path_h": 22.0,
+  "critical_tickets": 4,
+  "peak": 3
+ },
+ "critical_chain": [
+  "AR-00",
+  "AD-01",
+  "AU-01",
+  "AD-04"
+ ],
+ "lanes": [
+  "1 API",
+  "2 UI"
+ ],
+ "repos": [
+  "Demo-API",
+  "Demo-UI"
+ ],
+ "gates": [
+  {
+   "key": "G0",
+   "name": "Platform ready",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "AR-00"
+   ],
+   "behind": 1,
+   "at": 7.0,
+   "closes_with": [
+    "AR-00"
+   ],
+   "checks": [
+    "make ready exits 0"
+   ],
+   "if_red": "Stop: nothing can be tested.",
+   "on_green": "make gate-close GATE=G0 PROGRAM=Demo-Admin",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
+   "old_reached": null
+  },
+  {
+   "key": "G-RBAC",
+   "name": "Roles live (Demo-Portal start)",
+   "blocking": false,
+   "scope": "Demo-Portal program start",
+   "members": [
+    "AD-02"
+   ],
+   "behind": 2,
+   "at": 14.0,
+   "closes_with": [
+    "AD-02"
+   ],
+   "checks": [
+    "make rbac-ready exits 0"
+   ],
+   "if_red": "Demo-Portal keeps waiting; fix roles first.",
+   "on_green": "make gate-close GATE=G-RBAC PROGRAM=Demo-Admin",
+   "sibling": {
+    "program": "Demo-Portal",
+    "prefix": "/PACK/Demo-Portal",
+    "relation": "consumer; Demo-Portal starts at Demo-Admin gate G-RBAC and never blocks it."
+   },
+   "siblings": [
+    {
+     "program": "Demo-Portal",
+     "prefix": "/PACK/Demo-Portal",
+     "relation": "consumer; Demo-Portal starts at Demo-Admin gate G-RBAC and never blocks it."
+    }
+   ],
+   "priority": true,
+   "starts": [
+    "Demo-Portal"
+   ],
+   "old_reached": null
+  },
+  {
+   "key": "G1",
+   "name": "Server and login",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "AD-03",
+    "AU-01"
+   ],
+   "behind": 4,
+   "at": 18.0,
+   "closes_with": [
+    "AU-01"
+   ],
+   "checks": [
+    "login works in both apps"
+   ],
+   "if_red": "Stop the UI lanes.",
+   "on_green": "make gate-close GATE=G1 PROGRAM=Demo-Admin",
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
+   "old_reached": null
+  },
+  {
+   "key": "G2",
+   "name": "Organisation and roles pages",
+   "blocking": false,
+   "scope": "Organisation lanes",
+   "members": [
+    "AU-02",
+    "AD-04"
+   ],
+   "behind": 6,
+   "at": 22.0,
+   "closes_with": [
+    "AD-04"
+   ],
+   "checks": [
+    "org and roles e2e green"
+   ],
+   "if_red": "Hold the organisation lanes.",
+   "on_green": null,
+   "sibling": null,
+   "siblings": [],
+   "priority": false,
+   "starts": [],
+   "old_reached": null
+  }
+ ],
+ "lock_pairs": [],
+ "tickets": [
+  {
+   "id": "AR-00",
+   "summary": "Verify the platform is ready and record the contract",
+   "module": "ADMIN",
+   "layer": "backend",
+   "lane": "1 API",
+   "wave": 0,
+   "repo": "Demo-API",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 1,
+   "latest_start": 0.0,
+   "critical": true,
+   "priority_gate": "G-RBAC",
+   "slot": 1,
+   "start": 0.0,
+   "merge": 7.0,
+   "ready": 0.0,
+   "waited": 0.0,
+   "why": "no blockers",
+   "after": [],
+   "after_other_modules": [],
+   "unlocks": [
+    "AD-01",
+    "AD-02",
+    "AD-03"
+   ],
+   "gate": "G0",
+   "first_gate": "G0",
+   "checks": [
+    {
+     "name": "ready (G0)",
+     "check": "make ready",
+     "wave": 0
+    }
+   ],
+   "locks": [
+    "Demo-API/scripts/ready-check.sh"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "AD-01",
+   "summary": "Admin server: router, health, middleware chain",
+   "module": "ADMIN",
+   "layer": "backend",
+   "lane": "1 API",
+   "wave": 1,
+   "repo": "Demo-API",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 2,
+   "latest_start": 7.0,
+   "critical": true,
+   "priority_gate": "G-RBAC",
+   "slot": 1,
+   "start": 7.0,
+   "merge": 11.0,
+   "ready": 7.0,
+   "waited": 0.0,
+   "why": "unblocked by AR-00",
+   "after": [
+    "AR-00"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "AU-01"
+   ],
+   "gate": "",
+   "first_gate": "",
+   "checks": [],
+   "locks": [
+    "Demo-API/server/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "AD-02",
+   "summary": "Roles and effective permissions endpoint",
+   "module": "ADMIN",
+   "layer": "backend",
+   "lane": "1 API",
+   "wave": 1,
+   "repo": "Demo-API",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 3,
+   "latest_start": 11.0,
+   "critical": false,
+   "priority_gate": "G-RBAC",
+   "slot": 2,
+   "start": 7.0,
+   "merge": 14.0,
+   "ready": 7.0,
+   "waited": 0.0,
+   "why": "unblocked by AR-00",
+   "after": [
+    "AR-00"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "AU-02"
+   ],
+   "gate": "G-RBAC",
+   "first_gate": "G-RBAC",
+   "checks": [
+    {
+     "name": "Roles live (G-RBAC)",
+     "check": "make rbac-ready",
+     "wave": 1
+    }
+   ],
+   "locks": [
+    "Demo-API/rbac/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "AD-03",
+   "summary": "Audit writer: append-only rows from every change",
+   "module": "ADMIN",
+   "layer": "backend",
+   "lane": "1 API",
+   "wave": 1,
+   "repo": "Demo-API",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 5,
+   "latest_start": 18.0,
+   "critical": false,
+   "priority_gate": "",
+   "slot": 3,
+   "start": 7.0,
+   "merge": 11.0,
+   "ready": 7.0,
+   "waited": 0.0,
+   "why": "unblocked by AR-00",
+   "after": [
+    "AR-00"
+   ],
+   "after_other_modules": [],
+   "unlocks": [],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "Demo-API/audit/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "AU-01",
+   "summary": "Admin app shell and login page",
+   "module": "ADMIN",
+   "layer": "ui",
+   "lane": "2 UI",
+   "wave": 2,
+   "repo": "Demo-UI",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 4,
+   "latest_start": 11.0,
+   "critical": true,
+   "priority_gate": "",
+   "slot": 1,
+   "start": 11.0,
+   "merge": 18.0,
+   "ready": 11.0,
+   "waited": 0.0,
+   "why": "unblocked by AD-01",
+   "after": [
+    "AD-01"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "AD-04"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [
+    {
+     "name": "ui shell",
+     "check": "pnpm --filter admin test && pnpm --filter admin build",
+     "wave": 2
+    }
+   ],
+   "locks": [
+    "Demo-UI/apps/admin/shell/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "AU-02",
+   "summary": "Roles page: who can do what",
+   "module": "ADMIN",
+   "layer": "ui",
+   "lane": "2 UI",
+   "wave": 2,
+   "repo": "Demo-UI",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 7,
+   "latest_start": 18.0,
+   "critical": false,
+   "priority_gate": "",
+   "slot": 2,
+   "start": 14.0,
+   "merge": 18.0,
+   "ready": 14.0,
+   "waited": 0.0,
+   "why": "unblocked by AD-02",
+   "after": [
+    "AD-02"
+   ],
+   "after_other_modules": [],
+   "unlocks": [],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "Demo-UI/apps/admin/roles/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "AD-04",
+   "summary": "Organisation API on the admin shell",
+   "module": "ADMIN",
+   "layer": "backend",
+   "lane": "1 API",
+   "wave": 3,
+   "repo": "Demo-API",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 6,
+   "latest_start": 18.0,
+   "critical": true,
+   "priority_gate": "",
+   "slot": 1,
+   "start": 18.0,
+   "merge": 22.0,
+   "ready": 18.0,
+   "waited": 0.0,
+   "why": "unblocked by AU-01",
+   "after": [
+    "AU-01"
+   ],
+   "after_other_modules": [],
+   "unlocks": [],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "Demo-API/org/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  }
+ ],
+ "steps": [
+  {
+   "n": 0,
+   "t": 0.0,
+   "merges": [],
+   "starts": [
+    "AR-00"
+   ],
+   "gates": []
+  },
+  {
+   "n": 1,
+   "t": 7.0,
+   "merges": [
+    "AR-00"
+   ],
+   "starts": [
+    "AD-01",
+    "AD-02",
+    "AD-03"
+   ],
+   "gates": [
+    "G0"
+   ]
+  },
+  {
+   "n": 2,
+   "t": 11.0,
+   "merges": [
+    "AD-01",
+    "AD-03"
+   ],
+   "starts": [
+    "AU-01"
+   ],
+   "gates": []
+  },
+  {
+   "n": 3,
+   "t": 14.0,
+   "merges": [
+    "AD-02"
+   ],
+   "starts": [
+    "AU-02"
+   ],
+   "gates": [
+    "G-RBAC"
+   ]
+  },
+  {
+   "n": 4,
+   "t": 18.0,
+   "merges": [
+    "AU-01",
+    "AU-02"
+   ],
+   "starts": [
+    "AD-04"
+   ],
+   "gates": [
+    "G1"
+   ]
+  },
+  {
+   "n": 5,
+   "t": 22.0,
+   "merges": [
+    "AD-04"
+   ],
+   "starts": [],
+   "gates": [
+    "G2"
+   ]
+  }
+ ],
+ "fields": {
+  "note": "Field meanings as in WARPDEMO/WarpView/plan/schedule.json `fields`."
+ }
+}

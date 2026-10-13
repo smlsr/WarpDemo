@@ -1,8 +1,9 @@
 """plan/schedule.json in build-schedule/2 for one module.
 
 Same dispatch rule as Warp and as the viewer's plan (SPEC §7): `slots` agents, a ready ticket takes the
-lowest free slot; ready = every in-run blocker merged and, with gateOrder strict, every earlier gate block
-merged; priority = critical chain first, then rank (ascending latest_start), then natural id. A ticket
+lowest free slot; ready = every in-run blocker merged and, with gate_order strict, every earlier gate block
+merged; priority = critical chain first, then the members and ancestors of priority gates, then rank
+(ascending latest_start), then natural id (Warp's orchestrator.sort_key). A ticket
 whose size is not auto-merged waits APPROVAL_HOURS after it finishes before its dependents may start.
 Cross-run blockers (`run:id`) are met before T+0: the run starts after its startAfter gate.
 """
@@ -12,24 +13,24 @@ from __future__ import annotations
 import re
 from collections import defaultdict
 
-from common import APPROVAL_HOURS, AUTO_MERGE_SIZES, MODULES, REPO, SLOTS, LANES
+from common import APPROVAL_HOURS, AUTO_MERGE_SIZES, GATE_ORDER, MODULES, REPO, SLOTS, LANES
 
 FIELDS = {
     "schema": "Format name and version (build-schedule/2), shared by every program's schedule.json.",
-    "model": "How the run works: orchestrators, slots, merge rule, clock, priority rule.",
+    "model": "How the run works: orchestrators, slots, merge rule, clock, priority rule, gate_order. gate_order strict: gate blocks run in order and a pending blocking gate holds the tickets that need its members (Warp's gateOrder strict); absent or deps: gates are milestones and nothing waits for a gate to be reached.",
     "numbers": "Totals for the run. finish_by_slots = finish in estimate-hours at other slot caps. old_plan = the plan this replaces (null where unknown).",
     "critical_chain": "Ticket ids on the longest blocker chain, in order.",
     "lanes": "Lane names; ticket.lane is one of these.",
     "repos": "Repositories; ticket.repo is one of these. One serial merge queue per repository.",
-    "gates": "Milestones, checked the moment the last member merges. blocking=true: a red gate stops everyone; false: it stops only `scope`. behind = tickets that must be merged for it to be reached. With gateOrder strict, a gate's members are its block and a block starts when the blocks before it have merged.",
+    "gates": "Milestones, checked the moment the last member merges. blocking=true: a red gate stops everyone; false: it stops only `scope`. behind = tickets that must be merged for it to be reached. on_green = the command the orchestrator runs when the checks pass (null when none). siblings = the sibling programs that start at this gate ([{program, prefix, relation}]; `sibling` = its first entry, null otherwise). starts = the program names that start at this gate. priority = members and their ancestors dispatch ahead of rank. With model.gate_order strict, a gate's members are its block and a block starts when the blocks before it have merged.",
     "lock_pairs": "Pairs of tickets that share a lock folder and have no blocker between them; never in flight together. Empty when every overlap is already ordered by a blocker.",
     "tickets": {
         "id / summary / module / layer / lane / wave / repo / file": "Identity. wave = dependency level (longest chain of blockers under the ticket). file is the main file the ticket writes, null when it owns a folder.",
         "size / h": "T-shirt size and estimate-hours (S=4, M=7, L=11, XL=16).",
-        "rank / latest_start / critical": "Dispatch priority (1 first), the latest start in estimate-hours that still finishes on time, and whether the ticket is on the critical chain. Rank is ascending latest_start.",
+        "rank / latest_start / critical / priority_gate": "Dispatch priority (1 first), the latest start in estimate-hours that still finishes on time, whether the ticket is on the critical chain, and the priority gate whose path the ticket is on ('' if none): such tickets dispatch after the critical chain and ahead of rank. Rank is ascending latest_start.",
         "slot / start / merge / ready / waited / why": "Simulated run: slot 1..slots, start and merge in estimate-hours, when the last blocker merged (or its block opened), hours spent ready but waiting, and why it could start then.",
         "after / after_other_modules / unlocks": "Blockers (Warp reads `after` as blockers; `run:id` names a ticket in another run), the subset in another run, and the tickets this one blocks.",
-        "gate / first_gate / checks": "Gate the ticket is a member of ('' if none), the earliest gate that needs it ('' if none), and checks to run when this ticket merges.",
+        "gate / first_gate / checks": "Gate the ticket is a member of ('' if none), the earliest gate that needs it ('' if none), and checks to run when this ticket merges: [{name, check, wave}], the checks of each gate this ticket closes.",
         "locks / locks_more / lock_pairs": "Lock folders and files (repo-root-relative), how many more were truncated (0 = complete), and lock-pair partners.",
         "screens / mock": "UI design files the ticket must match (empty / null when none).",
     },
@@ -64,8 +65,31 @@ def wait_of(t):
     return 0.0 if t["_size"] in AUTO_MERGE_SIZES else APPROVAL_HOURS
 
 
-def simulate(pack, slots, strict=True):
+def priority_paths(pack, deps):
+    """ticket id -> the first priority gate (plan order) whose members or ancestors include it."""
+    anc = {}
+
+    def A(i):
+        if i not in anc:
+            s = set()
+            for d in deps[i]:
+                s |= {d} | A(d)
+            anc[i] = s
+        return anc[i]
+
+    out = {}
+    for g in pack.gates:
+        if not g.get("priority"):
+            continue
+        for m in g["members"]:
+            for i in {m} | A(m):
+                out.setdefault(i, g["key"])
+    return out
+
+
+def simulate(pack, slots, strict=GATE_ORDER == "strict"):
     T, deps, _, kids = _graph(pack)
+    pgate = priority_paths(pack, deps)
     order = [g["key"] for g in pack.gates]
     block = {i: T[i]["_gate"] for i in T}
     rankb = {k: n for n, k in enumerate(order)}
@@ -90,7 +114,7 @@ def simulate(pack, slots, strict=True):
         chain.append(cur)
     crit = set(chain)
     rank = {i: n + 1 for n, i in enumerate(sorted(T, key=lambda i: (latest[i], natkey(i))))}
-    prio = lambda i: (0 if i in crit else 1, rank[i], natkey(i))
+    prio = lambda i: (0 if i in crit else 1, 0 if i in pgate else 1, rank[i], natkey(i))
 
     pending = set(T)
     start, end, merge, slot, ready_at, why = {}, {}, {}, {}, {}, {}
@@ -182,7 +206,7 @@ def simulate(pack, slots, strict=True):
             out.append(s)
     finish = max(merge.values())
     return dict(T=T, deps=deps, kids=kids, start=start, end=end, merge=merge, slot=slot, ready=ready_at, why=why, rank=rank,
-                latest=latest, chain=chain, crit=crit, steps=out, finish=finish, cp_len=cp_len, block=block)
+                latest=latest, chain=chain, crit=crit, steps=out, finish=finish, cp_len=cp_len, block=block, pgate=pgate)
 
 
 def build(pack, generated):
@@ -215,10 +239,13 @@ def build(pack, generated):
         behind = set(mem)
         for x in mem:
             behind |= A(x)
-        gates.append({"key": g["key"], "name": g["name"], "blocking": g["blocking"], "scope": "everyone" if g["blocking"] else "members",
+        sib = list(g.get("siblings") or [])
+        gates.append({"key": g["key"], "name": g["name"], "blocking": g["blocking"], "scope": g.get("scope") or ("everyone" if g["blocking"] else "members"),
                       "members": mem, "behind": len(behind), "at": round(at, 2),
                       "closes_with": sorted([x for x in mem if abs(sim["merge"][x] - at) < 1e-9], key=natkey),
-                      "checks": g["checks"], "if_red": g["if_red"], "old_reached": None})
+                      "checks": g["checks"], "if_red": g["if_red"], "on_green": g.get("on_green"),
+                      "sibling": sib[0] if sib else None, "siblings": sib, "priority": bool(g.get("priority")), "starts": list(g.get("starts") or []),
+                      "old_reached": None})
     first_gate = {}
     for g in gates:
         clo = set(g["members"])
@@ -244,12 +271,13 @@ def build(pack, generated):
             "id": i, "summary": t["summary"], "module": m["name"], "layer": t["layer"], "lane": t["_lane"], "wave": wave[i],
             "repo": REPO, "file": files[0] if len(locks) == 1 and files else None,
             "size": t["_size"], "h": t["_h"], "rank": sim["rank"][i], "latest_start": round(sim["latest"][i], 2), "critical": i in sim["crit"],
+            "priority_gate": sim["pgate"].get(i, ""),
             "slot": sim["slot"][i], "start": round(sim["start"][i], 2), "merge": round(sim["merge"][i], 2), "ready": round(sim["ready"][i], 2),
             "waited": round(sim["start"][i] - sim["ready"][i], 2), "why": sim["why"][i],
             "after": list(t["blockedByTempIds"]), "after_other_modules": list(ext[i]),
             "unlocks": sorted(kids[i], key=lambda k: sim["rank"][k]),
             "gate": t["_gate"], "first_gate": first_gate.get(i, ""),
-            "checks": [c for g in gates if i in g["closes_with"] for c in g["checks"]],
+            "checks": [{"name": f"{g['name']} ({g['key']})", "check": c, "wave": wave[i]} for g in gates if i in g["closes_with"] for c in g["checks"]],
             "locks": locks, "locks_more": 0, "lock_pairs": sorted({b if a == i else a for a, b in pairs if i in (a, b)}, key=natkey),
             "screens": scr, "mock": scr[0] if scr else None,
         })
@@ -280,8 +308,12 @@ def build(pack, generated):
         "model": {"orchestrators": 1, "slots": SLOTS,
                   "merge": f"continuous: each PR merges when green; sizes outside autoMergeSizes ({', '.join(AUTO_MERGE_SIZES)}) wait {APPROVAL_HOURS} h for approval before dependents start",
                   "clock": "estimate hours (S=4, M=7, L=11, XL=16), continuous: no working day, no merge windows",
-                  "priority": "critical chain first, then rank (ascending latest_start), then natural id; gateOrder strict: a gate block starts when every earlier block has merged"
-                              + (f"; the run starts after {m['startAfter']}" if m["startAfter"] else "")},
+                  "priority": "critical chain first, then the members and ancestors of priority gates"
+                              + (f" ({', '.join(g['key'] for g in gates if g['priority'])})" if any(g["priority"] for g in gates) else "")
+                              + ", then rank (ascending latest_start), then natural id"
+                              + ("; gate_order strict: a gate block starts when every earlier block has merged" if GATE_ORDER == "strict" else "; gates are milestones: nothing waits for a gate to be reached")
+                              + (f"; the run starts after {m['startAfter']}" if m["startAfter"] else ""),
+                  "gate_order": GATE_ORDER},
         "numbers": numbers,
         "critical_chain": sim["chain"],
         "lanes": LANES,

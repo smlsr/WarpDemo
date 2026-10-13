@@ -1,11 +1,11 @@
 {
  "version": 1,
  "name": "warp-beam",
- "generatedAt": "2026-10-13T12:10:05Z",
+ "generatedAt": "2026-10-13T14:26:05Z",
  "source": {
   "schedule": ".warp/_ingested_schedule.json",
   "plan": "WARPDEMO/WarpEdit/plan/schedule.json",
-  "generated": "2026-10-13T12:10:05Z",
+  "generated": "2026-10-13T14:26:05Z",
   "module": "warp",
   "format": "build-schedule/2",
   "scan": {
@@ -23,7 +23,7 @@
    "maps": [],
    "root": ".",
    "folder": "WARPDEMO/WarpEdit",
-   "scannedAt": "2026-10-13T12:10:05Z"
+   "scannedAt": "2026-10-13T14:26:05Z"
   },
   "folder": "WARPDEMO/WarpEdit"
  },
@@ -46,6 +46,30 @@
   "lockConflicts": [],
   "peakAgents": null,
   "agentHours": null,
+  "schedule": {
+   "schema": "build-schedule/2",
+   "program": "WarpEdit",
+   "rebuilt": "2026-10-13",
+   "repos": [
+    "smlsr/WarpDemo"
+   ],
+   "lanes": [
+    "platform",
+    "model",
+    "console",
+    "quality",
+    "release"
+   ],
+   "gateOrder": "strict",
+   "slots": 18,
+   "priority": "critical chain first, then the members and ancestors of priority gates, then rank (ascending latest_start), then natural id; gate_order strict: a gate block starts when every earlier block has merged; the run starts after view:G2",
+   "finishHours": 76.0,
+   "agentHours": 110,
+   "criticalHours": 69.0,
+   "peak": 3,
+   "waves": 7
+  },
+  "gateOrder": "strict",
   "estimate": {
    "agentHours": 110.0,
    "humanHours": 4.0,
@@ -155,9 +179,13 @@
    ],
    "checks": [
     "npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green)",
-    "dist/editor.html opens with the Editing badge"
+    "app/dist/editor.html opens with the Editing badge"
    ],
    "ifRed": "Stop the edit run: the viewer can change a phase or the editor cannot import it.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 4.0,
+   "hold": "green",
    "status": "pending",
    "evidence": null,
    "greenAt": null
@@ -181,6 +209,10 @@
     "undo restores the loaded ticket exactly"
    ],
    "ifRed": "Do not build screens on a reset that loses data.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 36.5,
+   "hold": "green",
    "status": "pending",
    "evidence": null,
    "greenAt": null
@@ -200,6 +232,10 @@
     "Totals follow a reset"
    ],
    "ifRed": "Fix before release.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 64.5,
+   "hold": "green",
    "status": "pending",
    "evidence": null,
    "greenAt": null
@@ -215,6 +251,10 @@
     "editor.html committed; round trip green; viewer audit green"
    ],
    "ifRed": "Do not announce the editor until the round trip is green.",
+   "scope": "everyone",
+   "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+   "at": 76.0,
+   "hold": "green",
    "status": "pending",
    "evidence": null,
    "greenAt": null
@@ -257,6 +297,26 @@
    "result": {},
    "gate": "G0",
    "priority": null,
+   "lane": "platform",
+   "repo": "smlsr/WarpDemo",
+   "wave": 1,
+   "checks": [
+    {
+     "name": "Editor builds, viewer untouched (G0)",
+     "check": "npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green)"
+    },
+    {
+     "name": "Editor builds, viewer untouched (G0)",
+     "check": "app/dist/editor.html opens with the Editing badge"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 0.0,
+    "merge": 4.0,
+    "ready": 0.0,
+    "latest_start": 0.0
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -320,6 +380,16 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "planned": {
+    "slot": 1,
+    "start": 4.0,
+    "merge": 11.0,
+    "ready": 4.0,
+    "latest_start": 4.0
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -383,6 +453,16 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 2,
+   "planned": {
+    "slot": 2,
+    "start": 4.0,
+    "merge": 8.0,
+    "ready": 4.0,
+    "latest_start": 7.0
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -446,6 +526,20 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "planned": {
+    "slot": 2,
+    "start": 8.0,
+    "merge": 12.0,
+    "ready": 8.0,
+    "latest_start": 46.5
+   },
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -510,6 +604,16 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "planned": {
+    "slot": 1,
+    "start": 11.0,
+    "merge": 22.5,
+    "ready": 11.0,
+    "latest_start": 11.0
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -573,6 +677,20 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 3,
+   "planned": {
+    "slot": 3,
+    "start": 11.0,
+    "merge": 18.0,
+    "ready": 11.0,
+    "latest_start": 43.5
+   },
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -636,6 +754,16 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "planned": {
+    "slot": 1,
+    "start": 22.5,
+    "merge": 29.5,
+    "ready": 22.5,
+    "latest_start": 22.5
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -699,6 +827,16 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "quality",
+   "repo": "smlsr/WarpDemo",
+   "wave": 4,
+   "planned": {
+    "slot": 2,
+    "start": 22.5,
+    "merge": 29.5,
+    "ready": 22.5,
+    "latest_start": 36.5
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -763,6 +901,26 @@
    "result": {},
    "gate": "G1",
    "priority": null,
+   "lane": "model",
+   "repo": "smlsr/WarpDemo",
+   "wave": 5,
+   "checks": [
+    {
+     "name": "Reset is safe (G1)",
+     "check": "reset, dependents, validate and save equal fixtures/expected"
+    },
+    {
+     "name": "Reset is safe (G1)",
+     "check": "undo restores the loaded ticket exactly"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 29.5,
+    "merge": 36.5,
+    "ready": 29.5,
+    "latest_start": 43.5
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -827,6 +985,16 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 5,
+   "planned": {
+    "slot": 1,
+    "start": 36.5,
+    "merge": 48.0,
+    "ready": 36.5,
+    "latest_start": 29.5
+   },
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -892,6 +1060,20 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 5,
+   "planned": {
+    "slot": 2,
+    "start": 36.5,
+    "merge": 43.5,
+    "ready": 36.5,
+    "latest_start": 50.5
+   },
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -956,6 +1138,21 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 6,
+   "planned": {
+    "slot": 3,
+    "start": 36.5,
+    "merge": 43.5,
+    "ready": 36.5,
+    "latest_start": 50.5
+   },
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-validation.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1019,6 +1216,30 @@
    "result": {},
    "gate": "G2",
    "priority": null,
+   "lane": "console",
+   "repo": "smlsr/WarpDemo",
+   "wave": 6,
+   "checks": [
+    {
+     "name": "Editor screens (G2)",
+     "check": "Drawer reset, header actions, banner and scrubber match ui/screens"
+    },
+    {
+     "name": "Editor screens (G2)",
+     "check": "Totals follow a reset"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 48.0,
+    "merge": 64.5,
+    "ready": 48.0,
+    "latest_start": 41.0
+   },
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1087,6 +1308,30 @@
    "result": {},
    "gate": "G3",
    "priority": null,
+   "lane": "release",
+   "repo": "smlsr/WarpDemo",
+   "wave": 7,
+   "checks": [
+    {
+     "name": "Ship (G3)",
+     "check": "editor.html committed; round trip green; viewer audit green"
+    }
+   ],
+   "planned": {
+    "slot": 1,
+    "start": 64.5,
+    "merge": 76.0,
+    "ready": 64.5,
+    "latest_start": 57.5
+   },
+   "screens": [
+    "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-validation.png",
+    "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+   ],
+   "mock": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
    "acs": null,
    "plannedStart": null,
    "plannedMerge": null,
@@ -1144,7 +1389,7 @@
   "byModule": {
    "WarpEdit": 14
   },
-  "computedAt": "2026-10-13T12:10:05Z"
+  "computedAt": "2026-10-13T14:26:05Z"
  },
  "run": "edit",
  "instance": {

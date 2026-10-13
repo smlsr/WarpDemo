@@ -197,7 +197,9 @@ P.T("WE-09", "Save in the loaded shape; copy the edits as Warp commands",
     what=f"""Create `{A}/src/edit/save/save.mjs` per SPEC §9. 1. `serialize(loaded, working)`: a beam keeps every
     key of the loaded beam, with each ticket's status, events and resets from the working copy and `editedAt` and
     `editedBy: 'warpedit'` added at top level; a `kind: warp-plan` export keeps its shape, gets each ticket's status
-    and resets and a new `exportedAt`. 2. status.json input cannot be saved (message: open beam.json). 3. File name:
+    and resets and a new `exportedAt`. 2. status.json and a plan's schedule.json (build-schedule/2) cannot be saved
+    (messages of SPEC §9); a beam scanned from a schedule keeps its lane, repo, priority gate, checks and planned
+    fields untouched. 3. File name:
     the loaded name. 4. `download(name, text)` with a Blob. 5. `asCommands(changes)`: one line per change
     `python3 .cursor/plugins/warp/scripts/beam.py set --beam .warp/beam.json --id <id> --status <to>`, dependents
     included, in order. 6. Refuses when validate returns errors.""",
@@ -206,9 +208,10 @@ P.T("WE-09", "Save in the loaded shape; copy the edits as Warp commands",
         ("happy", f"Given `{F}/WARP_PLAN.sample.json` with the same reset, when serialized, then kind stays warp-plan, the ticket has status coding and resets, and jiraKey is kept."),
         ("happy", "Given the reset and two blocked dependents, when asCommands runs, then three beam.py set lines result in that order."),
         ("negative", f"Given `{F}/status.sample.json` loaded, when Save is asked, then it refuses with 'Open beam.json to save edits'."),
+        ("edge", f"Given `{tickets_view.P.d}/plan/schedule.json` loaded, when Save is asked, then it refuses with 'schedule.json is the plan: open beam.json to save edits'; given `{F}/beam.sample.json`, the saved WV-07 keeps planned, lane and priorityGate as loaded."),
         ("happy", f"Given `{TEST}`, when run, then save.test.mjs passes."),
     ],
-    test_data=f"{F}/beam.sample.json, {F}/WARP_PLAN.sample.json, {F}/status.sample.json",
+    test_data=f"{F}/beam.sample.json, {F}/WARP_PLAN.sample.json, {F}/status.sample.json, {tickets_view.P.d}/plan/schedule.json",
     links=[P.spec("9"), EXP("saved.beam.json")])
 
 P.T("WE-10", "Drawer Reset section: phase menu, button and reset log",
@@ -221,12 +224,15 @@ P.T("WE-10", "Drawer Reset section: phase menu, button and reset log",
     `drawerSections` hook and added to `{A}/src/plugins.mjs` (append-only). 1. Section 'Reset phase': the phase select
     from targetsFrom, a Reset button, and the dependents preview. 2. Reset → confirmReset → store.apply with the
     dependents plan. 3. 'Reset log': every entry of resets[] (from the file) and session changes not yet saved,
-    newest first, with from → to, time and note; unsaved entries marked. 4. The drawer re-renders after each change.""",
+    newest first, with from → to, time and note; unsaved entries marked. 4. The drawer re-renders after each change.
+    5. A run of kind schedule (a plan's schedule.json) shows only the line 'schedule.json is the plan: open beam.json
+    to reset a phase'.""",
     acs=[
         ("happy", f"Given WV-07 merged, when its drawer opens, then the Reset section matches `{P.d}/ui/screens/edit-drawer.png`."),
         ("happy", "Given coding chosen and confirmed with a note, when applied, then the drawer shows status coding and a reset log entry with the note, marked unsaved."),
         ("edge", f"Given `{F}/expected/saved.beam.json` loaded, when WV-07's drawer opens, then the reset log lists the saved entry, not marked unsaved."),
         ("negative", "Given the confirm dialog cancelled, when the drawer re-renders, then status and log are unchanged."),
+        ("edge", f"Given `{tickets_view.P.d}/plan/schedule.json` loaded, when WV-07's drawer opens, then the Reset section holds only 'schedule.json is the plan: open beam.json to reset a phase' and no select or button."),
         ("happy", f"Given `{TEST}`, when run, then panel.test.mjs passes."),
     ],
     screens=[S["edit-drawer"]], links=[P.spec("7.1"), VSPEC])
@@ -284,8 +290,8 @@ P.T("WE-13", "Save button, validation banner and Copy as commands",
     hook. 1. Save button: disabled when nothing is unsaved or validate has errors; on click serialize, download,
     `markSaved()` and toast 'Saved <name> (n changes)'. 2. Validation banner under the header when errors exist:
     each error with its ticket id as a button that opens the drawer; warnings in a lighter style. 3. 'Copy as
-    commands' copies asCommands() to the clipboard and toasts the line count. 4. A status.json load shows Save
-    disabled with the reason as tooltip.""",
+    commands' copies asCommands() to the clipboard and toasts the line count. 4. A status.json or schedule.json
+    load shows Save disabled with the reason of SPEC §7.4 as tooltip.""",
     acs=[
         ("happy", f"Given one valid reset, when Save is clicked, then a download named beam.json starts, unsaved goes to 0 and the toast names the file."),
         ("happy", f"Given `{F}/invalid/missing-dep.json` loaded and edited, when the header renders, then Save is disabled and the banner matches `{P.d}/ui/screens/edit-validation.png`."),

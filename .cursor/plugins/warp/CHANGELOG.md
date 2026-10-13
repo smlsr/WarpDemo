@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.6.7
+
+- Fix: the listener kept exiting after one cycle. The prompt from `orchestrator.py supervise` listed `First:`, `Then:` and an `Exit:` line offering `--reason polled`, which read as "poll once and leave". It now says to keep cycling until the script tells you to stop. `Loop:`, `Poll:` and `Wait:` lines name the commands. `Stop:` names the only lines that end a generation (`reap: exit`, `listen: rotate`, `listen: stopped`). The fallback stamp no longer offers `polled`.
+- `inbound.py wait` prints `listen: keep cycling. Run poll again now with the same lease and holder. Do not return.` after `listen: wait`.
+- `inbound.py returned --reason polled` from the holder of a live lease is refused with `listener: not returned`, so the generation is not ended. Once the run halts it is accepted as before. `inbound.py polled` is unchanged, for a listener someone starts by hand.
+- Fix: a lock-escape repair could be marked returned without a repair Shuttle ever starting, and that counted as a failed attempt (1 of `maxAlarmRepairs`). `alarm-repair: start` is now followed by `alarm-repair: launch <id>`, which gives the `checkout.py launch` command, and the launch names the Shuttle `<id> repair`. `checkout.py launch` records `alarmRepair.launchedAt`. `alarm_repair.py next --returned <id>` with no launch, heartbeat or ticket change since the repair started prints `alarm-repair: not launched <id>`, uses no attempt, and repeats the launch line.
+- Docs: warp-listen and warp skills, `agents/listener.md`, COMMANDS, LIFECYCLE and RUNBOOK.
+
+## 1.6.6
+
+- Fix: `notify.py scan` run on its own wrote a scan message with `Format: None` and `Tickets: None` over the one the scan had written. It was only built to take its details from `scan.py`. It now rebuilds the whole message from `.warp/beam.json` (format, ticket count, gates, estimate, plan used and the other plan files found) with the Jira counts as they are now, so run it after resolving keys and post what it writes. With no beam, or a beam with no tickets, it writes nothing, leaves `.warp/notify-post.json` as it was, and says so.
+- `jira_sync.py resolve`, `map`, `verify`, `external-id` and `record-external-id` print `jira: N keyed now (+K). next: python3 <plugin>/scripts/notify.py scan --root . ...` when they store a key, and the `/warp-scan` skill runs that before posting the scan message.
+
+## 1.6.5
+
+- The Shuttle model keys ship commented out. `/warp-init` writes:
+  `# model: claude-sonnet-5-5-high` (the default, as before), `# modelS: claude-haiku-5-5`, `# modelM: ""`, `# modelL: ""`, `# modelXL: claude-opus-5-5`, `# fixModel: claude-opus-5-5`, `# fixModelAfter: 2`. Nothing changes until you uncomment a line.
+- `/warp-init` on an existing config adds that commented block when none of its keys is there yet, active or commented (`added the commented modelS, … lines`). A config 1.6.4 wrote with the keys blank has them replaced by the block; a key you set to a value is never touched.
+- A trailing `# comment` on a config value is ignored, so an uncommented `modelS: claude-haiku-5-5   # empty = use model` reads as `claude-haiku-5-5`. A value that starts with `#` (`slackChannel: #warp`) and quoted values are kept as before.
+- Docs: GUIDE "Model", CONFIG "Shuttle models", RUNBOOK "Which model did a Shuttle run on", LIFECYCLE launch lines, COMMANDS `/warp-init`, README; the operator guide (PDF and Word) is rebuilt for 1.6.5.
+
 ## 1.6.4
 
 - Fix: commands and skills were not registered on a fresh install. `.cursor-plugin/plugin.json` now lists them as directories (`"commands": "./commands/"`, `"skills": "./skills/"`), like `agents` and `rules`; the explicit file list from 1.4.8–1.6.3 never reached the published index. Republish the plugin, then reinstall it (or Customize > update) and reload Cursor. Every command file needs a `name` matching its file name and a `description`, and every skill folder a `SKILL.md`; a test checks both.

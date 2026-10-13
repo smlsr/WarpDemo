@@ -315,13 +315,17 @@ Pause, stop, and `/warp-cleanup` touch only agents in their own registry or carr
 
 `lock-escape` means the diff needed a path outside the ticket's locks. The Shuttle stores each of those paths with `--escaped` when it sets the alarm. It does not widen the lock itself.
 
-The parent's pass, while the run is running, calls `alarm_repair.py next` about every `alarmRepairMinutes` (default 15). The listener does not start the repair. The repair widens that ticket's locks to the paths that escaped, records the added paths on `addedLocks`, and starts one Shuttle inside the widened lock. Herald's start line names the paths added.
+The parent's pass, while the run is running, calls `alarm_repair.py next` about every `alarmRepairMinutes` (default 15). The listener does not start the repair. The repair widens that ticket's locks to the paths that escaped, records the added paths on `addedLocks`, and prints `alarm-repair: launch <id>` with the `checkout.py launch` command for one Shuttle inside the widened lock. The parent runs it and starts that Shuttle. Herald's start line names the paths added. `--returned <id>` before that launch prints `alarm-repair: not launched <id>` and does not use one of the `maxAlarmRepairs` attempts.
 
 Do not start that repair when an in-flight ticket holds one of those paths, or holds one of the ticket's current locks. `alarm-repair: locked <id> by <holder>` means wait. When the holder finishes (it is no longer in flight), the next pass widens and starts. A queued ticket's overlapping lock can be widened. Nothing is stolen from work that is running.
 
 One repair at a time, one ticket at a time, in plan order. If the repair alarms `lock-escape` again, or the Shuttle errors, leave the alarm, record the attempt, and start the next lock-escape ticket in that same call. Do not retry the one that just failed in this pass. If the repair puts the ticket back on the normal path and clears the alarm, or the ticket merges, wait for that completion, then start the next. A second tick while a repair Shuttle is working does not start another.
 
 `maxAlarmRepairs` (default 5) is the cap. After that the alarm stays and later passes skip the ticket. Herald posts `<id> lock-escape repair given up.` An older alarm with no path list prints `alarm-repair: name <id>`. That Shuttle names the paths with `alarm_repair.py paths` before it edits. Pause and stop do not repair, because the run is not running. `bugbot-failed`, `stuck`, `worker-died`, `ci-red`, and `gate-red` are not repaired this way. `/warp-init` appends `alarmRepairMinutes` and `maxAlarmRepairs` when the config does not have them yet.
+
+## Which model did a Shuttle run on
+
+`checkout.py launch` printed `model: <slug> (<why>)` above the prompt mark, and the supervise line `start <id> ... model=<slug> step=<step>` names it too. `<why>` is `modelL for size L`, `model`, or `fixModel: fix round 2, fixModelAfter 2`. A slug the Cursor model picker does not list makes the subagent start fail: fix the line in `.warp/config.yaml`; the next launch reads it. Nothing changes while the lines are still commented out (`# modelS: ...`). A value with a trailing `# comment` reads as the value alone.
 
 ## Cap change
 

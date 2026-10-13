@@ -304,7 +304,10 @@ A cloud agent that opens a pull request can be woken by Cursor when CI fails on 
 | `listener: poll` / `hold reason=live` / `hold reason=await-return` / `idle` / `none` | `supervise` | start one background listener, or start nothing |
 | `listen: <kind> channel=<name> since=<cursor>` | `inbound.py poll` | where the listener reads from |
 | `listen: rotate` | `inbound.py poll`, `inbound.py wait` | this generation hit `listenerMaxMinutes` or `listenerMaxReads`. Return it. The return stamp is written |
-| `listen: wait` | `inbound.py wait` | the sleep is over. Poll again with the same lease |
+| `listen: wait` + `listen: keep cycling. ...` | `inbound.py wait` | the sleep is over. Poll again now with the same lease. Do not return |
+| `listener: not returned. ...` | `inbound.py returned --reason polled` | a live holder tried to leave after a cycle. Keep cycling |
+| `alarm-repair: launch <id>. Run ... checkout.py launch ...` | `alarm_repair.py next`, `supervise` | launch the repair Shuttle with that command. `--returned <id>` only after it returns |
+| `alarm-repair: not launched <id>. ...` | `alarm_repair.py next --returned` | no repair Shuttle was launched. The attempt is not counted. Launch it |
 | `listen: stopped` | `inbound.py poll`, `inbound.py wait`, after a `reap: exit` line | return it. Do not read |
 | `listener: lease generation=<n> holder=<id>` | `inbound.py take` | a `/warp-listen` chat holds the lease. Any other copy exits `superseded` |
 | `listener: returned <reason>` | `inbound.py returned` | the return stamp is written |
@@ -313,6 +316,7 @@ A cloud agent that opens a pull request can be woken by Cursor when CI fails on 
 | `listener: polled <n>` | `inbound.py polled` | the poll is recorded |
 | `spawn: closed <id>` and `refuse: ...` | `checkout.py launch` | no prompt was printed |
 | `name: [warp:<instance>] <ticket> <step>` | `checkout.py launch` | the name to give the subagent. It is the tag |
+| `model: <slug> (<why>)` | `checkout.py launch` | the model to start the subagent with: the ticket's size model, `model`, or `fixModel` from fix round `fixModelAfter` on |
 | `cleanup: tag [warp:<instance>]` | cleanup | which tag this cleanup matches |
 | `reap: continue` / `reap: exit <reason>` | `agents.py reap`, `ticket_state.py append`, `beam.py heartbeat`, `inbound.py poll` | carry on, or stop now |
 | `stop: <id>` | pause, stop | that registry row was ended |

@@ -1,334 +1,1158 @@
 {
-  "module": "WarpView",
-  "generated": "2026-10-05",
-  "tickets": [
-    {
-      "id": "WV-01",
-      "summary": "Single HTML starts empty and loads a Warp export",
-      "deps": [],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "S",
-      "hours": 4,
-      "critical": false,
-      "rankDays": 4,
-      "gate": "G0",
-      "module": "WarpView",
-      "acs": 3
-    },
-    {
-      "id": "WV-02",
-      "summary": "Read every timestamp the export and beam can carry",
-      "deps": [
-        "WV-01"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "S",
-      "hours": 4,
-      "critical": false,
-      "rankDays": 4,
-      "gate": "G0",
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-03",
-      "summary": "Ticket drawer lists those timestamps in order",
-      "deps": [
-        "WV-02"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "M",
-      "hours": 7,
-      "critical": false,
-      "rankDays": 7,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-04",
-      "summary": "Utilization from tokens, minutes, and maxAgents",
-      "deps": [
-        "WV-02"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "L",
-      "hours": 11,
-      "critical": true,
-      "rankDays": 11,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 3
-    },
-    {
-      "id": "WV-05",
-      "summary": "Chip for each beam phase",
-      "deps": [
-        "WV-02"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "S",
-      "hours": 4,
-      "critical": false,
-      "rankDays": 4,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-06",
-      "summary": "Interactive tracker: filter, hover, click",
-      "deps": [
-        "WV-03",
-        "WV-05"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "M",
-      "hours": 7,
-      "critical": false,
-      "rankDays": 7,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 3
-    },
-    {
-      "id": "WV-07",
-      "summary": "Interactive timeline with timestamp markers",
-      "deps": [
-        "WV-04",
-        "WV-06"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "L",
-      "hours": 11,
-      "critical": true,
-      "rankDays": 11,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 3
-    },
-    {
-      "id": "WV-08",
-      "summary": "Search id, summary, jiraKey, lock",
-      "deps": [
-        "WV-06"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "S",
-      "hours": 4,
-      "critical": false,
-      "rankDays": 4,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-09",
-      "summary": "Gates pane shows status, greenAt, and evidence",
-      "deps": [
-        "WV-02"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "M",
-      "hours": 7,
-      "critical": false,
-      "rankDays": 7,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-10",
-      "summary": "Utilization board by phase, size, and agent",
-      "deps": [
-        "WV-04",
-        "WV-06"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "L",
-      "hours": 11,
-      "critical": true,
-      "rankDays": 11,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 3
-    },
-    {
-      "id": "WV-11",
-      "summary": "Table columns for status and the four PR timestamps",
-      "deps": [
-        "WV-03"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "M",
-      "hours": 7,
-      "critical": false,
-      "rankDays": 7,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-12",
-      "summary": "Empty and partial-timestamp states",
-      "deps": [
-        "WV-01"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "S",
-      "hours": 4,
-      "critical": false,
-      "rankDays": 4,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-13",
-      "summary": "Wire panes so tracker, timeline, and utilization agree",
-      "deps": [
-        "WV-07",
-        "WV-09",
-        "WV-10",
-        "WV-11"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "XL",
-      "hours": 16,
-      "critical": true,
-      "rankDays": 16,
-      "gate": "G1",
-      "module": "WarpView",
-      "acs": 3
-    },
-    {
-      "id": "WV-14",
-      "summary": "Estimate block with assumptions",
-      "deps": [
-        "WV-04"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "M",
-      "hours": 7,
-      "critical": false,
-      "rankDays": 7,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-15",
-      "summary": "Keyboard path across filter, table, and drawer",
-      "deps": [
-        "WV-13"
-      ],
-      "unlocks": [],
-      "locks": [
-        "viewer.html"
-      ],
-      "size": "L",
-      "hours": 11,
-      "critical": true,
-      "rankDays": 11,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    },
-    {
-      "id": "WV-16",
-      "summary": "README: viewer is read-only",
-      "deps": [
-        "WV-13"
-      ],
-      "unlocks": [],
-      "locks": [
-        "docs"
-      ],
-      "size": "S",
-      "hours": 4,
-      "critical": false,
-      "rankDays": 4,
-      "gate": null,
-      "module": "WarpView",
-      "acs": 2
-    }
-  ],
-  "gates": [
-    {
-      "key": "G0",
-      "name": "Timestamps load",
-      "blocking": true,
-      "members": [
-        "WV-01",
-        "WV-02"
-      ],
-      "checks": [
-        "Open viewer.html empty",
-        "Load the sample and show exportedAt"
-      ],
-      "ifRed": "Do not build utilization until load shows timestamps."
-    },
-    {
-      "key": "G1",
-      "name": "Read-only agreement",
-      "blocking": true,
-      "members": [
-        "WV-13"
-      ],
-      "checks": [
-        "Tracker, timeline, and utilization counts match",
-        "No control changes status"
-      ],
-      "ifRed": "Do not call the viewer done if a click can reset a ticket."
-    }
-  ],
-  "criticalPath": [
+ "schema": "build-schedule/2",
+ "program": "WarpView",
+ "rebuilt": "2026-10-13",
+ "source": {
+  "from": "WARPDEMO/tools/tickets_view.py (ticket graph, sizes, gates, locks)",
+  "generated": "2026-10-13",
+  "tool": "WARPDEMO/tools/make_all.py"
+ },
+ "model": {
+  "orchestrators": 1,
+  "slots": 18,
+  "merge": "continuous: each PR merges when green; sizes outside autoMergeSizes (S, M) wait 0.5 h for approval before dependents start",
+  "clock": "estimate hours (S=4, M=7, L=11, XL=16), continuous: no working day, no merge windows",
+  "priority": "critical chain first, then rank (ascending latest_start), then natural id; gateOrder strict: a gate block starts when every earlier block has merged"
+ },
+ "numbers": {
+  "tickets": 16,
+  "waves": 6,
+  "agent_hours": 127,
+  "finish_h": 59.0,
+  "critical_path_h": 56.5,
+  "critical_tickets": 6,
+  "peak": 6,
+  "utilisation": 0.12,
+  "hours_at_cap": 0,
+  "delayed_by_cap": 0,
+  "steps": 15,
+  "max_queue": 0,
+  "finish_by_slots": {
+   "1": 127.5,
+   "2": 83.5,
+   "4": 60.5,
+   "6": 59.0,
+   "8": 59.0,
+   "12": 59.0,
+   "18": 59.0
+  },
+  "lock_pairs": 0,
+  "old_plan": {
+   "finish": null,
+   "people": null,
+   "agents_per_person": null,
+   "merge_windows": null,
+   "hours_per_day": null
+  }
+ },
+ "critical_chain": [
+  "WV-01",
+  "WV-06",
+  "WV-07",
+  "WV-09",
+  "WV-15",
+  "WV-16"
+ ],
+ "lanes": [
+  "platform",
+  "model",
+  "console",
+  "quality",
+  "release"
+ ],
+ "repos": [
+  "smlsr/WarpDemo"
+ ],
+ "gates": [
+  {
+   "key": "G0",
+   "name": "Skeleton builds",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "WV-01"
+   ],
+   "behind": 1,
+   "at": 4.0,
+   "closes_with": [
+    "WV-01"
+   ],
+   "checks": [
+    "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test",
+    "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
+   ],
+   "if_red": "Stop: nothing else can be tested until the build and test runner work.",
+   "old_reached": null
+  },
+  {
+   "key": "G1",
+   "name": "Data and model match the reference",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "WV-02",
+    "WV-03",
     "WV-04",
+    "WV-05",
+    "WV-06",
     "WV-07",
+    "WV-08"
+   ],
+   "behind": 8,
+   "at": 22.0,
+   "closes_with": [
+    "WV-05"
+   ],
+   "checks": [
+    "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)",
+    "tokens.css matches SPEC §12.1"
+   ],
+   "if_red": "Do not start the views on a model that disagrees with fixtures/expected; fix the model first.",
+   "old_reached": null
+  },
+  {
+   "key": "G2",
+   "name": "Panes agree",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "WV-09",
+    "WV-10",
+    "WV-11",
+    "WV-12",
+    "WV-13",
+    "WV-14",
+    "WV-15"
+   ],
+   "behind": 15,
+   "at": 55.0,
+   "closes_with": [
+    "WV-15"
+   ],
+   "checks": [
+    "Legend, cards, swimlane, board and table counts agree on every fixture",
+    "No control changes a status",
+    "createApp hooks work with a test plugin"
+   ],
+   "if_red": "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.",
+   "old_reached": null
+  },
+  {
+   "key": "G3",
+   "name": "Ship",
+   "blocking": true,
+   "scope": "everyone",
+   "members": [
+    "WV-16"
+   ],
+   "behind": 16,
+   "at": 59.0,
+   "closes_with": [
+    "WV-16"
+   ],
+   "checks": [
+    "viewer.html committed, under 400 kB, parity.test.mjs green"
+   ],
+   "if_red": "Do not announce the viewer until parity is green.",
+   "old_reached": null
+  }
+ ],
+ "lock_pairs": [],
+ "tickets": [
+  {
+   "id": "WV-01",
+   "summary": "App scaffold: one-file build, test runner, empty page",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "platform",
+   "wave": 1,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 1,
+   "latest_start": 0.0,
+   "critical": true,
+   "slot": 1,
+   "start": 0.0,
+   "merge": 4.0,
+   "ready": 0.0,
+   "waited": 0.0,
+   "why": "no blockers",
+   "after": [],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-06",
+    "WV-03",
+    "WV-02"
+   ],
+   "gate": "G0",
+   "first_gate": "G0",
+   "checks": [
+    "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test",
+    "npm --prefix WARPDEMO/WarpView/app run build writes app/dist/viewer.html and it opens empty"
+   ],
+   "locks": [
+    "WARPDEMO/WarpView/app/package.json",
+    "WARPDEMO/WarpView/app/build.mjs",
+    "WARPDEMO/WarpView/app/.gitignore",
+    "WARPDEMO/WarpView/app/src/shell.html",
+    "WARPDEMO/WarpView/app/src/main.mjs",
+    "WARPDEMO/WarpView/app/src/core/util.mjs",
+    "WARPDEMO/WarpView/app/test/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/empty.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/empty.png"
+  },
+  {
+   "id": "WV-06",
+   "summary": "Gate blocks: assign each ticket to a block and clear blocks",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 2,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 2,
+   "latest_start": 4.0,
+   "critical": true,
+   "slot": 1,
+   "start": 4.0,
+   "merge": 8.0,
+   "ready": 4.0,
+   "waited": 0.0,
+   "why": "unblocked by WV-01",
+   "after": [
+    "WV-01"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-07",
+    "WV-08",
+    "WV-10"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/blocks/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WV-03",
+   "summary": "Status model: sixteen Warp statuses on six colors",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 2,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 4,
+   "latest_start": 13.5,
+   "critical": false,
+   "slot": 2,
+   "start": 4.0,
+   "merge": 8.0,
+   "ready": 4.0,
+   "waited": 0.0,
+   "why": "unblocked by WV-01",
+   "after": [
+    "WV-01"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-08",
+    "WV-09",
+    "WV-04",
+    "WV-10",
+    "WV-11",
+    "WV-12",
+    "WV-14"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/core/status.mjs",
+    "WARPDEMO/WarpView/app/src/core/status.test.mjs"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WV-02",
+   "summary": "Theme tokens, layout styles, dark mode, phone width and print",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "platform",
+   "wave": 2,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 5,
+   "latest_start": 15.5,
+   "critical": false,
+   "slot": 3,
+   "start": 4.0,
+   "merge": 8.0,
+   "ready": 4.0,
+   "waited": 0.0,
+   "why": "unblocked by WV-01",
+   "after": [
+    "WV-01"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-09",
     "WV-10",
     "WV-13",
+    "WV-11",
+    "WV-12",
+    "WV-14"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/styles/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/dark.png",
+    "WARPDEMO/WarpView/ui/screens/phone.png",
+    "WARPDEMO/WarpView/ui/screens/print.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+  },
+  {
+   "id": "WV-07",
+   "summary": "Planned swimlane and actual timeline layouts",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "L",
+   "h": 11,
+   "rank": 3,
+   "latest_start": 8.0,
+   "critical": true,
+   "slot": 1,
+   "start": 8.0,
+   "merge": 19.5,
+   "ready": 8.0,
+   "waited": 0.0,
+   "why": "unblocked by WV-06",
+   "after": [
+    "WV-06"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-09",
+    "WV-11"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/plan/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+  },
+  {
+   "id": "WV-08",
+   "summary": "Run totals: estimate, agent hours, people hours, tickets",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 6,
+   "latest_start": 17.5,
+   "critical": false,
+   "slot": 2,
+   "start": 8.0,
+   "merge": 15.0,
+   "ready": 8.0,
+   "waited": 0.0,
+   "why": "unblocked by WV-03, WV-06",
+   "after": [
+    "WV-03",
+    "WV-06"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-13"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/metrics/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WV-04",
+   "summary": "Read beam, status, ticket state and export files into runs",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "model",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 8,
+   "latest_start": 22.0,
+   "critical": false,
+   "slot": 3,
+   "start": 8.0,
+   "merge": 15.0,
+   "ready": 8.0,
+   "waited": 0.0,
+   "why": "unblocked by WV-03",
+   "after": [
+    "WV-03"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-05"
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/load/parse/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [],
+   "mock": null
+  },
+  {
+   "id": "WV-05",
+   "summary": "Open files and folders, drag and drop, reload and auto-reload",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "platform",
+   "wave": 4,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 11,
+   "latest_start": 29.0,
+   "critical": false,
+   "slot": 2,
+   "start": 15.0,
+   "merge": 22.0,
+   "ready": 15.0,
+   "waited": 0.0,
+   "why": "unblocked by WV-04",
+   "after": [
+    "WV-04"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
     "WV-15"
-  ]
+   ],
+   "gate": "G1",
+   "first_gate": "G1",
+   "checks": [
+    "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)",
+    "tokens.css matches SPEC §12.1"
+   ],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/load/sources/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/empty.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/empty.png"
+  },
+  {
+   "id": "WV-09",
+   "summary": "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 4,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "XL",
+   "h": 16,
+   "rank": 7,
+   "latest_start": 19.5,
+   "critical": true,
+   "slot": 1,
+   "start": 22.0,
+   "merge": 38.5,
+   "ready": 22.0,
+   "waited": 0.0,
+   "why": "its gate block opened",
+   "after": [
+    "WV-02",
+    "WV-03",
+    "WV-07"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-15"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/swimlane/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+    "WARPDEMO/WarpView/ui/screens/print.png",
+    "WARPDEMO/WarpView/ui/screens/phone.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+  },
+  {
+   "id": "WV-10",
+   "summary": "Board view: lanes by block, status, module or size",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "L",
+   "h": 11,
+   "rank": 9,
+   "latest_start": 24.5,
+   "critical": false,
+   "slot": 2,
+   "start": 22.0,
+   "merge": 33.5,
+   "ready": 22.0,
+   "waited": 0.0,
+   "why": "its gate block opened",
+   "after": [
+    "WV-02",
+    "WV-03",
+    "WV-06"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-15"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/board/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/board.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/board.png"
+  },
+  {
+   "id": "WV-13",
+   "summary": "Header, run tabs, the four totals and utilization panel",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 4,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "L",
+   "h": 11,
+   "rank": 10,
+   "latest_start": 24.5,
+   "critical": false,
+   "slot": 3,
+   "start": 22.0,
+   "merge": 33.5,
+   "ready": 22.0,
+   "waited": 0.0,
+   "why": "its gate block opened",
+   "after": [
+    "WV-02",
+    "WV-08"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-15"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/header/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/utilization.png",
+    "WARPDEMO/WarpView/ui/screens/multi-run.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+  },
+  {
+   "id": "WV-11",
+   "summary": "Table view: sortable columns with the four PR timestamps",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 4,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 12,
+   "latest_start": 29.0,
+   "critical": false,
+   "slot": 4,
+   "start": 22.0,
+   "merge": 29.0,
+   "ready": 22.0,
+   "waited": 0.0,
+   "why": "its gate block opened",
+   "after": [
+    "WV-02",
+    "WV-03",
+    "WV-07"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-15"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/table/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/table.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/table.png"
+  },
+  {
+   "id": "WV-12",
+   "summary": "Ticket drawer, timestamps and bar tooltip",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 13,
+   "latest_start": 29.0,
+   "critical": false,
+   "slot": 5,
+   "start": 22.0,
+   "merge": 29.0,
+   "ready": 22.0,
+   "waited": 0.0,
+   "why": "its gate block opened",
+   "after": [
+    "WV-02",
+    "WV-03"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-15"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/drawer/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/drawer.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/drawer.png"
+  },
+  {
+   "id": "WV-14",
+   "summary": "Filters, search, view switch, theme, keyboard and File menu",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "console",
+   "wave": 3,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "M",
+   "h": 7,
+   "rank": 14,
+   "latest_start": 29.0,
+   "critical": false,
+   "slot": 6,
+   "start": 22.0,
+   "merge": 29.0,
+   "ready": 22.0,
+   "waited": 0.0,
+   "why": "its gate block opened",
+   "after": [
+    "WV-02",
+    "WV-03"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-15"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/controls/"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/dark.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+  },
+  {
+   "id": "WV-15",
+   "summary": "Wire the app: store, render loop, drawer, tabs, print, plugin hooks",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "quality",
+   "wave": 5,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "XL",
+   "h": 16,
+   "rank": 15,
+   "latest_start": 36.0,
+   "critical": true,
+   "slot": 1,
+   "start": 38.5,
+   "merge": 55.0,
+   "ready": 38.5,
+   "waited": 0.0,
+   "why": "unblocked by WV-09",
+   "after": [
+    "WV-05",
+    "WV-09",
+    "WV-10",
+    "WV-11",
+    "WV-12",
+    "WV-13",
+    "WV-14"
+   ],
+   "after_other_modules": [],
+   "unlocks": [
+    "WV-16"
+   ],
+   "gate": "G2",
+   "first_gate": "G2",
+   "checks": [
+    "Legend, cards, swimlane, board and table counts agree on every fixture",
+    "No control changes a status",
+    "createApp hooks work with a test plugin"
+   ],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/main.mjs",
+    "WARPDEMO/WarpView/app/src/store/",
+    "WARPDEMO/WarpView/app/src/app.test.mjs"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/board.png",
+    "WARPDEMO/WarpView/ui/screens/table.png",
+    "WARPDEMO/WarpView/ui/screens/multi-run.png",
+    "WARPDEMO/WarpView/ui/screens/print.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+  },
+  {
+   "id": "WV-16",
+   "summary": "Release viewer.html, README and parity check",
+   "module": "WarpView",
+   "layer": "ui",
+   "lane": "release",
+   "wave": 6,
+   "repo": "smlsr/WarpDemo",
+   "file": null,
+   "size": "S",
+   "h": 4,
+   "rank": 16,
+   "latest_start": 52.5,
+   "critical": true,
+   "slot": 1,
+   "start": 55.0,
+   "merge": 59.0,
+   "ready": 55.0,
+   "waited": 0.0,
+   "why": "unblocked by WV-15",
+   "after": [
+    "WV-15"
+   ],
+   "after_other_modules": [],
+   "unlocks": [],
+   "gate": "G3",
+   "first_gate": "G3",
+   "checks": [
+    "viewer.html committed, under 400 kB, parity.test.mjs green"
+   ],
+   "locks": [
+    "WARPDEMO/WarpView/viewer.html",
+    "WARPDEMO/WarpView/app/README.md",
+    "WARPDEMO/WarpView/app/test/parity.test.mjs"
+   ],
+   "locks_more": 0,
+   "lock_pairs": [],
+   "screens": [
+    "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+    "WARPDEMO/WarpView/ui/screens/board.png",
+    "WARPDEMO/WarpView/ui/screens/table.png",
+    "WARPDEMO/WarpView/ui/screens/drawer.png",
+    "WARPDEMO/WarpView/ui/screens/utilization.png",
+    "WARPDEMO/WarpView/ui/screens/multi-run.png",
+    "WARPDEMO/WarpView/ui/screens/empty.png",
+    "WARPDEMO/WarpView/ui/screens/dark.png",
+    "WARPDEMO/WarpView/ui/screens/phone.png",
+    "WARPDEMO/WarpView/ui/screens/print.png"
+   ],
+   "mock": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+  }
+ ],
+ "steps": [
+  {
+   "n": 0,
+   "t": 0.0,
+   "merges": [],
+   "starts": [
+    "WV-01"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-01"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 1,
+   "t": 4.0,
+   "merges": [
+    "WV-01"
+   ],
+   "starts": [
+    "WV-06",
+    "WV-03",
+    "WV-02"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-06",
+    "WV-03",
+    "WV-02"
+   ],
+   "free": 15,
+   "gates": [
+    "G0"
+   ]
+  },
+  {
+   "n": 2,
+   "t": 8.0,
+   "merges": [
+    "WV-02",
+    "WV-03",
+    "WV-06"
+   ],
+   "starts": [
+    "WV-07",
+    "WV-08",
+    "WV-04"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-07",
+    "WV-08",
+    "WV-04"
+   ],
+   "free": 15,
+   "gates": []
+  },
+  {
+   "n": 3,
+   "t": 15.0,
+   "merges": [
+    "WV-04",
+    "WV-08"
+   ],
+   "starts": [
+    "WV-05"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-07",
+    "WV-05"
+   ],
+   "free": 16,
+   "gates": []
+  },
+  {
+   "n": 4,
+   "t": 19.0,
+   "merges": [],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-07",
+    "WV-05"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 5,
+   "t": 19.5,
+   "merges": [
+    "WV-07"
+   ],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-05"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 6,
+   "t": 22.0,
+   "merges": [
+    "WV-05"
+   ],
+   "starts": [
+    "WV-09",
+    "WV-10",
+    "WV-13",
+    "WV-11",
+    "WV-12",
+    "WV-14"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-09",
+    "WV-10",
+    "WV-13",
+    "WV-11",
+    "WV-12",
+    "WV-14"
+   ],
+   "free": 12,
+   "gates": [
+    "G1"
+   ]
+  },
+  {
+   "n": 7,
+   "t": 29.0,
+   "merges": [
+    "WV-11",
+    "WV-12",
+    "WV-14"
+   ],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-09",
+    "WV-10",
+    "WV-13"
+   ],
+   "free": 15,
+   "gates": []
+  },
+  {
+   "n": 8,
+   "t": 33.0,
+   "merges": [],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-09",
+    "WV-10",
+    "WV-13"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 9,
+   "t": 33.5,
+   "merges": [
+    "WV-10",
+    "WV-13"
+   ],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-09"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 10,
+   "t": 38.0,
+   "merges": [],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-09"
+   ],
+   "free": 18,
+   "gates": []
+  },
+  {
+   "n": 11,
+   "t": 38.5,
+   "merges": [
+    "WV-09"
+   ],
+   "starts": [
+    "WV-15"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-15"
+   ],
+   "free": 17,
+   "gates": []
+  },
+  {
+   "n": 12,
+   "t": 54.5,
+   "merges": [],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-15"
+   ],
+   "free": 18,
+   "gates": []
+  },
+  {
+   "n": 13,
+   "t": 55.0,
+   "merges": [
+    "WV-15"
+   ],
+   "starts": [
+    "WV-16"
+   ],
+   "queued": [],
+   "held": {},
+   "running": [
+    "WV-16"
+   ],
+   "free": 17,
+   "gates": [
+    "G2"
+   ]
+  },
+  {
+   "n": 14,
+   "t": 59.0,
+   "merges": [
+    "WV-16"
+   ],
+   "starts": [],
+   "queued": [],
+   "held": {},
+   "running": [],
+   "free": 18,
+   "gates": [
+    "G3"
+   ]
+  }
+ ],
+ "fields": {
+  "schema": "Format name and version (build-schedule/2), shared by every program's schedule.json.",
+  "model": "How the run works: orchestrators, slots, merge rule, clock, priority rule.",
+  "numbers": "Totals for the run. finish_by_slots = finish in estimate-hours at other slot caps. old_plan = the plan this replaces (null where unknown).",
+  "critical_chain": "Ticket ids on the longest blocker chain, in order.",
+  "lanes": "Lane names; ticket.lane is one of these.",
+  "repos": "Repositories; ticket.repo is one of these. One serial merge queue per repository.",
+  "gates": "Milestones, checked the moment the last member merges. blocking=true: a red gate stops everyone; false: it stops only `scope`. behind = tickets that must be merged for it to be reached. With gateOrder strict, a gate's members are its block and a block starts when the blocks before it have merged.",
+  "lock_pairs": "Pairs of tickets that share a lock folder and have no blocker between them; never in flight together. Empty when every overlap is already ordered by a blocker.",
+  "tickets": {
+   "id / summary / module / layer / lane / wave / repo / file": "Identity. wave = dependency level (longest chain of blockers under the ticket). file is the main file the ticket writes, null when it owns a folder.",
+   "size / h": "T-shirt size and estimate-hours (S=4, M=7, L=11, XL=16).",
+   "rank / latest_start / critical": "Dispatch priority (1 first), the latest start in estimate-hours that still finishes on time, and whether the ticket is on the critical chain. Rank is ascending latest_start.",
+   "slot / start / merge / ready / waited / why": "Simulated run: slot 1..slots, start and merge in estimate-hours, when the last blocker merged (or its block opened), hours spent ready but waiting, and why it could start then.",
+   "after / after_other_modules / unlocks": "Blockers (Warp reads `after` as blockers; `run:id` names a ticket in another run), the subset in another run, and the tickets this one blocks.",
+   "gate / first_gate / checks": "Gate the ticket is a member of ('' if none), the earliest gate that needs it ('' if none), and checks to run when this ticket merges.",
+   "locks / locks_more / lock_pairs": "Lock folders and files (repo-root-relative), how many more were truncated (0 = complete), and lock-pair partners.",
+   "screens / mock": "UI design files the ticket must match (empty / null when none)."
+  },
+  "steps": "One entry per moment something merges (step 0 = start). merges, starts, queued (ready, no slot), held (ready, lock partner in flight -> holders), running, free slots, gates reached."
+ }
 }

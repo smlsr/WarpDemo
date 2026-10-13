@@ -1,0 +1,178 @@
+{
+ "screens": [
+  {
+   "id": "swimlane-plan",
+   "title": "Swimlane, plan clock",
+   "job": "Header, totals and the slot swimlane on the estimate-hour clock",
+   "states": [
+    "loaded",
+    "filtered",
+    "search hit"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+   "html": "WARPDEMO/WarpView/ui/screens/swimlane-plan.html",
+   "tickets": [
+    "WV-02",
+    "WV-07",
+    "WV-09",
+    "WV-13",
+    "WV-14",
+    "WV-15",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "swimlane-actual",
+   "title": "Swimlane, actual clock",
+   "job": "Bars from claim to merge on hours since the run started, with the now line",
+   "states": [
+    "loaded",
+    "running"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/swimlane-actual.png",
+   "html": "WARPDEMO/WarpView/ui/screens/swimlane-actual.html",
+   "tickets": [
+    "WV-07",
+    "WV-09",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "board",
+   "title": "Board",
+   "job": "Lanes by gate block with ticket cards; cleared lanes collapsed",
+   "states": [
+    "loaded",
+    "lane collapsed"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/board.png",
+   "html": "WARPDEMO/WarpView/ui/screens/board.html",
+   "tickets": [
+    "WV-10",
+    "WV-15",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "table",
+   "title": "Table",
+   "job": "Sortable table with status and the four pull request timestamps",
+   "states": [
+    "loaded",
+    "sorted"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/table.png",
+   "html": "WARPDEMO/WarpView/ui/screens/table.html",
+   "tickets": [
+    "WV-11",
+    "WV-15",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "drawer",
+   "title": "Ticket drawer",
+   "job": "Every field of one ticket, its timestamps, dependencies, locks and events",
+   "states": [
+    "open"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/drawer.png",
+   "html": "WARPDEMO/WarpView/ui/screens/drawer.html",
+   "tickets": [
+    "WV-12",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "utilization",
+   "title": "Utilization",
+   "job": "Active agents over maxAgents, hours spent over the estimate, tokens and minutes by size and agent",
+   "states": [
+    "expanded"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/utilization.png",
+   "html": "WARPDEMO/WarpView/ui/screens/utilization.html",
+   "tickets": [
+    "WV-13",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "multi-run",
+   "title": "Several runs",
+   "job": "Two runs opened side by side; tabs and summed totals",
+   "states": [
+    "all runs",
+    "one run"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/multi-run.png",
+   "html": "WARPDEMO/WarpView/ui/screens/multi-run.html",
+   "tickets": [
+    "WV-13",
+    "WV-15",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "empty",
+   "title": "Empty state",
+   "job": "Nothing loaded: open or drop files",
+   "states": [
+    "empty"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/empty.png",
+   "html": "WARPDEMO/WarpView/ui/screens/empty.html",
+   "tickets": [
+    "WV-01",
+    "WV-05",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "dark",
+   "title": "Dark theme",
+   "job": "The swimlane screen in the dark theme",
+   "states": [
+    "dark"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/dark.png",
+   "html": "WARPDEMO/WarpView/ui/screens/dark.html",
+   "tickets": [
+    "WV-02",
+    "WV-14",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "phone",
+   "title": "Phone width",
+   "job": "390 px: stacked totals, scrollable swimlane, no page scroll sideways",
+   "states": [
+    "narrow"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/phone.png",
+   "html": "WARPDEMO/WarpView/ui/screens/phone.html",
+   "tickets": [
+    "WV-02",
+    "WV-09",
+    "WV-16"
+   ]
+  },
+  {
+   "id": "print",
+   "title": "Print",
+   "job": "Landscape page: header, totals and the swimlane fitted to the page width",
+   "states": [
+    "print"
+   ],
+   "png": "WARPDEMO/WarpView/ui/screens/print.png",
+   "html": "WARPDEMO/WarpView/ui/screens/print.html",
+   "tickets": [
+    "WV-02",
+    "WV-09",
+    "WV-15",
+    "WV-16"
+   ]
+  }
+ ]
+}

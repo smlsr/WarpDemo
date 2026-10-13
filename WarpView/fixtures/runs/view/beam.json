@@ -1,0 +1,1774 @@
+{
+ "version": 1,
+ "name": "warp-beam",
+ "generatedAt": "2026-10-13T12:10:05Z",
+ "source": {
+  "schedule": ".warp/_ingested_schedule.json",
+  "plan": "WARPDEMO/WarpView/plan/schedule.json",
+  "generated": "2026-10-13T12:10:05Z",
+  "module": "warp",
+  "format": "build-schedule/2",
+  "scan": {
+   "plans": [
+    "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+   ],
+   "schedules": [
+    "WARPDEMO/WarpView/plan/schedule.json"
+   ],
+   "jira": [
+    "WARPDEMO/WarpView/tickets/jira-import.json",
+    "WARPDEMO/WarpView/tickets/tickets.json"
+   ],
+   "warp": [],
+   "maps": [],
+   "root": ".",
+   "folder": "WARPDEMO/WarpView",
+   "scannedAt": "2026-10-13T12:10:05Z"
+  },
+  "folder": "WARPDEMO/WarpView"
+ },
+ "program": {
+  "tickets": 16,
+  "criticalPath": [
+   "WV-01",
+   "WV-06",
+   "WV-07",
+   "WV-09",
+   "WV-15",
+   "WV-16"
+  ],
+  "criticalHours": null,
+  "people": null,
+  "agentsPerPerson": null,
+  "mergeWindows": null,
+  "durationsHours": null,
+  "lockConflicts": [],
+  "peakAgents": null,
+  "agentHours": null,
+  "estimate": {
+   "agentHours": 127.0,
+   "humanHours": 4.5,
+   "elapsedHours": 58.5,
+   "criticalAgentHours": 55.0,
+   "criticalHumanHours": 1.5,
+   "approvalHours": 0.5,
+   "reviewTickets": 5,
+   "gates": 4,
+   "maxAgents": 18,
+   "assumptions": [
+    "Agent hours are S=4, M=7, L=11, XL=16 unless the ticket has hours.",
+    "Each approval for a size not in autoMergeSizes is provided within 30 minutes.",
+    "Each blocking gate check is signed within 30 minutes.",
+    "Sizes in autoMergeSizes add no human wait. The default list is S, M.",
+    "Elapsed hours are the longer of the critical chain plus those waits, and agent hours divided by maxAgents."
+   ]
+  }
+ },
+ "config": {
+  "model": "claude-sonnet-5-5-high",
+  "maxAgents": 18,
+  "maxInProgress": 20,
+  "autoMergeSizes": [
+   "S",
+   "M"
+  ],
+  "messenger": "both",
+  "notify": "verbose",
+  "runner": "cloud",
+  "launch": "worktree",
+  "worktreeRoot": ".warp/worktrees",
+  "subagentVm": false,
+  "memoryCheck": false,
+  "cloudSnapshot": "",
+  "jiraProject": "WAR",
+  "jiraKeyPrefixes": "",
+  "jiraKeyMap": {},
+  "jiraExternalIdField": "externalId",
+  "jiraExternalIdFieldName": "External ID",
+  "jiraWriteExternalId": false,
+  "jiraCreateExternalIdField": false,
+  "jiraExternalIdFallback": "label",
+  "jiraTransition": true,
+  "jiraInProgressStatus": "In Progress",
+  "jiraInReviewStatus": "In Review",
+  "jiraRestoreOnRelease": false,
+  "jiraQaReadyStatus": "QA Ready",
+  "jiraDoneStatus": "Done",
+  "jiraDoneOnManualMerge": true,
+  "jiraMcp": "atlassian",
+  "jiraSite": "example.atlassian.net",
+  "bugbotRequired": true,
+  "bugbotManual": true,
+  "maxFixAttempts": 5,
+  "stuckAfterMinutes": 90,
+  "stallImplementingMinutes": 90,
+  "stallPrOpenMinutes": 20,
+  "stallReviewingMinutes": 45,
+  "stallFixingMinutes": 90,
+  "stallReadyMinutes": 30,
+  "stallMergingMinutes": 20,
+  "stallQueuedMinutes": 180,
+  "stallApprovalMinutes": 240,
+  "stallMinutes": 45,
+  "ciStartGraceMinutes": 5,
+  "statusDigestMinutes": 60,
+  "maxStallFixes": 5,
+  "repairSweepMinutes": 15,
+  "staleMinutes": 15,
+  "listenerFastSeconds": 15,
+  "listenerSlowSeconds": 60,
+  "listenerOrphanMinutes": 5,
+  "listenerMaxMinutes": 60,
+  "listenerMaxReads": 60,
+  "listenerModel": "",
+  "maxRecoveries": 5,
+  "maxSpawnsPerTicket": 8,
+  "maxSpawnsPerHour": 40,
+  "alarmRepairMinutes": 15,
+  "maxAlarmRepairs": 5,
+  "respectMergeWindows": false,
+  "mergeWindows": [
+   "08:30",
+   "13:00",
+   "17:00"
+  ],
+  "pollSeconds": 300,
+  "reportOnComplete": true,
+  "reportPath": ".warp/warp-complete.html",
+  "checkCommand": "",
+  "appendOnlyPaths": [],
+  "mergeQueue": false,
+  "run": "view"
+ },
+ "paused": false,
+ "pauseReason": null,
+ "runState": "running",
+ "gates": [
+  {
+   "key": "G0",
+   "name": "Skeleton builds",
+   "blocking": true,
+   "members": [
+    "WV-01"
+   ],
+   "checks": [
+    "npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app test",
+    "npm --prefix WARPDEMO/WarpView/app run build writes dist/viewer.html and it opens empty"
+   ],
+   "ifRed": "Stop: nothing else can be tested until the build and test runner work.",
+   "status": "green",
+   "evidence": "members merged: WV-01",
+   "greenAt": "2026-10-11T15:31:00Z"
+  },
+  {
+   "key": "G1",
+   "name": "Data and model match the reference",
+   "blocking": true,
+   "members": [
+    "WV-02",
+    "WV-03",
+    "WV-04",
+    "WV-05",
+    "WV-06",
+    "WV-07",
+    "WV-08"
+   ],
+   "checks": [
+    "npm --prefix WARPDEMO/WarpView/app test (parse, blocks, plan and metrics equal fixtures/expected)",
+    "tokens.css matches SPEC §12.1"
+   ],
+   "ifRed": "Do not start the views on a model that disagrees with fixtures/expected; fix the model first.",
+   "status": "green",
+   "evidence": "members merged: WV-02, WV-03, WV-04, WV-05, WV-06, WV-07, WV-08",
+   "greenAt": "2026-10-11T23:05:56Z"
+  },
+  {
+   "key": "G2",
+   "name": "Panes agree",
+   "blocking": true,
+   "members": [
+    "WV-09",
+    "WV-10",
+    "WV-11",
+    "WV-12",
+    "WV-13",
+    "WV-14",
+    "WV-15"
+   ],
+   "checks": [
+    "Legend, cards, swimlane, board and table counts agree on every fixture",
+    "No control changes a status",
+    "createApp hooks work with a test plugin"
+   ],
+   "ifRed": "WarpEdit starts after this gate (startAfter view:G2). If red, the edit run keeps waiting.",
+   "status": "pending",
+   "evidence": null,
+   "greenAt": null
+  },
+  {
+   "key": "G3",
+   "name": "Ship",
+   "blocking": true,
+   "members": [
+    "WV-16"
+   ],
+   "checks": [
+    "viewer.html committed, under 400 kB, parity.test.mjs green"
+   ],
+   "ifRed": "Do not announce the viewer until parity is green.",
+   "status": "pending",
+   "evidence": null,
+   "greenAt": null
+  }
+ ],
+ "tickets": {
+  "WV-01": {
+   "id": "WV-01",
+   "jiraKey": "WAR-101",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "App scaffold: one-file build, test runner, empty page",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "hours": 4,
+   "deps": [],
+   "after": [],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/package.json",
+    "WARPDEMO/WarpView/app/build.mjs",
+    "WARPDEMO/WarpView/app/.gitignore",
+    "WARPDEMO/WarpView/app/src/shell.html",
+    "WARPDEMO/WarpView/app/src/main.mjs",
+    "WARPDEMO/WarpView/app/src/core/util.mjs",
+    "WARPDEMO/WarpView/app/test/"
+   ],
+   "critical": true,
+   "starred": false,
+   "rank": 1,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G0",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "done",
+   "agent": "bc-ec9910",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 238240,
+   "minutes": 80,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/42",
+    "id": 42,
+    "openedAt": "2026-10-11T14:56:00Z",
+    "reviewedAt": "2026-10-11T15:16:00Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": null,
+    "mergedAt": "2026-10-11T15:31:00Z",
+    "sha": "309d6b79965eda32dae445508201e2bd73ab4876",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "Done",
+    "doneAt": "2026-10-11T15:31:00Z",
+    "lastCommentAt": "2026-10-11T15:31:00Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T14:10:51Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T14:16:51Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-11T14:56:00Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-11T15:16:00Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-11T15:31:00Z",
+     "type": "status",
+     "from": "review",
+     "to": "done"
+    }
+   ],
+   "usage": {
+    "tokensIn": 190592,
+    "tokensOut": 47648,
+    "tokensCached": 0,
+    "cost": 1.0
+   },
+   "updatedAt": "2026-10-11T15:31:00Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T14:10:51Z"
+  },
+  "WV-06": {
+   "id": "WV-06",
+   "jiraKey": "WAR-102",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Gate blocks: assign each ticket to a block and clear blocks",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "hours": 4,
+   "deps": [],
+   "after": [
+    "WV-01"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/blocks/"
+   ],
+   "critical": true,
+   "starred": false,
+   "rank": 2,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G1",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "done",
+   "agent": "bc-9d2c67",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 285131,
+   "minutes": 77,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/43",
+    "id": 43,
+    "openedAt": "2026-10-11T16:42:13Z",
+    "reviewedAt": "2026-10-11T17:02:13Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": null,
+    "mergedAt": "2026-10-11T17:17:13Z",
+    "sha": "17362f25244caf9c4dabb4817253edc618187993",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "Done",
+    "doneAt": "2026-10-11T17:17:13Z",
+    "lastCommentAt": "2026-10-11T17:17:13Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T16:00:05Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T16:06:05Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-11T16:42:13Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-11T17:02:13Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-11T17:17:13Z",
+     "type": "status",
+     "from": "review",
+     "to": "done"
+    }
+   ],
+   "usage": {
+    "tokensIn": 228104,
+    "tokensOut": 57026,
+    "tokensCached": 0,
+    "cost": 1.2
+   },
+   "updatedAt": "2026-10-11T17:17:13Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T16:00:05Z"
+  },
+  "WV-03": {
+   "id": "WV-03",
+   "jiraKey": "WAR-103",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Status model: sixteen Warp statuses on six colors",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "hours": 4,
+   "deps": [],
+   "after": [
+    "WV-01"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/core/status.mjs",
+    "WARPDEMO/WarpView/app/src/core/status.test.mjs"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 4,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G1",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "done",
+   "agent": "bc-0ab8ab",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 345492,
+   "minutes": 84,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/46",
+    "id": 46,
+    "openedAt": "2026-10-11T16:50:11Z",
+    "reviewedAt": "2026-10-11T17:10:11Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": null,
+    "mergedAt": "2026-10-11T17:25:11Z",
+    "sha": "a767779673f778aaf6fa5db8656abd72fb710734",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "Done",
+    "doneAt": "2026-10-11T17:25:11Z",
+    "lastCommentAt": "2026-10-11T17:25:11Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T16:00:13Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T16:06:13Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-11T16:50:11Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-11T17:10:11Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-11T17:25:11Z",
+     "type": "status",
+     "from": "review",
+     "to": "done"
+    }
+   ],
+   "usage": {
+    "tokensIn": 276393,
+    "tokensOut": 69098,
+    "tokensCached": 0,
+    "cost": 1.45
+   },
+   "updatedAt": "2026-10-11T17:25:11Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T16:00:13Z"
+  },
+  "WV-02": {
+   "id": "WV-02",
+   "jiraKey": "WAR-104",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Theme tokens, layout styles, dark mode, phone width and print",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "hours": 4,
+   "deps": [],
+   "after": [
+    "WV-01"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/styles/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 5,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G1",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "merged",
+   "agent": "bc-03d716",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 201175,
+   "minutes": 65,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/49",
+    "id": 49,
+    "openedAt": "2026-10-11T16:26:14Z",
+    "reviewedAt": "2026-10-11T16:46:14Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": null,
+    "mergedAt": "2026-10-11T17:01:14Z",
+    "sha": "e12b2b8f30b17d0b09208a650f3ebdd3102b938b",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "QA Ready",
+    "doneAt": null,
+    "lastCommentAt": "2026-10-11T17:01:14Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T15:55:34Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T16:01:34Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-11T16:26:14Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-11T16:46:14Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-11T17:01:14Z",
+     "type": "status",
+     "from": "review",
+     "to": "merged"
+    }
+   ],
+   "usage": {
+    "tokensIn": 160940,
+    "tokensOut": 40235,
+    "tokensCached": 0,
+    "cost": 0.84
+   },
+   "updatedAt": "2026-10-11T17:01:14Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T15:55:34Z"
+  },
+  "WV-07": {
+   "id": "WV-07",
+   "jiraKey": "WAR-105",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Planned swimlane and actual timeline layouts",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "L",
+   "complexity": "HIGH",
+   "autoMerge": false,
+   "hours": 11,
+   "deps": [],
+   "after": [
+    "WV-06"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/plan/"
+   ],
+   "critical": true,
+   "starred": false,
+   "rank": 3,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G1",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "merged",
+   "agent": "bc-5387f6",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 946462,
+   "minutes": 242,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/51",
+    "id": 51,
+    "openedAt": "2026-10-11T21:03:01Z",
+    "reviewedAt": "2026-10-11T21:23:01Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": "2026-10-11T21:32:01Z",
+    "mergedAt": "2026-10-11T21:38:01Z",
+    "sha": "3bd0334684e55160320094ead7a94ded97491e23",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "QA Ready",
+    "doneAt": null,
+    "lastCommentAt": "2026-10-11T21:38:01Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T17:35:59Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T17:41:59Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-11T21:03:01Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-11T21:23:01Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-11T21:38:01Z",
+     "type": "status",
+     "from": "review",
+     "to": "merged"
+    }
+   ],
+   "usage": {
+    "tokensIn": 757169,
+    "tokensOut": 189292,
+    "tokensCached": 0,
+    "cost": 3.98
+   },
+   "updatedAt": "2026-10-11T21:38:01Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T17:35:59Z"
+  },
+  "WV-08": {
+   "id": "WV-08",
+   "jiraKey": "WAR-106",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Run totals: estimate, agent hours, people hours, tickets",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "hours": 7,
+   "deps": [],
+   "after": [
+    "WV-03",
+    "WV-06"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/model/metrics/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 6,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G1",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "merged",
+   "agent": "bc-15c1d2",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 290850,
+   "minutes": 105,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/53",
+    "id": 53,
+    "openedAt": "2026-10-11T18:38:56Z",
+    "reviewedAt": "2026-10-11T18:58:56Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": null,
+    "mergedAt": "2026-10-11T19:13:56Z",
+    "sha": "8d1fe1daff6665896822a6b24735af1ca7a11490",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "QA Ready",
+    "doneAt": null,
+    "lastCommentAt": "2026-10-11T19:13:56Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T17:28:39Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T17:34:39Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-11T18:38:56Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-11T18:58:56Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-11T19:13:56Z",
+     "type": "status",
+     "from": "review",
+     "to": "merged"
+    }
+   ],
+   "usage": {
+    "tokensIn": 232680,
+    "tokensOut": 58170,
+    "tokensCached": 0,
+    "cost": 1.22
+   },
+   "updatedAt": "2026-10-11T19:13:56Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T17:28:39Z"
+  },
+  "WV-04": {
+   "id": "WV-04",
+   "jiraKey": "WAR-107",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Read beam, status, ticket state and export files into runs",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "hours": 7,
+   "deps": [],
+   "after": [
+    "WV-03"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/load/parse/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 8,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G1",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "merged",
+   "agent": "bc-3acb62",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 349804,
+   "minutes": 124,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/56",
+    "id": 56,
+    "openedAt": "2026-10-11T19:08:26Z",
+    "reviewedAt": "2026-10-11T19:28:26Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": null,
+    "mergedAt": "2026-10-11T19:43:26Z",
+    "sha": "c42b7170902a174f11fa2ac0079dd25a49fe85b0",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "QA Ready",
+    "doneAt": null,
+    "lastCommentAt": "2026-10-11T19:43:26Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T17:38:35Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T17:44:35Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-11T19:08:26Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-11T19:28:26Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-11T19:43:26Z",
+     "type": "status",
+     "from": "review",
+     "to": "merged"
+    }
+   ],
+   "usage": {
+    "tokensIn": 279843,
+    "tokensOut": 69960,
+    "tokensCached": 0,
+    "cost": 1.47
+   },
+   "updatedAt": "2026-10-11T19:43:26Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T17:38:35Z"
+  },
+  "WV-05": {
+   "id": "WV-05",
+   "jiraKey": "WAR-108",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Open files and folders, drag and drop, reload and auto-reload",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "hours": 7,
+   "deps": [],
+   "after": [
+    "WV-04"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/load/sources/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 11,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G1",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "merged",
+   "agent": "bc-62f28d",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 479846,
+   "minutes": 158,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/57",
+    "id": 57,
+    "openedAt": "2026-10-11T22:30:56Z",
+    "reviewedAt": "2026-10-11T22:50:56Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": null,
+    "mergedAt": "2026-10-11T23:05:56Z",
+    "sha": "0023b682af5570eed8e94b150452ef05f542441d",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "QA Ready",
+    "doneAt": null,
+    "lastCommentAt": "2026-10-11T23:05:56Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T20:27:36Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T20:33:36Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-11T22:30:56Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-11T22:50:56Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-11T23:05:56Z",
+     "type": "status",
+     "from": "review",
+     "to": "merged"
+    }
+   ],
+   "usage": {
+    "tokensIn": 383876,
+    "tokensOut": 95969,
+    "tokensCached": 0,
+    "cost": 2.02
+   },
+   "updatedAt": "2026-10-11T23:05:56Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T20:27:36Z"
+  },
+  "WV-09": {
+   "id": "WV-09",
+   "jiraKey": "WAR-109",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "XL",
+   "complexity": "CRITICAL",
+   "autoMerge": false,
+   "hours": 16,
+   "deps": [],
+   "after": [
+    "WV-02",
+    "WV-03",
+    "WV-07"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/swimlane/"
+   ],
+   "critical": true,
+   "starred": false,
+   "rank": 7,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G2",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "coding",
+   "agent": "bc-785116",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 1502921,
+   "minutes": 371,
+   "alarm": null,
+   "pr": {
+    "url": null,
+    "id": null,
+    "openedAt": null,
+    "reviewedAt": null,
+    "bugbot": null,
+    "bugbotEvidence": null,
+    "ci": null,
+    "approvedAt": null,
+    "mergedAt": null
+   },
+   "jira": {
+    "status": "In Progress",
+    "lastCommentAt": "2026-10-11T23:19:25Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T23:19:25Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T23:25:25Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    }
+   ],
+   "usage": {
+    "tokensIn": 1202336,
+    "tokensOut": 300584,
+    "tokensCached": 0,
+    "cost": 6.31
+   },
+   "updatedAt": "2026-10-12T19:45:00Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T23:19:25Z"
+  },
+  "WV-10": {
+   "id": "WV-10",
+   "jiraKey": "WAR-110",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Board view: lanes by block, status, module or size",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "L",
+   "complexity": "HIGH",
+   "autoMerge": false,
+   "hours": 11,
+   "deps": [],
+   "after": [
+    "WV-02",
+    "WV-03",
+    "WV-06"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/board/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 9,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G2",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "review",
+   "agent": "bc-a123f5",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 684904,
+   "minutes": 172,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/59",
+    "id": 59,
+    "openedAt": "2026-10-12T18:31:00Z",
+    "reviewedAt": null,
+    "ci": "green",
+    "bugbot": null
+   },
+   "jira": {
+    "status": "In Review",
+    "lastCommentAt": "2026-10-12T18:31:00Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T23:23:56Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T23:29:56Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-12T18:31:00Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    }
+   ],
+   "usage": {
+    "tokensIn": 547923,
+    "tokensOut": 136980,
+    "tokensCached": 0,
+    "cost": 2.88
+   },
+   "updatedAt": "2026-10-12T19:51:00Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T23:23:56Z"
+  },
+  "WV-13": {
+   "id": "WV-13",
+   "jiraKey": "WAR-111",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Header, run tabs, the four totals and utilization panel",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "L",
+   "complexity": "HIGH",
+   "autoMerge": false,
+   "hours": 11,
+   "deps": [],
+   "after": [
+    "WV-02",
+    "WV-08"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/header/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 10,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G2",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "awaiting_approval",
+   "agent": "bc-552454",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 718296,
+   "minutes": 173,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/61",
+    "id": 61,
+    "openedAt": "2026-10-12T18:54:00Z",
+    "reviewedAt": "2026-10-12T19:14:00Z",
+    "ci": "green",
+    "bugbot": "pass"
+   },
+   "jira": {
+    "status": "QA Ready",
+    "lastCommentAt": "2026-10-12T18:54:00Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T23:20:52Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T23:26:52Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-12T18:54:00Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-12T19:19:00Z",
+     "type": "status",
+     "from": "review",
+     "to": "awaiting_approval"
+    }
+   ],
+   "usage": {
+    "tokensIn": 574636,
+    "tokensOut": 143659,
+    "tokensCached": 0,
+    "cost": 3.02
+   },
+   "updatedAt": "2026-10-12T19:57:00Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T23:20:52Z"
+  },
+  "WV-11": {
+   "id": "WV-11",
+   "jiraKey": "WAR-112",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Table view: sortable columns with the four PR timestamps",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "hours": 7,
+   "deps": [],
+   "after": [
+    "WV-02",
+    "WV-03",
+    "WV-07"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/table/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 12,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G2",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "claimed",
+   "agent": "bc-b4ff00",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 296286,
+   "minutes": 113,
+   "alarm": null,
+   "pr": {
+    "url": null,
+    "id": null,
+    "openedAt": null,
+    "reviewedAt": null,
+    "bugbot": null,
+    "bugbotEvidence": null,
+    "ci": null,
+    "approvedAt": null,
+    "mergedAt": null
+   },
+   "jira": {
+    "status": "In Progress",
+    "lastCommentAt": "2026-10-11T23:36:32Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T23:36:32Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T23:42:32Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    }
+   ],
+   "usage": {
+    "tokensIn": 237028,
+    "tokensOut": 59257,
+    "tokensCached": 0,
+    "cost": 1.24
+   },
+   "updatedAt": "2026-10-12T19:54:00Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T23:36:32Z"
+  },
+  "WV-12": {
+   "id": "WV-12",
+   "jiraKey": "WAR-113",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Ticket drawer, timestamps and bar tooltip",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "hours": 7,
+   "deps": [],
+   "after": [
+    "WV-02",
+    "WV-03"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/drawer/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 13,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G2",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "merged",
+   "agent": "bc-2d7c50",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 635190,
+   "minutes": 155,
+   "alarm": null,
+   "pr": {
+    "url": "https://github.com/smlsr/WarpDemo/pull/64",
+    "id": 64,
+    "openedAt": "2026-10-12T01:16:02Z",
+    "reviewedAt": "2026-10-12T01:36:02Z",
+    "bugbot": "pass",
+    "bugbotEvidence": "no findings",
+    "ci": "green",
+    "approvedAt": null,
+    "mergedAt": "2026-10-12T01:51:02Z",
+    "sha": "30d0b19482450164728a6fcf303a07b28f2df760",
+    "via": "connected",
+    "mergeMethod": "squash"
+   },
+   "jira": {
+    "status": "QA Ready",
+    "doneAt": null,
+    "lastCommentAt": "2026-10-12T01:51:02Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T23:15:50Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T23:21:50Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-12T01:16:02Z",
+     "type": "status",
+     "from": "coding",
+     "to": "review"
+    },
+    {
+     "at": "2026-10-12T01:36:02Z",
+     "type": "bugbot",
+     "detail": "pass"
+    },
+    {
+     "at": "2026-10-12T01:51:02Z",
+     "type": "status",
+     "from": "review",
+     "to": "merged"
+    }
+   ],
+   "usage": {
+    "tokensIn": 508152,
+    "tokensOut": 127038,
+    "tokensCached": 0,
+    "cost": 2.67
+   },
+   "updatedAt": "2026-10-12T01:51:02Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T23:15:50Z"
+  },
+  "WV-14": {
+   "id": "WV-14",
+   "jiraKey": "WAR-114",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Filters, search, view switch, theme, keyboard and File menu",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "M",
+   "complexity": "MEDIUM",
+   "autoMerge": true,
+   "hours": 7,
+   "deps": [],
+   "after": [
+    "WV-02",
+    "WV-03"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/view/controls/"
+   ],
+   "critical": false,
+   "starred": false,
+   "rank": 14,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G2",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "alarm",
+   "agent": "bc-623d8e",
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 1,
+   "tokens": 446448,
+   "minutes": 131,
+   "alarm": "lock-escape: wrote WARPDEMO/WarpView/app/src/view/header/ outside its lock",
+   "pr": {
+    "url": null,
+    "id": null,
+    "openedAt": null,
+    "reviewedAt": null,
+    "bugbot": null,
+    "bugbotEvidence": null,
+    "ci": null,
+    "approvedAt": null,
+    "mergedAt": null
+   },
+   "jira": {
+    "status": "In Progress",
+    "lastCommentAt": "2026-10-11T23:32:52Z"
+   },
+   "events": [
+    {
+     "at": "2026-10-11T23:32:52Z",
+     "type": "status",
+     "from": "queued",
+     "to": "claimed"
+    },
+    {
+     "at": "2026-10-11T23:38:52Z",
+     "type": "status",
+     "from": "claimed",
+     "to": "coding"
+    },
+    {
+     "at": "2026-10-12T19:54:00Z",
+     "type": "alarm",
+     "detail": "lock-escape"
+    }
+   ],
+   "usage": {
+    "tokensIn": 357158,
+    "tokensOut": 89289,
+    "tokensCached": 0,
+    "cost": 1.88
+   },
+   "updatedAt": "2026-10-12T19:54:00Z",
+   "jiraMapping": "needs mapping",
+   "claimedAt": "2026-10-11T23:32:52Z",
+   "escaped": [
+    "WARPDEMO/WarpView/app/src/view/header/"
+   ]
+  },
+  "WV-15": {
+   "id": "WV-15",
+   "jiraKey": "WAR-115",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Wire the app: store, render loop, drawer, tabs, print, plugin hooks",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "XL",
+   "complexity": "CRITICAL",
+   "autoMerge": false,
+   "hours": 16,
+   "deps": [],
+   "after": [
+    "WV-05",
+    "WV-09",
+    "WV-10",
+    "WV-11",
+    "WV-12",
+    "WV-13",
+    "WV-14"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/app/src/main.mjs",
+    "WARPDEMO/WarpView/app/src/store/",
+    "WARPDEMO/WarpView/app/src/app.test.mjs"
+   ],
+   "critical": true,
+   "starred": false,
+   "rank": 15,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G2",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "queued",
+   "agent": null,
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 0,
+   "tokens": 0,
+   "minutes": 0,
+   "alarm": null,
+   "pr": {
+    "url": null,
+    "id": null,
+    "openedAt": null,
+    "reviewedAt": null,
+    "bugbot": null,
+    "bugbotEvidence": null,
+    "ci": null,
+    "approvedAt": null,
+    "mergedAt": null
+   },
+   "jira": {
+    "status": "To Do"
+   },
+   "events": [],
+   "usage": {},
+   "updatedAt": null,
+   "jiraMapping": "needs mapping"
+  },
+  "WV-16": {
+   "id": "WV-16",
+   "jiraKey": "WAR-116",
+   "jiraKeySource": "external",
+   "jiraKeyForced": false,
+   "jiraKeyConfidence": null,
+   "summary": "Release viewer.html, README and parity check",
+   "module": "WarpView",
+   "layer": "ui",
+   "group": null,
+   "owner": null,
+   "size": "S",
+   "complexity": "LOW",
+   "autoMerge": true,
+   "hours": 4,
+   "deps": [],
+   "after": [
+    "WV-15"
+   ],
+   "unlocks": [],
+   "locks": [
+    "WARPDEMO/WarpView/viewer.html",
+    "WARPDEMO/WarpView/app/README.md",
+    "WARPDEMO/WarpView/app/test/parity.test.mjs"
+   ],
+   "critical": true,
+   "starred": false,
+   "rank": 16,
+   "rankDays": 0,
+   "plan": {},
+   "result": {},
+   "gate": "G3",
+   "priority": null,
+   "acs": null,
+   "plannedStart": null,
+   "plannedMerge": null,
+   "status": "queued",
+   "agent": null,
+   "worktree": null,
+   "checkout": null,
+   "branch": null,
+   "attempts": 0,
+   "tokens": 0,
+   "minutes": 0,
+   "alarm": null,
+   "pr": {
+    "url": null,
+    "id": null,
+    "openedAt": null,
+    "reviewedAt": null,
+    "bugbot": null,
+    "bugbotEvidence": null,
+    "ci": null,
+    "approvedAt": null,
+    "mergedAt": null
+   },
+   "jira": {
+    "status": "To Do"
+   },
+   "events": [],
+   "usage": {},
+   "updatedAt": null,
+   "jiraMapping": "needs mapping"
+  }
+ },
+ "agents": {},
+ "metrics": {
+  "total": 16,
+  "byStatus": {
+   "queued": 16,
+   "merged": 0,
+   "done": 0
+  },
+  "done": 0,
+  "pct": 0.0,
+  "tokens": 0,
+  "minutes": 0,
+  "remainingHours": 127,
+  "criticalHoursLeft": 55,
+  "etaHours": 55,
+  "bySize": {
+   "S": 5,
+   "L": 3,
+   "M": 6,
+   "XL": 2
+  },
+  "byModule": {
+   "WarpView": 16
+  },
+  "computedAt": "2026-10-13T12:10:05Z"
+ },
+ "run": "view",
+ "gateOrder": "strict",
+ "runStartedAt": "2026-10-11T14:00:00Z",
+ "checkpointAt": "2026-10-12T19:56:00Z",
+ "instance": {
+  "id": "4e7a21",
+  "host": "cursor-cloud",
+  "machine": "bc-4e7a21",
+  "createdAt": "2026-10-11T14:00:00Z"
+ },
+ "owner": {
+  "by": "Dev One",
+  "machine": "bc-4e7a21",
+  "host": "cursor-cloud",
+  "at": "2026-10-11T14:00:00Z"
+ }
+}

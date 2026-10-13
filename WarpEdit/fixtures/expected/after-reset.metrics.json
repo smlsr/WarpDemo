@@ -1,0 +1,47 @@
+{
+ "finish": 59,
+ "assumptions": [
+  "Agent hours are S=4, M=7, L=11, XL=16 unless the ticket has hours.",
+  "Each approval for a size not in autoMergeSizes is provided within 30 minutes.",
+  "Each blocking gate check is signed within 30 minutes.",
+  "Sizes in autoMergeSizes add no human wait. The default list is S, M.",
+  "Elapsed hours are the longer of the critical chain plus those waits, and agent hours divided by maxAgents."
+ ],
+ "agent": {
+  "done": 69,
+  "prog": 38,
+  "err": 20,
+  "todo": 0
+ },
+ "human": {
+  "done": 1.5,
+  "prog": 2.5,
+  "err": 0.5,
+  "todo": 0
+ },
+ "count": {
+  "done": 11,
+  "prog": 3,
+  "err": 2,
+  "todo": 0
+ },
+ "share": {
+  "done": 31.783464566929133,
+  "prog": 17.503937007874015,
+  "err": 9.21259842519685,
+  "todo": 0
+ },
+ "estTotal": 58.5,
+ "agentTotal": 127,
+ "humanTotal": 4.5,
+ "ticketTotal": 16,
+ "humanPlan": 4.5,
+ "sizeDerived": 0,
+ "actualH": 35.78333333333333,
+ "tokens": 6865145,
+ "cost": 28.819999999999997,
+ "gatesTotal": 4,
+ "gatesGreen": 2,
+ "elapsed": 30,
+ "eta": 55
+}

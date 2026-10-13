@@ -1,0 +1,15 @@
+---
+description: "WARPDEMO: rules for every WarpView (WV-*) and WarpEdit (WE-*) ticket"
+globs: "WARPDEMO/**"
+alwaysApply: true
+---
+
+You implement one ticket of WarpView (run `view`, WV-*) or WarpEdit (run `edit`, WE-*). Warp started you with `Implement <ID>`.
+
+1. Find the ticket in `WARPDEMO/WarpView/tickets/tickets.json` or `WARPDEMO/WarpEdit/tickets/tickets.json`. Read the spec sections it links (`WARPDEMO/<Module>/spec/SPEC.md`) and `WARPDEMO/<Module>/spec/ACCEPTANCE.md`.
+2. The pack folders `WARPDEMO/<Module>/spec|plan|tickets|fixtures|ui` and `WARPDEMO/tools` are read-only. Write only your ticket's lock paths (`technicalDetails.services`), all inside `WARPDEMO/<Module>/app/`.
+3. The edit run never edits `WARPDEMO/WarpView/`; it imports from it. Append-only (keep both sides on conflict): `WARPDEMO/WarpEdit/app/src/plugins.mjs`.
+4. Plain ES modules, Node 22, `node --test`; only esbuild 0.24.0 and jsdom 25.0.1. No frameworks, no network, no eval.
+5. Escape every value from a loaded file with `esc()`. Colors only through the tokens in `WARPDEMO/WarpView/spec/SPEC.md` §12. Match the screen PNGs your ticket names.
+6. One test per AC beside the module, against `fixtures/` and `fixtures/expected/`. `npm --prefix WARPDEMO/<Module>/app test` green before the PR.
+7. One PR titled `[<ID>] <summary>`; only your lock paths changed. Full rules: @WARPDEMO/AGENTS.md

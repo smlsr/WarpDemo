@@ -1,0 +1,41 @@
+{
+ "finish": 177,
+ "assumptions": [],
+ "agent": {
+  "done": 258,
+  "prog": 111,
+  "err": 18,
+  "todo": 365
+ },
+ "human": {
+  "done": 7,
+  "prog": 4,
+  "err": 0.5,
+  "todo": 13.5
+ },
+ "count": {
+  "done": 25,
+  "prog": 9,
+  "err": 2,
+  "todo": 32
+ },
+ "share": {
+  "done": 36.19547872340426,
+  "prog": 15.57247340425532,
+  "err": 2.5252659574468086,
+  "todo": 51.20678191489362
+ },
+ "estTotal": 105.5,
+ "agentTotal": 752,
+ "humanTotal": 25,
+ "ticketTotal": 68,
+ "humanPlan": 25,
+ "sizeDerived": 0,
+ "actualH": 83.3,
+ "tokens": 15985782,
+ "cost": 67.13000000000001,
+ "gatesTotal": 6,
+ "gatesGreen": 2,
+ "elapsed": 31.666666666666668,
+ "eta": 61.8
+}

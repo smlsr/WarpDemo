@@ -1,0 +1,2956 @@
+{
+ "projectKey": "WAR",
+ "defaultIssueType": "Story",
+ "defaultLabels": [
+  "warp-demo",
+  "run:view"
+ ],
+ "source": {
+  "prdTitle": "WarpView spec (WARPDEMO/WarpView/spec/SPEC.md)",
+  "prdVersion": "2",
+  "generatedAt": "2026-10-13"
+ },
+ "tickets": [
+  {
+   "tempId": "WV-01",
+   "summary": "App scaffold: one-file build, test runner, empty page",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:S",
+    "gate:G0",
+    "lane:platform",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "platform"
+    }
+   ],
+   "areasProposed": [
+    "platform"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [],
+   "why": "Every other WarpView ticket writes a module under app/src and needs one way to test it and one way to turn the\n    modules into the single viewer file. Without a fixed build, folder layout and test command, sixteen agents invent\n    sixteen conventions, imports break across modules, and the release cannot produce a file that opens from disk\n    with no server and no network.",
+   "what": "1. `WARPDEMO/WarpView/app/package.json`: `\"type\": \"module\"`, scripts `test` = `node --test`, `build` = `node build.mjs`\n    (writes `WARPDEMO/WarpView/app/dist/viewer.html`), `release` = `node build.mjs --release` (writes `WARPDEMO/WarpView/viewer.html`);\n    devDependencies pinned exactly: `esbuild` 0.24.0 and `jsdom` 25.0.1. 2. `WARPDEMO/WarpView/app/build.mjs`: bundle `src/main.mjs`\n    with esbuild (format iife, target es2020, no minify), inline the bundle and every `src/**/*.css` (files under\n    `src/styles/` first, then path order) into `src/shell.html`, and print `viewer: <path> <bytes>`. 3. `src/shell.html`:\n    the regions of SPEC §10.1 with their ids and the data slot `<script id=\"warp-data\" type=\"application/json\">null</script>`.\n    4. `src/main.mjs`: export `createApp({root, plugins})`; for now it renders the empty state of SPEC §10.9.\n    5. `src/core/util.mjs`: the helpers of SPEC §4.6 (esc, num, fmtH, fmtN, pct, parseTime, ago, stamp, natKey,\n    natCmp, hashHue) with tests beside them. 6. `WARPDEMO/WarpView/app/.gitignore`: `node_modules/` and `dist/`. 7. `WARPDEMO/WarpView/app/test/dom.mjs`:\n    a helper that loads a built HTML file in jsdom with a given fixture placed in the data slot.",
+   "outOfScope": [
+    "Any screen beyond the empty state",
+    "Loading files"
+   ],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given a clean checkout, when `npm --prefix WARPDEMO/WarpView/app ci && npm --prefix WARPDEMO/WarpView/app run build` runs, then `WARPDEMO/WarpView/app/dist/viewer.html` exists, has exactly one inline <script> without src, no <link rel=stylesheet>, and shows the text 'Open a Warp run' when opened."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given util.mjs, when called, then fmtH(null) is '—', fmtH(7) is '7h', fmtH(105.5) is '106h', fmtH(36.24) is '36.2h', natCmp('WV-2','WV-10') < 0 and esc('<a href=\"x\">') is '&lt;a href=&quot;x&quot;&gt;'."
+    },
+    {
+     "id": "AC-3",
+     "kind": "negative",
+     "text": "Given the built file, when searched for 'http://' and 'https://', then neither appears outside string literals that the spec allows (none in the scaffold): the page fetches nothing."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given a CSS file that fails to parse or a missing src/main.mjs, when build runs, then it exits with status 1 and prints the file name; no partial viewer.html is left behind."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then the util and build tests pass."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/package.json",
+     "WARPDEMO/WarpView/app/build.mjs",
+     "WARPDEMO/WarpView/app/.gitignore",
+     "WARPDEMO/WarpView/app/src/shell.html",
+     "WARPDEMO/WarpView/app/src/main.mjs",
+     "WARPDEMO/WarpView/app/src/core/util.mjs",
+     "WARPDEMO/WarpView/app/test/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-01`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`. esbuild and jsdom are the only dependencies the app may have. Do not add others."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "App scaffold: one-file build, test runner, empty page",
+    "description": "App scaffold: one-file build, test runner, empty page",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Empty state"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/empty.png",
+    "states": [
+     "empty"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/empty.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G0 · lane platform. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Design of record (reference page)",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    },
+    {
+     "title": "Empty state",
+     "url": "WARPDEMO/WarpView/ui/screens/empty.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-02",
+   "summary": "Theme tokens, layout styles, dark mode, phone width and print",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:S",
+    "gate:G1",
+    "lane:platform",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "platform"
+    }
+   ],
+   "areasProposed": [
+    "platform"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-01"
+   ],
+   "why": "The viewer must look like the reference page in both themes, at phone width and on paper. If each view\n    picks its own colors and spacing, the six status colors drift, dark mode loses contrast, the page scrolls\n    sideways on a phone and printing cuts the swimlane. One owned set of tokens and layout rules keeps every\n    view consistent and lets the view tickets run in parallel without touching shared CSS.",
+   "what": "Create `WARPDEMO/WarpView/app/src/styles/tokens.css` and `WARPDEMO/WarpView/app/src/styles/layout.css` from SPEC §12 and the reference page\n    `WARPDEMO/WarpView/ui/reference/warp-dashboard.html`. 1. Tokens on `:root` exactly as SPEC §12.1: surface, ink, line and brand\n    colors and the six status colors `--c-done --c-err --c-prog --c-rev --c-qa --c-todo`, plus `--tint` and `--tint-todo`.\n    2. Dark values under `@media (prefers-color-scheme: dark)` guarded by `:root:not([data-theme=\"light\"])`, and again\n    under `:root[data-theme=\"dark\"]`. 3. Layout for the top bar, chips, buttons, menu, headline, tabs, metric cards,\n    stack bars, legend chips, search, segmented controls, panels, toasts, drop overlay, empty state (SPEC §10).\n    4. `@media (max-width: 640px)` rules of SPEC §10.11 (16 px gutter, cards in one column, top bar wraps).\n    5. `@media print` rules of SPEC §10.12 (light tokens, controls hidden, exact colors).",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given tokens.css, when parsed, then every custom property listed in SPEC §12.1 is defined on :root with the listed light value and redefined in both dark blocks with the listed dark value."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given the built page with `WARPDEMO/WarpView/fixtures/beam.sample.json`, when rendered at 1600 px, then cards, chips and panels match `WARPDEMO/WarpView/ui/screens/swimlane-plan.png` in order, spacing and color (same tokens, no new colors)."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given a 390 px wide viewport, when the page renders, then document.documentElement.scrollWidth equals the viewport width (no sideways scroll) and metric cards are in one column."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given any CSS file in src/, when searched, then no color literal for a status appears outside tokens.css (views use var(--c-*) only)."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then the tokens test (parses tokens.css and compares to SPEC §12.1) passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/styles/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-02`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Theme tokens, layout styles, dark mode, phone width and print",
+    "description": "Theme tokens, layout styles, dark mode, phone width and print",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Swimlane, plan clock",
+     "Dark theme",
+     "Phone width",
+     "Print"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "states": [
+     "dark",
+     "filtered",
+     "loaded",
+     "narrow",
+     "print",
+     "search hit"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/dark.png · WARPDEMO/WarpView/ui/screens/phone.png · WARPDEMO/WarpView/ui/screens/print.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-01"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G1 · lane platform. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Design of record (reference page)",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    },
+    {
+     "title": "Swimlane, plan clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+    },
+    {
+     "title": "Dark theme",
+     "url": "WARPDEMO/WarpView/ui/screens/dark.png"
+    },
+    {
+     "title": "Phone width",
+     "url": "WARPDEMO/WarpView/ui/screens/phone.png"
+    },
+    {
+     "title": "Print",
+     "url": "WARPDEMO/WarpView/ui/screens/print.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-03",
+   "summary": "Status model: sixteen Warp statuses on six colors",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:S",
+    "gate:G1",
+    "lane:model",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-01"
+   ],
+   "why": "Warp has sixteen ticket statuses and the screens show six categories. If the mapping lives in each view,\n    the swimlane, board, table, legend and totals disagree about what is in progress, and a status Warp adds later\n    silently becomes invisible. One module owns the mapping, the aliases for hand-written files and the\n    ticket state.json states, and the rule for unknown values.",
+   "what": "Create `WARPDEMO/WarpView/app/src/core/status.mjs` per SPEC §5. Export: 1. `CATS` — the six categories in display order\n    with keys `done err prog rev qa todo` and labels Completed, Errored / Parked, In Progress, In Review, QA Ready,\n    To Do. 2. `STATUS_CAT` — the sixteen Warp statuses of SPEC §5.1 to a category key. 3. `STATUS_ALIAS` for labels\n    found in hand-written files (in_progress, qa_ready, to_do, completed, errored, failed, bugbot and the others in\n    §5.2). 4. `STATE_STATUS` — ticket state.json states to beam statuses (§5.3). 5. `TERMINAL`, `ACTIVE`,\n    `normStatus(raw)` (lower-case, spaces and hyphens to underscores, alias, empty to queued), `catOf(status)`\n    (unknown to todo), `bucketOf(cat)` (rev and qa count as prog in totals), `catColor(cat)` returning the CSS\n    variable, and `statusText(status)`.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given each of the sixteen statuses in SPEC §5.1, when catOf runs, then it returns the category listed there; merged, done and skipped are 'done'; awaiting_approval is 'qa'; alarm, parked and blocked are 'err'."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given 'In Progress', 'QA-Ready' and 'to do', when normStatus runs, then it returns coding, awaiting_approval and queued."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given an empty string, null or 'teleporting', when normStatus and catOf run, then empty and null become queued and 'teleporting' stays as is with category todo."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given STATE_STATUS, when asked for 'heartbeat' or 'done', then it returns undefined: those states never move a ticket."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then status.test.mjs passes and checks every key in `WARPDEMO/WarpView/fixtures/expected/categories.json`."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/core/status.mjs",
+     "WARPDEMO/WarpView/app/src/core/status.test.mjs"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-03`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Status model: sixteen Warp statuses on six colors",
+    "description": "Status model: sixteen Warp statuses on six colors",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-01"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G1 · lane model. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: categories.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/categories.json"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-04",
+   "summary": "Read beam, status, ticket state and export files into runs",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G1",
+    "lane:model",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-03"
+   ],
+   "why": "The viewer is only as good as what it reads. Warp writes a beam, a status file, one state file per ticket,\n    a plan export and, for named runs, a mirror per run. File names change between Warp versions, so the reader must\n    classify by content, merge the copies of one run, and let a newer ticket state move an open ticket. Getting this\n    wrong shows stale or doubled tickets and wrong totals.",
+   "what": "Create `WARPDEMO/WarpView/app/src/load/parse/parse.mjs` per SPEC §3 and §4. 1. `classify(data)` returns beam, status, ticket\n    or null by content (§3.1). 2. `runFromBeam(doc)` builds the Run model of §4 from a beam or a `kind: warp-plan`\n    export (estimate at top level, exportedAt), including gate greenAt, evidence, checks and if-red. 3. `runFromStatus`\n    for status.json alone (no gates, hours from size). 4. `applyState(ticket, state)` per §3.3: only an open ticket,\n    only when newer, never undoes a merge, copies the PR url and alarm. 5. `buildRuns(docs, extra)` per §3.2: one\n    run per name, else instance, else folder; the newer copy wins; status.json joins its run; ticket states attach by\n    folder then by id; repo from the first PR url; returns `{runs, skipped, overlaid, states}`.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when buildRuns runs, then one run named view with 16 tickets results and every ticket field of SPEC §4.2 is filled as in `WARPDEMO/WarpView/fixtures/expected/view.run.json`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and `WARPDEMO/WarpView/fixtures/tickets/WV-11/state.json` (state coding, newer), when buildRuns runs, then WV-11 has status coding, stateNote set, and overlaid is 1."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpView/fixtures/runs/view/beam.json` and `WARPDEMO/WarpView/fixtures/runs/edit/beam.json` plus an older copy of the view beam, when buildRuns runs, then two runs result, sorted by name, and the newer view copy is kept."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given only `WARPDEMO/WarpView/fixtures/status.sample.json`, when buildRuns runs, then one run of kind status results with no gates and hours taken from size (S=4, M=7, L=11, XL=16)."
+    },
+    {
+     "id": "AC-5",
+     "kind": "negative",
+     "text": "Given a JSON file with neither tickets nor done/working/left nor id+state, when buildRuns runs, then it is counted in skipped and creates no run; a merged ticket with a newer state.json saying coding stays merged."
+    },
+    {
+     "id": "AC-6",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then parse.test.mjs passes against every fixture under `WARPDEMO/WarpView/fixtures/`."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/load/parse/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-04`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Read beam, status, ticket state and export files into runs",
+    "description": "Read beam, status, ticket state and export files into runs",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json, WARPDEMO/WarpView/fixtures/status.sample.json, WARPDEMO/WarpView/fixtures/tickets/WV-11/state.json, WARPDEMO/WarpView/fixtures/WARP_PLAN.sample.json, WARPDEMO/WarpView/fixtures/runs/"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-03"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G1 · lane model. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: view.run.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/view.run.json"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-05",
+   "summary": "Open files and folders, drag and drop, reload and auto-reload",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G1",
+    "lane:platform",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "platform"
+    }
+   ],
+   "areasProposed": [
+    "platform"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-04"
+   ],
+   "why": "People open the viewer from disk and point it at a .warp folder that keeps changing while the run goes.\n    If reading a folder pulls in the whole repo, if dropping a folder does nothing, or if reload makes them pick the\n    files again every time, they stop using it. The loader has to find the right files, remember how to re-read\n    them, and keep working in browsers without the File System Access API.",
+   "what": "Create `WARPDEMO/WarpView/app/src/load/sources/sources.mjs` per SPEC §3.4. 1. `openFiles()` and `openFolder()` using\n    showOpenFilePicker / showDirectoryPicker when present, else the hidden inputs (multiple, webkitdirectory).\n    2. Folder walk: prefer a `.warp` child; read only files matching `(beam|status|state)*.json`; skip `.git`,\n    `node_modules`, `__pycache__`, `dist`, `build` and `previous-*`; depth 7. 3. Drop: file system handles when\n    offered, else webkitGetAsEntry traversal. 4. `readSources(sources)` returns docs `{path, data, modified}`\n    and errors per file. 5. `reload()`: re-read handles; a page with embedded data reloads the page; plain input\n    files say to open again. 6. Auto-reload every 30 s when the tab is visible, remembered in localStorage inside\n    try/catch. 7. `embeddedDocs(document)` reads the warp-data slot written by Warp's /warp-dashboard.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given a fake directory handle holding `.warp/beam.json`, `.warp/tickets/WV-11/state.json`, `.warp/agents.json` and `node_modules/x/beam.json`, when the folder is read, then exactly the beam and the state file are returned with paths starting with the folder name."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given the warp-data slot holds {files:[{path,data}]}, when embeddedDocs runs, then it returns those docs and reload() calls location.reload."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given a browser without showOpenFilePicker, when Open status files is chosen, then the hidden file input is clicked and its files are read on change."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given localStorage throws on access, when auto-reload is toggled, then no exception escapes and the toggle still works for the session."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then sources.test.mjs passes using fake handles and jsdom."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/load/sources/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-05`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Open files and folders, drag and drop, reload and auto-reload",
+    "description": "Open files and folders, drag and drop, reload and auto-reload",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Empty state"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/empty.png",
+    "states": [
+     "empty"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/empty.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-04"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G1 · lane platform. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Empty state",
+     "url": "WARPDEMO/WarpView/ui/screens/empty.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-06",
+   "summary": "Gate blocks: assign each ticket to a block and clear blocks",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:S",
+    "gate:G1",
+    "lane:model",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-01"
+   ],
+   "why": "Warp runs a plan in gate blocks and, by default, starts a block only when the blocks before it are\n    cleared. The swimlane, the board lanes and the people-hour totals all depend on which block a ticket belongs to.\n    If the viewer assigns blocks differently from Warp, the plan it draws is not the plan Warp runs and the gate\n    lines land in the wrong place.",
+   "what": "Create `WARPDEMO/WarpView/app/src/model/blocks/blocks.mjs`, a port of Warp's scripts/blocks.py as specified in SPEC §6.\n    1. `gateKeys(run)`: G-number keys in numeric order, then other keys in plan order. 2. `assignBlocks(run)`: a\n    ticket's block is its own gate when that gate exists, else the lowest gate that lists it as a member, else the\n    highest block among its dependencies (cycles cut), else the first block; with no gates every block is null.\n    3. `blockStates(run)`: per block the ticket ids, counts of merged, open, parked and queued, the gate status and\n    `cleared` (every ticket merged, done or skipped and the gate not red). 4. Sets `run.blockRank`.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when assignBlocks runs, then every ticket's block equals `WARPDEMO/WarpView/fixtures/expected/view.blocks.json`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/big/beam.sample.json` (68 tickets, gates G0–G5), when assignBlocks runs, then the result equals `WARPDEMO/WarpView/fixtures/expected/big.blocks.json`."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given a ticket with no gate, no membership and a dependency cycle A→B→A, when assignBlocks runs, then it terminates and both get the highest block of their other dependencies or the first block."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given a run with no gates, when blockStates runs, then it returns an empty list and every ticket's block is null."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then blocks.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/model/blocks/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-06`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Gate blocks: assign each ticket to a block and clear blocks",
+    "description": "Gate blocks: assign each ticket to a block and clear blocks",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json, WARPDEMO/WarpView/fixtures/big/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-01"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G1 · lane model. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: view.blocks.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/view.blocks.json"
+    },
+    {
+     "title": "Expected output: big.blocks.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/big.blocks.json"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-07",
+   "summary": "Planned swimlane and actual timeline layouts",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:L",
+    "gate:G1",
+    "lane:model",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-06"
+   ],
+   "why": "The swimlane is the main screen: one row per agent slot on an estimate-hour clock, like the plan's swimlane\n    PDF, and an actual clock of what happened. Both are computed, not drawn by hand. If the simulation differs from\n    Warp's dispatch rule the picture lies about the finish and the critical chain; if the actual layout overlaps bars\n    nobody can read it. This ticket owns both layouts as pure functions with golden outputs.",
+   "what": "Create `WARPDEMO/WarpView/app/src/model/plan/plan.mjs` per SPEC §7 and §8. 1. `plan(run)`: list scheduling with\n    `run.cap` slots (maxAgents, default 18); a ticket is ready when every in-run dependency has merged (merge = end\n    plus 0.5 h when its size is not auto-merged) and, with gateOrder strict, every earlier block has merged; ready\n    tickets sorted critical first, starred, rank, longest downstream chain, natural id; lowest free slot. Sets\n    `slot start end mergeAt` per ticket and `finish peak slots waves critHours critCount gateAt` on the run; tickets\n    that can never be ready are laid after everything and flagged `unplaced`. 2. `layoutPlan(run)` and\n    `layoutActual(run, now)` returning `{prefix, label, rows, span, now, unstarted, items, gates}` (§8): actual\n    bars run from claimedAt (else PR opened, else first event) to mergedAt (else now) and pack into the lowest free row.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when plan runs, then slot, start and mergeAt of every ticket and finish, peak, slots and gateAt equal `WARPDEMO/WarpView/fixtures/expected/view.plan.json` to 0.01 h."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/big/beam.sample.json`, when plan runs, then the result equals `WARPDEMO/WarpView/fixtures/expected/big.plan.json` (finish T+177, peak 10, 10 slots)."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given gateOrder deps on the same big beam, when plan runs, then no block waits for an earlier block and the finish is earlier than the strict finish."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json` and now = 2026-10-12T20:00:00Z, when layoutActual runs, then items, rows, unstarted and the now line equal `WARPDEMO/WarpView/fixtures/expected/view.actual.json`."
+    },
+    {
+     "id": "AC-5",
+     "kind": "negative",
+     "text": "Given a dependency cycle, when plan runs, then it returns within 100 ms, every ticket has a slot and the cycle members are flagged unplaced."
+    },
+    {
+     "id": "AC-6",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then plan.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/model/plan/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-07`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Planned swimlane and actual timeline layouts",
+    "description": "Planned swimlane and actual timeline layouts",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Swimlane, plan clock",
+     "Swimlane, actual clock"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "states": [
+     "filtered",
+     "loaded",
+     "running",
+     "search hit"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json, WARPDEMO/WarpView/fixtures/big/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-06"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G1 · lane model. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: view.plan.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/view.plan.json"
+    },
+    {
+     "title": "Expected output: big.plan.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/big.plan.json"
+    },
+    {
+     "title": "Expected output: view.actual.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/view.actual.json"
+    },
+    {
+     "title": "Swimlane, plan clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+    },
+    {
+     "title": "Swimlane, actual clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-08",
+   "summary": "Run totals: estimate, agent hours, people hours, tickets",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G1",
+    "lane:model",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-03",
+    "WV-06"
+   ],
+   "why": "The header answers how big the run is and how far it has got: the run estimate, agent hours, people\n    hours and tickets, each split into completed, in progress, errored or parked, and to do. People use these numbers\n    to decide whether to add agents or chase reviews, so they must follow Warp's own estimate rules and show a dash\n    when the files do not carry a value, never an invented number.",
+   "what": "Create `WARPDEMO/WarpView/app/src/model/metrics/metrics.mjs` per SPEC §9. 1. `computeMetrics(runs)` returning the four\n    totals and their bucket splits: agent hours from ticket hours (S=4, M=7, L=11, XL=16 unless the ticket has hours);\n    people hours 0.5 h per ticket whose size is not auto-merged plus 0.5 h per blocking gate, a gate counted done when\n    green, err when red, in progress when its block has started; run estimate = program.estimate.elapsedHours split by\n    agent-hour share; tickets by bucket. 2. Elapsed hours since runStartedAt, ETA left (beam metrics.etaHours, else\n    max(critical hours left, remaining hours / min(cap, 8))), swimlane finish, assumptions, actual hours, tokens,\n    cost. 3. `utilization(runs)`: active (claimed through merging) over summed cap, hours spent over estimate.agentHours,\n    tokens and minutes by size and by agent. Missing values are null.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when computeMetrics runs, then every number equals `WARPDEMO/WarpView/fixtures/expected/view.metrics.json`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/big/beam.sample.json`, when computeMetrics runs, then run estimate is 105.5, agent hours 752, people hours 25 and tickets 68 with 25 completed, as in `WARPDEMO/WarpView/fixtures/expected/big.metrics.json`."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpView/fixtures/status.sample.json` alone (no estimate), when computeMetrics runs, then estTotal and every share are null while agent hours and tickets are computed."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given a ticket with status teleporting and no size, when computeMetrics runs, then it counts as to do with 7 h and nothing throws."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then metrics.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/model/metrics/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-08`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Run totals: estimate, agent hours, people hours, tickets",
+    "description": "Run totals: estimate, agent hours, people hours, tickets",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json, WARPDEMO/WarpView/fixtures/big/beam.sample.json, WARPDEMO/WarpView/fixtures/status.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-03",
+     "WV-06"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G1 · lane model. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: view.metrics.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/view.metrics.json"
+    },
+    {
+     "title": "Expected output: big.metrics.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/big.metrics.json"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-09",
+   "summary": "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:XL",
+    "gate:G2",
+    "lane:console",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-02",
+    "WV-03",
+    "WV-07"
+   ],
+   "why": "This is the screen people open the viewer for: the run as a swimlane of agent slots like the plan's PDF,\n    colored by each ticket's status now, with gate lines and the critical chain. It must stay readable from 16 to\n    400 tickets, at any zoom, on a phone and on paper, and switch to the actual clock without changing what a color\n    means. Without it the viewer is a list.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/swimlane/swimlane.mjs` and `swimlane.css` per SPEC §10.6. 1. `renderSwimlane(run,\n    layout, opts)` returns HTML: sticky slot labels, a gate row with labels left of each line (labels that collide\n    lift to a second row; names only when there is room; gates reached together share 'G2 · G8'), an axis row\n    (T+ or + labels at steps 1,2,5,10,20,25,50,100,200 so ticks are at least 56 px apart), grid lines, gate lines\n    (red bold when red, green when green), the now line on the actual clock, and one bar per item: left accent and\n    tint in the status color, id with ★ for critical, size·hours, title, ⚠ for an alarm, ✗ for red CI, a tiny form\n    under 70 px, dim when filtered out, outline when a search hits. 2. Zoom: fit to width times 6^(zoom/100);\n    print width fit. 3. The Plan/Actual toggle in the panel header. 4. `tooltipFor(ticket)`.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json` at 1600 px, when rendered with layoutPlan, then it matches `WARPDEMO/WarpView/ui/screens/swimlane-plan.png`: same rows, bar positions to 1 px, gate labels G0–G3 and colors by status."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given the actual clock, when rendered with layoutActual at the expected now, then it matches `WARPDEMO/WarpView/ui/screens/swimlane-actual.png` with the dashed now line."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given two gates reached at the same hour, when rendered, then one label 'G1 · G2' is drawn and no two labels overlap at any zoom from 0 to 100."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given a bar narrower than 70 px, when rendered, then only the id shows; given a search that matches it, then it gets the hit outline and every non-matching bar is dimmed."
+    },
+    {
+     "id": "AC-5",
+     "kind": "negative",
+     "text": "Given a run with zero tickets, when rendered, then one empty slot row and the axis render and nothing throws."
+    },
+    {
+     "id": "AC-6",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then swimlane.test.mjs passes (HTML snapshot against the expected layouts)."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/view/swimlane/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-09`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
+    "description": "Swimlane view: slots, time axis, gates, bars, zoom, actual clock",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Swimlane, plan clock",
+     "Swimlane, actual clock",
+     "Print",
+     "Phone width"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "states": [
+     "filtered",
+     "loaded",
+     "narrow",
+     "print",
+     "running",
+     "search hit"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png · WARPDEMO/WarpView/ui/screens/print.png · WARPDEMO/WarpView/ui/screens/phone.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-02",
+     "WV-03",
+     "WV-07"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G2 · lane console. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Design of record (reference page)",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    },
+    {
+     "title": "Expected output: view.plan.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/view.plan.json"
+    },
+    {
+     "title": "Swimlane, plan clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+    },
+    {
+     "title": "Swimlane, actual clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+    },
+    {
+     "title": "Print",
+     "url": "WARPDEMO/WarpView/ui/screens/print.png"
+    },
+    {
+     "title": "Phone width",
+     "url": "WARPDEMO/WarpView/ui/screens/phone.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-10",
+   "summary": "Board view: lanes by block, status, module or size",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:L",
+    "gate:G2",
+    "lane:console",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-02",
+    "WV-03",
+    "WV-06"
+   ],
+   "why": "The swimlane shows time; the board shows where each ticket stands and lets people scan a block or a status\n    at a glance, open the pull request and the Jira issue in one click, and see alarms. Cleared blocks fold away so\n    the open work stays on screen. Without it people go back to reading Warp's STATUS.md.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/board/board.mjs` and `board.css` per SPEC §10.7. 1. `lanesFor(runs, groupBy)`\n    for block (gate order, or 'All tickets' without gates), status (the six categories), module (natural order)\n    and size (S, M, L, XL, No size); with several runs the block lanes are prefixed by run label. 2. Lane header:\n    chevron, name and gate name, gate pill (status and greenAt, tooltip with evidence, checks and if-red), cleared\n    pill, 'n/m done', agent hours, a stack bar, 'k shown' when filtered. Cleared block lanes start collapsed when\n    there is more than one lane; the person's choice wins after that. 3. Card: id with ★, size badge, status text in\n    its color, two-line title, est, spent, 'PR #n ↗', Jira key linked to `<jiraSite>/browse/<key>` when jiraSite is\n    set, CI, alarm line.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when rendered by block, then four lanes G0–G3 appear, G0 is collapsed and cleared, and the result matches `WARPDEMO/WarpView/ui/screens/board.png`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given groupBy status, when rendered, then six lanes appear in the CATS order with counts that equal the legend counts."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given jiraSite is empty, when a card renders, then the Jira key is plain text, not a link; given 'acme.atlassian.net', then the link is https://acme.atlassian.net/browse/<key>."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given a filter that hides every ticket in a lane, when rendered, then the lane shows '0 shown' and no cards, and the other lanes are unchanged."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then board.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/view/board/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-10`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Board view: lanes by block, status, module or size",
+    "description": "Board view: lanes by block, status, module or size",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Board"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/board.png",
+    "states": [
+     "lane collapsed",
+     "loaded"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/board.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-02",
+     "WV-03",
+     "WV-06"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G2 · lane console. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Design of record (reference page)",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    },
+    {
+     "title": "Board",
+     "url": "WARPDEMO/WarpView/ui/screens/board.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-11",
+   "summary": "Table view: sortable columns with the four PR timestamps",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G2",
+    "lane:console",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-02",
+    "WV-03",
+    "WV-07"
+   ],
+   "why": "Some questions are about time, not layout: what merged last, which pull request has waited longest for\n    review, which approvals are missing. The table puts status, plan start, time spent and the four pull request\n    timestamps side by side and sorts on any of them. Missing timestamps must read as a dash, not as zero or as\n    the epoch.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/table/table.mjs` and `table.css` per SPEC §10.8. 1. `renderTable(runs, sort,\n    matches)`: thirteen columns — Ticket, Status, Summary, Size, Block, Est, Plan, Spent, Opened, Reviewed,\n    Approved, Merged, Links — with a sticky header. 2. Header click or Enter sorts by that column; a second click\n    reverses; aria-sort reflects the state; ties fall back to natural id order. 3. Timestamps render with stamp()\n    and the raw value in the title; null renders '—'. 4. Rows filtered out are hidden; a row click or Enter opens the\n    drawer. 5. With several runs the run label follows the id.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when sorted by Merged descending, then the first rows are the most recently merged tickets as listed in `WARPDEMO/WarpView/fixtures/expected/view.table.json` and the screen matches `WARPDEMO/WarpView/ui/screens/table.png`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given a click on Status, when sorted, then rows follow the category order Completed, Errored / Parked, In Progress, In Review, QA Ready, To Do."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given a ticket with pr.openedAt but no reviewedAt, approvedAt or mergedAt, when rendered, then those three cells read '—' and sorting by Merged puts it last ascending."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given a timestamp value 'not-a-date', when rendered, then the cell reads '—' and nothing throws."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then table.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/view/table/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-11`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Table view: sortable columns with the four PR timestamps",
+    "description": "Table view: sortable columns with the four PR timestamps",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Table"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/table.png",
+    "states": [
+     "loaded",
+     "sorted"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/table.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-02",
+     "WV-03",
+     "WV-07"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G2 · lane console. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: view.table.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/view.table.json"
+    },
+    {
+     "title": "Table",
+     "url": "WARPDEMO/WarpView/ui/screens/table.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-12",
+   "summary": "Ticket drawer, timestamps and bar tooltip",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G2",
+    "lane:console",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-02",
+    "WV-03"
+   ],
+   "why": "Every bar, card and row leads to one place that answers everything about a ticket: status, estimate,\n    plan, time and cost spent, pull request, CI and Bugbot, Jira, agent, attempts, every timestamp in order, what it\n    depends on, what it locks and what happened. The drawer is also where WarpEdit adds its reset section, so it\n    must take extra sections without being edited.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/drawer/drawer.mjs` and `drawer.css` per SPEC §10.10. 1. `renderDrawer(ticket, run,\n    sections)`: header with the status color bar, id with ★ and title; key/value list in the order of §10.10 (alarm\n    first when present); 'Timestamps' with Claimed, PR opened, Reviewed, Approved, Merged, Jira last comment,\n    Updated (each stamp() plus the raw value, '—' when missing); Depends on and Locks as tags; Events, newest first,\n    at most 25. 2. Extra sections: for each `{id, render(ticket, run)}` in `sections`, append its HTML under the\n    events in registration order. 3. `renderTooltip(ticket)` for bars. 4. Close button; Escape and the scrim close\n    it (wired by WV-15).",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given WV-05 in `WARPDEMO/WarpView/fixtures/beam.sample.json`, when the drawer renders, then the fields and the timestamp list match `WARPDEMO/WarpView/ui/screens/drawer.png` in order and value."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given one extra section {id:'x', render: () => '<p id=\"x\">X</p>'}, when the drawer renders, then the paragraph appears after Events and nothing else changes."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given a ticket with 40 events, when rendered, then 25 are listed, newest first."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given a title containing '<img src=x onerror=alert(1)>', when rendered, then it shows as text (escaped) in the header, the tooltip and the key list."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then drawer.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/view/drawer/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-12`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Ticket drawer, timestamps and bar tooltip",
+    "description": "Ticket drawer, timestamps and bar tooltip",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Ticket drawer"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/drawer.png",
+    "states": [
+     "open"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/drawer.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-02",
+     "WV-03"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G2 · lane console. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Ticket drawer",
+     "url": "WARPDEMO/WarpView/ui/screens/drawer.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-13",
+   "summary": "Header, run tabs, the four totals and utilization panel",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:L",
+    "gate:G2",
+    "lane:console",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-02",
+    "WV-08"
+   ],
+   "why": "The header is the summary a lead reads first: which repo, run and instance, whether it is running, when it\n    last changed, and the four totals with their splits and bars. With several runs open it switches between them.\n    The utilization panel answers whether the agents are busy and where tokens went. If these disagree with the\n    swimlane or with Warp, people stop trusting the page.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/header/header.mjs` and `header.css` per SPEC §10.2–§10.4. 1. `renderMeta(runs, tab)`:\n    chips for repo, run, instance (warp:<id>), state with dot (running pulses, paused, stopped, done), pause reason,\n    range, owner, exported time for an export, and 'updated <ago> · <stamp>' (stamp hidden under 640 px). 2.\n    `renderHeadline(runs)`: title, the subline of §10.3 and the ★ critical chain line. 3. `renderTabs(runs, tab)`:\n    'All runs (n)' plus one tab per run with done/total. 4. `renderCards(metrics)`: the four cards of §9.2 with big\n    number, stack bar, rows with value and percent, foot line and an Assumptions details list. 5. `renderUtil(util)`:\n    a collapsed details panel with the summary line, three meters and the by-size and by-agent tables (8 rows, 'n more').\n    6. A slot for header actions registered by plugins (§11).",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpView/fixtures/beam.sample.json`, when the header renders, then chips, subline, chain and the four cards match `WARPDEMO/WarpView/ui/screens/swimlane-plan.png` and the numbers equal `WARPDEMO/WarpView/fixtures/expected/view.metrics.json`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given both beams in `WARPDEMO/WarpView/fixtures/runs/`, when rendered, then tabs read 'All runs (2)', 'edit · d/t' and 'view · d/t' and the meta shows '2 runs · n running'."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given estTotal null, when the run estimate card renders, then the big number and every row read '—' and the bar is empty."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given a run with no repo, no instance and no owner, when the meta renders, then those chips are omitted, not shown empty."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then header.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/view/header/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-13`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Header, run tabs, the four totals and utilization panel",
+    "description": "Header, run tabs, the four totals and utilization panel",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Swimlane, plan clock",
+     "Utilization",
+     "Several runs"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "states": [
+     "all runs",
+     "expanded",
+     "filtered",
+     "loaded",
+     "one run",
+     "search hit"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/utilization.png · WARPDEMO/WarpView/ui/screens/multi-run.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-02",
+     "WV-08"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G2 · lane console. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: view.metrics.json",
+     "url": "WARPDEMO/WarpView/fixtures/expected/view.metrics.json"
+    },
+    {
+     "title": "Swimlane, plan clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+    },
+    {
+     "title": "Utilization",
+     "url": "WARPDEMO/WarpView/ui/screens/utilization.png"
+    },
+    {
+     "title": "Several runs",
+     "url": "WARPDEMO/WarpView/ui/screens/multi-run.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-14",
+   "summary": "Filters, search, view switch, theme, keyboard and File menu",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G2",
+    "lane:console",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-02",
+    "WV-03"
+   ],
+   "why": "People narrow a run of hundreds of tickets to what matters now: the errored ones, one module, one Jira key.\n    The status chips are both the legend and the filter, search covers every field people quote, and every action has\n    a key so the page works without a mouse. Theme and the File menu live here too. Without them the views are a\n    wall of color.",
+   "what": "Create `WARPDEMO/WarpView/app/src/view/controls/controls.mjs` and `controls.css` per SPEC §10.5 and §10.13. 1. Legend chips\n    with counts per category; click toggles, double-click shows only that category (again: all). 2. Search: words\n    are ANDed over id, title, Jira key, module, layer, agent, status, block, size and run name, case-insensitive.\n    3. Segmented control Swimlane / Board / Table, Lanes select (board only), Color select (status or module), Zoom\n    range (swimlane only); choices remembered in localStorage inside try/catch. 4. Theme toggle setting data-theme.\n    5. File menu: Open status files (O), Open .warp folder (Shift+O), Reload (R), Auto-reload, Print (P), Close all\n    files. 6. Keys: '/' focuses search, Escape closes menu and drawer, Enter/Space activate cards, rows, lane headers\n    and sortable headers. 7. Export `matches(ticket, run, state)`.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given the legend, when In Progress is clicked, then those tickets dim on the swimlane and hide on the board and table, and the chip shows as off; a double-click on QA Ready leaves only QA Ready."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given search 'rubric merged', when typed, then only tickets whose fields contain both words match."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given focus in the search box, when 'r' and 'o' are typed, then they go into the box and do not reload or open files."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given localStorage throws, when the view is switched and the theme toggled, then both work and nothing throws."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then controls.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/view/controls/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-14`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Filters, search, view switch, theme, keyboard and File menu",
+    "description": "Filters, search, view switch, theme, keyboard and File menu",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Swimlane, plan clock",
+     "Dark theme"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "states": [
+     "dark",
+     "filtered",
+     "loaded",
+     "search hit"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/dark.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-02",
+     "WV-03"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G2 · lane console. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Swimlane, plan clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+    },
+    {
+     "title": "Dark theme",
+     "url": "WARPDEMO/WarpView/ui/screens/dark.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-15",
+   "summary": "Wire the app: store, render loop, drawer, tabs, print, plugin hooks",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:XL",
+    "gate:G2",
+    "lane:quality",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "quality"
+    }
+   ],
+   "areasProposed": [
+    "quality"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-05",
+    "WV-09",
+    "WV-10",
+    "WV-11",
+    "WV-12",
+    "WV-13",
+    "WV-14"
+   ],
+   "why": "The modules only become a viewer when one store feeds them and one render loop keeps them in step:\n    the legend, totals, swimlane, board and table must agree on every count. This ticket also fixes the extension\n    points WarpEdit builds on, so the editor can add controls without touching viewer code, and proves the viewer\n    itself has no control that changes a status.",
+   "what": "Complete `WARPDEMO/WarpView/app/src/main.mjs` and create `WARPDEMO/WarpView/app/src/store/store.mjs` per SPEC §11. 1. Store: docs, runs,\n    tab, view, groupBy, colorBy, zoom, clock, sort, off categories, query, closed lanes; `subscribe(fn)`,\n    `replaceRuns(runs, reason)` and `recompute(run)` (blocks + plan again after a status change). 2. Render loop:\n    meta, headline, tabs, cards, utilization, legend, then the active view; one delegated click/keydown/dblclick\n    handler; drawer open/close; toasts; drop overlay; reload; auto-reload. 3. Print: beforeprint fits the swimlane to\n    1020 px and opens utilization, afterprint restores. 4. `createApp({root, plugins})` with hooks `drawerSections`,\n    `headerActions`, `swimlaneOverlays`, `keys`; the viewer passes no plugins. 5. `app.test.mjs`: jsdom on the built\n    page with each fixture.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given the built page with `WARPDEMO/WarpView/fixtures/beam.sample.json`, when each view is shown, then legend counts, card ticket counts, board lane counts and table row counts agree for every category."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given both run beams in `WARPDEMO/WarpView/fixtures/runs/`, when the edit tab is chosen, then every pane shows only the edit run and the meta shows run edit."
+    },
+    {
+     "id": "AC-3",
+     "kind": "happy",
+     "text": "Given a plugin {drawerSections:[{id:'p', render:() => '<b id=p>P</b>'}]} passed to createApp, when a drawer opens, then #p is in it; with no plugins it is not."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given the built viewer, when every button, select, input and menu item is exercised, then no ticket status in the store changes and the page contains no element with data-edit."
+    },
+    {
+     "id": "AC-5",
+     "kind": "edge",
+     "text": "Given print is triggered on the swimlane, when beforeprint fires, then the swimlane width is 1020 px plus the label column, and afterprint restores the zoomed width."
+    },
+    {
+     "id": "AC-6",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then app.test.mjs passes on every fixture."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/app/src/main.mjs",
+     "WARPDEMO/WarpView/app/src/store/",
+     "WARPDEMO/WarpView/app/src/app.test.mjs"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-15`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Wire the app: store, render loop, drawer, tabs, print, plugin hooks",
+    "description": "Wire the app: store, render loop, drawer, tabs, print, plugin hooks",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Swimlane, plan clock",
+     "Board",
+     "Table",
+     "Several runs",
+     "Print"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "states": [
+     "all runs",
+     "filtered",
+     "lane collapsed",
+     "loaded",
+     "one run",
+     "print",
+     "search hit",
+     "sorted"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/board.png · WARPDEMO/WarpView/ui/screens/table.png · WARPDEMO/WarpView/ui/screens/multi-run.png · WARPDEMO/WarpView/ui/screens/print.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-05",
+     "WV-09",
+     "WV-10",
+     "WV-11",
+     "WV-12",
+     "WV-13",
+     "WV-14"
+    ],
+    "vendorsInTest": [],
+    "risks": "Medium: integration of seven modules; agreement test guards it.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G2 · lane quality. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Design of record (reference page)",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    },
+    {
+     "title": "Swimlane, plan clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+    },
+    {
+     "title": "Board",
+     "url": "WARPDEMO/WarpView/ui/screens/board.png"
+    },
+    {
+     "title": "Table",
+     "url": "WARPDEMO/WarpView/ui/screens/table.png"
+    },
+    {
+     "title": "Several runs",
+     "url": "WARPDEMO/WarpView/ui/screens/multi-run.png"
+    },
+    {
+     "title": "Print",
+     "url": "WARPDEMO/WarpView/ui/screens/print.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WV-16",
+   "summary": "Release viewer.html, README and parity check",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:S",
+    "gate:G3",
+    "lane:release",
+    "run:view",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpView",
+     "component": "release"
+    }
+   ],
+   "areasProposed": [
+    "release"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WV-15"
+   ],
+   "why": "The deliverable is one file people open from disk. It must be built from the merged modules, committed,\n    match the design of record on every fixture, and say clearly that it never changes a run: resetting a ticket\n    is WarpEdit. Without a release ticket the repo holds modules nobody can open.",
+   "what": "1. Run `npm --prefix WARPDEMO/WarpView/app run release` to write `WARPDEMO/WarpView/viewer.html` and commit it. 2. Write\n    `WARPDEMO/WarpView/app/README.md`: what the viewer is, how to open it, what it reads (beam.json, status.json, ticket state.json,\n    WARP_PLAN.json exports, a .warp folder, several runs), the keys, the three views and the two clocks, and that it\n    is read-only (resetting a phase is WarpEdit, `WARPDEMO/WarpEdit/editor.html`). 3.\n    `WARPDEMO/WarpView/app/test/parity.test.mjs`: load viewer.html in jsdom with each fixture and compare blocks, plan, metrics and\n    the table order with `WARPDEMO/WarpView/fixtures/expected/`; assert no element with data-edit and no text 'Reset'. 4. Capture the\n    eleven screens and compare them with `WARPDEMO/WarpView/ui/screens/*.png` (layout and color; small font differences pass).",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app run release`, when run, then `WARPDEMO/WarpView/viewer.html` is written, is under 400 kB and opens from disk with the empty state."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given viewer.html with `WARPDEMO/WarpView/fixtures/beam.sample.json` dropped on it, when compared, then blocks, plan, metrics and table order equal `WARPDEMO/WarpView/fixtures/expected/`."
+    },
+    {
+     "id": "AC-3",
+     "kind": "negative",
+     "text": "Given viewer.html, when searched, then it has no element with data-edit, no 'Reset' control and no network URL in markup or script."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given the README, when read, then it names WarpEdit for resets and gives the sample path fixtures/beam.sample.json."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpView/app test`, when run, then parity.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpView/viewer.html",
+     "WARPDEMO/WarpView/app/README.md",
+     "WARPDEMO/WarpView/app/test/parity.test.mjs"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpView/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpView/app/`). Start with `Implement WV-16`. Run `npm --prefix WARPDEMO/WarpView/app ci` once, then `npm --prefix WARPDEMO/WarpView/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Release viewer.html, README and parity check",
+    "description": "Release viewer.html, README and parity check",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Swimlane, plan clock",
+     "Swimlane, actual clock",
+     "Board",
+     "Table",
+     "Ticket drawer",
+     "Utilization",
+     "Several runs",
+     "Empty state",
+     "Dark theme",
+     "Phone width",
+     "Print"
+    ],
+    "routes": [
+     "file://…/viewer.html"
+    ],
+    "designLink": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png",
+    "states": [
+     "all runs",
+     "dark",
+     "empty",
+     "expanded",
+     "filtered",
+     "lane collapsed",
+     "loaded",
+     "narrow",
+     "one run",
+     "open",
+     "print",
+     "running",
+     "search hit",
+     "sorted"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png · WARPDEMO/WarpView/ui/screens/swimlane-actual.png · WARPDEMO/WarpView/ui/screens/board.png · WARPDEMO/WarpView/ui/screens/table.png · WARPDEMO/WarpView/ui/screens/drawer.png · WARPDEMO/WarpView/ui/screens/utilization.png · WARPDEMO/WarpView/ui/screens/multi-run.png · WARPDEMO/WarpView/ui/screens/empty.png · WARPDEMO/WarpView/ui/screens/dark.png · WARPDEMO/WarpView/ui/screens/phone.png · WARPDEMO/WarpView/ui/screens/print.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpView/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WV-15"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `view` · gate G3 · lane release. Product code under `WARPDEMO/WarpView/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpView/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpView/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpView/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Design of record (reference page)",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    },
+    {
+     "title": "Swimlane, plan clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-plan.png"
+    },
+    {
+     "title": "Swimlane, actual clock",
+     "url": "WARPDEMO/WarpView/ui/screens/swimlane-actual.png"
+    },
+    {
+     "title": "Board",
+     "url": "WARPDEMO/WarpView/ui/screens/board.png"
+    },
+    {
+     "title": "Table",
+     "url": "WARPDEMO/WarpView/ui/screens/table.png"
+    },
+    {
+     "title": "Ticket drawer",
+     "url": "WARPDEMO/WarpView/ui/screens/drawer.png"
+    },
+    {
+     "title": "Utilization",
+     "url": "WARPDEMO/WarpView/ui/screens/utilization.png"
+    },
+    {
+     "title": "Several runs",
+     "url": "WARPDEMO/WarpView/ui/screens/multi-run.png"
+    },
+    {
+     "title": "Empty state",
+     "url": "WARPDEMO/WarpView/ui/screens/empty.png"
+    },
+    {
+     "title": "Dark theme",
+     "url": "WARPDEMO/WarpView/ui/screens/dark.png"
+    },
+    {
+     "title": "Phone width",
+     "url": "WARPDEMO/WarpView/ui/screens/phone.png"
+    },
+    {
+     "title": "Print",
+     "url": "WARPDEMO/WarpView/ui/screens/print.png"
+    }
+   ]
+  }
+ ]
+}

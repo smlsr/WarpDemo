@@ -1,0 +1,18 @@
+{
+ "queued": "todo",
+ "claimed": "prog",
+ "recovering": "prog",
+ "planning": "prog",
+ "coding": "prog",
+ "fix": "prog",
+ "review": "rev",
+ "bugbot_running": "rev",
+ "merging": "rev",
+ "awaiting_approval": "qa",
+ "merged": "done",
+ "done": "done",
+ "skipped": "done",
+ "blocked": "err",
+ "alarm": "err",
+ "parked": "err"
+}

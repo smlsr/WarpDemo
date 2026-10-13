@@ -1,0 +1,494 @@
+{
+ "finish": 177,
+ "peak": 10,
+ "slots": 10,
+ "waves": 11,
+ "critHours": 99,
+ "critCount": 8,
+ "gateAt": {
+  "G0": 18.5,
+  "G1": 42,
+  "G2": 77,
+  "G3": 116.5,
+  "G4": 151.5,
+  "G5": 177
+ },
+ "tickets": {
+  "L-01": {
+   "slot": 0,
+   "start": 0,
+   "end": 7,
+   "mergeAt": 7,
+   "unplaced": false
+  },
+  "M-01": {
+   "slot": 1,
+   "start": 0,
+   "end": 11,
+   "mergeAt": 11.5,
+   "unplaced": false
+  },
+  "O-01": {
+   "slot": 5,
+   "start": 0,
+   "end": 7,
+   "mergeAt": 7,
+   "unplaced": false
+  },
+  "U-01": {
+   "slot": 3,
+   "start": 0,
+   "end": 11,
+   "mergeAt": 11.5,
+   "unplaced": false
+  },
+  "Q-01": {
+   "slot": 4,
+   "start": 0,
+   "end": 11,
+   "mergeAt": 11.5,
+   "unplaced": false
+  },
+  "I-01": {
+   "slot": 2,
+   "start": 0,
+   "end": 7,
+   "mergeAt": 7,
+   "unplaced": false
+  },
+  "A-01": {
+   "slot": 1,
+   "start": 11.5,
+   "end": 18.5,
+   "mergeAt": 18.5,
+   "unplaced": false
+  },
+  "F-01": {
+   "slot": 0,
+   "start": 7,
+   "end": 14,
+   "mergeAt": 14,
+   "unplaced": false
+  },
+  "P-01": {
+   "slot": 6,
+   "start": 0,
+   "end": 7,
+   "mergeAt": 7,
+   "unplaced": false
+  },
+  "D-01": {
+   "slot": 2,
+   "start": 11.5,
+   "end": 18.5,
+   "mergeAt": 18.5,
+   "unplaced": false
+  },
+  "M-02": {
+   "slot": 1,
+   "start": 18.5,
+   "end": 29.5,
+   "mergeAt": 30,
+   "unplaced": false
+  },
+  "F-02": {
+   "slot": 0,
+   "start": 18.5,
+   "end": 34.5,
+   "mergeAt": 35,
+   "unplaced": false
+  },
+  "D-02": {
+   "slot": 6,
+   "start": 18.5,
+   "end": 25.5,
+   "mergeAt": 25.5,
+   "unplaced": false
+  },
+  "U-02": {
+   "slot": 5,
+   "start": 25.5,
+   "end": 41.5,
+   "mergeAt": 42,
+   "unplaced": false
+  },
+  "Q-02": {
+   "slot": 7,
+   "start": 18.5,
+   "end": 25.5,
+   "mergeAt": 25.5,
+   "unplaced": false
+  },
+  "R-01": {
+   "slot": 3,
+   "start": 18.5,
+   "end": 34.5,
+   "mergeAt": 35,
+   "unplaced": false
+  },
+  "I-02": {
+   "slot": 8,
+   "start": 18.5,
+   "end": 25.5,
+   "mergeAt": 25.5,
+   "unplaced": false
+  },
+  "A-02": {
+   "slot": 4,
+   "start": 18.5,
+   "end": 34.5,
+   "mergeAt": 35,
+   "unplaced": false
+  },
+  "S-01": {
+   "slot": 6,
+   "start": 25.5,
+   "end": 41.5,
+   "mergeAt": 42,
+   "unplaced": false
+  },
+  "M-03": {
+   "slot": 5,
+   "start": 18.5,
+   "end": 25.5,
+   "mergeAt": 25.5,
+   "unplaced": false
+  },
+  "L-02": {
+   "slot": 2,
+   "start": 18.5,
+   "end": 34.5,
+   "mergeAt": 35,
+   "unplaced": false
+  },
+  "M-04": {
+   "slot": 0,
+   "start": 42,
+   "end": 53,
+   "mergeAt": 53.5,
+   "unplaced": false
+  },
+  "C-01": {
+   "slot": 4,
+   "start": 42,
+   "end": 58,
+   "mergeAt": 58.5,
+   "unplaced": false
+  },
+  "L-03": {
+   "slot": 0,
+   "start": 53.5,
+   "end": 60.5,
+   "mergeAt": 60.5,
+   "unplaced": false
+  },
+  "L-04": {
+   "slot": 1,
+   "start": 42,
+   "end": 49,
+   "mergeAt": 49,
+   "unplaced": false
+  },
+  "U-03": {
+   "slot": 2,
+   "start": 42,
+   "end": 58,
+   "mergeAt": 58.5,
+   "unplaced": false
+  },
+  "R-02": {
+   "slot": 7,
+   "start": 42,
+   "end": 53,
+   "mergeAt": 53.5,
+   "unplaced": false
+  },
+  "D-03": {
+   "slot": 8,
+   "start": 42,
+   "end": 53,
+   "mergeAt": 53.5,
+   "unplaced": false
+  },
+  "Q-03": {
+   "slot": 1,
+   "start": 49,
+   "end": 65,
+   "mergeAt": 65.5,
+   "unplaced": false
+  },
+  "A-03": {
+   "slot": 6,
+   "start": 42,
+   "end": 49,
+   "mergeAt": 49,
+   "unplaced": false
+  },
+  "L-05": {
+   "slot": 3,
+   "start": 53.5,
+   "end": 69.5,
+   "mergeAt": 70,
+   "unplaced": false
+  },
+  "F-03": {
+   "slot": 5,
+   "start": 42,
+   "end": 58,
+   "mergeAt": 58.5,
+   "unplaced": false
+  },
+  "U-04": {
+   "slot": 4,
+   "start": 65.5,
+   "end": 76.5,
+   "mergeAt": 77,
+   "unplaced": false
+  },
+  "R-03": {
+   "slot": 3,
+   "start": 42,
+   "end": 53,
+   "mergeAt": 53.5,
+   "unplaced": false
+  },
+  "S-02": {
+   "slot": 9,
+   "start": 42,
+   "end": 49,
+   "mergeAt": 49,
+   "unplaced": false
+  },
+  "A-04": {
+   "slot": 0,
+   "start": 60.5,
+   "end": 67.5,
+   "mergeAt": 67.5,
+   "unplaced": false
+  },
+  "L-06": {
+   "slot": 1,
+   "start": 65.5,
+   "end": 76.5,
+   "mergeAt": 77,
+   "unplaced": false
+  },
+  "C-02": {
+   "slot": 2,
+   "start": 58.5,
+   "end": 69.5,
+   "mergeAt": 70,
+   "unplaced": false
+  },
+  "L-07": {
+   "slot": 1,
+   "start": 77,
+   "end": 93,
+   "mergeAt": 93.5,
+   "unplaced": false
+  },
+  "R-04": {
+   "slot": 0,
+   "start": 77,
+   "end": 88,
+   "mergeAt": 88.5,
+   "unplaced": false
+  },
+  "C-03": {
+   "slot": 3,
+   "start": 77,
+   "end": 93,
+   "mergeAt": 93.5,
+   "unplaced": false
+  },
+  "U-05": {
+   "slot": 1,
+   "start": 93.5,
+   "end": 104.5,
+   "mergeAt": 105,
+   "unplaced": false
+  },
+  "L-08": {
+   "slot": 3,
+   "start": 93.5,
+   "end": 100.5,
+   "mergeAt": 100.5,
+   "unplaced": false
+  },
+  "A-05": {
+   "slot": 4,
+   "start": 77,
+   "end": 88,
+   "mergeAt": 88.5,
+   "unplaced": false
+  },
+  "S-03": {
+   "slot": 7,
+   "start": 77,
+   "end": 88,
+   "mergeAt": 88.5,
+   "unplaced": false
+  },
+  "Q-04": {
+   "slot": 2,
+   "start": 77,
+   "end": 88,
+   "mergeAt": 88.5,
+   "unplaced": false
+  },
+  "L-09": {
+   "slot": 0,
+   "start": 88.5,
+   "end": 99.5,
+   "mergeAt": 100,
+   "unplaced": false
+  },
+  "R-05": {
+   "slot": 2,
+   "start": 93.5,
+   "end": 104.5,
+   "mergeAt": 105,
+   "unplaced": false
+  },
+  "C-04": {
+   "slot": 6,
+   "start": 77,
+   "end": 93,
+   "mergeAt": 93.5,
+   "unplaced": false
+  },
+  "A-06": {
+   "slot": 0,
+   "start": 100,
+   "end": 116,
+   "mergeAt": 116.5,
+   "unplaced": false
+  },
+  "L-10": {
+   "slot": 5,
+   "start": 77,
+   "end": 93,
+   "mergeAt": 93.5,
+   "unplaced": false
+  },
+  "C-05": {
+   "slot": 0,
+   "start": 116.5,
+   "end": 132.5,
+   "mergeAt": 133,
+   "unplaced": false
+  },
+  "C-06": {
+   "slot": 1,
+   "start": 116.5,
+   "end": 123.5,
+   "mergeAt": 123.5,
+   "unplaced": false
+  },
+  "R-06": {
+   "slot": 0,
+   "start": 133,
+   "end": 144,
+   "mergeAt": 144.5,
+   "unplaced": false
+  },
+  "A-07": {
+   "slot": 1,
+   "start": 123.5,
+   "end": 134.5,
+   "mergeAt": 135,
+   "unplaced": false
+  },
+  "L-11": {
+   "slot": 5,
+   "start": 116.5,
+   "end": 127.5,
+   "mergeAt": 128,
+   "unplaced": false
+  },
+  "S-04": {
+   "slot": 3,
+   "start": 116.5,
+   "end": 123.5,
+   "mergeAt": 123.5,
+   "unplaced": false
+  },
+  "C-07": {
+   "slot": 4,
+   "start": 116.5,
+   "end": 132.5,
+   "mergeAt": 133,
+   "unplaced": false
+  },
+  "Q-05": {
+   "slot": 2,
+   "start": 116.5,
+   "end": 127.5,
+   "mergeAt": 128,
+   "unplaced": false
+  },
+  "R-07": {
+   "slot": 1,
+   "start": 135,
+   "end": 151,
+   "mergeAt": 151.5,
+   "unplaced": false
+  },
+  "C-08": {
+   "slot": 2,
+   "start": 133,
+   "end": 140,
+   "mergeAt": 140,
+   "unplaced": false
+  },
+  "C-09": {
+   "slot": 3,
+   "start": 123.5,
+   "end": 130.5,
+   "mergeAt": 130.5,
+   "unplaced": false
+  },
+  "X-01": {
+   "slot": 0,
+   "start": 151.5,
+   "end": 162.5,
+   "mergeAt": 163,
+   "unplaced": false
+  },
+  "X-02": {
+   "slot": 0,
+   "start": 163,
+   "end": 170,
+   "mergeAt": 170,
+   "unplaced": false
+  },
+  "C-10": {
+   "slot": 1,
+   "start": 151.5,
+   "end": 167.5,
+   "mergeAt": 168,
+   "unplaced": false
+  },
+  "A-08": {
+   "slot": 0,
+   "start": 170,
+   "end": 177,
+   "mergeAt": 177,
+   "unplaced": false
+  },
+  "X-03": {
+   "slot": 3,
+   "start": 151.5,
+   "end": 158.5,
+   "mergeAt": 158.5,
+   "unplaced": false
+  },
+  "C-11": {
+   "slot": 2,
+   "start": 151.5,
+   "end": 162.5,
+   "mergeAt": 163,
+   "unplaced": false
+  }
+ }
+}

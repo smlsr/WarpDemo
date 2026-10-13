@@ -1,0 +1,78 @@
+{
+ "screens": [
+  {
+   "id": "edit-drawer",
+   "title": "Drawer with reset",
+   "job": "The WarpView drawer plus the Reset section: phase menu, Reset button and the reset log",
+   "states": [
+    "merged ticket",
+    "after a reset"
+   ],
+   "png": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
+   "html": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.html",
+   "tickets": [
+    "WE-10",
+    "WE-14"
+   ]
+  },
+  {
+   "id": "edit-confirm",
+   "title": "Confirm reset",
+   "job": "Names the ticket, the from phase and the to phase, the dependents it blocks, and a note",
+   "states": [
+    "open",
+    "with dependents"
+   ],
+   "png": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png",
+   "html": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.html",
+   "tickets": [
+    "WE-06",
+    "WE-14"
+   ]
+  },
+  {
+   "id": "edit-header",
+   "title": "Unsaved changes",
+   "job": "Header actions: unsaved count, Undo, Redo, Save, Copy as commands",
+   "states": [
+    "dirty",
+    "clean"
+   ],
+   "png": "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+   "html": "WARPDEMO/WarpEdit/ui/screens/edit-header.html",
+   "tickets": [
+    "WE-07",
+    "WE-13",
+    "WE-14"
+   ]
+  },
+  {
+   "id": "edit-validation",
+   "title": "Save blocked",
+   "job": "Validation banner naming each problem and its ticket; Save disabled",
+   "states": [
+    "errors"
+   ],
+   "png": "WARPDEMO/WarpEdit/ui/screens/edit-validation.png",
+   "html": "WARPDEMO/WarpEdit/ui/screens/edit-validation.html",
+   "tickets": [
+    "WE-13",
+    "WE-14"
+   ]
+  },
+  {
+   "id": "edit-scrubber",
+   "title": "Phase scrubber",
+   "job": "Time slider over the actual swimlane; each bar shows its phase at that time; reset markers",
+   "states": [
+    "scrubbing"
+   ],
+   "png": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png",
+   "html": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.html",
+   "tickets": [
+    "WE-12",
+    "WE-14"
+   ]
+  }
+ ]
+}

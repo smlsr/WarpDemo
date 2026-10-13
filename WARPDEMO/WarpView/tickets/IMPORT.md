@@ -1,0 +1,24 @@
+# Import WarpView tickets
+
+Project **WAR** (Warp Demo), component **WarpView**. 16 issues.
+
+## Jira (recommended): JSON importer
+
+1. Jira settings → System → External system import → JSON. Upload `tickets/jira-import.json`.
+2. Map the custom field **External ID** (text). If the site has no such field, the labels `ext:<id>` and `warp:<id>` carry the plan id; Warp finds issues by External ID first, then by the `warp:<id>` label.
+3. The importer creates the **Blocks** links listed under `links` (blocker → blocked).
+4. No blocker in another pack.
+
+Already imported the old WarpView/WarpEdit packs into WAR? Those issues carry the same External IDs with old summaries. Archive or delete them first, or Warp will map the plan ids to the old issues.
+
+## Jira: CSV fallback
+
+`tickets/JIRA_IMPORT.csv`: one row per ticket; repeated **Labels** and **Blocked By** columns; External ID and the full description. Map Issue ID to the issue id column so Blocked By resolves.
+
+## Linear
+
+`tickets/linear-import.json`: issueCreate for each issue, then issueRelationCreate (type blocks) for each relation. Linear's CSV import drops blockers.
+
+## After import
+
+Nothing to assign: Warp dispatches by plan, not by person. Run `/warp-init view`, `/warp-scan WARPDEMO/WarpView`, then `/warp-start` (see `WARPDEMO/README.md`).

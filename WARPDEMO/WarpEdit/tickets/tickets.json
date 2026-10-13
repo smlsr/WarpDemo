@@ -1,0 +1,2339 @@
+{
+ "projectKey": "WAR",
+ "defaultIssueType": "Story",
+ "defaultLabels": [
+  "warp-demo",
+  "run:edit"
+ ],
+ "source": {
+  "prdTitle": "WarpEdit spec (WARPDEMO/WarpEdit/spec/SPEC.md)",
+  "prdVersion": "2",
+  "generatedAt": "2026-10-13"
+ },
+ "tickets": [
+  {
+   "tempId": "WE-01",
+   "summary": "Editor scaffold on WarpView's modules, and the read-only audit",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:S",
+    "gate:G0",
+    "lane:platform",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "platform"
+    }
+   ],
+   "areasProposed": [
+    "platform"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "view:WV-15"
+   ],
+   "why": "WarpEdit is the WarpView screens plus one change: reset a ticket's phase. Building it as a second copy of\n    the viewer would fork the model and the screens on day one. It must import WarpView's modules, add its controls\n    only through WarpView's hooks, and prove before any edit work starts that the viewer itself cannot change a\n    phase, so the two products stay separate.",
+   "what": "1. `WARPDEMO/WarpEdit/app/package.json` with scripts `test` (`node --test`), `build` (`WARPDEMO/WarpEdit/app/dist/editor.html`) and\n    `release` (`WARPDEMO/WarpEdit/editor.html`); devDependencies pinned like WarpView (esbuild 0.24.0, jsdom 25.0.1). 2.\n    `WARPDEMO/WarpEdit/app/build.mjs`: entry `src/main.mjs`, CSS from `WARPDEMO/WarpView/app/src/**/*.css` (styles first) then `WARPDEMO/WarpEdit/app/src/**/*.css`,\n    shell from `WARPDEMO/WarpView/app/src/shell.html` with the title 'Warp Editor' and the badge 'Editing'. 3. `src/main.mjs`:\n    `createApp({root, plugins})` imported from `WARPDEMO/WarpView/app/src/main.mjs` with the plugins listed in `src/plugins.mjs`\n    (append-only: each later ticket adds one import and one array entry). 4. `WARPDEMO/WarpEdit/app/test/audit.test.mjs`: the audit of\n    SPEC §2 over `WARPDEMO/WarpView/app/src/`: no assignment to a ticket's status outside load/parse, no data-edit attribute, no\n    'Reset' label; it lists the thirteen phases of SPEC §3.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given WarpView merged through WV-15, when `npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app run build` runs, then `WARPDEMO/WarpEdit/app/dist/editor.html` opens with the WarpView empty state, the title 'Warp Editor' and the 'Editing' badge."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given the audit, when run over WarpView's src, then it passes and prints the thirteen phases."
+    },
+    {
+     "id": "AC-3",
+     "kind": "negative",
+     "text": "Given a test copy of WarpView's drawer that sets ticket.status, when the audit runs on that copy, then it fails naming the file and line."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given plugins.mjs with an empty plugin list, when the editor builds, then it behaves exactly like the viewer (no edit control) — the plugins carry every edit feature."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then audit.test.mjs and the build test pass."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/package.json",
+     "WARPDEMO/WarpEdit/app/build.mjs",
+     "WARPDEMO/WarpEdit/app/.gitignore",
+     "WARPDEMO/WarpEdit/app/src/main.mjs",
+     "WARPDEMO/WarpEdit/app/src/plugins.mjs",
+     "WARPDEMO/WarpEdit/app/test/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-01`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`. Read-only for this run: everything under `WARPDEMO/WarpView/`. Import from it; never edit it."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Editor scaffold on WarpView's modules, and the read-only audit",
+    "description": "Editor scaffold on WarpView's modules, and the read-only audit",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "view:WV-15"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G0 · lane platform. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "WarpView SPEC (model, screens, hooks)",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "WarpView design of record",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-02",
+   "summary": "Edit store: change log, undo and redo, unsaved count",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:M",
+    "gate:G1",
+    "lane:model",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-01"
+   ],
+   "why": "Every reset must be reversible until the file is saved, and the editor must always know what changed\n    since load. Without a change log, undo would have to guess the old status, dependents' statuses would be lost,\n    and save could not say how many changes it is writing. The store is the one place edits happen; screens only\n    read it.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/store/store.mjs` per SPEC §4. 1. `createEditStore(beam)` keeps the loaded document\n    untouched and a working copy. 2. `apply(change)` where a change is `{ticket, from, to, at, note, by,\n    dependents:[{id, from, to}]}`; returns the new working copy. 3. `undo()` and `redo()` with a 50-step history;\n    a new change after an undo clears the redo stack. 4. `dirty` count = changes applied and not undone since load\n    or the last save; `markSaved()`. 5. `subscribe(fn)` called with `{reason, change}`. 6. Never mutate the\n    loaded document or a previous working copy (copy-on-write, tested with Object.freeze).",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, when a change WV-07 merged→coding is applied, then working.tickets['WV-07'].status is coding, dirty is 1 and the loaded beam still says merged."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given two changes then undo, when redo runs, then the state equals the state after two changes and dirty is 2."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given 55 changes, when undo runs 60 times, then only 50 are undone and the 51st-oldest change remains."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given a frozen loaded beam, when apply runs, then nothing throws (no mutation of frozen objects)."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then store.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/store/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-02`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Edit store: change log, undo and redo, unsaved count",
+    "description": "Edit store: change log, undo and redo, unsaved count",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-01"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G1 · lane model. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-03",
+   "summary": "Phase menu: allowed targets, same-phase and unknown refused",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:S",
+    "gate:G1",
+    "lane:model",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-01"
+   ],
+   "why": "A person must only be offered phases Warp understands, must not 'reset' a ticket onto the phase it is\n    already in, and must get a clear message when a file carries a phase this editor does not know. The menu is used\n    by the drawer, the confirm dialog and validation, so the rule belongs in one module.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/phases/phases.mjs` per SPEC §3. 1. `PHASES`: queued, claimed, planning, coding,\n    review, fix, awaiting_approval, merging, merged, done, blocked, alarm, skipped (the thirteen the old WarpView\n    listed; recovering and bugbot_running display but are not targets). 2. `targetsFrom(status)`: every phase except\n    the current one; from merged, done or skipped the list is the earlier phases plus blocked and alarm (no other\n    terminal phase). 3. `check(from, to)` returns ok, same (no-op with the message 'WV-07 is already merged'), or\n    unknown (message names the phase). 4. Labels via WarpView's statusText and colors via catColor.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given status merged, when targetsFrom runs, then it returns queued, claimed, planning, coding, review, fix, awaiting_approval, merging, blocked, alarm in that order."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given status coding, when targetsFrom runs, then it returns the twelve other phases including merged and done."
+    },
+    {
+     "id": "AC-3",
+     "kind": "negative",
+     "text": "Given from merged and to merged, when check runs, then it returns same with the message naming the ticket and the phase; skipped to skipped likewise."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given to 'teleporting', when check runs, then it returns unknown naming 'teleporting'."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then phases.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/phases/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-03`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Phase menu: allowed targets, same-phase and unknown refused",
+    "description": "Phase menu: allowed targets, same-phase and unknown refused",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-01"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G1 · lane model. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-04",
+   "summary": "Reset a ticket's phase: event, reset log, timestamps kept",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:L",
+    "gate:G1",
+    "lane:model",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-02",
+    "WE-03"
+   ],
+   "why": "This is the product: put a merged ticket back on an earlier phase so Warp works it again, without losing\n    what happened. Deleting timestamps or zeroing tokens would erase the record of the first attempt and make the\n    totals lie. The reset must change only the status, record who, when and why in the same event shape Warp\n    already writes, and leave everything else exactly as loaded.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/reset/reset.mjs` per SPEC §5. 1. `buildReset(beam, id, to, note, at, by)` returns a\n    change for the store (from = current status) after `check`. 2. `applyReset(beam, change)` returns a new beam\n    where: status = to; `events` gains `{at, type:'status', from, to, by:'warpedit', note}`; `resets` gains\n    `{from, to, at, note}`; pr.*, jira.*, claimedAt, tokens, minutes, usage, attempts and every timestamp are\n    unchanged; `alarm` is cleared only when leaving alarm. 3. `revertReset` for undo restores the exact prior ticket\n    (events and resets entries removed). 4. Jira is not touched; SPEC §5.4 explains what Warp does next.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given WV-07 merged in `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, when reset to coding with note 'flaky test' at 2026-10-12T19:30:00Z, then the ticket equals `WARPDEMO/WarpEdit/fixtures/expected/reset.WV-07.coding.json`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given the same reset, when compared field by field, then pr.mergedAt, pr.openedAt, tokens, minutes and usage are unchanged."
+    },
+    {
+     "id": "AC-3",
+     "kind": "negative",
+     "text": "Given to equal to the current status, when buildReset runs, then it returns the same-phase refusal and no change."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given a reset then revertReset, when compared with the loaded ticket, then they are deeply equal."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then reset.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/reset/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-04`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Reset a ticket's phase: event, reset log, timestamps kept",
+    "description": "Reset a ticket's phase: event, reset log, timestamps kept",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-02",
+     "WE-03"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G1 · lane model. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: reset.WV-07.coding.json",
+     "url": "WARPDEMO/WarpEdit/fixtures/expected/reset.WV-07.coding.json"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-05",
+   "summary": "Dependents of an un-merged ticket go back to blocked",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G1",
+    "lane:model",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-04"
+   ],
+   "why": "When a merged ticket goes back to coding, the tickets that depend on it are no longer unblocked. If they\n    stay queued, Warp's ready set would start them on a base that is about to change. The editor must find every\n    affected dependent, set the queued ones to blocked, warn about the ones already in flight or merged, and put all\n    of them back on undo.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/dependents/dependents.mjs` per SPEC §6. 1. `dependentsOf(run, id)`: transitive\n    dependents through deps and after (cross-run `run:id` entries ignored). 2. `planDependents(run, id, from, to)`:\n    only when from is merged or done and to is not terminal: queued dependents → blocked; claimed through merging →\n    unchanged with a warning; merged/done → unchanged and listed 'already merged on top'. 3. The result fills\n    `change.dependents` (id, from, to) so the store applies and undoes them with the reset. 4. Uses WarpView's\n    ready rule only to explain, never to start anything.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given WV-07 merged and its queued dependents in `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, when reset to coding, then exactly the ids in `WARPDEMO/WarpEdit/fixtures/expected/dependents.WV-07.json` go to blocked."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given a dependent already coding, when planned, then it is listed with a warning and its status is unchanged."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given reset from skipped to queued, when planned, then dependents are unchanged (skipped never unblocked them in Warp's merge sense)."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given undo of that reset, when applied, then every dependent's status equals its status before the reset."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then dependents.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/dependents/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-05`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Dependents of an un-merged ticket go back to blocked",
+    "description": "Dependents of an un-merged ticket go back to blocked",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-04"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G1 · lane model. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: dependents.WV-07.json",
+     "url": "WARPDEMO/WarpEdit/fixtures/expected/dependents.WV-07.json"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-06",
+   "summary": "Confirm dialog: ticket, from and to phase, dependents, note",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:S",
+    "gate:G1",
+    "lane:console",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-03"
+   ],
+   "why": "A reset is easy to make by accident and changes what Warp does next. The person must see exactly what\n    will happen before it happens: which ticket, from which phase to which, which dependents it blocks, and room for\n    a note that goes into the event. Cancel must leave nothing behind.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/confirm/confirm.mjs` and `confirm.css` per SPEC §7.2. 1. `confirmReset({ticket,\n    from, to, dependents})` returns a promise of `{ok, note}`. 2. Modal: title 'Reset <id>', the sentence\n    '<from> → <to>' with both phase chips in their colors, the dependents list (blocked, warned, already merged),\n    a note textarea (optional, 500 characters), buttons Cancel and Reset. 3. Focus starts on Cancel, Tab cycles\n    inside, Escape and the scrim cancel. 4. Uses WarpView tokens only.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given WV-07 merged → coding with two blocked dependents, when the dialog opens, then it matches `WARPDEMO/WarpEdit/ui/screens/edit-confirm.png`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given a note typed and Reset clicked, when resolved, then the promise gives ok true and the note."
+    },
+    {
+     "id": "AC-3",
+     "kind": "negative",
+     "text": "Given Escape, the scrim or Cancel, when pressed, then the promise gives ok false and no change reaches the store."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given a 600-character note, when typed, then it stops at 500 characters."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then confirm.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/confirm/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-06`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Confirm dialog: ticket, from and to phase, dependents, note",
+    "description": "Confirm dialog: ticket, from and to phase, dependents, note",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Confirm reset"
+    ],
+    "routes": [
+     "file://…/editor.html"
+    ],
+    "designLink": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png",
+    "states": [
+     "open",
+     "with dependents"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-03"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G1 · lane console. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "WarpView design of record",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    },
+    {
+     "title": "Confirm reset",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-07",
+   "summary": "Undo, redo and unsaved count in the header",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G1",
+    "lane:console",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-02"
+   ],
+   "why": "People make several resets, change their mind, and close tabs. They need to see that there are unsaved\n    changes, step back and forward through them with the usual keys, and be warned before losing them. Without this\n    the store's undo exists but nobody can reach it.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/history/history.mjs` and `history.css` per SPEC §7.3, registered through WarpView's\n    `headerActions` hook. 1. A chip 'n unsaved' (hidden at 0), buttons Undo and Redo (disabled when empty) with\n    tooltips naming the change ('Undo WV-07 merged → coding'). 2. Keys Ctrl/Cmd+Z and Ctrl/Cmd+Shift+Z through the\n    `keys` hook, ignored while typing in an input. 3. beforeunload asks when unsaved changes exist. 4. A toast after\n    each undo or redo.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given one reset, when the header renders, then it matches `WARPDEMO/WarpEdit/ui/screens/edit-header.png` (1 unsaved, Undo enabled, Redo disabled)."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given Ctrl+Z then Ctrl+Shift+Z, when pressed outside inputs, then the reset is undone and redone and the count goes 1 → 0 → 1."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given focus in the search box, when Ctrl+Z is pressed, then the browser's text undo runs and the store is unchanged."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given zero unsaved changes, when the page unloads, then no confirmation is asked."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then history.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/history/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-07`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Undo, redo and unsaved count in the header",
+    "description": "Undo, redo and unsaved count in the header",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Unsaved changes"
+    ],
+    "routes": [
+     "file://…/editor.html"
+    ],
+    "designLink": "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+    "states": [
+     "clean",
+     "dirty"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-02"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G1 · lane console. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "WarpView SPEC (model, screens, hooks)",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Unsaved changes",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-08",
+   "summary": "Validate before save: missing ids, cycles, reset log",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G1",
+    "lane:quality",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "quality"
+    }
+   ],
+   "areasProposed": [
+    "quality"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-04"
+   ],
+   "why": "A saved file goes back into Warp. A dependency on an id that does not exist, a cycle, or a reset log that\n    does not end at the ticket's status would make Warp hold tickets forever or start them too early. The editor must\n    refuse to save such a file and name each problem and its ticket.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/validate/validate.mjs` per SPEC §8. 1. `validate(beam)` returns `{errors,\n    warnings}`, each `{code, ticket, message}`. 2. Errors: dep-missing (a dep id not in the run and not of the form\n    run:id), cycle (names the cycle path), duplicate-id, reset-log (the last resets entry's `to` differs from status),\n    unknown-status. 3. Warnings: merged-on-unmerged (a merged ticket whose in-run dependency is not merged), dependents\n    in flight after a reset. 4. Messages start with the ticket id.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json` unchanged, when validated, then there are no errors."
+    },
+    {
+     "id": "AC-2",
+     "kind": "negative",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/invalid/missing-dep.json` (WV-09 depends on WV-99), when validated, then one error dep-missing says 'WV-09 depends on WV-99, which is not in this run'."
+    },
+    {
+     "id": "AC-3",
+     "kind": "negative",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/invalid/cycle.json`, when validated, then one error cycle names 'WV-10 → WV-11 → WV-10'."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given a dependency written view:WV-15 in the edit run, when validated, then it is not reported."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then validate.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/validate/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-08`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Validate before save: missing ids, cycles, reset log",
+    "description": "Validate before save: missing ids, cycles, reset log",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json, WARPDEMO/WarpEdit/fixtures/invalid/"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-04"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G1 · lane quality. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-09",
+   "summary": "Save in the loaded shape; copy the edits as Warp commands",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:M",
+    "gate:G1",
+    "lane:model",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "model"
+    }
+   ],
+   "areasProposed": [
+    "model"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-04",
+    "WE-08"
+   ],
+   "why": "An edit is worth nothing until Warp sees it. People load a beam.json from a .warp folder or a WARP_PLAN.json\n    export; the saved file must have the same shape so it can go straight back, and must carry the status and the\n    reset log. Some people would rather run Warp's own command than replace a file, so the same edits must be\n    available as commands.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/save/save.mjs` per SPEC §9. 1. `serialize(loaded, working)`: a beam keeps every\n    key of the loaded beam, with each ticket's status, events and resets from the working copy and `editedAt` and\n    `editedBy: 'warpedit'` added at top level; a `kind: warp-plan` export keeps its shape, gets each ticket's status\n    and resets and a new `exportedAt`. 2. status.json input cannot be saved (message: open beam.json). 3. File name:\n    the loaded name. 4. `download(name, text)` with a Blob. 5. `asCommands(changes)`: one line per change\n    `python3 .cursor/plugins/warp/scripts/beam.py set --beam .warp/beam.json --id <id> --status <to>`, dependents\n    included, in order. 6. Refuses when validate returns errors.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json` with WV-07 reset to coding, when serialized, then the output equals `WARPDEMO/WarpEdit/fixtures/expected/saved.beam.json` apart from editedAt."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/WARP_PLAN.sample.json` with the same reset, when serialized, then kind stays warp-plan, the ticket has status coding and resets, and jiraKey is kept."
+    },
+    {
+     "id": "AC-3",
+     "kind": "happy",
+     "text": "Given the reset and two blocked dependents, when asCommands runs, then three beam.py set lines result in that order."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/status.sample.json` loaded, when Save is asked, then it refuses with 'Open beam.json to save edits'."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then save.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/save/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-09`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Save in the loaded shape; copy the edits as Warp commands",
+    "description": "Save in the loaded shape; copy the edits as Warp commands",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json, WARPDEMO/WarpEdit/fixtures/WARP_PLAN.sample.json, WARPDEMO/WarpEdit/fixtures/status.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-04",
+     "WE-08"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G1 · lane model. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: saved.beam.json",
+     "url": "WARPDEMO/WarpEdit/fixtures/expected/saved.beam.json"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-10",
+   "summary": "Drawer Reset section: phase menu, button and reset log",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G2",
+    "lane:console",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-04",
+    "WE-05",
+    "WE-06"
+   ],
+   "why": "The drawer is where people already look at a ticket, so it is where they reset it. The section must offer\n    only allowed phases, go through the confirm dialog, and show the ticket's reset history both from this session\n    and from a file saved earlier, so a reload shows what was done and why.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/drawer-panel/panel.mjs` and `panel.css` per SPEC §7.1, registered with WarpView's\n    `drawerSections` hook and added to `WARPDEMO/WarpEdit/app/src/plugins.mjs` (append-only). 1. Section 'Reset phase': the phase select\n    from targetsFrom, a Reset button, and the dependents preview. 2. Reset → confirmReset → store.apply with the\n    dependents plan. 3. 'Reset log': every entry of resets[] (from the file) and session changes not yet saved,\n    newest first, with from → to, time and note; unsaved entries marked. 4. The drawer re-renders after each change.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given WV-07 merged, when its drawer opens, then the Reset section matches `WARPDEMO/WarpEdit/ui/screens/edit-drawer.png`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given coding chosen and confirmed with a note, when applied, then the drawer shows status coding and a reset log entry with the note, marked unsaved."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/expected/saved.beam.json` loaded, when WV-07's drawer opens, then the reset log lists the saved entry, not marked unsaved."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given the confirm dialog cancelled, when the drawer re-renders, then status and log are unchanged."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then panel.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/drawer-panel/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-10`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Drawer Reset section: phase menu, button and reset log",
+    "description": "Drawer Reset section: phase menu, button and reset log",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Drawer with reset"
+    ],
+    "routes": [
+     "file://…/editor.html"
+    ],
+    "designLink": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
+    "states": [
+     "after a reset",
+     "merged ticket"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-04",
+     "WE-05",
+     "WE-06"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G2 · lane console. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "WarpView SPEC (model, screens, hooks)",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Drawer with reset",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-11",
+   "summary": "Totals, legend and every view follow each reset",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:L",
+    "gate:G2",
+    "lane:console",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-04",
+    "WE-05"
+   ],
+   "why": "After a reset the screens must tell the truth at once: the ticket moves out of Completed, its block is no\n    longer cleared, the gate may go back to pending, totals and utilization shift, and the board and table follow.\n    If any pane lags, people save a file they did not mean to. Tokens and minutes stay; they were spent.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/recompute/recompute.mjs` per SPEC §10. 1. Subscribe to the edit store; on each\n    change build runs from the working copy with WarpView's buildRuns and call `store.replaceRuns(runs, 'edit')`,\n    which reruns blocks, plan and metrics. 2. A block with a reset ticket is no longer cleared; a green gate whose\n    member is no longer merged shows 'pending (edited)' until saved — Warp recomputes gates itself on the next tick.\n    3. Keep the current tab, view, filters, zoom and scroll. 4. Utilization: active rises when a ticket enters\n    claimed through merging; tokens and minutes are unchanged.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json` and WV-07 reset to coding, when panes re-render, then legend, cards and utilization equal `WARPDEMO/WarpEdit/fixtures/expected/after-reset.metrics.json`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given the board by block, when WV-07 is reset, then its lane loses the cleared pill and shows one more in progress."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given the table sorted by Merged and a search typed, when a reset happens, then sort, search and scroll position are kept."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given any reset, when totals are compared, then total tokens and minutes are unchanged."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then recompute.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/recompute/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-11`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Totals, legend and every view follow each reset",
+    "description": "Totals, legend and every view follow each reset",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": null,
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-04",
+     "WE-05"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G2 · lane console. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: after-reset.metrics.json",
+     "url": "WARPDEMO/WarpEdit/fixtures/expected/after-reset.metrics.json"
+    },
+    {
+     "title": "WarpView SPEC (model, screens, hooks)",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-12",
+   "summary": "Phase scrubber on the actual swimlane",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:XL",
+    "gate:G2",
+    "lane:console",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-11"
+   ],
+   "why": "Before resetting a ticket people want to see the run as it was: what was merged when a bad change landed,\n    and what started on top of it. A time slider over the actual clock that recolors each bar by its phase at that\n    moment, with reset events marked, answers that without reading event logs, and shows the effect of the resets\n    made in this session.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/scrubber/scrubber.mjs` and `scrubber.css` per SPEC §11, registered through\n    WarpView's `swimlaneOverlays` hook (actual clock only). 1. A slider from 0 to the now line in 0.25 h steps with\n    the time shown as '+h · stamp'. 2. `phaseAt(ticket, t)`: replay status events up to t; before the first event the\n    ticket is queued. 3. Bars recolor by phaseAt; bars that start after t are hidden. 4. Reset events (by warpedit)\n    draw a marker with a tooltip 'from → to, note'. 5. 'Back to now' resets the slider; leaving the actual clock\n    hides it.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json` with WV-07 reset, when the slider is at +20h, then the screen matches `WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png` and each bar's color equals `WARPDEMO/WarpEdit/fixtures/expected/scrub.+20.json`."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given the slider at the now line, when compared, then every bar has its current status color."
+    },
+    {
+     "id": "AC-3",
+     "kind": "edge",
+     "text": "Given a ticket with no events, when scrubbed, then it shows queued before its claim and its current status after."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given the plan clock, when the swimlane renders, then no slider or reset marker appears."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then scrubber.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/scrubber/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-12`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Phase scrubber on the actual swimlane",
+    "description": "Phase scrubber on the actual swimlane",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Phase scrubber"
+    ],
+    "routes": [
+     "file://…/editor.html"
+    ],
+    "designLink": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png",
+    "states": [
+     "scrubbing"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-11"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G2 · lane console. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Expected output: scrub.+20.json",
+     "url": "WARPDEMO/WarpEdit/fixtures/expected/scrub.+20.json"
+    },
+    {
+     "title": "WarpView SPEC (model, screens, hooks)",
+     "url": "WARPDEMO/WarpView/spec/SPEC.md"
+    },
+    {
+     "title": "Phase scrubber",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-13",
+   "summary": "Save button, validation banner and Copy as commands",
+   "issueType": "Story",
+   "priority": "Medium",
+   "labels": [
+    "size:M",
+    "gate:G2",
+    "lane:console",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "console"
+    }
+   ],
+   "areasProposed": [
+    "console"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-07",
+    "WE-09"
+   ],
+   "why": "Save is the last step and the riskiest. People must see when it is blocked and why, which ticket to fix,\n    get the file under the name they loaded, and have the commands to apply the same edits through Warp instead.\n    Without this the save module has no button and validation has no voice.",
+   "what": "Create `WARPDEMO/WarpEdit/app/src/edit/save-ui/save-ui.mjs` and `save-ui.css` per SPEC §7.4, through the `headerActions`\n    hook. 1. Save button: disabled when nothing is unsaved or validate has errors; on click serialize, download,\n    `markSaved()` and toast 'Saved <name> (n changes)'. 2. Validation banner under the header when errors exist:\n    each error with its ticket id as a button that opens the drawer; warnings in a lighter style. 3. 'Copy as\n    commands' copies asCommands() to the clipboard and toasts the line count. 4. A status.json load shows Save\n    disabled with the reason as tooltip.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given one valid reset, when Save is clicked, then a download named beam.json starts, unsaved goes to 0 and the toast names the file."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given `WARPDEMO/WarpEdit/fixtures/invalid/missing-dep.json` loaded and edited, when the header renders, then Save is disabled and the banner matches `WARPDEMO/WarpEdit/ui/screens/edit-validation.png`."
+    },
+    {
+     "id": "AC-3",
+     "kind": "happy",
+     "text": "Given Copy as commands, when clicked, then the clipboard holds one beam.py line per change."
+    },
+    {
+     "id": "AC-4",
+     "kind": "negative",
+     "text": "Given clipboard access is denied, when Copy is clicked, then a toast says so and shows the commands in a dialog to copy by hand."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then save-ui.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/app/src/edit/save-ui/"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-13`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Save button, validation banner and Copy as commands",
+    "description": "Save button, validation banner and Copy as commands",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Unsaved changes",
+     "Save blocked"
+    ],
+    "routes": [
+     "file://…/editor.html"
+    ],
+    "designLink": "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+    "states": [
+     "clean",
+     "dirty",
+     "errors"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpEdit/ui/screens/edit-header.png · WARPDEMO/WarpEdit/ui/screens/edit-validation.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-07",
+     "WE-09"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G2 · lane console. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "Unsaved changes",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+    },
+    {
+     "title": "Save blocked",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-validation.png"
+    }
+   ]
+  },
+  {
+   "tempId": "WE-14",
+   "summary": "Release editor.html: round trip, audit again, README",
+   "issueType": "Story",
+   "priority": "High",
+   "labels": [
+    "size:L",
+    "gate:G3",
+    "lane:release",
+    "run:edit",
+    "warp-demo"
+   ],
+   "layer": "ui",
+   "systems": [
+    {
+     "system": "WarpEdit",
+     "component": "release"
+    }
+   ],
+   "areasProposed": [
+    "release"
+   ],
+   "forgeRepo": "smlsr/WarpDemo",
+   "forgeMode": null,
+   "parentTempId": null,
+   "blockedByTempIds": [
+    "WE-10",
+    "WE-11",
+    "WE-12",
+    "WE-13"
+   ],
+   "why": "The editor ships as one file, and the only proof that it works is a round trip: reset, save, load the saved\n    file, and see the same status, the reset log and every old timestamp. The viewer must still have no edit control\n    after both runs have merged. The README must tell people how the edit reaches Warp.",
+   "what": "1. `npm --prefix WARPDEMO/WarpEdit/app run release` writes `WARPDEMO/WarpEdit/editor.html`; commit it. 2.\n    `WARPDEMO/WarpEdit/app/test/roundtrip.test.mjs`: load `WARPDEMO/WarpEdit/fixtures/beam.sample.json` in the built editor (jsdom), reset WV-07 to coding\n    with a note, save, load the saved text, compare status, events, resets, pr.mergedAt and jiraKey; repeat with\n    `WARPDEMO/WarpEdit/fixtures/WARP_PLAN.sample.json`. 3. Re-run the WE-01 audit against `WARPDEMO/WarpView/viewer.html`. 4.\n    `WARPDEMO/WarpEdit/app/README.md`: what the editor does and does not do, how to apply a saved beam (pause the run, replace\n    .warp/beam.json, start) or run the copied commands, and that Jira is not changed by a reset.",
+   "outOfScope": [],
+   "acceptanceCriteria": [
+    {
+     "id": "AC-1",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app run release`, when run, then `WARPDEMO/WarpEdit/editor.html` is written, under 450 kB, and opens from disk."
+    },
+    {
+     "id": "AC-2",
+     "kind": "happy",
+     "text": "Given the round trip on the beam and on the export, when compared, then status, resets, events, old pr.mergedAt and jiraKey survive."
+    },
+    {
+     "id": "AC-3",
+     "kind": "negative",
+     "text": "Given `WARPDEMO/WarpView/viewer.html`, when audited, then it still has no data-edit element and no Reset control."
+    },
+    {
+     "id": "AC-4",
+     "kind": "edge",
+     "text": "Given a saved file loaded into the viewer (not the editor), when its drawer opens, then the status and timestamps show and no reset control appears."
+    },
+    {
+     "id": "AC-5",
+     "kind": "happy",
+     "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then roundtrip.test.mjs passes."
+    }
+   ],
+   "nfrs": [
+    {
+     "id": "NFR-1",
+     "text": "No network calls: the built file loads nothing from outside itself."
+    }
+   ],
+   "technicalDetails": {
+    "services": [
+     "WARPDEMO/WarpEdit/editor.html",
+     "WARPDEMO/WarpEdit/app/README.md",
+     "WARPDEMO/WarpEdit/app/test/roundtrip.test.mjs"
+    ],
+    "apiContract": "none (static page; module exports listed in SPEC §11)",
+    "dataMigration": "none",
+    "idempotency": "Rendering is a pure function of the loaded files and the view state; loading the same files twice gives the same screen.",
+    "configKeys": [],
+    "vendors": [],
+    "implementerNotes": "Repo layout: `WARPDEMO/WarpEdit/spec|plan|tickets|fixtures|ui` is the read-only pack; write code only under the lock folders above (inside `WARPDEMO/WarpEdit/app/`). Start with `Implement WE-14`. Run `npm --prefix WARPDEMO/WarpEdit/app ci` once, then `npm --prefix WARPDEMO/WarpEdit/app test`."
+   },
+   "featureFlag": null,
+   "releaseNotes": {
+    "title": "Release editor.html: round trip, audit again, README",
+    "description": "Release editor.html: round trip, audit again, README",
+    "impacts": [],
+    "audience": "internal",
+    "visibility": "silent"
+   },
+   "userInterface": {
+    "screens": [
+     "Drawer with reset",
+     "Confirm reset",
+     "Unsaved changes",
+     "Save blocked",
+     "Phase scrubber"
+    ],
+    "routes": [
+     "file://…/editor.html"
+    ],
+    "designLink": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
+    "states": [
+     "after a reset",
+     "clean",
+     "dirty",
+     "errors",
+     "merged ticket",
+     "open",
+     "scrubbing",
+     "with dependents"
+    ],
+    "accessibility": "Every control is a button, link, input or select with a visible label or aria-label; focus is visible; Escape closes overlays; contrast meets WCAG AA in both themes.",
+    "browsers": [
+     "Chrome 120+",
+     "Edge 120+",
+     "Safari 17+",
+     "Firefox 121+"
+    ],
+    "visualBaseline": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png · WARPDEMO/WarpEdit/ui/screens/edit-confirm.png · WARPDEMO/WarpEdit/ui/screens/edit-header.png · WARPDEMO/WarpEdit/ui/screens/edit-validation.png · WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+   },
+   "logging": {
+    "events": [
+     {
+      "name": "load.failed",
+      "level": "error",
+      "when": "a file cannot be read or parsed",
+      "fields": [
+       "path",
+       "reason"
+      ]
+     }
+    ],
+    "requiredFieldsEveryLine": [
+     "path"
+    ],
+    "neverLog": [
+     "file contents",
+     "tokens or keys found in config"
+    ],
+    "retention": "browser console only"
+   },
+   "metrics": {
+    "metrics": [],
+    "dashboard": "none",
+    "alerts": [],
+    "sloTouched": "none"
+   },
+   "analyticsEvents": [],
+   "environment": {
+    "name": "local browser + node 22",
+    "testData": "WARPDEMO/WarpEdit/fixtures/beam.sample.json"
+   },
+   "dependenciesRisks": {
+    "dependsOn": [
+     "WE-10",
+     "WE-11",
+     "WE-12",
+     "WE-13"
+    ],
+    "vendorsInTest": [],
+    "risks": "Low: one module folder, covered by its own tests.",
+    "rollback": "Revert the PR; the module folder is self-contained."
+   },
+   "notes": "Run `edit` · gate G3 · lane release. Product code under `WARPDEMO/WarpEdit/app/`; the pack folders are read-only.",
+   "links": [
+    {
+     "title": "Agent rules (preamble)",
+     "url": "WARPDEMO/AGENTS.md"
+    },
+    {
+     "title": "SPEC",
+     "url": "WARPDEMO/WarpEdit/spec/SPEC.md"
+    },
+    {
+     "title": "Acceptance queries",
+     "url": "WARPDEMO/WarpEdit/spec/ACCEPTANCE.md"
+    },
+    {
+     "title": "Runbook",
+     "url": "WARPDEMO/WarpEdit/plan/BUILD_PLAN.md"
+    },
+    {
+     "title": "Plan and waves",
+     "url": "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+    },
+    {
+     "title": "WarpView design of record",
+     "url": "WARPDEMO/WarpView/ui/reference/warp-dashboard.html"
+    },
+    {
+     "title": "Drawer with reset",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png"
+    },
+    {
+     "title": "Confirm reset",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png"
+    },
+    {
+     "title": "Unsaved changes",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+    },
+    {
+     "title": "Save blocked",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-validation.png"
+    },
+    {
+     "title": "Phase scrubber",
+     "url": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+    }
+   ]
+  }
+ ]
+}

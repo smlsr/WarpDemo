@@ -1,0 +1,554 @@
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "title": "JiraBatchExpanded",
+ "type": "object",
+ "required": [
+  "projectKey",
+  "tickets"
+ ],
+ "properties": {
+  "projectKey": {
+   "type": "string",
+   "minLength": 2,
+   "maxLength": 10
+  },
+  "defaultIssueType": {
+   "type": "string",
+   "enum": [
+    "Story",
+    "Bug",
+    "Task",
+    "Spike"
+   ]
+  },
+  "defaultLabels": {
+   "type": "array",
+   "items": {
+    "type": "string"
+   }
+  },
+  "source": {
+   "type": "object",
+   "properties": {
+    "prdTitle": {
+     "type": "string"
+    },
+    "prdVersion": {
+     "type": "string"
+    },
+    "generatedAt": {
+     "type": "string"
+    }
+   }
+  },
+  "tickets": {
+   "type": "array",
+   "minItems": 1,
+   "items": {
+    "$ref": "#/$defs/ticket"
+   }
+  }
+ },
+ "$defs": {
+  "link": {
+   "type": "object",
+   "required": [
+    "title",
+    "url"
+   ],
+   "properties": {
+    "title": {
+     "type": "string"
+    },
+    "url": {
+     "type": "string"
+    }
+   }
+  },
+  "ac": {
+   "type": "object",
+   "required": [
+    "id",
+    "kind",
+    "text"
+   ],
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^AC-\\d+$"
+    },
+    "kind": {
+     "type": "string",
+     "enum": [
+      "happy",
+      "negative",
+      "edge",
+      "flag_on",
+      "flag_off",
+      "nfr"
+     ]
+    },
+    "text": {
+     "type": "string"
+    }
+   }
+  },
+  "nfr": {
+   "type": "object",
+   "required": [
+    "id",
+    "text"
+   ],
+   "properties": {
+    "id": {
+     "type": "string",
+     "pattern": "^NFR-\\d+$"
+    },
+    "text": {
+     "type": "string"
+    }
+   }
+  },
+  "ticket": {
+   "type": "object",
+   "required": [
+    "tempId",
+    "summary",
+    "issueType",
+    "layer",
+    "systems",
+    "why",
+    "what",
+    "acceptanceCriteria",
+    "technicalDetails",
+    "releaseNotes",
+    "environment"
+   ],
+   "properties": {
+    "tempId": {
+     "type": "string"
+    },
+    "summary": {
+     "type": "string",
+     "maxLength": 80
+    },
+    "issueType": {
+     "type": "string",
+     "enum": [
+      "Story",
+      "Bug",
+      "Task",
+      "Spike"
+     ]
+    },
+    "priority": {
+     "type": "string",
+     "enum": [
+      "Highest",
+      "High",
+      "Medium",
+      "Low",
+      "Lowest"
+     ]
+    },
+    "labels": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "layer": {
+     "type": "string",
+     "enum": [
+      "ui",
+      "backend",
+      "full_stack"
+     ]
+    },
+    "systems": {
+     "type": "array",
+     "minItems": 1,
+     "items": {
+      "type": "object",
+      "required": [
+       "system",
+       "component"
+      ],
+      "properties": {
+       "system": {
+        "type": "string"
+       },
+       "component": {
+        "type": "string"
+       }
+      }
+     }
+    },
+    "areasProposed": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "forgeRepo": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "forgeMode": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "parentTempId": {
+     "type": [
+      "string",
+      "null"
+     ]
+    },
+    "blockedByTempIds": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "why": {
+     "type": "string",
+     "minLength": 40
+    },
+    "what": {
+     "type": "string",
+     "minLength": 20
+    },
+    "outOfScope": {
+     "type": "array",
+     "items": {
+      "type": "string"
+     }
+    },
+    "acceptanceCriteria": {
+     "type": "array",
+     "minItems": 2,
+     "items": {
+      "$ref": "#/$defs/ac"
+     }
+    },
+    "nfrs": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/nfr"
+     }
+    },
+    "technicalDetails": {
+     "type": "object",
+     "required": [
+      "services",
+      "apiContract",
+      "dataMigration",
+      "configKeys"
+     ],
+     "properties": {
+      "services": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "apiContract": {
+       "type": "string"
+      },
+      "dataMigration": {
+       "type": "string"
+      },
+      "idempotency": {
+       "type": "string"
+      },
+      "configKeys": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "vendors": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "implementerNotes": {
+       "type": "string"
+      }
+     }
+    },
+    "featureFlag": {
+     "type": [
+      "object",
+      "null"
+     ],
+     "properties": {
+      "name": {
+       "type": "string"
+      },
+      "owner": {
+       "type": "string"
+      },
+      "defaults": {
+       "type": "object"
+      },
+      "rolloutPlan": {
+       "type": "string"
+      },
+      "killSwitch": {
+       "type": "string"
+      },
+      "behaviorWhenOff": {
+       "type": "string"
+      },
+      "cleanupTicketTempId": {
+       "type": [
+        "string",
+        "null"
+       ]
+      }
+     }
+    },
+    "releaseNotes": {
+     "type": "object",
+     "required": [
+      "title",
+      "description",
+      "audience",
+      "visibility"
+     ],
+     "properties": {
+      "title": {
+       "type": "string"
+      },
+      "description": {
+       "type": "string",
+       "maxLength": 280
+      },
+      "impacts": {
+       "type": "array",
+       "maxItems": 3,
+       "items": {
+        "type": "string"
+       }
+      },
+      "audience": {
+       "type": "string",
+       "enum": [
+        "customer",
+        "internal",
+        "both"
+       ]
+      },
+      "visibility": {
+       "type": "string",
+       "enum": [
+        "announce",
+        "silent"
+       ]
+      }
+     }
+    },
+    "userInterface": {
+     "type": [
+      "object",
+      "null"
+     ],
+     "properties": {
+      "screens": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "routes": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "designLink": {
+       "type": [
+        "string",
+        "null"
+       ]
+      },
+      "states": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "accessibility": {
+       "type": "string"
+      },
+      "browsers": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "visualBaseline": {
+       "type": "string"
+      }
+     }
+    },
+    "logging": {
+     "type": "object",
+     "properties": {
+      "events": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string"
+         },
+         "level": {
+          "type": "string"
+         },
+         "when": {
+          "type": "string"
+         },
+         "fields": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      },
+      "requiredFieldsEveryLine": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "neverLog": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "retention": {
+       "type": "string"
+      }
+     }
+    },
+    "metrics": {
+     "type": "object",
+     "properties": {
+      "metrics": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "name": {
+          "type": "string"
+         },
+         "type": {
+          "type": "string"
+         },
+         "labels": {
+          "type": "array",
+          "items": {
+           "type": "string"
+          }
+         }
+        }
+       }
+      },
+      "dashboard": {
+       "type": "string"
+      },
+      "alerts": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "sloTouched": {
+       "type": "string"
+      }
+     }
+    },
+    "analyticsEvents": {
+     "type": "array",
+     "items": {
+      "type": "object",
+      "properties": {
+       "name": {
+        "type": "string"
+       },
+       "when": {
+        "type": "string"
+       },
+       "attributes": {
+        "type": "array",
+        "items": {
+         "type": "string"
+        }
+       },
+       "consumer": {
+        "type": "string"
+       }
+      }
+     }
+    },
+    "environment": {
+     "type": "object",
+     "required": [
+      "name",
+      "testData"
+     ],
+     "properties": {
+      "name": {
+       "type": "string"
+      },
+      "testData": {
+       "type": "string"
+      }
+     }
+    },
+    "dependenciesRisks": {
+     "type": "object",
+     "properties": {
+      "dependsOn": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "vendorsInTest": {
+       "type": "array",
+       "items": {
+        "type": "string"
+       }
+      },
+      "risks": {
+       "type": "string"
+      },
+      "rollback": {
+       "type": "string"
+      }
+     }
+    },
+    "notes": {
+     "type": "string"
+    },
+    "links": {
+     "type": "array",
+     "items": {
+      "$ref": "#/$defs/link"
+     }
+    }
+   }
+  }
+ }
+}

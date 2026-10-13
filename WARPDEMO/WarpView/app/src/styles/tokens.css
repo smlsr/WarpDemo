@@ -1,0 +1,106 @@
+:root {
+  --bg: #f4f6f7;
+  --panel: #ffffff;
+  --panel2: #eef2f3;
+  --ink: #0e1719;
+  --ink2: #2b3a3e;
+  --muted: #5d6d72;
+  --line: #dbe2e4;
+  --line2: #c6d0d3;
+  --brand: #0b6e6e;
+  --brand2: #43b3ad;
+  --focus: #43b3ad;
+  --c-done: #1f9d55;
+  --c-err: #d64545;
+  --c-prog: #2f6fde;
+  --c-rev: #8b5cf6;
+  --c-qa: #d99a00;
+  --c-todo: #8c99a5;
+  --tint: 16%;
+  --tint-todo: 10%;
+  --on-brand: #ffffff;
+  --on-err: #ffffff;
+  --shadow: 0 1px 2px rgba(14, 23, 25, .06), 0 2px 8px rgba(14, 23, 25, .05);
+  --shadow-pop: 0 10px 30px rgba(0, 0, 0, .18);
+  --shadow-tip: 0 8px 24px rgba(0, 0, 0, .25);
+  --scrim: rgba(5, 10, 12, .35);
+  color-scheme: light;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0b1214;
+    --panel: #111b1e;
+    --panel2: #162327;
+    --ink: #e7eff0;
+    --ink2: #c8d5d8;
+    --muted: #8fa3a8;
+    --line: #22343a;
+    --line2: #2c434a;
+    --brand: #43b3ad;
+    --brand2: #6fd0ca;
+    --c-done: #34c172;
+    --c-err: #f06363;
+    --c-prog: #5b8ff0;
+    --c-rev: #a587ff;
+    --c-qa: #f0b429;
+    --c-todo: #73828d;
+    --tint: 24%;
+    --tint-todo: 16%;
+    --on-brand: #071012;
+    --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+    color-scheme: dark;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #0b1214;
+  --panel: #111b1e;
+  --panel2: #162327;
+  --ink: #e7eff0;
+  --ink2: #c8d5d8;
+  --muted: #8fa3a8;
+  --line: #22343a;
+  --line2: #2c434a;
+  --brand: #43b3ad;
+  --brand2: #6fd0ca;
+  --c-done: #34c172;
+  --c-err: #f06363;
+  --c-prog: #5b8ff0;
+  --c-rev: #a587ff;
+  --c-qa: #f0b429;
+  --c-todo: #73828d;
+  --tint: 24%;
+  --tint-todo: 16%;
+  --on-brand: #071012;
+  --shadow: 0 1px 2px rgba(0, 0, 0, .4);
+  color-scheme: dark;
+}
+
+@media print {
+  :root:root:root,
+  :root:root[data-theme="dark"],
+  :root:root[data-theme="light"] {
+    --bg: #ffffff;
+    --panel: #ffffff;
+    --panel2: #f1f4f5;
+    --ink: #0e1719;
+    --ink2: #2b3a3e;
+    --muted: #5d6d72;
+    --line: #dbe2e4;
+    --line2: #c6d0d3;
+    --brand: #0b6e6e;
+    --brand2: #43b3ad;
+    --c-done: #1f9d55;
+    --c-err: #d64545;
+    --c-prog: #2f6fde;
+    --c-rev: #8b5cf6;
+    --c-qa: #d99a00;
+    --c-todo: #8c99a5;
+    --tint: 18%;
+    --tint-todo: 10%;
+    --on-brand: #ffffff;
+    --shadow: none;
+    color-scheme: light;
+  }
+}

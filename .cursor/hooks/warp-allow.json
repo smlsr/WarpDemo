@@ -738,20 +738,40 @@
       "tool": "add_issue_comment"
     },
     {
+      "server": "github",
+      "tool": "merge_pull_request"
+    },
+    {
       "server": "user-github",
       "tool": "add_issue_comment"
+    },
+    {
+      "server": "user-github",
+      "tool": "merge_pull_request"
     },
     {
       "server": "project-github",
       "tool": "add_issue_comment"
     },
     {
+      "server": "project-github",
+      "tool": "merge_pull_request"
+    },
+    {
       "server": "plugin-github-github",
       "tool": "add_issue_comment"
     },
     {
+      "server": "plugin-github-github",
+      "tool": "merge_pull_request"
+    },
+    {
       "server": "*github*",
       "tool": "add_issue_comment"
+    },
+    {
+      "server": "*github*",
+      "tool": "merge_pull_request"
     }
   ]
 }

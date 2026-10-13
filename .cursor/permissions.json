@@ -187,6 +187,11 @@
     "user-github:add_issue_comment",
     "project-github:add_issue_comment",
     "plugin-github-github:add_issue_comment",
-    "*github*:add_issue_comment"
+    "*github*:add_issue_comment",
+    "github:merge_pull_request",
+    "user-github:merge_pull_request",
+    "project-github:merge_pull_request",
+    "plugin-github-github:merge_pull_request",
+    "*github*:merge_pull_request"
   ]
 }

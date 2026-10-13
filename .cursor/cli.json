@@ -188,7 +188,12 @@
       "Mcp(user-github:add_issue_comment)",
       "Mcp(project-github:add_issue_comment)",
       "Mcp(plugin-github-github:add_issue_comment)",
-      "Mcp(*github*:add_issue_comment)"
+      "Mcp(*github*:add_issue_comment)",
+      "Mcp(github:merge_pull_request)",
+      "Mcp(user-github:merge_pull_request)",
+      "Mcp(project-github:merge_pull_request)",
+      "Mcp(plugin-github-github:merge_pull_request)",
+      "Mcp(*github*:merge_pull_request)"
     ]
   }
 }

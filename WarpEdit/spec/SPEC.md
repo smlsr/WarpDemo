@@ -1,7 +1,9 @@
 # WarpEdit
 
-WarpView is the shipped read-only map (WV-13 merged). This pack turns that map into an editor.
+WarpView is the read-only map. This pack adds reset and keeps the same timestamps and utilization.
 
-A person can change a summary, a dependency, a lock path, and a size, then save a beam and a Warp plan. Save must refuse a cycle and a missing dep. Dragging a timeline bar cannot violate a blocker.
+From merged, done, or skipped, a person can put the ticket back on queued, claimed, planning, coding, review, fix, awaiting_approval, merging, blocked, or alarm. Confirm names the from phase and the to phase. Same phase is a no-op.
 
-S and M still auto-merge in Warp. L and XL, including the save writer and the drag editor, wait for approval. That split is the harness for Warp's merge policy.
+Reset does not delete timestamps. It appends `{from, to, at, note}` on the ticket. Tokens and minutes stay. Dependents leave the ready set. Utilization counts update. Save writes `status` and the reset log. Reload shows both.
+
+The viewer file must not grow this control.

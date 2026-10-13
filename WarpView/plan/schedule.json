@@ -1,14 +1,14 @@
 {
   "module": "WarpView",
-  "generated": "2026-10-04",
+  "generated": "2026-10-05",
   "tickets": [
     {
       "id": "WV-01",
-      "summary": "Viewer repo skeleton and static host",
+      "summary": "Single HTML starts empty and loads a Warp export",
       "deps": [],
       "unlocks": [],
       "locks": [
-        "apps/viewer"
+        "viewer.html"
       ],
       "size": "S",
       "hours": 4,
@@ -16,57 +16,53 @@
       "rankDays": 4,
       "gate": "G0",
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
-      "acs": 2
+      "acs": 3
     },
     {
       "id": "WV-02",
-      "summary": "Theme tokens matching the build-map palette",
-      "deps": [],
-      "unlocks": [],
-      "locks": [
-        "apps/viewer/styles"
-      ],
-      "size": "S",
-      "hours": 4,
-      "critical": false,
-      "rankDays": 4,
-      "gate": null,
-      "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
-      "acs": 2
-    },
-    {
-      "id": "WV-03",
-      "summary": "Parse beam.json, STATUS, and schedule into one model",
+      "summary": "Read every timestamp the export and beam can carry",
       "deps": [
         "WV-01"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/parse"
+        "viewer.html"
+      ],
+      "size": "S",
+      "hours": 4,
+      "critical": false,
+      "rankDays": 4,
+      "gate": "G0",
+      "module": "WarpView",
+      "acs": 2
+    },
+    {
+      "id": "WV-03",
+      "summary": "Ticket drawer lists those timestamps in order",
+      "deps": [
+        "WV-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "viewer.html"
       ],
       "size": "M",
       "hours": 7,
       "critical": false,
       "rankDays": 7,
-      "gate": "G0",
+      "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     },
     {
       "id": "WV-04",
-      "summary": "Dependency graph and ready-set from blockers",
+      "summary": "Utilization from tokens, minutes, and maxAgents",
       "deps": [
-        "WV-03"
+        "WV-02"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/graph"
+        "viewer.html"
       ],
       "size": "L",
       "hours": 11,
@@ -74,19 +70,17 @@
       "rankDays": 11,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
-      "acs": 2
+      "acs": 3
     },
     {
       "id": "WV-05",
-      "summary": "Status chips: todo, running, merged, critical, gate",
+      "summary": "Chip for each beam phase",
       "deps": [
         "WV-02"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/chips"
+        "viewer.html"
       ],
       "size": "S",
       "hours": 4,
@@ -94,20 +88,18 @@
       "rankDays": 4,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     },
     {
       "id": "WV-06",
-      "summary": "Tracker: start-now queue and board",
+      "summary": "Interactive tracker: filter, hover, click",
       "deps": [
         "WV-03",
         "WV-05"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/tracker"
+        "viewer.html"
       ],
       "size": "M",
       "hours": 7,
@@ -115,40 +107,36 @@
       "rankDays": 7,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
-      "acs": 2
+      "acs": 3
     },
     {
       "id": "WV-07",
-      "summary": "Agent timeline with day columns and gate lines",
+      "summary": "Interactive timeline with timestamp markers",
       "deps": [
         "WV-04",
         "WV-06"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/timeline"
+        "viewer.html"
       ],
       "size": "L",
       "hours": 11,
       "critical": true,
       "rankDays": 11,
-      "gate": "G1",
+      "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
-      "acs": 2
+      "acs": 3
     },
     {
       "id": "WV-08",
-      "summary": "Ticket search across id, summary, and locks",
+      "summary": "Search id, summary, jiraKey, lock",
       "deps": [
         "WV-06"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/search"
+        "viewer.html"
       ],
       "size": "S",
       "hours": 4,
@@ -156,39 +144,36 @@
       "rankDays": 4,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     },
     {
       "id": "WV-09",
-      "summary": "Gates pane with checks and if-red text",
+      "summary": "Gates pane shows status, greenAt, and evidence",
       "deps": [
-        "WV-04"
+        "WV-02"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/gates"
+        "viewer.html"
       ],
       "size": "M",
       "hours": 7,
       "critical": false,
       "rankDays": 7,
-      "gate": "G1",
+      "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     },
     {
       "id": "WV-10",
-      "summary": "Ticket drawer: locks, blockers, acceptance criteria",
+      "summary": "Utilization board by phase, size, and agent",
       "deps": [
+        "WV-04",
         "WV-06"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/drawer"
+        "viewer.html"
       ],
       "size": "L",
       "hours": 11,
@@ -196,19 +181,17 @@
       "rankDays": 11,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
-      "acs": 2
+      "acs": 3
     },
     {
       "id": "WV-11",
-      "summary": "Ticket table sorted by forecast start",
+      "summary": "Table columns for status and the four PR timestamps",
       "deps": [
-        "WV-06"
+        "WV-03"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/table"
+        "viewer.html"
       ],
       "size": "M",
       "hours": 7,
@@ -216,19 +199,17 @@
       "rankDays": 7,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     },
     {
       "id": "WV-12",
-      "summary": "Empty states for a beam with nothing ready",
+      "summary": "Empty and partial-timestamp states",
       "deps": [
-        "WV-06"
+        "WV-01"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/empty"
+        "viewer.html"
       ],
       "size": "S",
       "hours": 4,
@@ -236,13 +217,11 @@
       "rankDays": 4,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     },
     {
       "id": "WV-13",
-      "summary": "Wire all panes to the fixture beam offline",
+      "summary": "Wire panes so tracker, timeline, and utilization agree",
       "deps": [
         "WV-07",
         "WV-09",
@@ -251,27 +230,25 @@
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src"
+        "viewer.html"
       ],
       "size": "XL",
       "hours": 16,
       "critical": true,
       "rankDays": 16,
-      "gate": null,
+      "gate": "G1",
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
-      "acs": 2
+      "acs": 3
     },
     {
       "id": "WV-14",
-      "summary": "Persist started and merged in localStorage",
+      "summary": "Estimate block with assumptions",
       "deps": [
-        "WV-06"
+        "WV-04"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/state"
+        "viewer.html"
       ],
       "size": "M",
       "hours": 7,
@@ -279,19 +256,17 @@
       "rankDays": 7,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     },
     {
       "id": "WV-15",
-      "summary": "Keyboard path through tabs, rows, and drawer",
+      "summary": "Keyboard path across filter, table, and drawer",
       "deps": [
         "WV-13"
       ],
       "unlocks": [],
       "locks": [
-        "apps/viewer/src/a11y"
+        "viewer.html"
       ],
       "size": "L",
       "hours": 11,
@@ -299,13 +274,11 @@
       "rankDays": 11,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     },
     {
       "id": "WV-16",
-      "summary": "Viewer README and fixture pointer",
+      "summary": "README: viewer is read-only",
       "deps": [
         "WV-13"
       ],
@@ -319,38 +292,36 @@
       "rankDays": 4,
       "gate": null,
       "module": "WarpView",
-      "layer": "ui",
-      "priority": "High",
       "acs": 2
     }
   ],
   "gates": [
     {
       "key": "G0",
-      "name": "Model loads",
+      "name": "Timestamps load",
       "blocking": true,
       "members": [
         "WV-01",
-        "WV-03"
+        "WV-02"
       ],
       "checks": [
-        "Open ui/build-map.html and read 16 tickets from the fixture beam"
+        "Open viewer.html empty",
+        "Load the sample and show exportedAt"
       ],
-      "ifRed": "Nobody starts panes. Fix the parser on the WV-03 branch."
+      "ifRed": "Do not build utilization until load shows timestamps."
     },
     {
       "key": "G1",
-      "name": "Timeline agrees",
+      "name": "Read-only agreement",
       "blocking": true,
       "members": [
-        "WV-07",
-        "WV-09"
+        "WV-13"
       ],
       "checks": [
-        "Gate line sits on the G0 forecast",
-        "Ready set matches the tracker"
+        "Tracker, timeline, and utilization counts match",
+        "No control changes status"
       ],
-      "ifRed": "Do not wire the offline demo until the timeline and gates match."
+      "ifRed": "Do not call the viewer done if a click can reset a ticket."
     }
   ],
   "criticalPath": [

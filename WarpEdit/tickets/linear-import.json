@@ -1,29 +1,30 @@
 {
   "importer": "linear-api",
-  "note": "Linear's CSV importer does not keep blockers. This file is for issueCreate plus issueRelationCreate type blocks. See IMPORT.md.",
-  "team": "WEDIT",
+  "team": "WED",
   "issues": [
     {
       "tempId": "WE-01",
-      "title": "Audit WarpView read-only contract before editing",
-      "description": "h2. What\nAudit WarpView read-only contract before editing\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs/audit\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Audit lists every read-only control\n* Day-0 note says WarpView WV-13 is already merged\n",
+      "title": "Audit that WarpView cannot change a phase",
+      "description": "h2. What\nAudit that WarpView cannot change a phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\ndocs/audit\n\nh2. Blocked by\nnone\n\nh2. Acceptance\n* Audit lists the 13 phases\n* Day 0 says viewer.html already loads the sample export\n\nh2. External ID\nWE-01",
       "priority": 4,
       "estimate": 1,
       "labelNames": [
         "size:S",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-01"
       ],
       "blockedBy": []
     },
     {
       "tempId": "WE-02",
-      "title": "Dirty-state model over the loaded beam",
-      "description": "h2. What\nDirty-state model over the loaded beam\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/dirty\n\nh2. Blocked by\nWE-01\n\nh2. Acceptance\n* An edit sets dirty\n* Reload prompt appears when dirty\n",
+      "title": "Phase menu matches the beam status list",
+      "description": "h2. What\nPhase menu matches the beam status list\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-01\n\nh2. Acceptance\n* Menu offers queued, claimed, planning, coding, review, fix, awaiting_approval, merging, merged, done, blocked, alarm, skipped\n* Unknown phase is refused\n\nh2. External ID\nWE-02",
       "priority": 3,
       "estimate": 2,
       "labelNames": [
         "size:M",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-02"
       ],
       "blockedBy": [
         "WE-01"
@@ -31,13 +32,14 @@
     },
     {
       "tempId": "WE-03",
-      "title": "Save writer for beam.json and schedule.json",
-      "description": "h2. What\nSave writer for beam.json and schedule.json\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/save\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Save downloads a beam with the same ticket ids\n* Invalid JSON is refused\n",
+      "title": "Reset a merged ticket back to an earlier phase",
+      "description": "h2. What\nReset a merged ticket back to an earlier phase\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* From merged or done, choose claimed, planning, coding, review, fix, awaiting_approval, merging, or queued\n* Status on the ticket changes\n* Dependents are no longer treated as unblocked\n\nh2. External ID\nWE-03",
       "priority": 2,
       "estimate": 3,
       "labelNames": [
         "size:L",
-        "needs-approval"
+        "needs-approval",
+        "ext:WE-03"
       ],
       "blockedBy": [
         "WE-02"
@@ -45,55 +47,59 @@
     },
     {
       "tempId": "WE-04",
-      "title": "Inline edit of ticket summary",
-      "description": "h2. What\nInline edit of ticket summary\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/summary\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Summary edit shows in the table\n* Cancel restores the prior summary\n",
+      "title": "Confirm names the from phase and the to phase",
+      "description": "h2. What\nConfirm names the from phase and the to phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* Confirm shows the id, from phase, and to phase\n* Cancel leaves status untouched\n\nh2. External ID\nWE-04",
       "priority": 4,
       "estimate": 1,
       "labelNames": [
         "size:S",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-04"
       ],
       "blockedBy": [
-        "WE-02"
+        "WE-03"
       ]
     },
     {
       "tempId": "WE-05",
-      "title": "Dependency editor with cycle refusal",
-      "description": "h2. What\nDependency editor with cycle refusal\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/deps\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Adding a dep that cycles is rejected\n* A removed dep can make a ticket ready\n",
+      "title": "Reset appends an event and keeps old timestamps",
+      "description": "h2. What\nReset appends an event and keeps old timestamps\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* pr.mergedAt is not deleted\n* A reset event stores from, to, at, and note\n* Drawer shows the event under the timestamps\n\nh2. External ID\nWE-05",
       "priority": 2,
       "estimate": 3,
       "labelNames": [
         "size:L",
-        "needs-approval"
+        "needs-approval",
+        "ext:WE-05"
       ],
       "blockedBy": [
-        "WE-02"
+        "WE-03"
       ]
     },
     {
       "tempId": "WE-06",
-      "title": "Lock-path editor",
-      "description": "h2. What\nLock-path editor\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/locks\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* A new lock path is stored on the ticket\n* Empty lock list is refused\n",
+      "title": "Un-merge puts dependents back to blocked",
+      "description": "h2. What\nUn-merge puts dependents back to blocked\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* A ticket that depended on the reset id leaves start-now\n* Ready set matches the new status\n\nh2. External ID\nWE-06",
       "priority": 3,
       "estimate": 2,
       "labelNames": [
         "size:M",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-06"
       ],
       "blockedBy": [
-        "WE-02"
+        "WE-03"
       ]
     },
     {
       "tempId": "WE-07",
-      "title": "Size editor S M L XL and auto-merge flag",
-      "description": "h2. What\nSize editor S M L XL and auto-merge flag\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/size\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* Changing L to M sets autoMerge true\n* Changing M to XL sets autoMerge false\n",
+      "title": "Refuse a reset onto the same phase",
+      "description": "h2. What\nRefuse a reset onto the same phase\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-02\n\nh2. Acceptance\n* merged to merged is a no-op with a message\n* skipped to skipped is a no-op\n\nh2. External ID\nWE-07",
       "priority": 4,
       "estimate": 1,
       "labelNames": [
         "size:S",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-07"
       ],
       "blockedBy": [
         "WE-02"
@@ -101,87 +107,92 @@
     },
     {
       "tempId": "WE-08",
-      "title": "Undo stack for the last 20 edits",
-      "description": "h2. What\nUndo stack for the last 20 edits\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/undo\n\nh2. Blocked by\nWE-04, WE-05\n\nh2. Acceptance\n* Undo restores the previous summary\n* Redo reapplies it\n",
+      "title": "Undo and redo a reset",
+      "description": "h2. What\nUndo and redo a reset\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-05\n\nh2. Acceptance\n* Undo restores the prior status\n* The reset event is removed on undo\n\nh2. External ID\nWE-08",
       "priority": 3,
       "estimate": 2,
       "labelNames": [
         "size:M",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-08"
       ],
       "blockedBy": [
-        "WE-04",
         "WE-05"
       ]
     },
     {
       "tempId": "WE-09",
-      "title": "Validate deps, locks, and sizes before save",
-      "description": "h2. What\nValidate deps, locks, and sizes before save\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/validate\n\nh2. Blocked by\nWE-03, WE-05, WE-06\n\nh2. Acceptance\n* A missing dep blocks save\n* The error names the ticket id\n",
+      "title": "Validate the plan before save",
+      "description": "h2. What\nValidate the plan before save\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03, WE-06\n\nh2. Acceptance\n* A dep that names a missing id blocks save\n* The error names the ticket\n\nh2. External ID\nWE-09",
       "priority": 3,
       "estimate": 2,
       "labelNames": [
         "size:M",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-09"
       ],
       "blockedBy": [
         "WE-03",
-        "WE-05",
         "WE-06"
       ]
     },
     {
       "tempId": "WE-10",
-      "title": "Warn when two ready tickets share a lock",
-      "description": "h2. What\nWarn when two ready tickets share a lock\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/conflicts\n\nh2. Blocked by\nWE-05, WE-06\n\nh2. Acceptance\n* Overlap is listed before save\n* Prefix overlap counts as overlap\n",
+      "title": "Utilization updates when a ticket leaves merged",
+      "description": "h2. What\nUtilization updates when a ticket leaves merged\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-03, WE-06\n\nh2. Acceptance\n* Active count rises when status becomes coding\n* Merged count falls\n* Tokens and minutes stay, they are not zeroed\n\nh2. External ID\nWE-10",
       "priority": 2,
       "estimate": 3,
       "labelNames": [
         "size:L",
-        "needs-approval"
+        "needs-approval",
+        "ext:WE-10"
       ],
       "blockedBy": [
-        "WE-05",
+        "WE-03",
         "WE-06"
       ]
     },
     {
       "tempId": "WE-11",
-      "title": "Export WARP_PLAN.json from the edited graph",
-      "description": "h2. What\nExport WARP_PLAN.json from the edited graph\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/export\n\nh2. Blocked by\nWE-09\n\nh2. Acceptance\n* Export includes estimate and deps\n* Markdown brief matches the JSON ids\n",
+      "title": "Save writes status and the reset log",
+      "description": "h2. What\nSave writes status and the reset log\n\nh2. Size\nM \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-05, WE-09\n\nh2. Acceptance\n* Downloaded file is kind warp-plan\n* resets array is on the ticket\n* jiraKey survives\n\nh2. External ID\nWE-11",
       "priority": 3,
       "estimate": 2,
       "labelNames": [
         "size:M",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-11"
       ],
       "blockedBy": [
+        "WE-05",
         "WE-09"
       ]
     },
     {
       "tempId": "WE-12",
-      "title": "Save confirmation and reload of the saved beam",
-      "description": "h2. What\nSave confirmation and reload of the saved beam\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\napps/viewer/src/edit/reload\n\nh2. Blocked by\nWE-03\n\nh2. Acceptance\n* Confirm names the file\n* Reload shows the edited summary\n",
+      "title": "Reload shows the reset phase and the event",
+      "description": "h2. What\nReload shows the reset phase and the event\n\nh2. Size\nS \u2014 auto-merge after Bugbot\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-11\n\nh2. Acceptance\n* Load of the saved file shows the reset phase\n* Timestamps from before the reset are still visible\n\nh2. External ID\nWE-12",
       "priority": 4,
       "estimate": 1,
       "labelNames": [
         "size:S",
-        "auto-merge"
+        "auto-merge",
+        "ext:WE-12"
       ],
       "blockedBy": [
-        "WE-03"
+        "WE-11"
       ]
     },
     {
       "tempId": "WE-13",
-      "title": "Drag a timeline bar to change forecast start",
-      "description": "h2. What\nDrag a timeline bar to change forecast start\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/timeline\n\nh2. Blocked by\nWE-08, WE-10\n\nh2. Acceptance\n* Drop updates start label\n* A move that violates a dep snaps back\n",
+      "title": "Interactive phase scrubber on the timeline",
+      "description": "h2. What\nInteractive phase scrubber on the timeline\n\nh2. Size\nXL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-08, WE-10\n\nh2. Acceptance\n* Dragging a merged bar offers the phase menu\n* A drop that would pass a dependent snaps back\n* Utilization board follows the drop\n\nh2. External ID\nWE-13",
       "priority": 1,
       "estimate": 5,
       "labelNames": [
         "size:XL",
-        "needs-approval"
+        "needs-approval",
+        "ext:WE-13"
       ],
       "blockedBy": [
         "WE-08",
@@ -190,13 +201,14 @@
     },
     {
       "tempId": "WE-14",
-      "title": "Round trip: edit, save, reload, compare",
-      "description": "h2. What\nRound trip: edit, save, reload, compare\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\napps/viewer/src/edit/roundtrip\n\nh2. Blocked by\nWE-11, WE-12, WE-13\n\nh2. Acceptance\n* Saved beam equals the reloaded model\n* Human hours estimate updates after a size change\n",
+      "title": "Round trip reset, save, load, compare",
+      "description": "h2. What\nRound trip reset, save, load, compare\n\nh2. Size\nL \u2014 wait for APPROVED\n\nh2. Locks\nviewer.html\n\nh2. Blocked by\nWE-11, WE-12, WE-13\n\nh2. Acceptance\n* Loaded status equals saved status\n* Old mergedAt is still present\n* Viewer file is not given this control\n\nh2. External ID\nWE-14",
       "priority": 2,
       "estimate": 3,
       "labelNames": [
         "size:L",
-        "needs-approval"
+        "needs-approval",
+        "ext:WE-14"
       ],
       "blockedBy": [
         "WE-11",

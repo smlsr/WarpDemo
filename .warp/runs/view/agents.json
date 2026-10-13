@@ -1,0 +1,14 @@
+{
+  "agents": [
+    {
+      "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+      "ticket": "",
+      "role": "parent",
+      "session": "2026-10-13T18:49:58Z-91180707",
+      "started": "2026-10-13T18:49:58Z",
+      "ended": null,
+      "state": "running"
+    }
+  ],
+  "spawns": []
+}

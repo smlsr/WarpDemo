@@ -168,7 +168,7 @@
   },
   "paused": false,
   "pauseReason": null,
-  "runState": "stopped",
+  "runState": "running",
   "gates": [
     {
       "key": "G0",
@@ -361,7 +361,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-06": {
       "id": "WV-06",
@@ -435,7 +436,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-03": {
       "id": "WV-03",
@@ -510,7 +512,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-02": {
       "id": "WV-02",
@@ -591,7 +594,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-07": {
       "id": "WV-07",
@@ -671,7 +675,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-08": {
       "id": "WV-08",
@@ -746,7 +751,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-04": {
       "id": "WV-04",
@@ -820,7 +826,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-05": {
       "id": "WV-05",
@@ -908,7 +915,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-09": {
       "id": "WV-09",
@@ -992,7 +1000,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-10": {
       "id": "WV-10",
@@ -1073,7 +1082,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-13": {
       "id": "WV-13",
@@ -1155,7 +1165,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-11": {
       "id": "WV-11",
@@ -1235,7 +1246,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-12": {
       "id": "WV-12",
@@ -1315,7 +1327,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-14": {
       "id": "WV-14",
@@ -1395,7 +1408,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-15": {
       "id": "WV-15",
@@ -1499,7 +1513,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     },
     "WV-16": {
       "id": "WV-16",
@@ -1596,7 +1611,8 @@
       },
       "events": [],
       "updatedAt": null,
-      "jiraMapping": "mapped"
+      "jiraMapping": "mapped",
+      "watch": {}
     }
   },
   "agents": {},
@@ -1622,8 +1638,306 @@
     "byModule": {
       "WarpView": 16
     },
-    "computedAt": "2026-10-13T18:48:23Z"
+    "computedAt": "2026-10-13T18:49:49Z"
   },
   "run": "view",
-  "checkpointAt": "2026-10-13T18:48:25Z"
+  "openWork": {
+    "at": "2026-10-13T18:49:49Z",
+    "alarms": [],
+    "stalls": [],
+    "counts": {
+      "queued": 16
+    },
+    "inProgress": "in progress 0/20",
+    "liveShuttles": "live shuttles 0/18, 0 fix workers running",
+    "tickets": [
+      {
+        "id": "WV-01",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-02",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-03",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-04",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-05",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-06",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-07",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-08",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-09",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-10",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-11",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-12",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-13",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-14",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-15",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      },
+      {
+        "id": "WV-16",
+        "state": "queued",
+        "step": "queued",
+        "age": "0m",
+        "last": "2026-10-13T18:49:49Z",
+        "pr": "none",
+        "bugbot": "none",
+        "ci": "none",
+        "ac": "unknown",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
+        "next": "start when a slot is free"
+      }
+    ],
+    "sweep": null
+  },
+  "gateOrder": "strict",
+  "paths": [],
+  "externalRepos": {},
+  "baseFixOwner": "",
+  "external": {
+    "at": "2026-10-13T18:49:58Z",
+    "ref": "origin/main",
+    "status": {},
+    "locks": []
+  },
+  "runComplete": false,
+  "stoppedAt": null,
+  "parentSession": "2026-10-13T18:49:58Z-91180707",
+  "owner": {
+    "by": "Cursor Agent",
+    "machine": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+    "host": "cursor",
+    "at": "2026-10-13T18:49:58Z",
+    "session": "2026-10-13T18:49:58Z-91180707"
+  },
+  "instance": {
+    "id": "207cfb",
+    "machine": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+    "host": "cursor",
+    "createdAt": "2026-10-13T18:49:58Z"
+  },
+  "agentRegistry": {
+    "agents": [
+      {
+        "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+        "ticket": "",
+        "role": "parent",
+        "session": "2026-10-13T18:49:58Z-91180707",
+        "started": "2026-10-13T18:49:58Z",
+        "ended": null,
+        "state": "running"
+      }
+    ],
+    "spawns": []
+  },
+  "_agentBeam": ".warp/beam.json",
+  "_agentSig": [
+    1791917398654315135,
+    286
+  ],
+  "checkpointAt": "2026-10-13T18:49:58Z"
 }

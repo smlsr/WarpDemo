@@ -1,8 +1,8 @@
 {
   "id": "WV-01",
-  "state": "check-green",
+  "state": "review-pass",
   "startedAt": "2026-10-13T18:50:40Z",
-  "updatedAt": "2026-10-13T19:45:21Z",
+  "updatedAt": "2026-10-13T21:10:26Z",
   "heartbeatAt": "",
   "pr": {
     "url": "https://github.com/smlsr/WarpDemo/pull/4"
@@ -13,10 +13,14 @@
     "log": ""
   },
   "error": "",
-  "alarm": "lock-escape",
-  "escaped": [
-    "WARPDEMO/WarpView/app/package-lock.json",
-    "WARPDEMO/WarpView/app/src/core/util.test.mjs"
-  ],
-  "agent": "shuttle-WV-01-r1"
+  "alarm": "",
+  "escaped": [],
+  "agent": "shuttle-WV-01-r2",
+  "review": {
+    "result": "pass",
+    "sha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
+    "findings": [],
+    "source": "shuttle",
+    "at": "2026-10-13T21:10:26Z"
+  }
 }

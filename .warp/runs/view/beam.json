@@ -166,9 +166,9 @@
     "mergeQueue": false,
     "run": "view"
   },
-  "paused": false,
-  "pauseReason": null,
-  "runState": "running",
+  "paused": true,
+  "pauseReason": "user stop",
+  "runState": "stopped",
   "gates": [
     {
       "key": "G0",
@@ -337,7 +337,7 @@
       "plannedStart": null,
       "plannedMerge": null,
       "status": "review",
-      "agent": null,
+      "agent": "shuttle-WV-01-r2",
       "worktree": ".warp/worktrees/WV-01",
       "checkout": "worktree",
       "branch": "warp/view/WV-01-WAR-47",
@@ -349,8 +349,8 @@
         "id": null,
         "openedAt": "2026-10-13T19:01:16Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
         "approvedAt": null,
         "mergedAt": null,
@@ -361,8 +361,8 @@
         "rollup": "absent",
         "rollupSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
         "ciSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
-        "mergeable": "UNKNOWN",
-        "mergeStateStatus": "UNKNOWN",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "CLEAN",
         "conflict": false,
         "behind": false,
         "checkCount": 0,
@@ -370,7 +370,23 @@
         "bugbotRequested": true,
         "bugbotRequestedSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
         "bugbotRequestedAt": "2026-10-13T19:01:17Z",
-        "bugbotRequestedCycle": 0
+        "bugbotRequestedCycle": 0,
+        "checks": [
+          {
+            "name": "npm test",
+            "conclusion": "success",
+            "log": "npm test green"
+          }
+        ],
+        "checkName": "npm test",
+        "check": "green",
+        "ciNone": true,
+        "bugbotSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
+        "bugbotRecordedAt": "2026-10-13T21:10:26Z"
       },
       "jira": {
         "status": "Code Review",
@@ -515,29 +531,67 @@
           "at": "2026-10-13T21:09:25Z",
           "type": "heal",
           "value": "lock-escape cleared"
+        },
+        {
+          "at": "2026-10-13T19:44:52Z",
+          "type": "status",
+          "from": "review",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-13T21:09:27Z",
+          "type": "status",
+          "from": "coding",
+          "to": "recovering"
+        },
+        {
+          "at": "2026-10-13T21:09:27Z",
+          "type": "recovery",
+          "recoveries": 2,
+          "agent": "shuttle-WV-01-r2"
+        },
+        {
+          "at": "2026-10-13T21:10:11Z",
+          "type": "status",
+          "from": "recovering",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-13T21:10:25Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        },
+        {
+          "at": "2026-10-13T21:10:26Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b"
         }
       ],
-      "updatedAt": "2026-10-13T21:09:25Z",
+      "updatedAt": "2026-10-13T21:10:26Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "reviewing|579fb1873f14055f8397c9ffac21b6c8109b2f4b|absent|absent|||||",
+        "progressToken": "reviewing|579fb1873f14055f8397c9ffac21b6c8109b2f4b|absent|absent|green|pass|||",
         "state": "reviewing",
-        "since": "2026-10-13T19:01:17Z",
-        "progressAt": "2026-10-13T19:01:17Z",
-        "lastActive": "2026-10-13T19:44:49Z",
+        "since": "2026-10-13T21:17:47Z",
+        "progressAt": "2026-10-13T21:17:47Z",
+        "lastActive": "2026-10-13T21:10:26Z",
         "lastFix": "lock-escape",
-        "lastFixAt": "2026-10-13T19:52:32Z"
+        "lastFixAt": "2026-10-13T19:52:32Z",
+        "stalled": false
       },
       "shuttle": {
         "pending": false,
         "step": "restart",
         "hadPr": true,
-        "session": "2026-10-13T19:44:14Z-3cba6c6d"
+        "session": "2026-10-13T21:09:25Z-7cb82892"
       },
       "phase": "reviewing",
-      "needsReplacement": false,
+      "needsReplacement": true,
       "isolation": "worktree",
-      "workerStartedAt": "2026-10-13T19:44:17Z",
+      "workerStartedAt": "2026-10-13T21:09:27Z",
       "stalled": false,
       "escaped": [],
       "addedLocks": [],
@@ -556,19 +610,26 @@
       },
       "remote": {
         "seen": [
+          "045e827251aa46de3c14",
+          "35b455b9b5706f493cbb",
+          "3a53b9a7626b3648f1f6",
+          "5fe7a44081f6c39225a5",
           "8c3e5063f5c4f1f48267",
           "94d892365c35db85782e",
+          "9774181921fa720a07b0",
           "a315e510a24145e4bfb5",
           "a70cbc3624bc230318e6",
-          "d1d5eb9c52bb06c42e8f"
+          "cdace9acbaffed081df6",
+          "d1d5eb9c52bb06c42e8f",
+          "e7520a132205d29f62f1"
         ],
-        "state": "lock-escape",
-        "stateKey": "bbff94d4acfbb46328d8"
+        "state": "review",
+        "stateKey": "9dcb90ea94e256bedce6"
       },
-      "recoveryPriorStatus": "alarm",
-      "recoveredAt": "2026-10-13T19:44:17Z",
-      "recoveries": 1,
-      "lastSeenAt": "2026-10-13T19:44:49Z"
+      "recoveryPriorStatus": "coding",
+      "recoveredAt": "2026-10-13T21:09:27Z",
+      "recoveries": 2,
+      "haltResume": true
     },
     "WV-06": {
       "id": "WV-06",
@@ -1965,17 +2026,13 @@
     "byModule": {
       "WarpView": 16
     },
-    "computedAt": "2026-10-13T21:09:25Z"
+    "computedAt": "2026-10-13T21:17:40Z"
   },
   "run": "view",
   "openWork": {
-    "at": "2026-10-13T19:52:32Z",
-    "alarms": [
-      "WV-01"
-    ],
-    "stalls": [
-      "WV-01"
-    ],
+    "at": "2026-10-13T21:17:47Z",
+    "alarms": [],
+    "stalls": [],
     "counts": {
       "reviewing": 1,
       "queued": 15
@@ -1987,22 +2044,22 @@
         "id": "WV-01",
         "state": "reviewing",
         "step": "restart",
-        "age": "51m",
-        "last": "2026-10-13T19:44:49Z",
+        "age": "0m",
+        "last": "2026-10-13T21:10:26Z",
         "pr": "https://github.com/smlsr/WarpDemo/pull/4",
-        "bugbot": "none",
-        "ci": "none",
+        "bugbot": "pass",
+        "ci": "green",
         "ac": "unknown",
-        "stalled": "yes",
-        "retries": 4,
-        "alarm": "lock-escape",
+        "stalled": "no",
+        "retries": 0,
+        "alarm": "none",
         "next": "wait for the Shuttle"
       },
       {
         "id": "WV-02",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2017,7 +2074,7 @@
         "id": "WV-03",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2032,7 +2089,7 @@
         "id": "WV-04",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2047,7 +2104,7 @@
         "id": "WV-05",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2062,7 +2119,7 @@
         "id": "WV-06",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2077,7 +2134,7 @@
         "id": "WV-07",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2092,7 +2149,7 @@
         "id": "WV-08",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2107,7 +2164,7 @@
         "id": "WV-09",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2122,7 +2179,7 @@
         "id": "WV-10",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2137,7 +2194,7 @@
         "id": "WV-11",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2152,7 +2209,7 @@
         "id": "WV-12",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2167,7 +2224,7 @@
         "id": "WV-13",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2182,7 +2239,7 @@
         "id": "WV-14",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2197,7 +2254,7 @@
         "id": "WV-15",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2212,7 +2269,7 @@
         "id": "WV-16",
         "state": "queued",
         "step": "queued",
-        "age": "1h1m",
+        "age": "2h27m",
         "last": "2026-10-13T18:50:42Z",
         "pr": "none",
         "bugbot": "none",
@@ -2225,12 +2282,12 @@
       }
     ],
     "sweep": {
-      "at": "2026-10-13T19:44:50Z",
+      "at": "2026-10-13T21:10:07Z",
       "findings": [
         {
           "kind": "listener",
           "id": "listener",
-          "detail": "live"
+          "detail": "idle"
         },
         {
           "kind": "gate",
@@ -2254,13 +2311,7 @@
         }
       ],
       "actions": [],
-      "skipped": [
-        {
-          "kind": "listener",
-          "id": "listener",
-          "reason": "running"
-        }
-      ],
+      "skipped": [],
       "escalated": [
         {
           "kind": "gate",
@@ -2297,13 +2348,13 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-13T21:09:25Z",
+    "at": "2026-10-13T21:15:51Z",
     "ref": "origin/main",
     "status": {},
     "locks": []
   },
   "runComplete": false,
-  "stoppedAt": null,
+  "stoppedAt": "2026-10-13T21:20:25Z",
   "parentSession": "2026-10-13T21:09:25Z-7cb82892",
   "owner": {
     "by": "Cursor Agent",
@@ -2329,7 +2380,8 @@
         "ended": "2026-10-13T19:15:00Z",
         "state": "ended",
         "superseded": true,
-        "endReason": "replaced"
+        "endReason": "replaced",
+        "halted": true
       },
       {
         "id": "subagent:WV-01",
@@ -2340,7 +2392,8 @@
         "ended": "2026-10-13T19:01:17Z",
         "state": "ended",
         "lastSeenAt": "",
-        "endReason": "returned"
+        "endReason": "returned",
+        "halted": true
       },
       {
         "id": "listener",
@@ -2349,9 +2402,10 @@
         "polls": 6,
         "session": "2026-10-13T19:44:14Z-3cba6c6d",
         "started": "2026-10-13T19:52:31Z",
-        "ended": null,
-        "endReason": "",
-        "state": "running"
+        "ended": "2026-10-13T21:20:25Z",
+        "endReason": "stopped",
+        "state": "stopped",
+        "halted": true
       },
       {
         "id": "repair-WV-01-1",
@@ -2361,7 +2415,8 @@
         "started": "2026-10-13T19:00:34Z",
         "ended": "2026-10-13T19:01:17Z",
         "state": "ended",
-        "endReason": "returned"
+        "endReason": "returned",
+        "halted": true
       },
       {
         "id": "bugbot:WV-01:579fb1873f14055f8397c9ffac21b6c8109b2f4b",
@@ -2369,9 +2424,11 @@
         "role": "bugbot",
         "session": "2026-10-13T18:49:58Z-91180707",
         "started": "2026-10-13T19:01:17Z",
-        "ended": null,
-        "state": "running",
-        "headSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b"
+        "ended": "2026-10-13T21:17:47Z",
+        "state": "ended",
+        "headSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
+        "endReason": "pass",
+        "halted": true
       },
       {
         "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
@@ -2382,7 +2439,8 @@
         "ended": "2026-10-13T19:44:14Z",
         "state": "ended",
         "superseded": true,
-        "endReason": "replaced"
+        "endReason": "replaced",
+        "halted": true
       },
       {
         "id": "repair-WV-01-1",
@@ -2392,7 +2450,8 @@
         "started": "2026-10-13T19:15:42Z",
         "ended": "2026-10-13T19:44:17Z",
         "state": "ended",
-        "endReason": "dead"
+        "endReason": "dead",
+        "halted": true
       },
       {
         "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
@@ -2403,7 +2462,8 @@
         "ended": "2026-10-13T21:09:25Z",
         "state": "ended",
         "superseded": true,
-        "endReason": "replaced"
+        "endReason": "replaced",
+        "halted": true
       },
       {
         "id": "repair-WV-01-2",
@@ -2413,7 +2473,8 @@
         "started": "2026-10-13T19:44:17Z",
         "ended": "2026-10-13T19:44:17Z",
         "state": "ended",
-        "endReason": "dead"
+        "endReason": "dead",
+        "halted": true
       },
       {
         "id": "shuttle-WV-01-r1",
@@ -2421,9 +2482,11 @@
         "role": "shuttle",
         "session": "2026-10-13T19:44:14Z-3cba6c6d",
         "started": "2026-10-13T19:44:17Z",
-        "ended": null,
-        "state": "running",
-        "lastSeenAt": ""
+        "ended": "2026-10-13T21:09:27Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "dead",
+        "halted": true
       },
       {
         "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
@@ -2431,8 +2494,21 @@
         "role": "parent",
         "session": "2026-10-13T21:09:25Z-7cb82892",
         "started": "2026-10-13T21:09:25Z",
-        "ended": null,
-        "state": "running"
+        "ended": "2026-10-13T21:20:25Z",
+        "state": "stopped",
+        "halted": true,
+        "endReason": "stopped"
+      },
+      {
+        "id": "shuttle-WV-01-r2",
+        "ticket": "WV-01",
+        "role": "shuttle",
+        "session": "2026-10-13T21:09:25Z-7cb82892",
+        "started": "2026-10-13T21:09:27Z",
+        "ended": "2026-10-13T21:20:25Z",
+        "state": "stopped",
+        "halted": true,
+        "endReason": "stopped"
       }
     ],
     "spawns": [
@@ -2455,46 +2531,52 @@
         "role": "shuttle",
         "id": "shuttle-WV-01-r1",
         "step": "restart"
+      },
+      {
+        "at": "2026-10-13T21:09:27Z",
+        "ticket": "WV-01",
+        "role": "shuttle",
+        "id": "shuttle-WV-01-r2",
+        "step": "replace"
       }
     ]
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791925765746092937,
-    3700
+    1791926425316172299,
+    4558
   ],
   "watch": {},
   "listener": {
-    "parentSeenAt": "2026-10-13T19:52:31Z",
-    "generation": 7,
-    "holder": "listener",
-    "previousHolder": "",
-    "state": "running",
+    "parentSeenAt": "2026-10-13T21:20:25Z",
+    "generation": 9,
+    "holder": "",
+    "previousHolder": "listener",
+    "state": "stopped",
     "agentId": "listener",
     "startedAt": "2026-10-13T19:52:31Z",
     "generationStartedAt": "2026-10-13T19:52:31Z",
-    "stoppedAt": null,
+    "stoppedAt": "2026-10-13T21:10:06Z",
     "polls": 6,
     "reads": 0,
-    "returnReason": "",
-    "returnedAt": "",
+    "returnReason": "stopped",
+    "returnedAt": "2026-10-13T21:20:25Z",
     "awaitReturn": false,
     "interval": "slow",
     "lastSeenAt": "2026-10-13T19:50:19Z",
     "cursor": "1791920333.226529",
-    "lastCount": 0,
-    "pollStartedAt": "2026-10-13T19:52:31Z"
+    "lastCount": 0
   },
   "statusDigest": {
-    "at": "2026-10-13T19:51:56Z"
+    "at": "2026-10-13T21:10:07Z"
   },
   "repairSweep": {
-    "at": "2026-10-13T19:44:50Z",
+    "at": "2026-10-13T21:10:07Z",
     "findings": [
       {
         "kind": "listener",
         "id": "listener",
-        "detail": "live"
+        "detail": "idle"
       },
       {
         "kind": "gate",
@@ -2518,13 +2600,7 @@
       }
     ],
     "actions": [],
-    "skipped": [
-      {
-        "kind": "listener",
-        "id": "listener",
-        "reason": "running"
-      }
-    ],
+    "skipped": [],
     "escalated": [
       {
         "kind": "gate",
@@ -2556,8 +2632,8 @@
     ]
   },
   "pass": {
-    "startedAt": "2026-10-13T19:52:31Z",
-    "count": 12
+    "startedAt": "2026-10-13T21:17:46Z",
+    "count": 16
   },
   "alarmRepair": {
     "tried": [
@@ -2577,5 +2653,5 @@
     "gate:G3",
     "WV-01:stalled"
   ],
-  "checkpointAt": "2026-10-13T21:09:25Z"
+  "checkpointAt": "2026-10-13T21:20:25Z"
 }

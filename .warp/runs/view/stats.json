@@ -1,11 +1,11 @@
 {
   "run": "view",
-  "generatedAt": "2026-10-13T21:09:25Z",
+  "generatedAt": "2026-10-13T21:20:25Z",
   "totals": {
     "tokens": 0,
     "minutes": 0,
     "attempts": 0,
-    "recoveries": 1,
+    "recoveries": 2,
     "cost": 0.0,
     "tokensIn": 0,
     "tokensOut": 0,
@@ -22,7 +22,7 @@
       "tokens": 0,
       "minutes": 0,
       "attempts": 0,
-      "recoveries": 1,
+      "recoveries": 2,
       "cost": 0.0,
       "tokensIn": 0,
       "tokensOut": 0,

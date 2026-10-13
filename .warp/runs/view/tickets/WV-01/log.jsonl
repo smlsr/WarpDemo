@@ -7,3 +7,6 @@
 {"seq":7,"at":"2026-10-13T19:45:20Z","id":"WV-01","state":"pr-opened","error":"","agent":"shuttle-WV-01-r1","pr":"https://github.com/smlsr/WarpDemo/pull/4"}
 {"seq":8,"at":"2026-10-13T19:45:21Z","id":"WV-01","state":"check-green","error":"","agent":"shuttle-WV-01-r1","name":"npm test"}
 {"at":"2026-10-13T19:50:40Z","type":"stall","id":"WV-01","state":"reviewing","reason":"no progress in reviewing for 49m"}
+{"seq":9,"at":"2026-10-13T21:10:11Z","id":"WV-01","state":"coding","error":"","agent":"shuttle-WV-01-r2"}
+{"seq":10,"at":"2026-10-13T21:10:25Z","id":"WV-01","state":"review","error":"","agent":"shuttle-WV-01-r2","pr":"https://github.com/smlsr/WarpDemo/pull/4"}
+{"seq":11,"at":"2026-10-13T21:10:26Z","id":"WV-01","state":"review-pass","error":"","sha":"579fb1873f14055f8397c9ffac21b6c8109b2f4b","findings":[],"source":"shuttle"}

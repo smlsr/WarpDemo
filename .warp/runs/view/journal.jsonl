@@ -24,3 +24,12 @@
 {"action": "failed", "attempts": 2, "error": null, "id": "WV-01", "ts": "2026-10-13T19:52:26Z", "type": "alarm-repair"}
 {"reason": null, "ts": "2026-10-13T21:09:25Z", "type": "running"}
 {"tickets": ["WV-01"], "ts": "2026-10-13T21:09:25Z", "type": "heal"}
+{"line": "WV-01 coding", "ts": "2026-10-13T21:09:27Z", "type": "remote"}
+{"line": "WV-01 check-green", "ts": "2026-10-13T21:09:27Z", "type": "remote"}
+{"agent": "shuttle-WV-01-r2", "branch": "warp/view/WV-01-WAR-47", "from": "coding", "id": "WV-01", "recoveries": 2, "ts": "2026-10-13T21:09:27Z", "type": "shuttle-recover"}
+{"ts": "2026-10-13T21:15:50Z", "type": "subagent-stop"}
+{"line": "WV-01 coding", "ts": "2026-10-13T21:17:40Z", "type": "remote"}
+{"line": "WV-01 review", "ts": "2026-10-13T21:17:40Z", "type": "remote"}
+{"line": "WV-01 Bugbot review by the Shuttle: pass.", "ts": "2026-10-13T21:17:40Z", "type": "remote"}
+{"reason": "user stop", "ts": "2026-10-13T21:20:25Z", "type": "stopped"}
+{"ts": "2026-10-13T21:20:25Z", "type": "session-stop"}

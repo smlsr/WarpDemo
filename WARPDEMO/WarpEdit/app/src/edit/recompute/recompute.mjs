@@ -57,9 +57,22 @@ export function markEditedGates(run, baseline) {
   return marked;
 }
 
+// A ticket the editor moved shows the edited status: its state.json overlay (WarpView SPEC §3.3) was written
+// before the edit and would otherwise put the old status back over a non-terminal reset target.
+export function editedIds(loaded, working) {
+  const a = statusesOf(loaded);
+  const out = new Set();
+  for (const [id, s] of statusesOf(working)) if (a.get(id) !== s) out.add(id);
+  return out;
+}
+
 export function rebuild({ docs = [], loaded = null, working, baseline = loaded, embedded = null, path } = {}) {
   if (!isObj(working)) return [];
-  const swapped = docsWith(docs, loaded, working, path);
+  const moved = isObj(loaded) ? editedIds(loaded, working) : new Set();
+  const kept = moved.size
+    ? (Array.isArray(docs) ? docs : []).filter((d) => !(d && classify(d.data) === "ticket" && moved.has(String(d.data.id))))
+    : docs;
+  const swapped = docsWith(kept, loaded, working, path);
   const runs = buildRuns(swapped.docs, embedded).runs;
   const edited = runs.find((r) => r.kind === "beam" && r.path === swapped.path) || runs.find((r) => r.kind === "beam" && r.name === (working.run || null));
   if (edited) markEditedGates(edited, baseline || loaded);
@@ -149,6 +162,7 @@ export function createRecomputePlugin({ store = null, path } = {}) {
   function recompute() {
     if (!app || !app.store || !edit) return false;
     const S = app.store.state;
+    if (!Array.isArray(S.runs) || !S.runs.length) return false;
     const root = app.root;
     const saved = captureView(root);
     const runs = rebuild({ docs: S.docs, loaded: edit.loaded, working: edit.working, baseline, embedded: S.embedded, path });
@@ -189,7 +203,10 @@ export function createRecomputePlugin({ store = null, path } = {}) {
     init(a) {
       app = a;
       if (!edit && store) attach(store);
-      else if (edit && edit.working !== edit.loaded) recompute();
+      else if (edit) {
+        listen();
+        if (edit.working !== edit.loaded) recompute();
+      }
       const destroy = a && a.destroy;
       if (a && typeof destroy === "function") {
         a.destroy = () => {

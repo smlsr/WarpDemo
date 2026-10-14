@@ -387,12 +387,41 @@ test("without an edit store the plugin does nothing; a later attach recomputes a
   assert.deepEqual(computeMetrics(app.store.getRuns(), NOW), AFTER);
 });
 
+test("a reset ticket's state.json overlay does not put the old status back; other overlays still apply", () => {
+  const beam = load();
+  const stateOf = (id, state) => ({ path: `.warp/tickets/${id}/state.json`, data: { id, state, updatedAt: "2026-10-12T23:00:00Z" } });
+  const docs = [{ path: PATH, data: beam }, stateOf("WV-07", "review"), stateOf("WV-09", "review")];
+  const working = applyReset(beam, resetOf(beam, "WV-07", "coding"));
+  const runs = rebuild({ docs, loaded: beam, working });
+  const status = (id) => runs[0].tickets.find((t) => t.id === id).status;
+  assert.equal(status("WV-07"), "coding");
+  assert.equal(status("WV-09"), "review");
+  assert.equal(docs.length, 3);
+});
+
+test("after the page is cleared an edit does not bring the run back", () => {
+  const { doc, app, edit, beam } = mount();
+  doc.querySelector('[data-act="clear"]').click();
+  assert.equal(app.store.getRuns().length, 0);
+  edit.apply(resetOf(beam, "WV-07", "coding"));
+  assert.equal(app.store.getRuns().length, 0);
+});
+
 test("after destroy the plugin no longer replaces runs", () => {
   const { app, edit, beam } = mount();
   const runs = app.store.getRuns();
   app.destroy();
   edit.apply(resetOf(beam, "WV-07", "coding"));
   assert.equal(app.store.getRuns(), runs);
+});
+
+test("the same plugin started again on a new app after destroy listens to its store again", () => {
+  const { dom, app, edit, plugin, beam } = mount();
+  app.destroy();
+  const again = createApp({ root: dom.window.document, plugins: [plugin], now: () => NOW });
+  again.load([{ path: PATH, data: beam }], { quiet: true });
+  edit.apply(resetOf(beam, "WV-07", "coding"));
+  assert.deepEqual(computeMetrics(again.store.getRuns(), NOW), AFTER);
 });
 
 test("AC-5: recompute.test.mjs is picked up by the WarpEdit test command", () => {

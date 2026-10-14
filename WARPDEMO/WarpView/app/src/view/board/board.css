@@ -1,0 +1,25 @@
+/* board */
+.lane { margin-bottom: 14px; }
+.lane-h { display: flex; align-items: center; gap: 10px; padding: 10px 14px; cursor: pointer; user-select: none; }
+.lane-h .chev { transition: transform .15s; color: var(--muted); flex: none; }
+.lane.closed .chev { transform: rotate(-90deg); }
+.lane.closed .lane-b { display: none; }
+.lane-h h2 { margin: 0; font-size: 15px; }
+.lane-h .gname { color: var(--muted); font-weight: 500; }
+.lane-h .sw { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 6px; }
+.lane-h .stat { margin-left: auto; display: flex; gap: 12px; align-items: center; color: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+.lane-h .stack { width: 140px; }
+.lane-b { padding: 0 14px 14px; display: grid; grid-template-columns: repeat(auto-fill, minmax(232px, 1fr)); gap: 10px; }
+.tcard { position: relative; border-radius: 9px; padding: 9px 11px 9px 14px; background: color-mix(in srgb, var(--c) calc(var(--tint) * .7), var(--panel)); border: 1px solid color-mix(in srgb, var(--c) 35%, var(--line)); cursor: pointer; min-width: 0; }
+.tcard::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 4px; border-radius: 9px 0 0 9px; background: var(--c); }
+.tcard.crit { box-shadow: inset 0 0 0 1.5px var(--ink); }
+.tcard .l1 { display: flex; gap: 6px; align-items: center; }
+.tcard .id { font-weight: 700; }
+.tcard .badge { font-size: 10.5px; font-weight: 600; border: 1px solid var(--line2); border-radius: 5px; padding: 0 5px; color: var(--ink2); background: var(--panel); }
+.tcard .st { margin-left: auto; font-size: 11px; font-weight: 600; color: var(--c); white-space: nowrap; }
+.tcard .tt { margin: 4px 0 6px; font-size: 13px; line-height: 1.35; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 35px; }
+.tcard .tt .none { color: var(--muted); }
+.tcard .l3 { display: flex; gap: 10px; font-size: 12px; color: var(--muted); align-items: center; flex-wrap: wrap; }
+.tcard .l3 a { font-weight: 600; }
+.tcard .alarm { margin-top: 6px; font-size: 12px; color: var(--c-err); font-weight: 600; overflow-wrap: anywhere; }
+.empty-lane { color: var(--muted); font-size: 13px; padding: 4px 0 6px; }

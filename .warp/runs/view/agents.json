@@ -613,7 +613,8 @@
       "ended": "2026-10-14T00:55:02Z",
       "state": "stopped",
       "halted": true,
-      "endReason": "done"
+      "endReason": "done",
+      "superseded": true
     },
     {
       "id": "shuttle-WV-09-r1",
@@ -721,6 +722,15 @@
       "lastSeenAt": "",
       "endReason": "returned",
       "halted": true
+    },
+    {
+      "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+      "ticket": "",
+      "role": "parent",
+      "session": "2026-10-14T01:21:17Z-77af77cb",
+      "started": "2026-10-14T01:21:17Z",
+      "ended": null,
+      "state": "running"
     }
   ],
   "spawns": [
@@ -968,6 +978,5 @@
       "id": "subagent:WV-16",
       "step": "implement"
     }
-  ],
-  "finishedAt": "2026-10-14T00:55:02Z"
+  ]
 }

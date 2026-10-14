@@ -284,7 +284,7 @@ pollSeconds: 300
 listenerFastSeconds: 15
 # Seconds inbound.py wait sleeps after a cycle that queued a command.
 # The sleep is in Python, in 2-second steps.
-listenerSlowSeconds: 60
+listenerSlowSeconds: 120
 # Seconds inbound.py wait sleeps after an empty read.
 listenerOrphanMinutes: 5
 # A listener.parentSeenAt older than this makes the listener exit orphaned.
@@ -292,7 +292,7 @@ listenerOrphanMinutes: 5
 listenerMaxMinutes: 60
 # Rotate a generation after this many minutes, or listenerMaxReads,
 # whichever comes first. The parent starts the next one from the return stamp.
-listenerMaxReads: 60
+listenerMaxReads: 4
 # Successful poll --lease calls in one generation before rotation.
 listenerModel: ""
 # Empty: the listener inherits the parent's model (model: inherit).

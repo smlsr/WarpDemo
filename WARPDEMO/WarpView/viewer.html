@@ -2238,7 +2238,7 @@ table.grid td.t { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
     const merge = hours(t.mergeAt);
     const rows = [
       ["Status", `<b style="color:${catColor(cat.key)}">${esc(cat.label)}</b> \xB7 ${esc(statusText(t.status))}`],
-      ["Run", esc(run && (run.name || run.instance || run.dir) || "\u2014")],
+      ["Run", esc(run && (run.name || (run.instance ? "warp:" + run.instance : run.dir)) || "\u2014")],
       ["Block", esc(t.block || "\u2014")],
       ["Size", esc(t.size || "\u2014") + (t.autoMerge ? " \xB7 auto-merge" : " \xB7 needs approval")],
       ["Estimate", `${esc(fmtH(t.hours))} <span class="dv-raw">(${esc(t.hoursFrom || "\u2014")})</span>`],
@@ -2855,8 +2855,12 @@ table.grid td.t { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
     const rows = [];
     for (const run of list3) {
       if (!Array.isArray(run.tickets)) continue;
-      if (!(run.gateAt instanceof Map)) plan(run);
-      for (const t of run.tickets) rows.push({ t, run });
+      let view = run;
+      if (!(run.gateAt instanceof Map)) {
+        view = { ...run, tickets: run.tickets.map((t) => t && typeof t === "object" ? { ...t } : t) };
+        plan(view);
+      }
+      for (const t of view.tickets) rows.push({ t, run: view });
     }
     const body = sortRows(rows, s).map(({ t, run }) => rowHtml(run, t, list3.length > 1, !!show(t, run))).join("");
     const head = COLS.map(
@@ -3280,7 +3284,7 @@ table.grid td.t { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
       if (name === "print") return print();
       if (name === "clear") {
         closeDrawer();
-        store.set({ runs: [], docs: [], sources: [], tab: "all", loadedAt: null }, "clear");
+        store.set({ runs: [], docs: [], sources: [], embedded: null, tab: "all", loadedAt: null }, "clear");
       }
       return null;
     }

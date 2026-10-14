@@ -116,3 +116,24 @@ test("AC-3: in an html file only comments outside strings are blanked and script
   const found = scanText(html, "v.html", { rel: "v.html", html: true });
   assert.deepEqual(found.map((f) => f.line), [4]);
 });
+
+test("AC-3: a regex literal after return, typeof, case, a brace or an operator does not hide the status write after it", () => {
+  const lines = [
+    "function f(t) { return /\\//.test(x); } t.status = 'coding';",
+    "function f(t) { return /\\/*/.test(x); } t.status = 'coding';",
+    "const k = typeof /\\/*/; t.status = 'coding';",
+    "switch (x) { case /\\/*/.test(y): break; } t.status = 'coding';",
+    "if (a) { b(); } /\\/*/.test(c); t.status = 'coding';",
+    "const m = x ? /\\//.test(a) : /\\/*/.test(b); t.status = 'coding';",
+    "const [a, b] = [/\\//, /\\/*/]; t.status = 'coding';",
+    "x = a / b; y = c / d; t.status = 'coding'; // z / w",
+    "x = (a) / 2; y = arr[0] / 2; t.status = 'coding'; // note",
+    "const m = s.match(/[/*]/); t.status = 'coding';",
+  ];
+  for (const line of lines) {
+    const found = scanText(`const ok = 1;\n${line}\n`, "m.mjs", { rel: "view/x.mjs" });
+    assert.deepEqual(found.map((f) => [f.line, f.rule]), [[2, "status-assignment"]], line);
+  }
+  assert.equal(stripJsComments("return /a/ // c\nx"), "return /a/     \nx");
+  assert.equal(scanText("a = b / c; // t.status = 1\n", "m.mjs", { rel: "view/x.mjs" }).length, 0);
+});

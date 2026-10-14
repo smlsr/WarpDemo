@@ -18,8 +18,20 @@ const RULES = [
 
 const blank = (s) => s.replace(/[^\n]/g, " ");
 
-// A previous significant character that ends an expression: a following "/" divides, anything else starts a regex.
-const ENDS_EXPR = /[\w$)\]}"'`]/;
+// After these words an expression starts, so a "/" opens a regex literal.
+const REGEX_AFTER = /(?<![.\w$])(?:return|typeof|case|do|else|in|of|instanceof|new|delete|void|throw|yield|await)$/;
+
+// Whether a "/" at the end of `before` opens a regex literal (true) or divides (false). Only an
+// expression-ending token divides: a name, a number, a closing ")" or "]", a string or a template.
+// "}" ends a block far more often than an object literal, so a regex may follow it.
+function opensRegex(before) {
+  const t = before.replace(/\s+$/, "");
+  if (!t) return true;
+  const c = t[t.length - 1];
+  if (c === "}") return true;
+  if (!/[\w$)\]"'`]/.test(c)) return true;
+  return REGEX_AFTER.test(t);
+}
 
 // Blanks the comments of JavaScript source and keeps every other character and every newline, so line
 // numbers hold. Strings, template literals and regex literals are walked, so a "//" or "/*" inside one
@@ -27,13 +39,8 @@ const ENDS_EXPR = /[\w$)\]}"'`]/;
 export function stripJsComments(src) {
   let out = "";
   let i = 0;
-  let last = "";
   const stack = [];
   const n = src.length;
-  const keep = (c) => {
-    out += c;
-    if (!/\s/.test(c)) last = c;
-  };
   while (i < n) {
     const c = src[i];
     const d = src[i + 1];
@@ -52,7 +59,6 @@ export function stripJsComments(src) {
       while (j < n && src[j] !== c && src[j] !== "\n") j += src[j] === "\\" ? 2 : 1;
       const end = Math.min(src[j] === c ? j + 1 : j, n);
       out += src.slice(i, end);
-      last = c;
       i = end;
     } else if (c === "`" || (c === "}" && stack.length && stack[stack.length - 1] === "tpl")) {
       if (c === "}") stack.pop();
@@ -68,12 +74,9 @@ export function stripJsComments(src) {
       }
       const end = Math.min(open ? j + 2 : j + 1, n);
       out += src.slice(i, end);
-      if (open) {
-        stack.push("tpl");
-        last = "{";
-      } else last = "`";
+      if (open) stack.push("tpl");
       i = end;
-    } else if (c === "/" && !ENDS_EXPR.test(last)) {
+    } else if (c === "/" && opensRegex(out)) {
       let j = i + 1;
       let cls = false;
       while (j < n && src[j] !== "\n") {
@@ -85,12 +88,11 @@ export function stripJsComments(src) {
       }
       const end = Math.min(src[j] === "/" ? j + 1 : j, n);
       out += src.slice(i, end);
-      last = "/";
       i = end;
     } else {
       if (c === "{") stack.push("blk");
       else if (c === "}") stack.pop();
-      keep(c);
+      out += c;
       i++;
     }
   }

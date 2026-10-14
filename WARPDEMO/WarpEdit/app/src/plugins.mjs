@@ -55,6 +55,10 @@ export function createEditStorePlugin(list = plugins) {
           for (const p of list) if (p && p !== plugin && typeof p.recompute === "function") p.recompute();
           return;
         }
+        const lost = edit ? edit.dirty : 0;
+        if (lost > 0 && typeof app.toast === "function") {
+          app.toast(`${lost} unsaved change${lost === 1 ? " was" : "s were"} dropped: another file was opened before Save`, true);
+        }
         const data = editable(state.docs);
         edit = data ? editStoreFor(data) : null;
         attachAll(edit);

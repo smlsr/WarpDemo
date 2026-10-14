@@ -1910,10 +1910,26 @@ def run_merges(data: dict, beam_path, lines: list, merger=None, checker=None) ->
                        "--root %s --beam %s --id %s --branch %s" % (tid, scripts, root, Path(beam_path).resolve(), tid, ticket.get("branch") or ""))
             continue
         number = str(url).rstrip("/").split("/")[-1]
+        method = provider_mod.merge_method(cfg)
+        if merger is None:
+            # One merge commit that also carries the run state, pushed by Warp (mergeMethod merge, stateInMerge).
+            outcome, detail = provider_mod.merge_with_state(root, Path(beam_path), data, ticket, number, cfg)
+            if outcome == "merged":
+                ticket.setdefault("pr", {}).update(mergeMethod=method, stateInMerge=detail)
+                finish_merge(data, ticket, out, sha=detail,
+                             how="merged on the provider (a merge commit with the run state, %s, confirmed MERGED)" % detail[:12])
+                continue
+            if outcome == "pushed":
+                ticket.setdefault("pr", {}).update(mergeAttempt="pushed", mergeMethod=method, stateInMerge=detail)
+                out.append("merge: %s pushed %s to the base branch with the run state. Marked merged when the provider "
+                           "shows the pull request merged." % (tid, detail[:12]))
+                continue
+            out.append("merge: %s through the provider (%s)" % (tid, detail))
         outcome, detail = (merger or provider_mod.merge_connected)(root, number, cfg)
         if outcome == "merged":
+            ticket.setdefault("pr", {})["mergeMethod"] = method
             finish_merge(data, ticket, out, sha=detail if re.fullmatch(r"[0-9a-f]{7,40}", detail or "") else "",
-                         how="merged on the provider (gh pr merge --squash, confirmed MERGED)")
+                         how="merged on the provider (gh pr merge --%s, confirmed MERGED)" % method)
             continue
         ticket.setdefault("pr", {})["mergeAttempt"] = outcome
         if outcome == "enqueue":
@@ -1922,11 +1938,52 @@ def run_merges(data: dict, beam_path, lines: list, merger=None, checker=None) ->
         ticket["pr"]["mergeError"] = detail
         out.append("merge: not merged %s: %s" % (tid, (detail or "rejected").splitlines()[0]))
         out.append(
-            "merge: MUST DO %s: merge %s (squash) with the GitHub MCP merge tool (merge_pull_request) or `gh pr merge %s --squash`, "
+            "merge: MUST DO %s: merge %s (%s) with the GitHub MCP merge tool (merge_pull_request, merge_method %s) or `gh pr merge %s --%s`, "
             "then let the next pass confirm it. Warp marks it merged only when the provider shows the pull request merged. "
-            "Do not mark it merged by hand. If the tool is not allowed, add it with /warp-allow-notify --with-git." % (tid, url, number)
+            "Do not mark it merged by hand. If the tool is not allowed, add it with /warp-allow-notify --with-git." % (tid, url, method, method, number, method)
         )
         out.append("herald: %s is ready to merge, but Warp could not merge it here: %s" % (tid, (detail or "rejected").splitlines()[0]))
+    return out
+
+
+_MERGED_LINE = re.compile(r"^merge: (\S+) merged$")
+
+
+def after_merges(data: dict, beam_path, lines: list, deleter=None) -> list:
+    """For each ticket this pass recorded merged: delete its branch when `deleteBranchOnMerge` is on.
+
+    Off by default. Runs after the merge is confirmed on the provider (or made locally), never before.
+    """
+    import provider as provider_mod
+
+    root = Path(beam_path).resolve().parent.parent
+    cfg = dict(data.get("config") or {})
+    try:
+        import prompt_gate
+
+        cfg.update(prompt_gate.effective_config(data, root))
+    except Exception:
+        pass
+    if not provider_mod.delete_on_merge(cfg):
+        return []
+    base = str(cfg.get("baseBranch") or "main")
+    out = []
+    tickets = data.get("tickets") if isinstance(data.get("tickets"), dict) else {}
+    for line in lines:
+        match = _MERGED_LINE.match(line)
+        ticket = tickets.get(match.group(1)) if match else None
+        if not isinstance(ticket, dict) or ticket.get("status") != "merged":
+            continue
+        pr = ticket.setdefault("pr", {})
+        branch = str(ticket.get("branch") or pr.get("branch") or "")
+        if not branch or pr.get("branchDeleted"):
+            continue
+        gone, why = (deleter or provider_mod.delete_merged_branch)(root, branch, base)
+        if gone:
+            pr["branchDeleted"] = True
+            out.append("merge: branch deleted %s %s%s" % (ticket.get("id"), branch, (" (%s)" % why) if why else ""))
+        else:
+            out.append("merge: branch not deleted %s %s: %s" % (ticket.get("id"), branch, why))
     return out
 
 

@@ -8,7 +8,7 @@ local-only instead of failing. Warp never installs gh, creates keys, or
 connects an app. It only reports what is missing.
 
   resolve      print the mode, provider, and the order of tools to try
-  merge-local  squash-merge a ticket branch into the base branch, locally
+  merge-local  merge a ticket branch into the base branch, locally (mergeMethod: a merge commit by default, or a squash)
   note         record that a ticket ran local-only (outbox + Herald message)
   init         (used by /warp-init) detect the provider and write it to config
 
@@ -30,6 +30,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -243,7 +244,7 @@ def note(root: Path, beam_path: Optional[Path], tid: Optional[str], reason: str,
 
 
 def drop_ticket_beam(root: Path) -> None:
-    """Unstage `.warp/beam.json` from a squash that is about to be committed.
+    """Unstage `.warp/beam.json` from a local merge that is about to be committed.
 
     If the base already has a beam, that copy is restored into the index.
     Ticket directories under `.warp/tickets/` are left staged.
@@ -320,8 +321,58 @@ def _stage_live(root: Path, payload: dict) -> None:
         _run(["git", "add", "--", rel], root)
 
 
-def merge_local(root: Path, branch: str, base: str, message: str) -> tuple[bool, str]:
-    """Squash-merge `branch` into `base`. Leaves the repo as it found it on failure.
+MERGE_METHODS = ("merge", "squash", "rebase")
+DEFAULT_MERGE_METHOD = "merge"
+
+
+def merge_method(cfg: Optional[dict]) -> str:
+    """`mergeMethod` from the config: merge (default, a merge commit that joins the branch), squash, or rebase.
+
+    Anything else is merge. Before 1.6.20 every pull request was squash-merged.
+    """
+    value = str((cfg or {}).get("mergeMethod") or "").strip().lower()
+    return value if value in MERGE_METHODS else DEFAULT_MERGE_METHOD
+
+
+def _truthy(value) -> bool:
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def delete_on_merge(cfg: Optional[dict]) -> bool:
+    """`deleteBranchOnMerge` from the config. Off by default: a merged ticket keeps its branch."""
+    return _truthy((cfg or {}).get("deleteBranchOnMerge", False))
+
+
+def delete_merged_branch(root: Path, branch: str, base: str = "", runner=None) -> tuple[bool, str]:
+    """Delete a merged ticket's branch on origin, and its local branch when no worktree holds it.
+
+    Never the base branch. A branch that is already gone on origin counts as deleted.
+    """
+    run = runner or (lambda cmd: _run(cmd, root))
+    branch = str(branch or "").strip()
+    if not branch or branch in {base, "main", "master", "HEAD"}:
+        return False, "no ticket branch to delete"
+    notes = []
+    remote_ok = True
+    if fmt.git(Path(root), "remote"):
+        gone = run(["git", "push", "origin", "--delete", branch])
+        text = ((gone.stderr or "") + (gone.stdout or "")).strip()
+        if gone.returncode != 0 and "remote ref does not exist" not in text:
+            remote_ok = False
+            notes.append("origin: " + (text.splitlines()[-1] if text else "push --delete failed"))
+    local = run(["git", "branch", "-D", branch])
+    if local.returncode != 0:
+        text = ((local.stderr or "") + (local.stdout or "")).strip()
+        if "not found" not in text:
+            # Usually a worktree still has it checked out; the worktree cleanup removes both.
+            notes.append("local: " + (text.splitlines()[-1] if text else "branch -D failed"))
+    return remote_ok, "; ".join(notes)
+
+
+def merge_local(root: Path, branch: str, base: str, message: str, method: str = DEFAULT_MERGE_METHOD) -> tuple[bool, str]:
+    """Merge `branch` into `base` here: a merge commit (default) or a squash. Leaves the repo as it found it on failure.
+
+    `rebase` gets a merge commit locally: rebasing the ticket branch would rewrite a branch a Shuttle may still use.
 
     The ticket branch's beam is dropped. The parent's live beam, journal, and
     board are what land on the base. Secrets are stripped. config.yaml is not
@@ -342,7 +393,10 @@ def merge_local(root: Path, branch: str, base: str, message: str) -> tuple[bool,
     if _run(["git", "checkout", "-q", base], root).returncode != 0:
         return False, f"could not check out {base}"
     try:
-        r = _run(["git", "merge", "--squash", branch], root)
+        if method == "squash":
+            r = _run(["git", "merge", "--squash", branch], root)
+        else:
+            r = _run(["git", "merge", "--no-ff", "--no-commit", branch], root)
         if r.returncode != 0:
             _run(["git", "reset", "--merge"], root)
             return False, "merge conflict; nothing was merged. Resolve on the ticket branch and retry"
@@ -352,6 +406,8 @@ def merge_local(root: Path, branch: str, base: str, message: str) -> tuple[bool,
         drop_ticket_beam(root)
         _stage_live(root, live)
         if not fmt.git(root, "diff", "--cached", "--name-only"):
+            if method != "squash":
+                _run(["git", "merge", "--abort"], root)
             return True, f"{branch} has no changes beyond {base}; nothing to merge"
         c = _run(["git", "commit", "-q", "-m", message], root)
         if c.returncode != 0:
@@ -807,22 +863,148 @@ def fetch_rollup(root: Path, pr: str, provider: Optional[str]) -> str:
     return str(state.get("rollup") or "pending")
 
 
+_STATE_IGNORE = ("worktrees", "previous-*", "*.lock", ".*.lock", "outbox.md", "notify-*.json", "dashboard.html")
+
+
+def _merged_state_payload(root: Path, beam_path: Path, data: dict, tid: str, method: str, now_s: str) -> dict:
+    """The run state as it will be once this ticket is merged: a copy of the live `.warp/` with the ticket
+    marked merged and the board and status rewritten from it. The live files are not touched."""
+    import tempfile
+
+    import beam as beam_mod
+    import runs as runs_mod
+    import state_commit
+
+    warp = Path(beam_path).parent
+    tmp = Path(tempfile.mkdtemp(prefix="warp-merge-state-"))
+    try:
+        copy = tmp / ".warp"
+        shutil.copytree(warp, copy, ignore=shutil.ignore_patterns(*_STATE_IGNORE))
+        doc = json.loads((copy / "beam.json").read_text())
+        ticket = (doc.get("tickets") or {}).get(tid)
+        if isinstance(ticket, dict):
+            ticket["status"] = "merged"
+            ticket["phase"] = "merged"
+            pr = ticket.setdefault("pr", {})
+            pr["mergedAt"] = pr.get("mergedAt") or now_s
+            pr["mergeMethod"] = method
+            pr["stateInMerge"] = True
+        beam_mod.atomic_write(copy / "beam.json", json.dumps(doc, indent=2) + "\n")
+        try:
+            beam_mod.write_board_files(copy / "beam.json", doc)
+            import io
+            from contextlib import redirect_stdout
+
+            import scan
+
+            with redirect_stdout(io.StringIO()):
+                scan.write_status(copy / "beam.json")
+        except Exception:
+            pass  # the beam is what matters; a board that did not render keeps its last copy
+        return state_commit.state_payload(copy, runs_mod.current(root, data), now=now_s)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
+
+
+def merge_with_state(root: Path, beam_path: Path, data: dict, ticket: dict, number: str, cfg: Optional[dict] = None,
+                     confirm=None, wait=None) -> tuple[str, str]:
+    """Merge the pull request with one merge commit that also carries the run state, and push it to the base.
+
+    The commit's parents are the base branch and the pull request's reviewed head, so GitHub marks the pull
+    request merged as soon as main has it. Its tree is the merge plus `.warp/runs/<run>/` (`.warp/` for an
+    unnamed run) as it is with this ticket merged: no separate `Warp state` commit follows. Returns
+    ("merged", sha) once the provider shows the pull request MERGED, ("pushed", sha) when main has it and the
+    provider has not caught up yet, or ("fallback", why) when Warp should merge through `gh pr merge` as before:
+    mergeMethod is not merge, stateInMerge or publishing is off, a merge queue, the branch moved past the reviewed
+    head, a conflict outside the run state, or a push the base branch refused (branch protection).
+    """
+    import time
+
+    import beam as beam_mod
+    import runs as runs_mod
+    import state_commit
+
+    cfg = cfg or {}
+    if os.environ.get("WARP_PUBLISH", "").strip().lower() in {"0", "false", "no", "off"}:
+        return "fallback", "publishing is off here (WARP_PUBLISH=0)"
+    if merge_method(cfg) != "merge":
+        return "fallback", "mergeMethod is %s" % merge_method(cfg)
+    if not _truthy(cfg.get("stateInMerge", True)) or not _truthy(cfg.get("publishOnChange", True)):
+        return "fallback", "stateInMerge or publishOnChange is off"
+    if resolve(root, cfg).get("provider") != "github":
+        return "fallback", "not a GitHub repository"
+    if merge_queue_on(cfg, detect_merge_queue(root, cfg)):
+        return "fallback", "a merge queue merges it"
+    tid = str(ticket.get("id") or "")
+    pr = ticket.get("pr") if isinstance(ticket.get("pr"), dict) else {}
+    branch = str(ticket.get("branch") or pr.get("branch") or "")
+    reviewed = str(pr.get("headSha") or "")
+    base = runs_mod.base_name(root, cfg)
+    if not branch or not reviewed:
+        return "fallback", "no branch or reviewed head recorded"
+    fetched = _run(["git", "fetch", "-q", "origin", base, branch], root, timeout=60)
+    if fetched.returncode != 0:
+        return "fallback", "fetch failed: " + ((fetched.stderr or fetched.stdout).strip().splitlines() or ["?"])[-1]
+    head = fmt.git(root, "rev-parse", "origin/%s" % branch)
+    if head != reviewed:
+        return "fallback", "the branch is at %s, not the reviewed head %s" % (head[:12], reviewed[:12])
+    onto = fmt.git(root, "rev-parse", "origin/%s" % base)
+    merged = _run(["git", "merge-tree", "--write-tree", "--name-only", "--no-messages", onto, head], root, timeout=60)
+    lines = [line.strip() for line in (merged.stdout or "").splitlines() if line.strip()]
+    if merged.returncode not in (0, 1) or not lines:
+        return "fallback", "git merge-tree failed: " + ((merged.stderr or "").strip().splitlines() or ["?"])[-1]
+    tree, conflicts = lines[0], lines[1:]
+    now_s = beam_mod.utcnow()
+    payload = _merged_state_payload(root, Path(beam_path), data, tid, "merge", now_s)
+    outside = [path for path in conflicts if path not in payload]
+    if outside:
+        return "fallback", "conflicts outside the run state: " + ", ".join(outside[:5])
+    owner, _repo, _num = _repo_and_number(pr.get("url") or "")
+    title = "[%s] %s" % (tid, ticket.get("summary") or "")
+    run = runs_mod.current(root, data)
+    message = "Merge pull request #%s from %s%s\n\n%s\n\nWarp state: %s, with %s merged." % (
+        number, (owner + "/") if owner else "", branch, title.strip(), ("%s run" % run) if run else "the run", tid)
+    code, sha = state_commit._build_commit(root, onto, payload, message, tree=tree, parents=(onto, head))
+    if code != 0 or not sha:
+        return "fallback", "could not write the merge commit"
+    pushed = _run(["git", "push", "origin", "%s:refs/heads/%s" % (sha, base)], root, timeout=120)
+    if pushed.returncode != 0:
+        text = (pushed.stderr or pushed.stdout or "").strip()
+        return "fallback", "the push to %s was refused: %s" % (base, (text.splitlines() or ["?"])[-1])
+    look = confirm or (lambda: _pr_state(root, number))
+    nap = wait or time.sleep
+    for attempt in range(6):
+        if look() == "MERGED":
+            return "merged", sha
+        nap(2)
+    return "pushed", sha
+
+
+def _pr_state(root: Path, number: str) -> str:
+    viewed = _run(["gh", "pr", "view", str(number), "--json", "state"], root)
+    try:
+        return str(json.loads(viewed.stdout or "{}").get("state") or "").upper()
+    except json.JSONDecodeError:
+        return ""
+
+
 def merge_connected(root: Path, number: str, cfg: Optional[dict] = None) -> tuple[str, str]:
     """Enqueue, or merge, or reject. Rejected is never a merged pull request."""
     cfg = cfg or fmt.read_config(root)
     resolved = resolve(root, cfg)
     provider = resolved.get("provider")
     detected = detect_merge_queue(root, cfg) if provider == "github" else None
+    flag = "--" + merge_method(cfg)
     if merge_queue_on(cfg, detected):
         if provider == "github" and shutil.which("gh"):
-            queued = _run(["gh", "pr", "merge", str(number), "--auto", "--squash"], root)
+            queued = _run(["gh", "pr", "merge", str(number), "--auto", flag], root)
             detail = (queued.stdout or queued.stderr or "enqueued").strip()
         else:
             detail = "merge queue is on; the pull request was not merged from this agent"
         return "enqueue", detail
     if provider != "github" or not shutil.which("gh"):
         return "rejected", "no merge command for this provider; not marked merged"
-    merged = _run(["gh", "pr", "merge", str(number), "--squash"], root)
+    merged = _run(["gh", "pr", "merge", str(number), flag], root)
     text = ((merged.stderr or "") + "\n" + (merged.stdout or "")).strip()
     if merged.returncode != 0 or protection_rejects(text):
         return "rejected", text or "merge rejected"
@@ -1082,7 +1264,7 @@ examples:
 
 resolve reads gitProvider (auto, github, bitbucket). auto uses the origin
 host. No origin, another host, or pushMerge false is local-only.
-merge-local squash-merges --branch into --base (default baseBranch) and
+merge-local merges --branch into --base (default baseBranch; mergeMethod, a merge commit by default) and
 requires --id and --branch. note requires --reason and writes the outbox line.
 merge-pr enqueues when mergeQueue is true or GitHub reports a merge queue.
 A direct merge that branch protection rejects is not marked merged.
@@ -1164,7 +1346,21 @@ def main() -> None:
                 print(f"{args.id}: refusing merge: {block}")
                 print("Leave the ticket where it is (awaiting_approval or review) and tell the user. Nothing was changed.")
                 sys.exit(1)
-            ok, detail = merge_local(root, args.branch, base, msg)
+            local_cfg = {}
+            try:
+                import prompt_gate
+
+                local_cfg = dict(json.loads(beam_path.read_text()).get("config") or {})
+                local_cfg.update(prompt_gate.effective_config(json.loads(beam_path.read_text()), root))
+            except Exception:
+                pass
+            method = merge_method(local_cfg)
+            if method == "rebase":
+                print("merge-local: mergeMethod rebase is merged with a merge commit locally")
+            ok, detail = merge_local(root, args.branch, base, msg, method=method)
+            if ok and delete_on_merge(local_cfg):
+                gone, why = delete_merged_branch(root, args.branch, base)
+                print(f"branch deleted {args.branch}" + (f" ({why})" if why else "") if gone else f"branch not deleted {args.branch}: {why}")
             if ok:
                 print(f"merged {args.branch} into {base} locally ({detail}). Not pushed.")
                 note(root, beam_path, args.id, f"merged {args.branch} into {base} locally ({detail})", what="a local merge")

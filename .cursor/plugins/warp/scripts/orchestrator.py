@@ -1856,6 +1856,8 @@ def _supervise_pass(beam_path: Path, returned: Optional[str] = None, now=None, p
         lines.extend(pipeline.run_merges(data, path, lines))
         # Open the pull request for a Shuttle that pushed but could not (a 403 on its VM).
         lines.extend(pipeline.run_pr_opens(data, path, lines))
+    # A merged ticket's branch is deleted when deleteBranchOnMerge is on (off by default).
+    lines.extend(pipeline.after_merges(data, path, lines))
     # parent-exit --wait returns as soon as a ticket folder is newer than this.
     prior = data.get("pass") if isinstance(data.get("pass"), dict) else {}
     data["pass"] = {"startedAt": started, "count": int(prior.get("count") or 0) + 1}
@@ -1863,7 +1865,107 @@ def _supervise_pass(beam_path: Path, returned: Optional[str] = None, now=None, p
     import blocks
 
     lines.extend(blocks.check(path))
+    # Every transition this pass made is in the live beam; bring the board and status files up to it,
+    # so whatever publishes next (a merge, warp:sync, a checkpoint) carries all of it.
+    lines.extend(refresh_state_files(path))
+    if live:
+        # Publish the run state now when a ticket merged, so main shows it
+        # (before 1.6.20 that was left to the parent's `beam: push`, which it skipped).
+        lines.extend(publish_on_change(path, lines))
     return lines
+
+
+def _state_cfg(path: Path) -> dict:
+    """The beam's config with .warp/config.yaml over it."""
+    data = _load(path)
+    cfg = dict(data.get("config") or {})
+    try:
+        import prompt_gate
+
+        cfg.update(prompt_gate.effective_config(data, runs.repo_root(path)))
+    except Exception:
+        pass
+    return cfg
+
+
+def _cfg_flag(cfg: dict, key: str, default: bool) -> bool:
+    value = cfg.get(key, default)
+    if isinstance(value, bool):
+        return value
+    return str(value).strip().lower() in {"1", "true", "yes", "on"}
+
+
+def push_state_new(path: Path) -> bool:
+    """`pushStateNew` (default false): publish the run state when a ticket's branch is created."""
+    try:
+        return _cfg_flag(_state_cfg(Path(path)), "pushStateNew", False)
+    except Exception:
+        return False
+
+
+def refresh_state_files(path: Path) -> list:
+    """Rewrite BOARD.md, board.html, STATUS.md and status.json from the live beam. Quiet unless it fails."""
+    import io
+    from contextlib import redirect_stdout
+
+    try:
+        import beam as beam_mod
+
+        data = _load(Path(path))
+        beam_mod.write_board_files(Path(path), data)
+        import scan
+
+        with redirect_stdout(io.StringIO()):  # it prints the files it wrote and the version block
+            scan.write_status(Path(path))
+        return []
+    except Exception as exc:
+        return ["state: board and status not refreshed (%s)" % exc]
+
+
+def publish_on_change(path: Path, lines: list, why: str = "", requested: bool = False) -> list:
+    """Commit and push the run state when this pass merged a ticket, or for `why`. Never raises.
+
+    supervise calls it after a merge, and `checkout.py launch` when it creates a ticket's branch, so main shows
+    a ticket in progress as soon as it starts and merged as soon as it merges. `publishOnChange: false` turns it
+    off. The output is returned as lines, after `state: published (<why>)`.
+    """
+    import io
+    from contextlib import redirect_stdout
+
+    if not why:
+        merged = [m.group(1) for m in (re.match(r"^merge: (\S+) merged$", line) for line in lines) if m]
+        try:
+            tickets = _load(path).get("tickets") or {}
+        except Exception:
+            tickets = {}
+        # A merge commit that already carried the run state needs no separate `Warp state` commit.
+        carried = [tid for tid in merged if ((tickets.get(tid) or {}).get("pr") or {}).get("stateInMerge")]
+        merged = [tid for tid in merged if tid not in carried]
+        why = ("merged " + ", ".join(merged)) if merged else ""
+        if carried and not merged:
+            return ["state: in the merge commit (%s)" % ", ".join(carried)]
+    if not why:
+        return []
+    import os
+
+    if os.environ.get("WARP_PUBLISH", "").strip().lower() in {"0", "false", "no", "off"}:
+        return []  # tests whose origin is a real repository
+    try:
+        cfg = _state_cfg(path)
+        if not requested and not _cfg_flag(cfg, "publishOnChange", True):
+            return []  # warp:sync asks for it by name, so it publishes anyway
+        failed = refresh_state_files(path)  # the board and status as of now, not as of the last refresh
+        import state_commit
+
+        buf = io.StringIO()
+        with redirect_stdout(buf):
+            code = state_commit.publish_base(runs.repo_root(path), str(Path(path).resolve()), force=True)
+        out = ["state: %s (%s)" % ("published" if code == 0 else "not published", why)] + failed
+        out.extend("state: %s" % text[len("state: "):] if text.startswith("state: ") else "state: " + text
+                   for text in buf.getvalue().splitlines() if text.strip())
+        return out
+    except Exception as exc:
+        return ["state: not published (%s): %s" % (why, exc)]
 
 
 def supervise_listener(beam_path: Path, returned: Optional[str] = None, now=None) -> list:
@@ -2206,6 +2308,50 @@ def parent_exit(
         lines.append("run: next is pass %d" % _pass_number(path))
     lines.append("parent: stay")
     return lines
+
+
+def sync_state(path: Path, by: str = "") -> list:
+    """`warp:sync`: refresh the board and status files from the live beam, publish the run state to the base
+    branch, and say where it landed. Never raises.
+
+    The publish is the same one a merge uses: state_commit.publish_base, one `Warp state: <run> run` commit
+    of `.warp/runs/<run>/` (or `.warp/` for an unnamed run) built on origin's base branch and pushed to it.
+
+    The run state on the base branch is published on start, stop, checkpoints, merges and new branches. Between
+    those it can go stale (the edit run's copy still showed WE-01 in review after it merged); this pushes it now.
+    """
+    import beam as beam_mod
+
+    path = Path(path)
+    root = runs.repo_root(path)
+    data: dict = {}
+    try:
+        data = _load(path)
+    except Exception:
+        data = {}
+    out = refresh_state_files(path) or ["state: board and status refreshed"]
+    published = publish_on_change(path, [], why="warp:sync" + (" from %s" % by if by else ""), requested=True)
+    out.extend(published or ["state: not published (WARP_PUBLISH=0)"])
+    ok = any(line.startswith("state: published") for line in out)
+    run = runs.current(root, data)
+    try:
+        base = runs.base_name(root, (data or {}).get("config") or {})
+    except Exception:
+        base = "main"
+    where = (".warp/runs/%s/" % run) if run else ".warp/"
+    if ok:
+        shown = subprocess.run(["git", "-C", str(root), "rev-parse", "--short", "origin/%s" % base], capture_output=True, text=True)
+        sha = shown.stdout.strip() if shown.returncode == 0 else ""
+        counts = {}
+        for ticket in (data.get("tickets") or {}).values():
+            if isinstance(ticket, dict):
+                counts[str(ticket.get("status") or "?")] = counts.get(str(ticket.get("status") or "?"), 0) + 1
+        summary = ", ".join("%d %s" % (counts[k], k) for k in sorted(counts, key=lambda k: (-counts[k], k)))
+        out.append("herald: Run state pushed to %s%s (%s): %s." % (base, (" at " + sha) if sha else "", where, summary or "no tickets"))
+    else:
+        why = next((line for line in out if line.startswith("state: not published")), "state: not published")
+        out.append("herald: warp:sync could not push the run state: %s." % why[len("state: "):])
+    return out
 
 
 def _close_listener_on_exit(data: dict, path: Path) -> str:

@@ -1,0 +1,16 @@
+/* phase scrubber (SPEC §11) */
+.ed-scrub { display: flex; gap: 12px; align-items: center; padding: 8px 14px; border-bottom: 1px solid var(--line); background: var(--panel2); font-size: 12px; }
+.ed-scrub input { flex: 1; min-width: 80px; accent-color: var(--brand); }
+.ed-scrub .ed-scrub-at { white-space: nowrap; font-variant-numeric: tabular-nums; color: var(--ink2); }
+.ed-scrubline { position: absolute; top: 0; bottom: 0; border-left: 2px solid var(--c-qa); z-index: 4; pointer-events: none; }
+.ed-mark { position: absolute; width: 10px; height: 10px; border-radius: 50%; background: var(--c-qa); border: 2px solid var(--panel); transform: translateX(-50%); z-index: 7; cursor: help; }
+.ed-mark[hidden], .ed-scrubline[hidden] { display: none; }
+
+@media (max-width: 640px) {
+  .ed-scrub { flex-wrap: wrap; gap: 8px; }
+  .ed-scrub input { flex-basis: 100%; order: 3; }
+}
+
+@media print {
+  .ed-scrub { display: none; }
+}

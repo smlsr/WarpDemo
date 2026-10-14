@@ -79,8 +79,11 @@ const cssRule = (text, selector) => {
   return m[1].split(";").map((d) => d.trim().replace(/\s*:\s*/g, ":").replace(/\s*,\s*/g, ",")).filter(Boolean).sort();
 };
 
-test("the plugin list carries history first, then save-ui", () => {
-  assert.deepEqual(plugins.map((p) => p.id), ["history", "save-ui"]);
+test("the plugin list carries history before save-ui, whatever other plugins are appended", () => {
+  const ids = plugins.map((p) => p.id);
+  assert.ok(ids.includes("history") && ids.includes("save-ui"));
+  assert.ok(ids.indexOf("history") < ids.indexOf("save-ui"));
+  assert.equal(new Set(ids).size, ids.length);
 });
 
 test("AC-1: one valid reset, Save downloads beam.json, unsaved goes to 0 and the toast names the file", () => {

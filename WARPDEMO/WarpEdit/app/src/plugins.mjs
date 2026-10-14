@@ -4,3 +4,5 @@ import { historyPlugin } from "./edit/history/history.mjs";
 plugins.push(historyPlugin);
 import { saveUiPlugin } from "./edit/save-ui/save-ui.mjs";
 plugins.push(saveUiPlugin);
+import { panelPlugin } from "./edit/drawer-panel/panel.mjs";
+plugins.push(panelPlugin);

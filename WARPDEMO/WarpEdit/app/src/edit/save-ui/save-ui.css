@@ -1,0 +1,13 @@
+.ed-banner { margin: 12px 0 0; padding: 10px 14px; border-radius: 10px; border: 1px solid color-mix(in srgb, var(--c-err) 45%, var(--line)); background: color-mix(in srgb, var(--c-err) 10%, var(--panel)); font-size: 13px; }
+.ed-banner b { color: var(--c-err); }
+.ed-banner .w { color: var(--c-qa); }
+.ed-banner button { border: 0; background: none; color: var(--brand); font-weight: 700; cursor: pointer; padding: 0; }
+@media print {
+  .ed-banner, .ed-save-modal { display: none !important; }
+}
+.ed-save-modal { position: fixed; inset: 0; z-index: 80; display: flex; align-items: center; justify-content: center; background: var(--scrim); }
+.ed-save-dlg { width: min(720px, 92vw); max-height: 92vh; overflow: auto; background: var(--panel); color: var(--ink); border: 1px solid var(--line2); border-radius: 14px; box-shadow: var(--shadow-pop); padding: 20px; }
+.ed-save-dlg h3 { margin: 0 0 6px; font-size: 18px; }
+.ed-save-hint { margin: 0 0 8px; font-size: 13px; color: var(--muted); }
+.ed-save-text { display: block; width: 100%; box-sizing: border-box; border-radius: 8px; border: 1px solid var(--line2); background: var(--panel2); color: var(--ink); padding: 8px; font: 12px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; resize: vertical; white-space: pre; overflow: auto; }
+.ed-save-foot { display: flex; justify-content: flex-end; gap: 8px; margin-top: 12px; }

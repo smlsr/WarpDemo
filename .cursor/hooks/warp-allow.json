@@ -1,0 +1,797 @@
+{
+  "addedBy": "warp-allow-notify",
+  "pairs": [
+    {
+      "server": "slack",
+      "tool": "slack_post_message"
+    },
+    {
+      "server": "slack",
+      "tool": "slack_send_message"
+    },
+    {
+      "server": "slack",
+      "tool": "slack_read_channel"
+    },
+    {
+      "server": "slack",
+      "tool": "slack_read_thread"
+    },
+    {
+      "server": "slack",
+      "tool": "slack_search_channels"
+    },
+    {
+      "server": "user-slack",
+      "tool": "slack_post_message"
+    },
+    {
+      "server": "user-slack",
+      "tool": "slack_send_message"
+    },
+    {
+      "server": "user-slack",
+      "tool": "slack_read_channel"
+    },
+    {
+      "server": "user-slack",
+      "tool": "slack_read_thread"
+    },
+    {
+      "server": "user-slack",
+      "tool": "slack_search_channels"
+    },
+    {
+      "server": "project-slack",
+      "tool": "slack_post_message"
+    },
+    {
+      "server": "project-slack",
+      "tool": "slack_send_message"
+    },
+    {
+      "server": "project-slack",
+      "tool": "slack_read_channel"
+    },
+    {
+      "server": "project-slack",
+      "tool": "slack_read_thread"
+    },
+    {
+      "server": "project-slack",
+      "tool": "slack_search_channels"
+    },
+    {
+      "server": "plugin-slack-slack",
+      "tool": "slack_post_message"
+    },
+    {
+      "server": "plugin-slack-slack",
+      "tool": "slack_send_message"
+    },
+    {
+      "server": "plugin-slack-slack",
+      "tool": "slack_read_channel"
+    },
+    {
+      "server": "plugin-slack-slack",
+      "tool": "slack_read_thread"
+    },
+    {
+      "server": "plugin-slack-slack",
+      "tool": "slack_search_channels"
+    },
+    {
+      "server": "*slack*",
+      "tool": "slack_post_message"
+    },
+    {
+      "server": "*slack*",
+      "tool": "slack_send_message"
+    },
+    {
+      "server": "*slack*",
+      "tool": "slack_read_channel"
+    },
+    {
+      "server": "*slack*",
+      "tool": "slack_read_thread"
+    },
+    {
+      "server": "*slack*",
+      "tool": "slack_search_channels"
+    },
+    {
+      "server": "teams",
+      "tool": "send_channel_message"
+    },
+    {
+      "server": "teams",
+      "tool": "teams_send_message"
+    },
+    {
+      "server": "teams",
+      "tool": "teams_read_channel"
+    },
+    {
+      "server": "teams",
+      "tool": "teams_read_thread"
+    },
+    {
+      "server": "teams",
+      "tool": "teams_search_channels"
+    },
+    {
+      "server": "user-teams",
+      "tool": "send_channel_message"
+    },
+    {
+      "server": "user-teams",
+      "tool": "teams_send_message"
+    },
+    {
+      "server": "user-teams",
+      "tool": "teams_read_channel"
+    },
+    {
+      "server": "user-teams",
+      "tool": "teams_read_thread"
+    },
+    {
+      "server": "user-teams",
+      "tool": "teams_search_channels"
+    },
+    {
+      "server": "project-teams",
+      "tool": "send_channel_message"
+    },
+    {
+      "server": "project-teams",
+      "tool": "teams_send_message"
+    },
+    {
+      "server": "project-teams",
+      "tool": "teams_read_channel"
+    },
+    {
+      "server": "project-teams",
+      "tool": "teams_read_thread"
+    },
+    {
+      "server": "project-teams",
+      "tool": "teams_search_channels"
+    },
+    {
+      "server": "plugin-teams-teams",
+      "tool": "send_channel_message"
+    },
+    {
+      "server": "plugin-teams-teams",
+      "tool": "teams_send_message"
+    },
+    {
+      "server": "plugin-teams-teams",
+      "tool": "teams_read_channel"
+    },
+    {
+      "server": "plugin-teams-teams",
+      "tool": "teams_read_thread"
+    },
+    {
+      "server": "plugin-teams-teams",
+      "tool": "teams_search_channels"
+    },
+    {
+      "server": "*teams*",
+      "tool": "send_channel_message"
+    },
+    {
+      "server": "*teams*",
+      "tool": "teams_send_message"
+    },
+    {
+      "server": "*teams*",
+      "tool": "teams_read_channel"
+    },
+    {
+      "server": "*teams*",
+      "tool": "teams_read_thread"
+    },
+    {
+      "server": "*teams*",
+      "tool": "teams_search_channels"
+    },
+    {
+      "server": "atlassian",
+      "tool": "getAccessibleAtlassianResources"
+    },
+    {
+      "server": "atlassian",
+      "tool": "getJiraIssue"
+    },
+    {
+      "server": "atlassian",
+      "tool": "getTransitionsForJiraIssue"
+    },
+    {
+      "server": "atlassian",
+      "tool": "listJiraIssueTransitions"
+    },
+    {
+      "server": "atlassian",
+      "tool": "transitionJiraIssue"
+    },
+    {
+      "server": "atlassian",
+      "tool": "addOrEditJiraIssueComment"
+    },
+    {
+      "server": "atlassian",
+      "tool": "addCommentToJiraIssue"
+    },
+    {
+      "server": "atlassian",
+      "tool": "searchJiraIssuesUsingJql"
+    },
+    {
+      "server": "atlassian",
+      "tool": "getJiraProjectIssueTypesMetadata"
+    },
+    {
+      "server": "atlassian",
+      "tool": "getJiraIssueRemoteIssueLinks"
+    },
+    {
+      "server": "atlassian",
+      "tool": "getVisibleJiraProjects"
+    },
+    {
+      "server": "atlassian",
+      "tool": "editJiraIssue"
+    },
+    {
+      "server": "atlassian",
+      "tool": "getJiraIssueEditmeta"
+    },
+    {
+      "server": "atlassian",
+      "tool": "getJiraScreen"
+    },
+    {
+      "server": "atlassian",
+      "tool": "updateJiraScreen"
+    },
+    {
+      "server": "atlassian",
+      "tool": "createJiraIssueRemoteIssueLink"
+    },
+    {
+      "server": "atlassian",
+      "tool": "createJiraField"
+    },
+    {
+      "server": "atlassian",
+      "tool": "createCustomField"
+    },
+    {
+      "server": "atlassian",
+      "tool": "createJiraCustomField"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "getAccessibleAtlassianResources"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "getJiraIssue"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "getTransitionsForJiraIssue"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "listJiraIssueTransitions"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "transitionJiraIssue"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "addOrEditJiraIssueComment"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "addCommentToJiraIssue"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "searchJiraIssuesUsingJql"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "getJiraProjectIssueTypesMetadata"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "getJiraIssueRemoteIssueLinks"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "getVisibleJiraProjects"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "editJiraIssue"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "getJiraIssueEditmeta"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "getJiraScreen"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "updateJiraScreen"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "createJiraIssueRemoteIssueLink"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "createJiraField"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "createCustomField"
+    },
+    {
+      "server": "user-atlassian",
+      "tool": "createJiraCustomField"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "getAccessibleAtlassianResources"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "getJiraIssue"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "getTransitionsForJiraIssue"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "listJiraIssueTransitions"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "transitionJiraIssue"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "addOrEditJiraIssueComment"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "addCommentToJiraIssue"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "searchJiraIssuesUsingJql"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "getJiraProjectIssueTypesMetadata"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "getJiraIssueRemoteIssueLinks"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "getVisibleJiraProjects"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "editJiraIssue"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "getJiraIssueEditmeta"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "getJiraScreen"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "updateJiraScreen"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "createJiraIssueRemoteIssueLink"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "createJiraField"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "createCustomField"
+    },
+    {
+      "server": "project-atlassian",
+      "tool": "createJiraCustomField"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "getAccessibleAtlassianResources"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "getJiraIssue"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "getTransitionsForJiraIssue"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "listJiraIssueTransitions"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "transitionJiraIssue"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "addOrEditJiraIssueComment"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "addCommentToJiraIssue"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "searchJiraIssuesUsingJql"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "getJiraProjectIssueTypesMetadata"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "getJiraIssueRemoteIssueLinks"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "getVisibleJiraProjects"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "editJiraIssue"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "getJiraIssueEditmeta"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "getJiraScreen"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "updateJiraScreen"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "createJiraIssueRemoteIssueLink"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "createJiraField"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "createCustomField"
+    },
+    {
+      "server": "plugin-atlassian-atlassian",
+      "tool": "createJiraCustomField"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "getAccessibleAtlassianResources"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "getJiraIssue"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "getTransitionsForJiraIssue"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "listJiraIssueTransitions"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "transitionJiraIssue"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "addOrEditJiraIssueComment"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "addCommentToJiraIssue"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "searchJiraIssuesUsingJql"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "getJiraProjectIssueTypesMetadata"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "getJiraIssueRemoteIssueLinks"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "getVisibleJiraProjects"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "editJiraIssue"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "getJiraIssueEditmeta"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "getJiraScreen"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "updateJiraScreen"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "createJiraIssueRemoteIssueLink"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "createJiraField"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "createCustomField"
+    },
+    {
+      "server": "*atlassian*",
+      "tool": "createJiraCustomField"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "getAccessibleAtlassianResources"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "getJiraIssue"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "getTransitionsForJiraIssue"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "listJiraIssueTransitions"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "transitionJiraIssue"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "addOrEditJiraIssueComment"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "addCommentToJiraIssue"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "searchJiraIssuesUsingJql"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "getJiraProjectIssueTypesMetadata"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "getJiraIssueRemoteIssueLinks"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "getVisibleJiraProjects"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "editJiraIssue"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "getJiraIssueEditmeta"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "getJiraScreen"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "updateJiraScreen"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "createJiraIssueRemoteIssueLink"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "createJiraField"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "createCustomField"
+    },
+    {
+      "server": "atlassian-rovo",
+      "tool": "createJiraCustomField"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "getAccessibleAtlassianResources"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "getJiraIssue"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "getTransitionsForJiraIssue"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "listJiraIssueTransitions"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "transitionJiraIssue"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "addOrEditJiraIssueComment"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "addCommentToJiraIssue"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "searchJiraIssuesUsingJql"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "getJiraProjectIssueTypesMetadata"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "getJiraIssueRemoteIssueLinks"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "getVisibleJiraProjects"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "editJiraIssue"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "getJiraIssueEditmeta"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "getJiraScreen"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "updateJiraScreen"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "createJiraIssueRemoteIssueLink"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "createJiraField"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "createCustomField"
+    },
+    {
+      "server": "claude_ai_Atlassian",
+      "tool": "createJiraCustomField"
+    },
+    {
+      "server": "github",
+      "tool": "add_issue_comment"
+    },
+    {
+      "server": "github",
+      "tool": "merge_pull_request"
+    },
+    {
+      "server": "github",
+      "tool": "create_pull_request"
+    },
+    {
+      "server": "user-github",
+      "tool": "add_issue_comment"
+    },
+    {
+      "server": "user-github",
+      "tool": "merge_pull_request"
+    },
+    {
+      "server": "user-github",
+      "tool": "create_pull_request"
+    },
+    {
+      "server": "project-github",
+      "tool": "add_issue_comment"
+    },
+    {
+      "server": "project-github",
+      "tool": "merge_pull_request"
+    },
+    {
+      "server": "project-github",
+      "tool": "create_pull_request"
+    },
+    {
+      "server": "plugin-github-github",
+      "tool": "add_issue_comment"
+    },
+    {
+      "server": "plugin-github-github",
+      "tool": "merge_pull_request"
+    },
+    {
+      "server": "plugin-github-github",
+      "tool": "create_pull_request"
+    },
+    {
+      "server": "*github*",
+      "tool": "add_issue_comment"
+    },
+    {
+      "server": "*github*",
+      "tool": "merge_pull_request"
+    },
+    {
+      "server": "*github*",
+      "tool": "create_pull_request"
+    }
+  ]
+}

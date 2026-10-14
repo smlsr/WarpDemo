@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "hooks": {
+    "beforeMCPExecution": [
+      {
+        "command": ".cursor/hooks/warp-mcp-allow.py"
+      }
+    ]
+  }
+}

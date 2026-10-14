@@ -507,7 +507,7 @@ export function createApp({ root = typeof document !== "undefined" ? document : 
     if (name === "print") return print();
     if (name === "clear") {
       closeDrawer();
-      store.set({ runs: [], docs: [], sources: [], tab: "all", loadedAt: null }, "clear");
+      store.set({ runs: [], docs: [], sources: [], embedded: null, tab: "all", loadedAt: null }, "clear");
     }
     return null;
   }

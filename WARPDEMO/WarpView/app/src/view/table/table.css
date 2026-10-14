@@ -1,0 +1,12 @@
+.tbl-wrap { overflow: auto; max-height: calc(100vh - 150px); }
+table.grid { width: 100%; border-collapse: collapse; font-size: 12.5px; font-variant-numeric: tabular-nums; }
+table.grid th, table.grid td { padding: 7px 10px; border-bottom: 1px solid var(--line); text-align: left; white-space: nowrap; }
+table.grid th { position: sticky; top: 0; background: var(--panel); z-index: 2; font-size: 12px; color: var(--muted); cursor: pointer; user-select: none; }
+table.grid th[aria-sort="ascending"]::after { content: " ▲"; }
+table.grid th[aria-sort="descending"]::after { content: " ▼"; }
+table.grid tr.trow { cursor: pointer; }
+table.grid tr.trow:hover td { background: var(--panel2); }
+table.grid tr.dim { display: none; }
+table.grid td.t { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
+.chipst { display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 12px; color: var(--c); }
+.chipst::before { content: ""; width: 9px; height: 9px; border-radius: 3px; background: var(--c); }

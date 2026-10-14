@@ -5,7 +5,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { spawnSync } from "node:child_process";
 import { fileURLToPath } from "node:url";
-import { PHASES, VIEW_SRC, audit, report, scanText, stripJsComments } from "./audit.mjs";
+import { PHASES, VIEW_SRC, audit, report, scanText } from "./audit.mjs";
 
 const THIRTEEN = ["queued", "claimed", "planning", "coding", "review", "fix", "awaiting_approval", "merging", "merged", "done", "blocked", "alarm", "skipped"];
 const AUDIT_CLI = fileURLToPath(new URL("./audit.mjs", import.meta.url));
@@ -102,13 +102,52 @@ test("AC-3: a status write after a URL string, a regex, a block comment or a tem
   }
 });
 
-test("AC-3: comments are still ignored, and line numbers and length hold", () => {
+test("AC-3: comments are still ignored, and each hit names its original line", () => {
   assert.equal(scanText("// ticket.status = 1\n/* ticket.status = 2\n ticket.status = 3 */\nconst a = 1;", "m.mjs", { rel: "view/x.mjs" }).length, 0);
-  const src = readFileSync(join(VIEW_SRC, "main.mjs"), "utf8");
-  const out = stripJsComments(src);
-  assert.equal(out.length, src.length);
-  assert.equal(out.split("\n").length, src.split("\n").length);
-  assert.equal(stripJsComments("a // b\nc"), "a     \nc");
+  const src = [
+    "/* a block",
+    "   comment */",
+    "",
+    "const a = 1, b = { c: 2,",
+    "  d: 3 }; t.status = 'x';",
+    "const s = `one",
+    "two <b>Reset</b> ${a}`;",
+    "if (a) { y(); } else",
+    "",
+    "  t['status'] = 'y';",
+    "const u = `x ${a} y",
+    "z",
+    "<i>Reset</i>`; const v = { w: 1,",
+    "  k: 2 }.k; t.status = v;",
+  ].join("\n");
+  const found = scanText(src, "m.mjs", { rel: "view/x.mjs" });
+  assert.deepEqual(found.map((f) => [f.line, f.rule]), [[5, "status-assignment"], [7, "reset-label"], [10, "status-assignment"], [13, "reset-label"], [14, "status-assignment"]]);
+  assert.equal(found[0].text, "d: 3 }; t.status = 'x';");
+});
+
+test("AC-3: a module that does not parse fails the audit naming the file and line", () => {
+  const found = scanText("const ok = 1;\nconst = ;\n", "bad.mjs", { rel: "view/x.mjs" });
+  assert.deepEqual(found.map((f) => [f.file, f.line, f.rule]), [["bad.mjs", 2, "parse-error"]]);
+});
+
+test("AC-3: a regex in a nested for-of head or after a bare return line does not hide the status write after it", () => {
+  const cases = [
+    ["for (const { a: { b } } of /\\/*/.exec(x)) {} t.status = 'coding';", 2],
+    ["for (const [a, [b]] of /\\/*/.exec(x)) {} t.status = 'coding';", 2],
+    ["for (const x of xs) for (const y of /\\/*/.exec(x)) {} t.status = 'coding';", 2],
+    ["function f() {\n  return\n  { y(); } /\\/*/.test(c); t.status = 'coding';\n}", 4],
+    ["function f() {\n  return\n  { y(); } /\\/*/.test(c);\n  t.status = 'coding';\n}", 5],
+  ];
+  for (const [code, line] of cases) {
+    const found = scanText(`const ok = 1;\n${code}\n`, "m.mjs", { rel: "view/x.mjs" });
+    assert.deepEqual(found.map((f) => [f.line, f.rule]), [[line, "status-assignment"]], code);
+  }
+});
+
+test("AC-3: a non-JavaScript script block in an html file is read as markup, not parsed", () => {
+  const html = ['<script id="warp-data" type="application/json">{"status": "x"}</script>', "<script>", "t.status = 1;", "</script>"].join("\n");
+  const found = scanText(html, "v.html", { rel: "v.html", html: true });
+  assert.deepEqual(found.map((f) => [f.line, f.rule]), [[3, "status-assignment"]]);
 });
 
 test("AC-3: in an html file only comments outside strings are blanked and script bodies are scanned as code", () => {
@@ -134,7 +173,7 @@ test("AC-3: a regex literal after return, typeof, case, a brace or an operator d
     const found = scanText(`const ok = 1;\n${line}\n`, "m.mjs", { rel: "view/x.mjs" });
     assert.deepEqual(found.map((f) => [f.line, f.rule]), [[2, "status-assignment"]], line);
   }
-  assert.equal(stripJsComments("return /a/ // c\nx"), "return /a/     \nx");
+  assert.equal(scanText("function f() { return /a/ // t.status = 1\n}", "m.mjs", { rel: "view/x.mjs" }).length, 0);
   assert.equal(scanText("a = b / c; // t.status = 1\n", "m.mjs", { rel: "view/x.mjs" }).length, 0);
 });
 

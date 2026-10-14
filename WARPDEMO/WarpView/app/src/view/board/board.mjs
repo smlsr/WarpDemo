@@ -1,8 +1,9 @@
 import { esc, fmtH, hashHue, natCmp, num, parseTime, stamp } from "../../core/util.mjs";
 import { CATS, bucketOf, catColor, statusText } from "../../core/status.mjs";
 import { assignBlocks, gateKeys } from "../../model/blocks/blocks.mjs";
+import { GROUPS, matches } from "../controls/controls.mjs";
 
-export const GROUP_BY = Object.freeze(["block", "status", "module", "lane", "repo", "size"]);
+export const GROUP_BY = GROUPS;
 export const SIZE_LANES = Object.freeze(["S", "M", "L", "XL", "No size"]);
 
 const BUCKETS = Object.freeze([
@@ -17,7 +18,10 @@ const CHEVRON =
 
 const toSet = (v) => (v instanceof Set ? v : new Set(Array.isArray(v) ? v : []));
 const sum = (a) => a.reduce((x, y) => x + (num(y) || 0), 0);
-const timeOf = (v) => (typeof v === "number" && isFinite(v) ? v : parseTime(v));
+const timeOf = (v) => {
+  const ms = typeof v === "number" ? v : parseTime(v);
+  return ms != null && !isNaN(new Date(ms).getTime()) ? ms : null;
+};
 
 export const normGroupBy = (g) => (GROUP_BY.includes(g) ? g : "block");
 export const runKey = (r) => r.name || r.instance || r.dir || "run";
@@ -92,13 +96,7 @@ export function lanesFor(runs, groupBy = "block") {
 
 export function ticketMatches(t, run, state = {}) {
   if (typeof state.match === "function") return !!state.match(t, run);
-  if (toSet(state.off).has(t.cat)) return false;
-  const q = String(state.q == null ? "" : state.q).trim().toLowerCase();
-  if (!q) return true;
-  const hay = [t.id, t.title, t.jiraKey, t.module, t.layer, t.lane, t.repo, t.priorityGate, t.agent, t.status, t.block, t.size, run && run.name]
-    .join(" ")
-    .toLowerCase();
-  return q.split(/\s+/).every((w) => hay.includes(w));
+  return matches(t, run, { off: toSet(state.off), q: state.q });
 }
 
 export function safeUrl(u) {

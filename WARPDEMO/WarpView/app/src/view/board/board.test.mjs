@@ -7,6 +7,7 @@ import { JSDOM } from "jsdom";
 import { buildRuns } from "../../load/parse/parse.mjs";
 import { plan } from "../../model/plan/plan.mjs";
 import { CATS } from "../../core/status.mjs";
+import { legendCounts, renderLegend } from "../controls/controls.mjs";
 import {
   jiraUrl,
   lanesFor,
@@ -107,9 +108,10 @@ test("AC-1: the board matches board.png — same lanes, headers, pills, stats an
 
 test("AC-2: groupBy status gives six lanes in CATS order with counts equal to the legend counts", () => {
   const runs = beamRuns();
-  const legend = Object.fromEntries(CATS.map((c) => [c.key, 0]));
-  for (const r of runs) for (const t of r.tickets) legend[t.cat]++;
+  const legend = legendCounts(runs);
   for (const c of CATS) assert.ok(legend[c.key] > 0, `fixture has ${c.key}`);
+  const chips = [...parse(renderLegend(runs, { off: new Set() })).querySelectorAll(".fchip")];
+  assert.deepEqual(chips.map((b) => [b.getAttribute("data-cat"), Number(text(b.querySelector(".n")))]), CATS.map((c) => [c.key, legend[c.key]]));
   const lanes = laneFacts(parse(renderBoard({ runs, groupBy: "status" })));
   assert.equal(lanes.length, 6);
   assert.deepEqual(lanes.map((l) => l.id), CATS.map((c) => c.key));
@@ -271,6 +273,8 @@ test("every value from a file is escaped and only http(s) links are rendered", (
   assert.equal(card.getAttribute("data-id"), evil);
   assert.ok([...card.querySelectorAll("a")].every((a) => /^https:\/\//.test(a.getAttribute("href"))));
   assert.equal(laneFacts(root)[0].pills.some((p) => p.text === "cleared"), false);
+  const odd = renderBoard({ runs: [{ ...run, gates: [{ ...run.gates[0], greenAt: 1e20 }] }], groupBy: "block" });
+  assert.match(odd, />gate red</);
   assert.ok(ticketMatches(t, run, { q: "" }));
   assert.equal(ticketMatches(t, run, { off: ["err"] }), false);
 });

@@ -729,6 +729,18 @@
       "role": "parent",
       "session": "2026-10-14T01:21:17Z-77af77cb",
       "started": "2026-10-14T01:21:17Z",
+      "ended": "2026-10-14T01:22:03Z",
+      "state": "stopped",
+      "halted": true,
+      "endReason": "done",
+      "superseded": true
+    },
+    {
+      "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+      "ticket": "",
+      "role": "parent",
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T01:35:59Z",
       "ended": null,
       "state": "running"
     }

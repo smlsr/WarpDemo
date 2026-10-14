@@ -4438,31 +4438,13 @@
   },
   "run": "view",
   "openWork": {
-    "at": "2026-10-14T00:54:34Z",
+    "at": "2026-10-14T01:21:19Z",
     "alarms": [],
     "stalls": [],
-    "counts": {
-      "merging": 1
-    },
-    "inProgress": "in progress 1/20",
+    "counts": {},
+    "inProgress": "in progress 0/20",
     "liveShuttles": "live shuttles 0/18, 0 fix workers running",
-    "tickets": [
-      {
-        "id": "WV-16",
-        "state": "merging",
-        "step": "implement",
-        "age": "0m",
-        "last": "2026-10-14T00:54:08Z",
-        "pr": "https://github.com/smlsr/WarpDemo/pull/19",
-        "bugbot": "pass",
-        "ci": "none",
-        "ac": "pass",
-        "stalled": "no",
-        "retries": 0,
-        "alarm": "none",
-        "next": "continue merging"
-      }
-    ],
+    "tickets": [],
     "sweep": {
       "at": "2026-10-14T00:43:36Z",
       "findings": [
@@ -4490,20 +4472,20 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-14T01:21:17Z",
+    "at": "2026-10-14T01:35:59Z",
     "ref": "origin/main",
     "status": {},
     "locks": []
   },
   "runComplete": false,
   "stoppedAt": null,
-  "parentSession": "2026-10-14T01:21:17Z-77af77cb",
+  "parentSession": "2026-10-14T01:35:59Z-a3ae2ec1",
   "owner": {
     "by": "Cursor Agent",
     "machine": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
     "host": "cursor",
-    "at": "2026-10-14T01:21:17Z",
-    "session": "2026-10-14T01:21:17Z-77af77cb"
+    "at": "2026-10-14T01:35:59Z",
+    "session": "2026-10-14T01:35:59Z-a3ae2ec1"
   },
   "instance": {
     "id": "207cfb",
@@ -5242,6 +5224,18 @@
         "role": "parent",
         "session": "2026-10-14T01:21:17Z-77af77cb",
         "started": "2026-10-14T01:21:17Z",
+        "ended": "2026-10-14T01:22:03Z",
+        "state": "stopped",
+        "halted": true,
+        "endReason": "done",
+        "superseded": true
+      },
+      {
+        "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+        "ticket": "",
+        "role": "parent",
+        "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+        "started": "2026-10-14T01:35:59Z",
         "ended": null,
         "state": "running"
       }
@@ -5495,13 +5489,13 @@
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791940877908178256,
-    26302
+    1791941759530690431,
+    26644
   ],
   "watch": {},
   "listener": {
     "parentSeenAt": "2026-10-14T00:54:33Z",
-    "generation": 25,
+    "generation": 26,
     "holder": "",
     "previousHolder": "listener",
     "state": "stopped",
@@ -5512,7 +5506,7 @@
     "polls": 14,
     "reads": 8,
     "returnReason": "stopped",
-    "returnedAt": "2026-10-14T00:55:02Z",
+    "returnedAt": "2026-10-14T01:22:03Z",
     "awaitReturn": false,
     "interval": "slow",
     "lastSeenAt": "2026-10-14T00:53:55Z",
@@ -5582,7 +5576,7 @@
     "WV-16:stalled",
     "WV-15:alarm lock-escape"
   ],
-  "checkpointAt": "2026-10-14T01:21:17Z",
+  "checkpointAt": "2026-10-14T01:35:59Z",
   "reportGeneratedAt": "2026-10-13T23:40:51Z",
   "runEndedAt": "2026-10-13T23:40:51Z",
   "runStartedAt": "2026-10-13T18:48:23Z"

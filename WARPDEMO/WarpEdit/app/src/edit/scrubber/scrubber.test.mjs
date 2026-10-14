@@ -13,7 +13,8 @@ import { prepareRun } from "../../../../../WarpView/app/src/store/store.mjs";
 import { catColor, catOf } from "../../../../../WarpView/app/src/core/status.mjs";
 import { stamp } from "../../../../../WarpView/app/src/core/util.mjs";
 import { renderSwimlanePanel } from "../../../../../WarpView/app/src/view/swimlane/swimlane.mjs";
-import { withData } from "../../../test/dom.mjs";
+import { loadBuilt, withData } from "../../../test/dom.mjs";
+import { plugins } from "../../plugins.mjs";
 import { createEditStore } from "../store/store.mjs";
 import { buildReset, applyReset } from "../reset/reset.mjs";
 import { planDependents } from "../dependents/dependents.mjs";
@@ -49,11 +50,14 @@ const PATH = ".warp/beam.json";
 const H = 3600000;
 
 let html;
+let editorFile;
 before(async () => {
   const tmp = mkdtempSync(join(tmpdir(), "we12-"));
   const out = join(tmp, "editor.html");
   await build({ noPlugins: true, out });
   html = readFileSync(out, "utf8");
+  editorFile = join(tmp, "editor.plugins.html");
+  await build({ out: editorFile });
   return () => rmSync(tmp, { recursive: true, force: true });
 });
 
@@ -297,6 +301,8 @@ test("AC-5: scrubber.test.mjs runs under npm test — model, escaping and plugin
   assert.equal(typeof scrubberPlugin.swimlaneOverlays[0].bind, "function");
   assert.equal(scrubberPlugin.headerActions, undefined);
   assert.equal(scrubberPlugin.drawerSections, undefined);
+  assert.ok(plugins.includes(scrubberPlugin), "registered in plugins.mjs");
+  assert.equal(plugins.filter((p) => p && p.id === "scrubber").length, 1);
 
   // Replay in time order, whatever the file order; ties keep file order.
   const t = {
@@ -347,4 +353,14 @@ test("AC-5: scrubber.test.mjs runs under npm test — model, escaping and plugin
   delete noStart.runStartedAt;
   const r2 = runOf(noStart);
   assert.equal(baseOf(r2, layoutActual(r2, NOW)), Date.parse(noStart.tickets["WV-01"].claimedAt));
+
+  // The built editor, with the plugins of plugins.mjs, shows the scrubber on the actual clock only.
+  const dom = loadBuilt(editorFile, { files: [{ path: PATH, data: load() }] });
+  const doc = dom.window.document;
+  assert.ok(doc.querySelector("#view .bar"), "the editor booted with the fixture");
+  assert.equal(doc.querySelector('[data-ed="scrub"]'), null, "nothing on the plan clock");
+  doc.querySelector('#view [data-clock="actual"]').click();
+  const row = doc.querySelector('#view .panel.swimlane > .panel-h + [data-ed="scrub"]');
+  assert.ok(row, "the registered scrubber draws its row under the swimlane header");
+  dom.window.close();
 });

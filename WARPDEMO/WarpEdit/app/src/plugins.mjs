@@ -6,3 +6,5 @@ import { saveUiPlugin } from "./edit/save-ui/save-ui.mjs";
 plugins.push(saveUiPlugin);
 import { panelPlugin } from "./edit/drawer-panel/panel.mjs";
 plugins.push(panelPlugin);
+import { scrubberPlugin } from "./edit/scrubber/scrubber.mjs";
+plugins.push(scrubberPlugin);

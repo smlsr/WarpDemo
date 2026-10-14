@@ -90,6 +90,11 @@ export function confirmReset(opts = {}, env = {}) {
     };
 
     const onKey = (e) => {
+      if (!modal.contains(e.target) && e.key !== "Escape" && e.key !== "Tab") {
+        e.preventDefault();
+        e.stopPropagation();
+        return;
+      }
       if (e.key === "Escape") {
         e.preventDefault();
         e.stopPropagation();
@@ -107,6 +112,7 @@ export function confirmReset(opts = {}, env = {}) {
     area.addEventListener("input", () => {
       if (area.value.length > NOTE_MAX) area.value = area.value.slice(0, NOTE_MAX);
     });
+    modal.addEventListener("keydown", (e) => e.stopPropagation());
     cancelBtn.addEventListener("click", () => close(false));
     okBtn.addEventListener("click", () => close(true));
     modal.addEventListener("click", (e) => {

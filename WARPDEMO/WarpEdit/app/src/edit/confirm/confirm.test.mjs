@@ -195,6 +195,37 @@ test("Escape does not reach WarpView's own key handler while the dialog is open"
   assert.equal(seen, 0);
 });
 
+test("other keys typed in the dialog do not reach WarpView's shortcuts (/, o, r, p)", async () => {
+  const s = setup();
+  const seen = [];
+  s.document.addEventListener("keydown", (e) => seen.push(e.key));
+  const p = confirmReset(opts(), { document: s.document });
+  for (const k of ["/", "o", "r", "p", "O"]) s.press(k);
+  s.q("textarea").focus();
+  for (const k of ["/", "r"]) s.press(k);
+  s.document.body.dispatchEvent(new s.dom.window.KeyboardEvent("keydown", { key: "o", bubbles: true, cancelable: true }));
+  assert.deepEqual(seen, []);
+  assert.equal(s.document.querySelectorAll(".ed-confirm-modal").length, 1);
+  s.press("Escape");
+  await p;
+  s.press("r");
+  assert.deepEqual(seen, ["r"]);
+});
+
+test("keys typed in the textarea and the buttons still reach their own targets", async () => {
+  const s = setup();
+  const p = confirmReset(opts(), { document: s.document });
+  const area = s.q("textarea");
+  area.focus();
+  let got = 0;
+  area.addEventListener("keydown", () => got++);
+  const e = s.press("/");
+  assert.equal(got, 1);
+  assert.equal(e.defaultPrevented, false);
+  s.press("Escape");
+  await p;
+});
+
 test("a reset with no dependents says so", () => {
   const doc = new JSDOM(renderConfirm({ ticket: "WV-01", from: "coding", to: "queued" })).window.document;
   assert.match(doc.querySelector(".ed-confirm-h").textContent, /No other ticket is affected/);

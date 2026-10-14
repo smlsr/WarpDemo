@@ -18,19 +18,41 @@ const RULES = [
 
 const blank = (s) => s.replace(/[^\n]/g, " ");
 
-// After these words an expression starts, so a "/" opens a regex literal.
-const REGEX_AFTER = /(?<![.\w$])(?:return|typeof|case|do|else|in|of|instanceof|new|delete|void|throw|yield|await)$/;
+// After these words an expression starts, so a "/" opens a regex literal. `of` is not reserved: it is
+// a keyword only as the `of` of a for-of head, and anywhere else it is a name that a "/" divides.
+const REGEX_AFTER = /(?<![.\w$])(?:return|typeof|case|do|else|in|instanceof|new|delete|void|throw|yield|await)$/;
+const FOR_OF = /(?<![.\w$])for\s*(?:await\s*)?\(\s*(?:(?:const|let|var)\s+)?(?:[\w$]+|\[[^\]]*\]|\{[^}]*\})\s+of$/;
+// After these words a "{" opens an object literal, not a block.
+const OBJECT_AFTER = /(?<![.\w$])(?:return|typeof|case|in|instanceof|delete|void|throw|yield|await)$/;
+// A ":" that ends a case clause, a default clause or a label; a "{" after it opens a block.
+const STATEMENT_COLON = /(?:^|[;{}\n])\s*(?:case\b[^;{}\n]*|default|[A-Za-z_$][\w$]*)\s*:$/;
+
+const exprKeyword = (t) => REGEX_AFTER.test(t) || FOR_OF.test(t);
 
 // Whether a "/" at the end of `before` opens a regex literal (true) or divides (false). Only an
-// expression-ending token divides: a name, a number, a closing ")" or "]", a string or a template.
-// "}" ends a block far more often than an object literal, so a regex may follow it.
-function opensRegex(before) {
+// expression-ending token divides: a name, a number, a closing ")" or "]", a string, a template, or
+// the "}" of an object literal (`objectEnds` holds the offsets of those). A block's "}" ends a statement.
+function opensRegex(before, objectEnds) {
   const t = before.replace(/\s+$/, "");
   if (!t) return true;
   const c = t[t.length - 1];
-  if (c === "}") return true;
+  if (c === "}") return !objectEnds.has(t.length - 1);
   if (!/[\w$)\]"'`]/.test(c)) return true;
-  return REGEX_AFTER.test(t);
+  return exprKeyword(t);
+}
+
+// Whether a "{" at the end of `before` opens an object literal (true) or a block (false). `top` is
+// the innermost open brace: "obj", "blk" or "tpl" (a template's "${").
+function opensObject(before, top) {
+  const t = before.replace(/\s+$/, "");
+  if (!t) return false;
+  const c = t[t.length - 1];
+  if (t.endsWith("=>")) return false;
+  if (c === "{") return top === "tpl";
+  if (c === ":") return top === "obj" || !STATEMENT_COLON.test(t);
+  if (/[(\[,?=&|!~+\-*/%^<>.]/.test(c)) return true;
+  if (/[\w$]/.test(c)) return OBJECT_AFTER.test(t) || FOR_OF.test(t);
+  return false;
 }
 
 // Blanks the comments of JavaScript source and keeps every other character and every newline, so line
@@ -40,6 +62,7 @@ export function stripJsComments(src) {
   let out = "";
   let i = 0;
   const stack = [];
+  const objectEnds = new Set();
   const n = src.length;
   while (i < n) {
     const c = src[i];
@@ -76,7 +99,7 @@ export function stripJsComments(src) {
       out += src.slice(i, end);
       if (open) stack.push("tpl");
       i = end;
-    } else if (c === "/" && opensRegex(out)) {
+    } else if (c === "/" && opensRegex(out, objectEnds)) {
       let j = i + 1;
       let cls = false;
       while (j < n && src[j] !== "\n") {
@@ -90,8 +113,8 @@ export function stripJsComments(src) {
       out += src.slice(i, end);
       i = end;
     } else {
-      if (c === "{") stack.push("blk");
-      else if (c === "}") stack.pop();
+      if (c === "{") stack.push(opensObject(out, stack[stack.length - 1]) ? "obj" : "blk");
+      else if (c === "}" && stack.pop() === "obj") objectEnds.add(out.length);
       out += c;
       i++;
     }

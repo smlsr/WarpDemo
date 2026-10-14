@@ -137,3 +137,31 @@ test("AC-3: a regex literal after return, typeof, case, a brace or an operator d
   assert.equal(stripJsComments("return /a/ // c\nx"), "return /a/     \nx");
   assert.equal(scanText("a = b / c; // t.status = 1\n", "m.mjs", { rel: "view/x.mjs" }).length, 0);
 });
+
+test("AC-3: a slash after an object literal or the name `of` divides, so the comment after it is still ignored", () => {
+  const ignored = [
+    "const o = { valueOf: () => 4 } / 2; // t.status = 1",
+    "const o = { valueOf: () => 4 } / 2; /* t.status = 1 */",
+    "const o = f({ a: { b: 1 } } / 2); // t.status = 1",
+    "const o = x ? 1 : { valueOf: () => 4 } / 2; // t.status = 1",
+    "const t = `${{ valueOf: () => 4 } / 2}`; // t.status = 1",
+    "const of = 4; const h = of / 2; // t.status = 1",
+    "const h = x.of / 2; // t.status = 1",
+  ];
+  for (const line of ignored) {
+    assert.deepEqual(scanText(`const ok = 1;\n${line}\n`, "m.mjs", { rel: "view/x.mjs" }), [], line);
+  }
+  const found = [
+    "for (const s of /\\/*/.exec(x)) {} t.status = 'coding';",
+    "for (const [k, v] of /\\/*/.exec(x)) {} t.status = 'coding';",
+    "if (a) { b(); } /\\/*/.test(c); t.status = 'coding';",
+    "switch (x) { case 1: { y(); } /\\/*/.test(c); } t.status = 'coding';",
+    "L: { y(); } /\\/*/.test(c); t.status = 'coding';",
+    "const f = () => { y(); }\n/\\/*/.test(c); t.status = 'coding';",
+  ];
+  for (const line of found) {
+    const at = line.split("\n").length + 1;
+    const hits = scanText(`const ok = 1;\n${line}\n`, "m.mjs", { rel: "view/x.mjs" });
+    assert.deepEqual(hits.map((f) => [f.line, f.rule]), [[at, "status-assignment"]], line);
+  }
+});

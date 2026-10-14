@@ -1,0 +1,31 @@
+{
+  "id": "WV-16-BB1",
+  "state": "done",
+  "startedAt": "2026-10-14T02:12:54Z",
+  "updatedAt": "2026-10-14T02:13:36Z",
+  "heartbeatAt": "",
+  "pr": {
+    "url": ""
+  },
+  "check": {
+    "result": "",
+    "name": "",
+    "log": ""
+  },
+  "error": "",
+  "alarm": "",
+  "escaped": [],
+  "agent": "subagent:WV-16-BB1",
+  "review": {
+    "result": "pass",
+    "sha": "454776b89c64806c4323aadfee0a94a8b739b975",
+    "findings": [],
+    "source": "shuttle",
+    "at": "2026-10-14T02:13:35Z"
+  },
+  "acResults": {
+    "AC-1": "pass",
+    "AC-2": "pass",
+    "AC-3": "pass"
+  }
+}

@@ -1,0 +1,4 @@
+{"seq":1,"at":"2026-10-14T02:12:54Z","id":"WV-16-BB1","state":"coding","error":"","agent":"subagent:WV-16-BB1"}
+{"seq":2,"at":"2026-10-14T02:13:35Z","id":"WV-16-BB1","state":"review","error":"","agent":"subagent:WV-16-BB1"}
+{"seq":3,"at":"2026-10-14T02:13:35Z","id":"WV-16-BB1","state":"review-pass","error":"","agent":"subagent:WV-16-BB1","sha":"454776b89c64806c4323aadfee0a94a8b739b975","findings":[],"source":"shuttle"}
+{"seq":4,"at":"2026-10-14T02:13:36Z","id":"WV-16-BB1","state":"done","error":"","agent":"subagent:WV-16-BB1","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass"}}

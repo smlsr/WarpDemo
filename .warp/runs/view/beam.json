@@ -4437,9 +4437,7 @@
       "module": "WarpView",
       "repo": "smlsr/WarpDemo",
       "lane": "console",
-      "locks": [
-        "WARPDEMO/WarpView/app/src/view/table/table.mjs"
-      ],
+      "locks": [],
       "deps": [],
       "gate": null,
       "autoMerge": true,
@@ -4941,7 +4939,7 @@
     },
     "WV-16-BB1": {
       "id": "WV-16-BB1",
-      "status": "queued",
+      "status": "merged",
       "summary": "Rebuild viewer.html so main's parity test passes again",
       "size": "S",
       "hours": 1,
@@ -4972,7 +4970,9 @@
         }
       ],
       "plan": {
-        "body": "WV-11-BB1, WV-12-BB1 and WV-15-BB1 changed table.mjs, drawer.mjs and main.mjs after WV-16 released viewer.html, so app/test/parity.test.mjs AC-1 now fails on main. Rebuild viewer.html with `npm --prefix WARPDEMO/WarpView/app run release` on a branch from main, commit only that file, and confirm the full suite is green. Change no source file."
+        "body": "WV-11-BB1, WV-12-BB1 and WV-15-BB1 changed table.mjs, drawer.mjs and main.mjs after WV-16 released viewer.html, so app/test/parity.test.mjs AC-1 now fails on main. Rebuild viewer.html with `npm --prefix WARPDEMO/WarpView/app run release` on a branch from main, commit only that file, and confirm the full suite is green. Change no source file.",
+        "blockers": [],
+        "decisions": []
       },
       "followUpOf": "WV-16",
       "jiraKey": null,
@@ -4984,41 +4984,145 @@
         "status": null,
         "lastCommentAt": null
       },
-      "pr": {},
+      "pr": {
+        "bugbot": "pass",
+        "bugbotSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "bugbotSource": "provider",
+        "bugbotRecordedSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "bugbotRecordedAt": "2026-10-14T02:13:35Z",
+        "shuttleReview": "pass",
+        "shuttleReviewSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "url": "https://github.com/smlsr/WarpDemo/pull/23",
+        "openedAt": "2026-10-14T02:14:17Z",
+        "opened": true,
+        "checks": [
+          {
+            "name": "Cursor Bugbot",
+            "conclusion": "success",
+            "log": "Cursor Bugbot green"
+          }
+        ],
+        "rollup": "green",
+        "headSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "headAt": "2026-10-14T02:13:14Z",
+        "rollupSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "bugbotProviderSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "ci": "absent",
+        "ciSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "CLEAN",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 1,
+        "mergeRequestedSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "mergeRequestedAt": "2026-10-14T02:19:20Z",
+        "mergeAnnounced": true,
+        "mergedAt": "2026-10-14T02:19:25Z",
+        "sha": "6d753efe3ee09c9ed2081e86c4315387c1714532",
+        "mergeConfirmed": true
+      },
       "attempts": 0,
       "alarm": null,
       "priority": "high",
-      "updatedAt": "2026-10-14T02:12:06Z"
+      "updatedAt": "2026-10-14T02:19:19Z",
+      "shuttle": {
+        "pending": false,
+        "step": "implement",
+        "hadPr": false,
+        "session": "2026-10-14T02:12:11Z-ac1843e1",
+        "startedAt": "2026-10-14T02:12:18Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T02:13:36Z"
+      },
+      "phase": "merged",
+      "needsReplacement": false,
+      "agent": "subagent:WV-16-BB1",
+      "watch": {
+        "progressToken": "merging|454776b89c64806c4323aadfee0a94a8b739b975|green|absent||pass|||",
+        "state": "merging",
+        "since": "2026-10-14T02:19:20Z",
+        "progressAt": "2026-10-14T02:19:20Z",
+        "lastActive": "2026-10-14T02:13:36Z",
+        "stalled": false
+      },
+      "branch": "warp/view/WV-16-BB1",
+      "worktree": ".warp/worktrees/WV-16-BB1",
+      "checkout": "worktree",
+      "isolation": "worktree",
+      "workerStartedAt": "2026-10-14T02:12:18Z",
+      "remote": {
+        "seen": [
+          "b59bac0c6a1f606e1ad0",
+          "eb5462df05c78cd2115e",
+          "f032e4b65559f88f17e9",
+          "ffbc368c3cd34f0e190d"
+        ],
+        "stateKey": "7751b9f71015b741656a",
+        "state": "done",
+        "providerKey": "67e6fc663ac503638418"
+      },
+      "lastSeenAt": "2026-10-14T02:13:36Z",
+      "stalled": false,
+      "events": [
+        {
+          "at": "2026-10-14T02:13:35Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        },
+        {
+          "at": "2026-10-14T02:13:35Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "454776b89c64806c4323aadfee0a94a8b739b975"
+        }
+      ],
+      "result": {
+        "body": "acs AC-1=pass, AC-2=pass, AC-3=pass"
+      }
     }
   },
   "agents": {},
   "metrics": {
-    "total": 19,
+    "total": 20,
     "byStatus": {
-      "merged": 18,
+      "merged": 19,
       "review": 1,
       "done": 0
     },
-    "done": 18,
-    "pct": 94.7,
+    "done": 19,
+    "pct": 95.0,
     "minutes": 35,
     "remainingHours": 1,
     "criticalHoursLeft": 0,
     "etaHours": 0.1,
     "bySize": {
-      "S": 8,
+      "S": 9,
       "L": 3,
       "M": 6,
       "XL": 2
     },
     "byModule": {
-      "WarpView": 19
+      "WarpView": 20
     },
-    "computedAt": "2026-10-14T02:05:34Z"
+    "computedAt": "2026-10-14T02:19:20Z"
   },
   "run": "view",
   "openWork": {
-    "at": "2026-10-14T02:05:34Z",
+    "at": "2026-10-14T02:19:20Z",
     "alarms": [],
     "stalls": [],
     "counts": {
@@ -5028,64 +5132,45 @@
     "liveShuttles": "live shuttles 0/18, 0 fix workers running",
     "tickets": [
       {
-        "id": "WV-11-BB1",
+        "id": "WV-16-BB1",
         "state": "merging",
-        "step": "review",
+        "step": "implement",
         "age": "0m",
-        "last": "2026-10-14T02:02:47Z",
-        "pr": "https://github.com/smlsr/WarpDemo/pull/22",
+        "last": "2026-10-14T02:13:36Z",
+        "pr": "https://github.com/smlsr/WarpDemo/pull/23",
         "bugbot": "pass",
         "ci": "green",
         "ac": "pass",
         "stalled": "no",
-        "retries": 2,
+        "retries": 0,
         "alarm": "none",
         "next": "continue merging"
       }
     ],
     "sweep": {
-      "at": "2026-10-14T01:51:43Z",
+      "at": "2026-10-14T02:12:53Z",
       "findings": [
         {
           "kind": "lock",
-          "id": "WV-12-BB1",
-          "detail": "orphaned lock"
-        },
-        {
-          "kind": "lock",
-          "id": "WV-15-BB1",
+          "id": "WV-11-BB1",
           "detail": "orphaned lock"
         },
         {
           "kind": "listener",
           "id": "listener",
           "detail": "live"
-        },
-        {
-          "kind": "fix",
-          "id": "WV-11-BB1",
-          "detail": "bugbot findings"
         }
       ],
       "actions": [
         {
           "kind": "lock",
-          "id": "WV-12-BB1"
-        },
-        {
-          "kind": "lock",
-          "id": "WV-15-BB1"
+          "id": "WV-11-BB1"
         }
       ],
       "skipped": [
         {
           "kind": "listener",
           "id": "listener",
-          "reason": "running"
-        },
-        {
-          "kind": "fix",
-          "id": "WV-11-BB1",
           "reason": "running"
         }
       ],
@@ -5099,7 +5184,7 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-14T02:12:10Z",
+    "at": "2026-10-14T02:19:20Z",
     "ref": "origin/main",
     "status": {},
     "locks": []
@@ -5150,10 +5235,10 @@
         "id": "listener",
         "ticket": "",
         "role": "listener",
-        "polls": 20,
-        "session": "2026-10-14T01:35:59Z-a3ae2ec1",
-        "started": "2026-10-14T02:05:33Z",
-        "ended": "2026-10-14T02:06:01Z",
+        "polls": 21,
+        "session": "2026-10-14T02:12:11Z-ac1843e1",
+        "started": "2026-10-14T02:12:53Z",
+        "ended": "2026-10-14T02:19:25Z",
         "endReason": "stopped",
         "state": "ended",
         "reaped": "2026-10-13T22:10:36Z",
@@ -5960,8 +6045,22 @@
         "role": "parent",
         "session": "2026-10-14T02:12:11Z-ac1843e1",
         "started": "2026-10-14T02:12:11Z",
-        "ended": null,
-        "state": "running"
+        "ended": "2026-10-14T02:19:46Z",
+        "state": "stopped",
+        "halted": true,
+        "endReason": "done"
+      },
+      {
+        "id": "subagent:WV-16-BB1",
+        "ticket": "WV-16-BB1",
+        "role": "shuttle",
+        "session": "2026-10-14T02:12:11Z-ac1843e1",
+        "started": "2026-10-14T02:12:12Z",
+        "ended": "2026-10-14T02:13:37Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
       }
     ],
     "spawns": [
@@ -6254,82 +6353,71 @@
         "role": "shuttle",
         "id": "shuttle-WV-11-BB1-r1",
         "step": "review"
+      },
+      {
+        "at": "2026-10-14T02:12:12Z",
+        "ticket": "WV-16-BB1",
+        "role": "shuttle",
+        "id": "subagent:WV-16-BB1",
+        "step": "implement"
       }
-    ]
+    ],
+    "finishedAt": "2026-10-14T02:19:46Z"
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791943931100126313,
-    30755
+    1791944386221265283,
+    31356
   ],
   "watch": {},
   "listener": {
-    "parentSeenAt": "2026-10-14T02:05:33Z",
-    "generation": 33,
+    "parentSeenAt": "2026-10-14T02:19:19Z",
+    "generation": 35,
     "holder": "",
     "previousHolder": "listener",
     "state": "stopped",
     "agentId": "listener",
-    "startedAt": "2026-10-14T02:05:33Z",
-    "generationStartedAt": "2026-10-14T02:05:33Z",
-    "stoppedAt": "2026-10-14T02:06:03Z",
-    "polls": 20,
-    "reads": 0,
+    "startedAt": "2026-10-14T02:12:53Z",
+    "generationStartedAt": "2026-10-14T02:12:53Z",
+    "stoppedAt": "2026-10-14T02:19:25Z",
+    "polls": 21,
+    "reads": 3,
     "returnReason": "stopped",
-    "returnedAt": "2026-10-14T02:06:03Z",
+    "returnedAt": "2026-10-14T02:19:46Z",
     "awaitReturn": false,
     "interval": "slow",
-    "lastSeenAt": "2026-10-14T02:06:03Z",
-    "cursor": "1791942287.863879",
+    "lastSeenAt": "2026-10-14T02:19:25Z",
+    "cursor": "1791943984.874709",
     "lastCount": 0,
-    "session": "2026-10-14T01:35:59Z-a3ae2ec1"
+    "session": "2026-10-14T02:12:11Z-ac1843e1"
   },
   "statusDigest": {
     "at": "2026-10-14T01:36:19Z"
   },
   "repairSweep": {
-    "at": "2026-10-14T01:51:43Z",
+    "at": "2026-10-14T02:12:53Z",
     "findings": [
       {
         "kind": "lock",
-        "id": "WV-12-BB1",
-        "detail": "orphaned lock"
-      },
-      {
-        "kind": "lock",
-        "id": "WV-15-BB1",
+        "id": "WV-11-BB1",
         "detail": "orphaned lock"
       },
       {
         "kind": "listener",
         "id": "listener",
         "detail": "live"
-      },
-      {
-        "kind": "fix",
-        "id": "WV-11-BB1",
-        "detail": "bugbot findings"
       }
     ],
     "actions": [
       {
         "kind": "lock",
-        "id": "WV-12-BB1"
-      },
-      {
-        "kind": "lock",
-        "id": "WV-15-BB1"
+        "id": "WV-11-BB1"
       }
     ],
     "skipped": [
       {
         "kind": "listener",
         "id": "listener",
-        "reason": "running"
-      },
-      {
-        "kind": "fix",
-        "id": "WV-11-BB1",
         "reason": "running"
       }
     ],
@@ -6338,8 +6426,8 @@
     "stuckGates": []
   },
   "pass": {
-    "startedAt": "2026-10-14T02:05:33Z",
-    "count": 111
+    "startedAt": "2026-10-14T02:19:19Z",
+    "count": 115
   },
   "alarmRepair": {
     "tried": [
@@ -6375,7 +6463,7 @@
     "WV-16:stalled",
     "WV-15:alarm lock-escape"
   ],
-  "checkpointAt": "2026-10-14T02:12:11Z",
+  "checkpointAt": "2026-10-14T02:19:47Z",
   "reportGeneratedAt": "2026-10-13T23:40:51Z",
   "runEndedAt": "2026-10-13T23:40:51Z",
   "runStartedAt": "2026-10-13T18:48:23Z",

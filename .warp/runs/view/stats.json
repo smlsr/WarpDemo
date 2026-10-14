@@ -1,6 +1,6 @@
 {
   "run": "view",
-  "generatedAt": "2026-10-14T02:12:11Z",
+  "generatedAt": "2026-10-14T02:19:47Z",
   "totals": {
     "tokens": 0,
     "minutes": 35,
@@ -12,8 +12,7 @@
     "tokensCached": 0
   },
   "byStatus": {
-    "merged": 19,
-    "queued": 1
+    "merged": 20
   },
   "tickets": {
     "WV-01": {
@@ -302,7 +301,7 @@
       "mergedAt": "2026-10-14T01:44:34Z"
     },
     "WV-16-BB1": {
-      "status": "queued",
+      "status": "merged",
       "size": "S",
       "tokens": 0,
       "minutes": 0,
@@ -313,8 +312,8 @@
       "tokensOut": 0,
       "tokensCached": 0,
       "claimedAt": null,
-      "openedAt": null,
-      "mergedAt": null
+      "openedAt": "2026-10-14T02:14:17Z",
+      "mergedAt": "2026-10-14T02:19:25Z"
     }
   }
 }

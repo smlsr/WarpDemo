@@ -280,3 +280,9 @@
 {"line": "WV-11-BB1 check-green", "ts": "2026-10-14T02:05:34Z", "type": "remote"}
 {"ts": "2026-10-14T02:06:08Z", "type": "session-stop"}
 {"reason": null, "ts": "2026-10-14T02:12:11Z", "type": "running"}
+{"line": "WV-16-BB1 review", "ts": "2026-10-14T02:13:37Z", "type": "remote"}
+{"line": "WV-16-BB1 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T02:13:37Z", "type": "remote"}
+{"line": "WV-16-BB1 acceptance: 3 recorded, all pass.", "ts": "2026-10-14T02:13:37Z", "type": "remote"}
+{"line": "WV-16-BB1 done", "ts": "2026-10-14T02:13:37Z", "type": "remote"}
+{"line": "WV-16-BB1 check-green", "ts": "2026-10-14T02:19:20Z", "type": "remote"}
+{"ts": "2026-10-14T02:19:47Z", "type": "session-stop"}

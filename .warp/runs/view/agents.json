@@ -28,10 +28,10 @@
       "id": "listener",
       "ticket": "",
       "role": "listener",
-      "polls": 20,
-      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
-      "started": "2026-10-14T02:05:33Z",
-      "ended": "2026-10-14T02:06:01Z",
+      "polls": 21,
+      "session": "2026-10-14T02:12:11Z-ac1843e1",
+      "started": "2026-10-14T02:12:53Z",
+      "ended": "2026-10-14T02:19:25Z",
       "endReason": "stopped",
       "state": "ended",
       "reaped": "2026-10-13T22:10:36Z",
@@ -838,8 +838,22 @@
       "role": "parent",
       "session": "2026-10-14T02:12:11Z-ac1843e1",
       "started": "2026-10-14T02:12:11Z",
-      "ended": null,
-      "state": "running"
+      "ended": "2026-10-14T02:19:46Z",
+      "state": "stopped",
+      "halted": true,
+      "endReason": "done"
+    },
+    {
+      "id": "subagent:WV-16-BB1",
+      "ticket": "WV-16-BB1",
+      "role": "shuttle",
+      "session": "2026-10-14T02:12:11Z-ac1843e1",
+      "started": "2026-10-14T02:12:12Z",
+      "ended": "2026-10-14T02:13:37Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
     }
   ],
   "spawns": [
@@ -1132,6 +1146,14 @@
       "role": "shuttle",
       "id": "shuttle-WV-11-BB1-r1",
       "step": "review"
+    },
+    {
+      "at": "2026-10-14T02:12:12Z",
+      "ticket": "WV-16-BB1",
+      "role": "shuttle",
+      "id": "subagent:WV-16-BB1",
+      "step": "implement"
     }
-  ]
+  ],
+  "finishedAt": "2026-10-14T02:19:46Z"
 }

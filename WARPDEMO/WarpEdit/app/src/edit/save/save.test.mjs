@@ -160,3 +160,46 @@ test("download hands a Blob URL to an anchor named after the file and revokes it
   assert.deepEqual(revoked, ["blob:test/1"]);
   assert.equal(window.document.querySelector("a"), null);
 });
+
+test("A second reset that blocks a dependent which already has a resets entry saves", () => {
+  const loaded = read("beam.sample.json");
+  const first = resetWV07(loaded).after;
+  const dep = first.tickets["WV-15"];
+  assert.equal(dep.status, "blocked");
+  const keyed = { ...first, tickets: { ...first.tickets, "WV-15": { ...dep, resets: [{ from: "queued", to: "queued", at: AT, note: "earlier" }] } } };
+  const built = buildReset(keyed, "WV-07", "queued", "again", "2026-10-12T20:00:00Z");
+  assert.equal(built.ok, true);
+  built.change.dependents = [{ id: "WV-15", from: "blocked", to: "blocked", note: "blocked by reset of WV-07" }];
+  const out = serialize(loaded, applyReset(keyed, built.change), "beam", { now: AT });
+  assert.equal(out.ok, true, out.message);
+});
+
+test("Dependent blocked after it was reset itself saves; its reset log is kept", () => {
+  const loaded = read("beam.sample.json");
+  const first = resetWV07(loaded).after;
+  const wv15 = first.tickets["WV-15"];
+  const withReset = {
+    ...first,
+    tickets: { ...first.tickets, "WV-15": { ...wv15, status: "claimed", resets: [{ from: "queued", to: "claimed", at: "2026-10-12T19:00:00Z", note: "x" }] } },
+  };
+  const built = buildReset(withReset, "WV-07", "claimed", "second", "2026-10-12T20:00:00Z");
+  assert.equal(built.ok, true, built.message);
+  built.change.dependents = [{ id: "WV-15", from: "claimed", to: "blocked", note: "blocked by reset of WV-07" }];
+  const working = applyReset(withReset, built.change);
+  assert.equal(working.tickets["WV-15"].status, "blocked");
+  const out = serialize(loaded, working, "beam", { now: AT });
+  assert.equal(out.ok, true, out.message);
+  assert.equal(out.data.tickets["WV-15"].status, "blocked");
+  assert.equal(out.data.tickets["WV-15"].resets.length, 1);
+});
+
+test("A reset-log mismatch that no dependent block explains still refuses", () => {
+  const loaded = read("beam.sample.json");
+  const working = resetWV07(loaded).after;
+  const bad = { ...working, tickets: { ...working.tickets, "WV-07": { ...working.tickets["WV-07"], status: "review" } } };
+  const out = serialize(loaded, bad, "beam");
+  assert.equal(out.ok, false);
+  assert.equal(out.errors[0].code, "reset-log");
+  const manual = { ...working, tickets: { ...working.tickets, "WV-15": { ...working.tickets["WV-15"], status: "queued", resets: [{ from: "x", to: "coding", at: AT, note: "" }] } } };
+  assert.equal(serialize(loaded, manual, "beam").ok, false);
+});

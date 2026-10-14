@@ -52,6 +52,34 @@ function mergeTickets(loadedTickets, workingTickets, keys) {
   return out;
 }
 
+function time(v) {
+  const n = Date.parse(v);
+  return Number.isNaN(n) ? null : n;
+}
+
+// A dependent blocked by a later reset moves status without a resets[] entry (SPEC §6), so validate's reset-log
+// check flags it. That mismatch is explained when the ticket's last status event is a warpedit move to its
+// current status made at or after the last reset.
+function explainedByDependentBlock(ticket) {
+  const resets = Array.isArray(ticket.resets) ? ticket.resets : [];
+  const events = Array.isArray(ticket.events) ? ticket.events : [];
+  const last = resets[resets.length - 1];
+  let ev = null;
+  for (let i = events.length - 1; i >= 0 && !ev; i--) if (isObj(events[i]) && events[i].type === "status") ev = events[i];
+  if (!last || !ev || ev.by !== BY || ev.to !== ticket.status) return false;
+  const evAt = time(ev.at);
+  const resetAt = time(last.at);
+  return evAt != null && resetAt != null && evAt >= resetAt;
+}
+
+function realErrors(work, errors) {
+  return errors.filter((e) => {
+    if (e.code !== "reset-log") return true;
+    const t = ticketOf(work.tickets, String(e.ticket));
+    return !(t && explainedByDependentBlock(t));
+  });
+}
+
 function refusal(message, errors = []) {
   return { ok: false, message, errors };
 }
@@ -68,8 +96,8 @@ export function serialize(loaded, working, kind, options = {}) {
   if (k === "schedule") return refusal(MESSAGES.schedule);
   if (k !== "beam" && k !== "warp-plan") return refusal(MESSAGES.unknown);
   const work = working == null ? loaded : working;
-  const check = validate(work);
-  if (check.errors.length) return refusal(describeErrors(check.errors), check.errors);
+  const errors = realErrors(work, validate(work).errors);
+  if (errors.length) return refusal(describeErrors(errors), errors);
   const at = stamp(options.now);
   let data;
   if (k === "beam") {

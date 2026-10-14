@@ -1,5 +1,6 @@
 import { esc, fmtH, hashHue, natCmp, num } from "../../core/util.mjs";
 import { catColor, catOf, statusText } from "../../core/status.mjs";
+import { matches, queryWords } from "../controls/controls.mjs";
 
 export const LABEL_W = 76;
 export const LABEL_W_NARROW = 54;
@@ -135,14 +136,7 @@ export function runKeyOf(run) {
 
 export function ticketMatches(t, run, opts = {}) {
   const off = opts.off instanceof Set ? opts.off : new Set(opts.off || []);
-  if (off.has(t.cat || catOf(t.status))) return false;
-  const q = String(opts.query || "").trim().toLowerCase();
-  if (!q) return true;
-  const hay = [t.id, t.title, t.jiraKey, t.module, t.layer, t.lane, t.repo, t.priorityGate, t.agent, t.status, t.block, t.size, run && run.name]
-    .map((v) => (v == null ? "" : v))
-    .join(" ")
-    .toLowerCase();
-  return q.split(/\s+/).every((w) => hay.includes(w));
+  return matches({ ...t, cat: t.cat || catOf(t.status) }, run, { off, q: opts.query });
 }
 
 function renderBar(it, run, sc, opts, key) {
@@ -152,7 +146,7 @@ function renderBar(it, run, sc, opts, key) {
   const w = Math.max(3, (it.e - it.s) * sc.pph - 2);
   const tiny = w < TINY_PX;
   const shown = typeof opts.matches === "function" ? opts.matches(t, run) : ticketMatches(t, run, opts);
-  const searching = !!String(opts.query || "").trim();
+  const searching = queryWords(opts.query).length > 0;
   const cls = ["bar", "c-" + cat];
   if (t.critical) cls.push("crit");
   if (tiny) cls.push("tiny");

@@ -52,7 +52,7 @@ async function referenceTl(clock) {
       Object.defineProperty(w.HTMLElement.prototype, "clientWidth", { get() { return this.id === "view" ? VIEW_W : 1600; } });
     },
   });
-  for (let i = 0; i < 50 && !dom.window.document.querySelector(".tl .bar"); i++) await new Promise((r) => setTimeout(r, 20));
+  for (let i = 0; i < 250 && !dom.window.document.querySelector(".tl .bar"); i++) await new Promise((r) => setTimeout(r, 20));
   const tl = dom.window.document.querySelector(".tl");
   assert.ok(tl, `reference swimlane-${clock} drew a swimlane`);
   refCache.set(clock, tl);

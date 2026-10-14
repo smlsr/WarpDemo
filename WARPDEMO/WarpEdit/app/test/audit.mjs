@@ -18,11 +18,97 @@ const RULES = [
 
 const blank = (s) => s.replace(/[^\n]/g, " ");
 
-// Comments are blanked, keeping line numbers, so a doc comment cannot trip or hide a rule.
+// A previous significant character that ends an expression: a following "/" divides, anything else starts a regex.
+const ENDS_EXPR = /[\w$)\]}"'`]/;
+
+// Blanks the comments of JavaScript source and keeps every other character and every newline, so line
+// numbers hold. Strings, template literals and regex literals are walked, so a "//" or "/*" inside one
+// does not hide the code after it.
+export function stripJsComments(src) {
+  let out = "";
+  let i = 0;
+  let last = "";
+  const stack = [];
+  const n = src.length;
+  const keep = (c) => {
+    out += c;
+    if (!/\s/.test(c)) last = c;
+  };
+  while (i < n) {
+    const c = src[i];
+    const d = src[i + 1];
+    if (c === "/" && d === "/") {
+      let j = i;
+      while (j < n && src[j] !== "\n") j++;
+      out += blank(src.slice(i, j));
+      i = j;
+    } else if (c === "/" && d === "*") {
+      const j = src.indexOf("*/", i + 2);
+      const end = j < 0 ? n : j + 2;
+      out += blank(src.slice(i, end));
+      i = end;
+    } else if (c === '"' || c === "'") {
+      let j = i + 1;
+      while (j < n && src[j] !== c && src[j] !== "\n") j += src[j] === "\\" ? 2 : 1;
+      const end = Math.min(src[j] === c ? j + 1 : j, n);
+      out += src.slice(i, end);
+      last = c;
+      i = end;
+    } else if (c === "`" || (c === "}" && stack.length && stack[stack.length - 1] === "tpl")) {
+      if (c === "}") stack.pop();
+      let j = i + 1;
+      let open = false;
+      while (j < n) {
+        if (src[j] === "\\") j += 2;
+        else if (src[j] === "`") break;
+        else if (src[j] === "$" && src[j + 1] === "{") {
+          open = true;
+          break;
+        } else j++;
+      }
+      const end = Math.min(open ? j + 2 : j + 1, n);
+      out += src.slice(i, end);
+      if (open) {
+        stack.push("tpl");
+        last = "{";
+      } else last = "`";
+      i = end;
+    } else if (c === "/" && !ENDS_EXPR.test(last)) {
+      let j = i + 1;
+      let cls = false;
+      while (j < n && src[j] !== "\n") {
+        if (src[j] === "\\") j += 2;
+        else if (src[j] === "[") (cls = true), j++;
+        else if (src[j] === "]") (cls = false), j++;
+        else if (src[j] === "/" && !cls) break;
+        else j++;
+      }
+      const end = Math.min(src[j] === "/" ? j + 1 : j, n);
+      out += src.slice(i, end);
+      last = "/";
+      i = end;
+    } else {
+      if (c === "{") stack.push("blk");
+      else if (c === "}") stack.pop();
+      keep(c);
+      i++;
+    }
+  }
+  return out;
+}
+
 export function stripComments(text, html = false) {
-  let out = text.replace(/\/\*[\s\S]*?\*\//g, blank);
-  if (html) out = out.replace(/<!--[\s\S]*?-->/g, blank);
-  return out.replace(/(^|[^:"'`\\])\/\/[^\n]*/g, (m, p) => p + blank(m.slice(p.length)));
+  if (!html) return stripJsComments(text);
+  const SCRIPT = /(<script\b[^>]*>)([\s\S]*?)(<\/script)/gi;
+  const noHtmlComments = (t) => t.replace(/<!--[\s\S]*?-->/g, blank);
+  let out = "";
+  let at = 0;
+  for (const m of text.matchAll(SCRIPT)) {
+    const body = m.index + m[1].length;
+    out += noHtmlComments(text.slice(at, body)) + stripJsComments(m[2]);
+    at = body + m[2].length;
+  }
+  return out + noHtmlComments(text.slice(at));
 }
 
 function walk(dir, files = []) {

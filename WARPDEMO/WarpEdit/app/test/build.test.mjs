@@ -6,6 +6,7 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { build as esbuild } from "esbuild";
+import { withoutSelfBoot } from "../build.mjs";
 import { loadBuilt } from "./dom.mjs";
 
 const appDir = join(dirname(fileURLToPath(import.meta.url)), "..");
@@ -171,4 +172,38 @@ test("AC-5: npm test is node --test and the release script writes editor.html be
   assert.equal(pkg.scripts.build, "node build.mjs");
   assert.equal(pkg.scripts.release, "node build.mjs --release");
   assert.deepEqual(pkg.devDependencies, { esbuild: "0.24.0", jsdom: "25.0.1" });
+});
+
+test("AC-4: the editor boots createApp once, with its plugins (WarpView's self-boot is not bundled)", () => {
+  const data = { files: [{ path: ".warp/beam.json", data: json(join(pack, "WarpEdit", "fixtures", "beam.sample.json")) }] };
+  const boots = (file) => {
+    let reads = 0;
+    const dom = loadBuilt(file, data, {
+      url: "http://localhost/page.html",
+      beforeParse(win) {
+        const get = win.Storage.prototype.getItem;
+        win.Storage.prototype.getItem = function (k) {
+          if (k === "warp-dash:view") reads++;
+          return get.call(this, k);
+        };
+      },
+    });
+    dom.window.close();
+    return reads;
+  };
+  assert.equal(boots(viewerFile), 1, "the viewer boots once");
+  assert.equal(boots(built), 1, "the editor boots once");
+  assert.equal(boots(bareFile), 1);
+  const html = readFileSync(built, "utf8");
+  assert.equal((html.match(/\bcreateApp\(\{ root: /g) || []).length, 1, "one call site in the bundle");
+  assert.match(html, /createApp\(\{ root: document, plugins \}\)/);
+});
+
+test("AC-4: the build fails, naming WarpView's main.mjs, when its self-boot block is not the one it cuts", () => {
+  const real = readFileSync(join(viewApp, "src", "main.mjs"), "utf8");
+  const cut = withoutSelfBoot(real);
+  assert.equal(cut.includes('createApp({ root: document });'), false);
+  assert.ok(cut.includes("export function createApp"));
+  assert.throws(() => withoutSelfBoot(real.replace(/(getElementById\("warp-data"\)\) \{\s*createApp)/, 'getElementById("other")) { createApp')), /main\.mjs/);
+  assert.throws(() => withoutSelfBoot("export function createApp() {}\n"), /boot createApp once/);
 });

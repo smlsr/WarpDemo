@@ -54,6 +54,28 @@ const emptyPlugins = {
   },
 };
 
+// WarpView's entry boots itself when #warp-data exists. The editor boots once, with its plugins,
+// so that block is cut from the bundled copy. If WarpView changes it, the build says so.
+const SELF_BOOT = /\n?if \(typeof document !== "undefined" && document\.getElementById\("warp-data"\)\) \{\s*createApp\(\{ root: document \}\);\s*\}\s*$/;
+
+export function withoutSelfBoot(source) {
+  if (!SELF_BOOT.test(source)) {
+    throw new BuildError("WarpView/app/src/main.mjs", "the self-boot block at the end of the file changed; the editor must boot createApp once, with its plugins");
+  }
+  return source.replace(SELF_BOOT, "\n");
+}
+
+const viewEntry = (viewRoot) => ({
+  name: "warp-view-entry",
+  setup(b) {
+    const entry = join(viewRoot, "src", "main.mjs");
+    b.onLoad({ filter: /main\.mjs$/ }, (a) => {
+      if (resolve(a.path) !== resolve(entry)) return null;
+      return { contents: withoutSelfBoot(readFileSync(a.path, "utf8")), loader: "js", resolveDir: dirname(a.path) };
+    });
+  },
+});
+
 export async function build({ root = here, viewRoot = VIEW_APP, release = false, noPlugins = false, out = null } = {}) {
   const src = join(root, "src");
   const mainPath = join(src, "main.mjs");
@@ -89,7 +111,7 @@ export async function build({ root = here, viewRoot = VIEW_APP, release = false,
       minify: false,
       write: false,
       logLevel: "silent",
-      plugins: noPlugins ? [emptyPlugins] : [],
+      plugins: [viewEntry(viewRoot), ...(noPlugins ? [emptyPlugins] : [])],
     });
     js = res.outputFiles[0].text;
   } catch (e) {

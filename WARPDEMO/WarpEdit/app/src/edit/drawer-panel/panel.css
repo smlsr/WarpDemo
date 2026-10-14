@@ -1,0 +1,10 @@
+.ed-sec { margin-top: 18px; padding: 12px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel2); }
+.ed-sec h4 { margin: 0 0 8px; }
+.ed-sec h4.ed-logh { margin: 14px 0 8px; }
+.ed-sec p { margin: 0; }
+.ed-row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.ed-row select { height: 32px; border-radius: 8px; border: 1px solid var(--line2); background: var(--panel); padding: 0 8px; }
+.ed-prev { font-size: 12px; color: var(--muted); margin-top: 8px; }
+.ed-log { font-size: 12px; display: grid; grid-template-columns: auto 1fr; gap: 4px 10px; margin-top: 6px; }
+.ed-log .u { color: var(--c-qa); font-weight: 700; }
+.ed-empty { font-size: 12px; color: var(--muted); margin-top: 6px; }

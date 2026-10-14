@@ -193,7 +193,12 @@
       "Mcp(user-github:merge_pull_request)",
       "Mcp(project-github:merge_pull_request)",
       "Mcp(plugin-github-github:merge_pull_request)",
-      "Mcp(*github*:merge_pull_request)"
+      "Mcp(*github*:merge_pull_request)",
+      "Mcp(github:create_pull_request)",
+      "Mcp(user-github:create_pull_request)",
+      "Mcp(project-github:create_pull_request)",
+      "Mcp(plugin-github-github:create_pull_request)",
+      "Mcp(*github*:create_pull_request)"
     ]
   }
 }

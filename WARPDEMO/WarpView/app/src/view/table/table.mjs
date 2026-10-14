@@ -130,8 +130,12 @@ export function renderTable(runs, sort, matches) {
   const rows = [];
   for (const run of list) {
     if (!Array.isArray(run.tickets)) continue;
-    if (!(run.gateAt instanceof Map)) plan(run);
-    for (const t of run.tickets) rows.push({ t, run });
+    let view = run;
+    if (!(run.gateAt instanceof Map)) {
+      view = { ...run, tickets: run.tickets.map((t) => (t && typeof t === "object" ? { ...t } : t)) };
+      plan(view);
+    }
+    for (const t of view.tickets) rows.push({ t, run: view });
   }
   const body = sortRows(rows, s)
     .map(({ t, run }) => rowHtml(run, t, list.length > 1, !!show(t, run)))

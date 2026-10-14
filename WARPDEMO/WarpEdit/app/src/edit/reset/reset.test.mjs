@@ -107,6 +107,11 @@ test("AC-4: a second reset keeps the first in resets and events, and reverting i
   assert.deepEqual(revertReset(twice, second), after);
 });
 
+test("AC-4: inverting a reset that is not the ticket's current phase changes nothing", () => {
+  const { beam, change } = resetWV07();
+  assert.equal(revertReset(beam, change), beam);
+});
+
 test("alarm is cleared only when the reset leaves alarm, and comes back on exact revert", () => {
   const alarm = { reason: "bugbot-failed", at: "2026-10-11T21:00:00Z" };
   const beam = deepFreeze(withTicket(load(), "WV-07", { status: "alarm", alarm }));

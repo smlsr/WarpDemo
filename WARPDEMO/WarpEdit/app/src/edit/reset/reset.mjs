@@ -108,6 +108,7 @@ export function revertReset(beam, change, before) {
     return withTickets(beam, updates);
   }
   const ticket = ticketOf(beam, change.ticket);
+  if (ticket.status !== change.to) return beam;
   const main = {
     ...ticket,
     status: change.from,

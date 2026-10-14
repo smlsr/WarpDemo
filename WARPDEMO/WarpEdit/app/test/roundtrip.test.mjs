@@ -7,6 +7,8 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { JSDOM, VirtualConsole } from "jsdom";
 import { audit, report, VIEWER_HTML } from "./audit.mjs";
 import { withData } from "./dom.mjs";
+import { createEditStorePlugin, editStoreFor } from "../src/plugins.mjs";
+import { createStore } from "../../../WarpView/app/src/store/store.mjs";
 
 const appDir = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const pack = resolve(appDir, "..");
@@ -281,6 +283,64 @@ test("AC-2: export round trip — reset WV-07 in a WARP_PLAN export, save, load 
   assert.deepEqual(t2.events, was.events);
   assert.equal(again.data.exportedAt, AT2);
   assert.deepEqual(rowsOf(again.data).map((t) => t.id), plan.tickets.map((t) => t.id));
+});
+
+test("AC-2: one edit store per loaded beam or export reaches every plugin; a reload keeps unsaved resets, another file says they were dropped, clear detaches", () => {
+  const beam = json(join(FIX, "beam.sample.json"));
+  const plan = json(join(FIX, "WARP_PLAN.sample.json"));
+  const seen = [];
+  const recomputed = [];
+  const toasts = [];
+  const taker = (id) => ({ id, attach: (s) => seen.push([id, s]) });
+  const list = [taker("history"), taker("save-ui"), taker("drawer-panel"), { ...taker("recompute"), recompute: () => recomputed.push(1) }, { id: "scrubber" }];
+  const plugin = createEditStorePlugin(list);
+  list.push(plugin);
+  const store = createStore();
+  plugin.init({ store, toast: (m, err) => toasts.push([m, err]), destroy: () => {} });
+  const load = (docs, reason = "load") => {
+    store.state.docs = docs;
+    store.replaceRuns([], reason);
+  };
+
+  load([{ path: "status.json", data: json(join(FIX, "status.sample.json")) }, { path: ".warp/beam.json", data: beam }]);
+  const edit = plugin.store;
+  assert.ok(edit);
+  assert.equal(edit.loaded, beam);
+  assert.deepEqual(seen.map(([id, s]) => [id, s === edit]), [["history", true], ["save-ui", true], ["drawer-panel", true], ["recompute", true]]);
+
+  edit.apply({ ticket: "WV-07", from: "merged", to: "coding", at: AT, note: NOTE, by: "warpedit", dependents: [] });
+  const alarmed = clone(beam);
+  Object.assign(alarmed.tickets["WV-09"], { status: "alarm", alarm: "stuck" });
+  const healed = editStoreFor(alarmed);
+  healed.apply({ ticket: "WV-09", from: "alarm", to: "coding", at: AT, note: "", by: "warpedit", dependents: [] });
+  assert.equal(healed.working.tickets["WV-09"].alarm, null, "a reset out of alarm clears it (SPEC §5.5)");
+  seen.length = 0;
+  load([{ path: ".warp/beam.json", data: clone(beam) }], "reload");
+  assert.equal(plugin.store, edit, "a reload keeps the store with its unsaved reset");
+  assert.equal(seen.length, 0);
+  assert.equal(recomputed.length, 1, "and lays the reset over what was read again");
+  store.replaceRuns([], "edit");
+  assert.equal(plugin.store, edit, "its own recompute does not replace the store");
+
+  load([{ path: "WARP_PLAN.json", data: plan }]);
+  assert.equal(toasts.length, 1);
+  assert.match(toasts[0][0], /^1 unsaved change was dropped/);
+  assert.equal(toasts[0][1], true);
+  const exp = plugin.store;
+  assert.notEqual(exp, edit);
+  assert.equal(exp.loaded, plan, "an export's loaded copy is the file as read");
+  assert.deepEqual(Object.keys(exp.working.tickets), plan.tickets.map((t) => t.id), "its working copy is keyed by id, in file order");
+  assert.equal(seen.filter(([, s]) => s === exp).length, 4);
+
+  const dup = { ...plan, tickets: [...plan.tickets, plan.tickets[0]] };
+  assert.equal(editStoreFor(dup).working, dup, "duplicate ids are left for validation to report");
+
+  seen.length = 0;
+  store.set({ runs: [], docs: [] }, "clear");
+  assert.equal(plugin.store, null);
+  assert.deepEqual(seen.map(([id, s]) => [id, s]), [["history", null], ["save-ui", null], ["drawer-panel", null], ["recompute", null]]);
+  load([{ path: "status.json", data: json(join(FIX, "status.sample.json")) }]);
+  assert.equal(plugin.store, null, "status.json alone gives no edit store");
 });
 
 test("AC-3: WARPDEMO/WarpView/viewer.html, audited again, has no data-edit element and no Reset control", () => {

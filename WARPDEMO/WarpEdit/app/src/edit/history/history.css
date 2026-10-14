@@ -1,0 +1,11 @@
+@media screen {
+  #actionsBar { display: flex; gap: 8px; align-items: center; min-height: 46px; flex-wrap: wrap; border-top: 1px solid var(--line); background: color-mix(in srgb, var(--c-qa) 6%, var(--panel)); }
+  #actionsBar.hidden { display: none !important; }
+}
+#actionsBar .hdr-act { display: contents; }
+#actionsBar .ed-grow { flex: 1; }
+.ed-note { font-size: 12px; color: var(--muted); }
+.ed-unsaved { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 99px; background: color-mix(in srgb, var(--c-qa) 18%, var(--panel)); border: 1px solid color-mix(in srgb, var(--c-qa) 40%, var(--line)); color: var(--ink); }
+@media print {
+  #actionsBar { display: none !important; }
+}

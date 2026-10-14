@@ -45,7 +45,15 @@ const gatesOf = (run) => (run && Array.isArray(run.gates) ? run.gates.filter(Boo
 const approvalOf = (run) => num(run.estimate && run.estimate.approvalHours) || DEFAULT_APPROVAL;
 const capOf = (run) => num(run.cap) || DEFAULT_CAP;
 
+// beam.metrics is written by Warp's last pass and can predate the final merge, so a run whose tickets
+// are all terminal has nothing left whatever its stored etaHours says.
+const finished = (run) => {
+  const ts = ticketsOf(run);
+  return ts.length > 0 && ts.every((t) => TERMINAL.has(normStatus(t.status)));
+};
+
 export function etaOf(run) {
+  if (finished(run)) return 0;
   const given = run.metrics ? num(run.metrics.etaHours) : null;
   if (given != null) return given;
   const open = ticketsOf(run)
@@ -61,7 +69,12 @@ const ms = (v) => (typeof v === "string" ? parseTime(v) : num(v));
 export function elapsedOf(run, now = Date.now()) {
   const start = ms(run.runStartedAt);
   if (start == null) return null;
-  const end = ms(run.runEndedAt) ?? (run.runState === "running" ? now : ms(run.updated) ?? now);
+  const ended = ms(run.runEndedAt);
+  const last = ms(run.updated);
+  // A resumed run keeps the runEndedAt of its earlier stop; activity after it means the run went on.
+  const stale = ended != null && last != null && last > ended;
+  const live = run.runState === "running" && !run.paused && !finished(run);
+  const end = ended != null && !stale ? ended : live ? now : last ?? ended ?? now;
   return Math.max(0, (end - start) / HOUR_MS);
 }
 
@@ -111,19 +124,19 @@ export function computeMetrics(runs, now = Date.now()) {
     }
     const est = run.estimate;
     const rs = est ? num(est.elapsedHours) : null;
-    if (rs != null) estTotal = Math.max(estTotal == null ? 0 : estTotal, rs);
+    if (rs != null) estTotal = (estTotal || 0) + rs;
     const hp = est ? num(est.humanHours) : null;
     if (hp != null) humanPlan = (humanPlan || 0) + hp;
     const el = elapsedOf(run, now);
-    if (el != null) elapsed = Math.max(elapsed == null ? 0 : elapsed, el);
+    if (el != null) elapsed = (elapsed || 0) + el;
     const e = etaOf(run);
-    if (e != null) eta = Math.max(eta == null ? 0 : eta, e);
+    if (e != null) eta = (eta || 0) + e;
   }
 
   const agentTotal = sum(Object.values(agent));
   for (const k of Object.keys(share)) share[k] = estTotal != null && agentTotal > 0 ? (estTotal * agent[k]) / agentTotal : null;
 
-  const finish = Math.max(0, ...list.map((r) => num(r.finish) || 0)) || null;
+  const finish = sum(list.map((r) => num(r.finish) || 0)) || null;
   const assumptions = [
     ...new Set(list.flatMap((r) => (r.estimate && Array.isArray(r.estimate.assumptions) ? r.estimate.assumptions : []))),
   ];

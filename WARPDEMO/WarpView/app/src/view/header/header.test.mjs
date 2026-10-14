@@ -233,8 +233,32 @@ test("AC-2: all runs meta shows '2 runs · 1 running' and matches multi-run", as
   assert.deepEqual(chipTexts(h.meta).slice(0, 2), ["repo smlsr/WarpDemo", "2 runs · 1 running"]);
   assert.equal(text(h.title), "smlsr/WarpDemo — 2 runs");
   assert.equal(text(h.subline), ref.subline);
-  assert.equal(norm(h.metrics), norm(ref.metrics));
-  assert.equal(dom(h.metrics).querySelector(".card h3 span").textContent, "longest run");
+  const [, ...rest] = cards(h.metrics);
+  const [, ...refRest] = cards(ref.metrics);
+  assert.deepEqual(rest.map((c) => norm(c.outerHTML)), refRest.map((c) => norm(c.outerHTML)));
+});
+
+test("AC-2: with all runs selected the run estimate adds every run: estimate, elapsed, ETA left and swimlane finish", () => {
+  const runs = twoRuns();
+  const per = runs.map((r) => computeMetrics([r], NOW));
+  const all = computeMetrics(runs, NOW);
+  const add = (k) => per.reduce((a, m) => a + (m[k] || 0), 0);
+  assert.equal(all.estTotal, 129.5);
+  assert.equal(all.estTotal, add("estTotal"));
+  assert.equal(all.elapsed, add("elapsed"));
+  assert.equal(all.eta, add("eta"));
+  assert.equal(all.finish, add("finish"));
+  const sum = Object.values(all.share).reduce((a, b) => a + b, 0);
+  assert.ok(Math.abs(sum - all.estTotal) < 1e-9, "the split still adds up to the estimate");
+
+  const [run] = cards(header(runs).metrics);
+  assert.equal(run.querySelector("h3 span").textContent, "all runs, added");
+  assert.equal(run.querySelector(".big").textContent, "130h");
+  assert.equal(run.querySelector(".foot").textContent, "Elapsed 30hETA left ~122hSwimlane T+135hsplit by agent-hours");
+
+  const [one] = cards(header(runs, "edit").metrics);
+  assert.equal(one.querySelector("h3 span").textContent, "elapsed, plan");
+  assert.equal(one.querySelector(".big").textContent, `${per[runs.findIndex((r) => r.name === "edit")].estTotal}h`);
 });
 
 test("AC-2: picking a run tab shows that run's own chips and marks the tab", () => {

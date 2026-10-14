@@ -154,3 +154,31 @@ test("AC-1: elapsed hours read ISO strings and stop at runEndedAt or updated whe
   assert.equal(computeMetrics([{ ...base, runState: "paused", updated: "2026-10-11T16:00:00Z" }], NOW).elapsed, 2);
   assert.equal(computeMetrics([{ ...base, runState: "running", runEndedAt: "2026-10-11T15:30:00Z" }], NOW).elapsed, 1.5);
 });
+
+test("AC-1: a resumed run whose runEndedAt predates its last activity runs on to that activity", () => {
+  const done = [ticket({ id: "X-1", status: "merged" }, "X-1")];
+  const base = { gates: [], runStartedAt: "2026-10-11T14:00:00Z", runEndedAt: "2026-10-11T15:00:00Z", updated: "2026-10-11T18:00:00Z" };
+  assert.equal(computeMetrics([{ ...base, runState: "running", tickets: done }], NOW).elapsed, 4);
+  assert.equal(computeMetrics([{ ...base, runState: "stopped", tickets: done }], NOW).elapsed, 4);
+  const open = [ticket({ id: "X-2", status: "coding" }, "X-2")];
+  assert.equal(computeMetrics([{ ...base, runState: "running", tickets: open }], NOW).elapsed, 30, "a live run with open work runs to now");
+});
+
+test("AC-1: ETA left is 0 when every ticket is terminal, even if beam.metrics.etaHours is stale", () => {
+  const tickets = [ticket({ id: "X-1", status: "merged", critical: true }, "X-1"), ticket({ id: "X-2", status: "done" }, "X-2")];
+  assert.equal(computeMetrics([{ gates: [], tickets, metrics: { etaHours: 11 } }], NOW).eta, 0);
+  const open = [...tickets, ticket({ id: "X-3", status: "coding" }, "X-3")];
+  assert.equal(computeMetrics([{ gates: [], tickets: open, metrics: { etaHours: 11 } }], NOW).eta, 11);
+});
+
+test("AC-2: across runs the estimate, elapsed, ETA left and swimlane finish are added, not the longest run", () => {
+  const a = { gates: [], tickets: [ticket({ id: "A-1", status: "coding" }, "A-1")], estimate: { elapsedHours: 69 }, metrics: { etaHours: 3 }, finish: 76, runStartedAt: "2026-10-11T14:00:00Z", runEndedAt: "2026-10-11T18:00:00Z" };
+  const b = { gates: [], tickets: [ticket({ id: "B-1", status: "coding" }, "B-1")], estimate: { elapsedHours: 57 }, metrics: { etaHours: 2 }, finish: 58, runStartedAt: "2026-10-11T10:00:00Z", runEndedAt: "2026-10-11T11:00:00Z" };
+  const m = computeMetrics([a, b], NOW);
+  assert.equal(m.estTotal, 126);
+  assert.equal(m.elapsed, 5);
+  assert.equal(m.eta, 5);
+  assert.equal(m.finish, 134);
+  assert.equal(computeMetrics([a], NOW).estTotal, 69);
+  assert.equal(computeMetrics([{ ...a, estimate: null }, { ...b, estimate: null }], NOW).estTotal, null);
+});

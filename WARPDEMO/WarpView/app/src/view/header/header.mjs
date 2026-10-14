@@ -169,12 +169,14 @@ export function renderCards(m, runs = []) {
     : "";
   const run = card(
     "Run estimate",
-    many ? "longest run" : "elapsed, plan",
+    many ? "all runs, added" : "elapsed, plan",
     fmtH(m.estTotal),
     stackBar(m.share, m.estTotal || 0),
     rowsFor(m.share, m.estTotal || 0, (v) => fmtH(v)),
     `<span>Elapsed <b>${fmtH(m.elapsed)}</b></span><span>ETA left <b>${m.eta == null ? "—" : "~" + fmtH(m.eta)}</b></span>` +
-      (m.finish ? `<span title="Planned finish on the swimlane, with blocks in order">Swimlane <b>T+${Math.round(m.finish)}h</b></span>` : "") +
+      (m.finish
+        ? `<span title="${many ? "Each run's planned finish on its swimlane, added" : "Planned finish on the swimlane, with blocks in order"}">Swimlane <b>T+${Math.round(m.finish)}h</b></span>`
+        : "") +
       `<span title="The plan's elapsed estimate, split by agent-hour share">split by agent-hours</span>`,
     assume,
   );

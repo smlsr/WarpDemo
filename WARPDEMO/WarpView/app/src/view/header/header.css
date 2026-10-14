@@ -1,0 +1,14 @@
+/* header: meta chips, tabs and the plugin actions row (SPEC §10.1-§10.4) */
+.meta .dot.done { background: var(--brand); }
+.tab { cursor: pointer; }
+.tab:not(.on):hover { border-color: var(--line2); }
+#actionsBar { display: flex; gap: 6px; align-items: center; flex-wrap: wrap; justify-content: flex-end; padding-bottom: 8px; }
+.hdr-act { display: inline-flex; align-items: center; gap: 6px; }
+
+@media (max-width: 640px) {
+  #actionsBar { justify-content: flex-start; }
+}
+
+@media print {
+  #actionsBar { display: none; }
+}

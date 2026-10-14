@@ -1,0 +1,16 @@
+{
+  "plans": [
+    "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+  ],
+  "schedules": [
+    "WARPDEMO/WarpEdit/plan/schedule.json"
+  ],
+  "jira": [
+    "WARPDEMO/WarpEdit/tickets/jira-import.json",
+    "WARPDEMO/WarpEdit/tickets/tickets.json"
+  ],
+  "warp": [],
+  "maps": [],
+  "folder": "WARPDEMO/WarpEdit",
+  "scannedAt": "2026-10-14T02:48:08Z"
+}

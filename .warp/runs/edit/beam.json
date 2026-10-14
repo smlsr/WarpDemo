@@ -1,0 +1,1745 @@
+{
+  "version": 1,
+  "name": "warp-beam",
+  "generatedAt": "2026-10-14T02:48:09Z",
+  "source": {
+    "schedule": "/workspace/.warp/_ingested_schedule.json",
+    "plan": "/workspace/WARPDEMO/WarpEdit/plan/schedule.json",
+    "generated": "2026-10-14T02:48:09Z",
+    "module": "warp",
+    "format": "build-schedule/2",
+    "scan": {
+      "plans": [
+        "WARPDEMO/WarpEdit/plan/CURSOR_PLAN.md"
+      ],
+      "schedules": [
+        "WARPDEMO/WarpEdit/plan/schedule.json"
+      ],
+      "jira": [
+        "WARPDEMO/WarpEdit/tickets/jira-import.json",
+        "WARPDEMO/WarpEdit/tickets/tickets.json"
+      ],
+      "warp": [],
+      "maps": [],
+      "root": "/workspace",
+      "folder": "WARPDEMO/WarpEdit",
+      "scannedAt": "2026-10-14T02:48:08Z"
+    },
+    "folder": "WARPDEMO/WarpEdit"
+  },
+  "program": {
+    "tickets": 14,
+    "criticalPath": [
+      "WE-01",
+      "WE-02",
+      "WE-04",
+      "WE-05",
+      "WE-11",
+      "WE-12",
+      "WE-14"
+    ],
+    "criticalHours": null,
+    "people": null,
+    "agentsPerPerson": null,
+    "mergeWindows": null,
+    "durationsHours": null,
+    "lockConflicts": [],
+    "peakAgents": null,
+    "agentHours": null,
+    "schedule": {
+      "schema": "build-schedule/2",
+      "program": "WarpEdit",
+      "rebuilt": "2026-10-13",
+      "repos": [
+        "smlsr/WarpDemo"
+      ],
+      "lanes": [
+        "platform",
+        "model",
+        "console",
+        "quality",
+        "release"
+      ],
+      "gateOrder": "strict",
+      "slots": 18,
+      "priority": "critical chain first, then the members and ancestors of priority gates, then rank (ascending latest_start), then natural id; gate_order strict: a gate block starts when every earlier block has merged; the run starts after view:G2",
+      "finishHours": 76.0,
+      "agentHours": 110,
+      "criticalHours": 69.0,
+      "peak": 3,
+      "waves": 7
+    },
+    "gateOrder": "strict",
+    "estimate": {
+      "agentHours": 110.0,
+      "humanHours": 2.0,
+      "elapsedHours": 69.0,
+      "criticalAgentHours": 67.0,
+      "criticalHumanHours": 0.0,
+      "approvalHours": 0.5,
+      "reviewTickets": 0,
+      "gates": 4,
+      "maxAgents": 18,
+      "assumptions": [
+        "Agent hours are S=4, M=7, L=11, XL=16 unless the ticket has hours.",
+        "Each approval for a size not in autoMergeSizes is provided within 30 minutes.",
+        "Each blocking gate check is signed within 30 minutes.",
+        "Sizes in autoMergeSizes add no human wait. The default list is S, M.",
+        "Elapsed hours are the longer of the critical chain plus those waits, and agent hours divided by maxAgents."
+      ]
+    }
+  },
+  "config": {
+    "model": "claude-sonnet-5-5-high",
+    "maxAgents": 18,
+    "maxInProgress": 20,
+    "autoMergeSizes": [
+      "S",
+      "M",
+      "L",
+      "XL"
+    ],
+    "messenger": "both",
+    "notify": "verbose",
+    "runner": "cloud",
+    "launch": "worktree",
+    "worktreeRoot": ".warp/worktrees",
+    "subagentVm": false,
+    "memoryCheck": false,
+    "cloudSnapshot": "",
+    "jiraProject": "WAR",
+    "jiraKeyPrefixes": "WAR",
+    "jiraKeyMap": {},
+    "jiraExternalIdField": "externalId",
+    "jiraExternalIdFieldName": "External ID",
+    "jiraWriteExternalId": false,
+    "jiraCreateExternalIdField": false,
+    "jiraExternalIdFallback": "label",
+    "jiraTransition": true,
+    "jiraInProgressStatus": "In Progress",
+    "jiraInReviewStatus": "In Review",
+    "jiraRestoreOnRelease": false,
+    "jiraQaReadyStatus": "QA Ready",
+    "jiraDoneStatus": "Done",
+    "jiraDoneOnManualMerge": true,
+    "jiraMcp": "atlassian",
+    "jiraSite": "https://smldev.atlassian.net",
+    "bugbotRequired": true,
+    "bugbotManual": true,
+    "bugbotTrigger": "auto",
+    "bugbotStartMinutes": 10,
+    "maxFixAttempts": 5,
+    "stuckAfterMinutes": 90,
+    "stallImplementingMinutes": 90,
+    "stallPrOpenMinutes": 20,
+    "stallReviewingMinutes": 45,
+    "stallFixingMinutes": 90,
+    "stallReadyMinutes": 30,
+    "stallMergingMinutes": 20,
+    "stallQueuedMinutes": 180,
+    "stallApprovalMinutes": 240,
+    "stallMinutes": 45,
+    "ciStartGraceMinutes": 5,
+    "statusDigestMinutes": 60,
+    "maxStallFixes": 5,
+    "repairSweepMinutes": 15,
+    "staleMinutes": 15,
+    "listenerFastSeconds": 15,
+    "listenerSlowSeconds": 120,
+    "listenerOrphanMinutes": 5,
+    "listenerSilentMinutes": 5,
+    "listenerMaxMinutes": 60,
+    "listenerMaxReads": 4,
+    "listenerModel": "",
+    "maxRecoveries": 5,
+    "maxSpawnsPerTicket": 8,
+    "maxSpawnsPerHour": 40,
+    "alarmRepairMinutes": 15,
+    "maxAlarmRepairs": 5,
+    "respectMergeWindows": false,
+    "mergeWindows": [
+      "08:30",
+      "13:00",
+      "17:00"
+    ],
+    "pollSeconds": 300,
+    "reportOnComplete": true,
+    "reportPath": ".warp/warp-complete.html",
+    "checkCommand": "",
+    "appendOnlyPaths": [],
+    "mergeQueue": false,
+    "run": "edit"
+  },
+  "paused": false,
+  "pauseReason": null,
+  "runState": "stopped",
+  "gates": [
+    {
+      "key": "G0",
+      "name": "Editor builds, viewer untouched",
+      "blocking": true,
+      "members": [
+        "WE-01"
+      ],
+      "checks": [
+        "npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green)",
+        "app/dist/editor.html opens with the Editing badge"
+      ],
+      "ifRed": "Stop the edit run: the viewer can change a phase or the editor cannot import it.",
+      "scope": "everyone",
+      "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+      "at": 4.0,
+      "hold": "green",
+      "status": "pending",
+      "evidence": null,
+      "greenAt": null
+    },
+    {
+      "key": "G1",
+      "name": "Reset is safe",
+      "blocking": true,
+      "members": [
+        "WE-02",
+        "WE-03",
+        "WE-04",
+        "WE-05",
+        "WE-06",
+        "WE-07",
+        "WE-08",
+        "WE-09"
+      ],
+      "checks": [
+        "reset, dependents, validate and save equal fixtures/expected",
+        "undo restores the loaded ticket exactly"
+      ],
+      "ifRed": "Do not build screens on a reset that loses data.",
+      "scope": "everyone",
+      "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+      "at": 36.5,
+      "hold": "green",
+      "status": "pending",
+      "evidence": null,
+      "greenAt": null
+    },
+    {
+      "key": "G2",
+      "name": "Editor screens",
+      "blocking": true,
+      "members": [
+        "WE-10",
+        "WE-11",
+        "WE-12",
+        "WE-13"
+      ],
+      "checks": [
+        "Drawer reset, header actions, banner and scrubber match ui/screens",
+        "Totals follow a reset"
+      ],
+      "ifRed": "Fix before release.",
+      "scope": "everyone",
+      "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+      "at": 64.5,
+      "hold": "green",
+      "status": "pending",
+      "evidence": null,
+      "greenAt": null
+    },
+    {
+      "key": "G3",
+      "name": "Ship",
+      "blocking": true,
+      "members": [
+        "WE-14"
+      ],
+      "checks": [
+        "editor.html committed; round trip green; viewer audit green"
+      ],
+      "ifRed": "Do not announce the editor until the round trip is green.",
+      "scope": "everyone",
+      "onGreen": "python3 .cursor/plugins/warp/scripts/blocks.py show --beam .warp/beam.json",
+      "at": 76.0,
+      "hold": "green",
+      "status": "pending",
+      "evidence": null,
+      "greenAt": null
+    }
+  ],
+  "tickets": {
+    "WE-01": {
+      "id": "WE-01",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Editor scaffold on WarpView's modules, and the read-only audit",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "hours": 4,
+      "deps": [],
+      "after": [
+        "view:WV-15"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/package.json",
+        "WARPDEMO/WarpEdit/app/build.mjs",
+        "WARPDEMO/WarpEdit/app/.gitignore",
+        "WARPDEMO/WarpEdit/app/src/main.mjs",
+        "WARPDEMO/WarpEdit/app/src/plugins.mjs",
+        "WARPDEMO/WarpEdit/app/test/"
+      ],
+      "critical": true,
+      "starred": false,
+      "rank": 1,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G0",
+      "priority": null,
+      "lane": "platform",
+      "repo": "smlsr/WarpDemo",
+      "wave": 1,
+      "checks": [
+        {
+          "name": "Editor builds, viewer untouched (G0)",
+          "check": "npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app test (audit green)"
+        },
+        {
+          "name": "Editor builds, viewer untouched (G0)",
+          "check": "app/dist/editor.html opens with the Editing badge"
+        }
+      ],
+      "planned": {
+        "slot": 1,
+        "start": 0.0,
+        "merge": 4.0,
+        "ready": 0.0,
+        "latest_start": 0.0
+      },
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given WarpView merged through WV-15, when `npm --prefix WARPDEMO/WarpEdit/app ci && npm --prefix WARPDEMO/WarpEdit/app run build` runs, then `WARPDEMO/WarpEdit/app/dist/editor.html` opens with the WarpView empty state, the title 'Warp Editor' and the 'Editing' badge."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given the audit, when run over WarpView's src, then it passes and prints the thirteen phases."
+        },
+        {
+          "id": "AC-3",
+          "kind": "negative",
+          "text": "Given a test copy of WarpView's drawer that sets ticket.status, when the audit runs on that copy, then it fails naming the file and line."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given plugins.mjs with an empty plugin list, when the editor builds, then it behaves exactly like the viewer (no edit control) \u2014 the plugins carry every edit feature."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then audit.test.mjs and the build test pass."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-02": {
+      "id": "WE-02",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Edit store: change log, undo and redo, unsaved count",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "hours": 7,
+      "deps": [],
+      "after": [
+        "WE-01"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/store/"
+      ],
+      "critical": true,
+      "starred": false,
+      "rank": 2,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G1",
+      "priority": null,
+      "lane": "model",
+      "repo": "smlsr/WarpDemo",
+      "wave": 2,
+      "planned": {
+        "slot": 1,
+        "start": 4.0,
+        "merge": 11.0,
+        "ready": 4.0,
+        "latest_start": 4.0
+      },
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, when a change WV-07 merged\u2192coding is applied, then working.tickets['WV-07'].status is coding, dirty is 1 and the loaded beam still says merged."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given two changes then undo, when redo runs, then the state equals the state after two changes and dirty is 2."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given 55 changes, when undo runs 60 times, then only 50 are undone and the 51st-oldest change remains."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given a frozen loaded beam, when apply runs, then nothing throws (no mutation of frozen objects)."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then store.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-03": {
+      "id": "WE-03",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Phase menu: allowed targets, same-phase and unknown refused",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "hours": 4,
+      "deps": [],
+      "after": [
+        "WE-01"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/phases/"
+      ],
+      "critical": false,
+      "starred": false,
+      "rank": 3,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G1",
+      "priority": null,
+      "lane": "model",
+      "repo": "smlsr/WarpDemo",
+      "wave": 2,
+      "planned": {
+        "slot": 2,
+        "start": 4.0,
+        "merge": 8.0,
+        "ready": 4.0,
+        "latest_start": 7.0
+      },
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given status merged, when targetsFrom runs, then it returns queued, claimed, planning, coding, review, fix, awaiting_approval, merging, blocked, alarm in that order."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given status coding, when targetsFrom runs, then it returns the twelve other phases including merged and done."
+        },
+        {
+          "id": "AC-3",
+          "kind": "negative",
+          "text": "Given from merged and to merged, when check runs, then it returns same with the message naming the ticket and the phase; skipped to skipped likewise."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given to 'teleporting', when check runs, then it returns unknown naming 'teleporting'."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then phases.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-06": {
+      "id": "WE-06",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Confirm dialog: ticket, from and to phase, dependents, note",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "S",
+      "complexity": "LOW",
+      "autoMerge": true,
+      "hours": 4,
+      "deps": [],
+      "after": [
+        "WE-03"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/confirm/"
+      ],
+      "critical": false,
+      "starred": false,
+      "rank": 11,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G1",
+      "priority": null,
+      "lane": "console",
+      "repo": "smlsr/WarpDemo",
+      "wave": 3,
+      "planned": {
+        "slot": 2,
+        "start": 8.0,
+        "merge": 12.0,
+        "ready": 8.0,
+        "latest_start": 46.5
+      },
+      "screens": [
+        "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png"
+      ],
+      "mock": "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png",
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given WV-07 merged \u2192 coding with two blocked dependents, when the dialog opens, then it matches `WARPDEMO/WarpEdit/ui/screens/edit-confirm.png`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given a note typed and Reset clicked, when resolved, then the promise gives ok true and the note."
+        },
+        {
+          "id": "AC-3",
+          "kind": "negative",
+          "text": "Given Escape, the scrim or Cancel, when pressed, then the promise gives ok false and no change reaches the store."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given a 600-character note, when typed, then it stops at 500 characters."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then confirm.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-04": {
+      "id": "WE-04",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Reset a ticket's phase: event, reset log, timestamps kept",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "L",
+      "complexity": "HIGH",
+      "autoMerge": true,
+      "hours": 11,
+      "deps": [],
+      "after": [
+        "WE-02",
+        "WE-03"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/reset/"
+      ],
+      "critical": true,
+      "starred": false,
+      "rank": 4,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G1",
+      "priority": null,
+      "lane": "model",
+      "repo": "smlsr/WarpDemo",
+      "wave": 3,
+      "planned": {
+        "slot": 1,
+        "start": 11.0,
+        "merge": 22.5,
+        "ready": 11.0,
+        "latest_start": 11.0
+      },
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given WV-07 merged in `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, when reset to coding with note 'flaky test' at 2026-10-12T19:30:00Z, then the ticket equals `WARPDEMO/WarpEdit/fixtures/expected/reset.WV-07.coding.json`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given the same reset, when compared field by field, then pr.mergedAt, pr.openedAt, tokens, minutes and usage are unchanged."
+        },
+        {
+          "id": "AC-3",
+          "kind": "negative",
+          "text": "Given to equal to the current status, when buildReset runs, then it returns the same-phase refusal and no change."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given a reset then revertReset, when compared with the loaded ticket, then they are deeply equal."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then reset.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-07": {
+      "id": "WE-07",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Undo, redo and unsaved count in the header",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "hours": 7,
+      "deps": [],
+      "after": [
+        "WE-02"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/history/"
+      ],
+      "critical": false,
+      "starred": false,
+      "rank": 9,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G1",
+      "priority": null,
+      "lane": "console",
+      "repo": "smlsr/WarpDemo",
+      "wave": 3,
+      "planned": {
+        "slot": 3,
+        "start": 11.0,
+        "merge": 18.0,
+        "ready": 11.0,
+        "latest_start": 43.5
+      },
+      "screens": [
+        "WARPDEMO/WarpEdit/ui/screens/edit-header.png"
+      ],
+      "mock": "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given one reset, when the header renders, then it matches `WARPDEMO/WarpEdit/ui/screens/edit-header.png` (1 unsaved, Undo enabled, Redo disabled)."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given Ctrl+Z then Ctrl+Shift+Z, when pressed outside inputs, then the reset is undone and redone and the count goes 1 \u2192 0 \u2192 1."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given focus in the search box, when Ctrl+Z is pressed, then the browser's text undo runs and the store is unchanged."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given zero unsaved changes, when the page unloads, then no confirmation is asked."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then history.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-05": {
+      "id": "WE-05",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Dependents of an un-merged ticket go back to blocked",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "hours": 7,
+      "deps": [],
+      "after": [
+        "WE-04"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/dependents/"
+      ],
+      "critical": true,
+      "starred": false,
+      "rank": 5,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G1",
+      "priority": null,
+      "lane": "model",
+      "repo": "smlsr/WarpDemo",
+      "wave": 4,
+      "planned": {
+        "slot": 1,
+        "start": 22.5,
+        "merge": 29.5,
+        "ready": 22.5,
+        "latest_start": 22.5
+      },
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given WV-07 merged and its queued dependents in `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, when reset to coding, then exactly the ids in `WARPDEMO/WarpEdit/fixtures/expected/dependents.WV-07.json` go to blocked."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given a dependent already coding, when planned, then it is listed with a warning and its status is unchanged."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given reset from skipped to queued, when planned, then dependents are unchanged (skipped never unblocked them in Warp's merge sense)."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given undo of that reset, when applied, then every dependent's status equals its status before the reset."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then dependents.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-08": {
+      "id": "WE-08",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Validate before save: missing ids, cycles, reset log",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "hours": 7,
+      "deps": [],
+      "after": [
+        "WE-04"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/validate/"
+      ],
+      "critical": false,
+      "starred": false,
+      "rank": 7,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G1",
+      "priority": null,
+      "lane": "quality",
+      "repo": "smlsr/WarpDemo",
+      "wave": 4,
+      "planned": {
+        "slot": 2,
+        "start": 22.5,
+        "merge": 29.5,
+        "ready": 22.5,
+        "latest_start": 36.5
+      },
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json` unchanged, when validated, then there are no errors."
+        },
+        {
+          "id": "AC-2",
+          "kind": "negative",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/invalid/missing-dep.json` (WV-09 depends on WV-99), when validated, then one error dep-missing says 'WV-09 depends on WV-99, which is not in this run'."
+        },
+        {
+          "id": "AC-3",
+          "kind": "negative",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/invalid/cycle.json`, when validated, then one error cycle names 'WV-10 \u2192 WV-11 \u2192 WV-10'."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given a dependency written view:WV-15 in the edit run, when validated, then it is not reported."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then validate.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-09": {
+      "id": "WE-09",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Save in the loaded shape; copy the edits as Warp commands",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "hours": 7,
+      "deps": [],
+      "after": [
+        "WE-04",
+        "WE-08"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/save/"
+      ],
+      "critical": false,
+      "starred": false,
+      "rank": 10,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G1",
+      "priority": null,
+      "lane": "model",
+      "repo": "smlsr/WarpDemo",
+      "wave": 5,
+      "checks": [
+        {
+          "name": "Reset is safe (G1)",
+          "check": "reset, dependents, validate and save equal fixtures/expected"
+        },
+        {
+          "name": "Reset is safe (G1)",
+          "check": "undo restores the loaded ticket exactly"
+        }
+      ],
+      "planned": {
+        "slot": 1,
+        "start": 29.5,
+        "merge": 36.5,
+        "ready": 29.5,
+        "latest_start": 43.5
+      },
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json` with WV-07 reset to coding, when serialized, then the output equals `WARPDEMO/WarpEdit/fixtures/expected/saved.beam.json` apart from editedAt."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/WARP_PLAN.sample.json` with the same reset, when serialized, then kind stays warp-plan, the ticket has status coding and resets, and jiraKey is kept."
+        },
+        {
+          "id": "AC-3",
+          "kind": "happy",
+          "text": "Given the reset and two blocked dependents, when asCommands runs, then three beam.py set lines result in that order."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/status.sample.json` loaded, when Save is asked, then it refuses with 'Open beam.json to save edits'."
+        },
+        {
+          "id": "AC-5",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpView/plan/schedule.json` loaded, when Save is asked, then it refuses with 'schedule.json is the plan: open beam.json to save edits'; given `WARPDEMO/WarpEdit/fixtures/beam.sample.json`, the saved WV-07 keeps planned, lane and priorityGate as loaded."
+        },
+        {
+          "id": "AC-6",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then save.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-11": {
+      "id": "WE-11",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Totals, legend and every view follow each reset",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "L",
+      "complexity": "HIGH",
+      "autoMerge": true,
+      "hours": 11,
+      "deps": [],
+      "after": [
+        "WE-04",
+        "WE-05"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/recompute/"
+      ],
+      "critical": true,
+      "starred": false,
+      "rank": 6,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G2",
+      "priority": null,
+      "lane": "console",
+      "repo": "smlsr/WarpDemo",
+      "wave": 5,
+      "planned": {
+        "slot": 1,
+        "start": 36.5,
+        "merge": 48.0,
+        "ready": 36.5,
+        "latest_start": 29.5
+      },
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json` and WV-07 reset to coding, when panes re-render, then legend, cards and utilization equal `WARPDEMO/WarpEdit/fixtures/expected/after-reset.metrics.json`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given the board by block, when WV-07 is reset, then its lane loses the cleared pill and shows one more in progress."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given the table sorted by Merged and a search typed, when a reset happens, then sort, search and scroll position are kept."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given any reset, when totals are compared, then total tokens and minutes are unchanged."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then recompute.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-10": {
+      "id": "WE-10",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Drawer Reset section: phase menu, button and reset log",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "hours": 7,
+      "deps": [],
+      "after": [
+        "WE-04",
+        "WE-05",
+        "WE-06"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/drawer-panel/"
+      ],
+      "critical": false,
+      "starred": false,
+      "rank": 12,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G2",
+      "priority": null,
+      "lane": "console",
+      "repo": "smlsr/WarpDemo",
+      "wave": 5,
+      "planned": {
+        "slot": 2,
+        "start": 36.5,
+        "merge": 43.5,
+        "ready": 36.5,
+        "latest_start": 50.5
+      },
+      "screens": [
+        "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png"
+      ],
+      "mock": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given WV-07 merged, when its drawer opens, then the Reset section matches `WARPDEMO/WarpEdit/ui/screens/edit-drawer.png`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given coding chosen and confirmed with a note, when applied, then the drawer shows status coding and a reset log entry with the note, marked unsaved."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/expected/saved.beam.json` loaded, when WV-07's drawer opens, then the reset log lists the saved entry, not marked unsaved."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given the confirm dialog cancelled, when the drawer re-renders, then status and log are unchanged."
+        },
+        {
+          "id": "AC-5",
+          "kind": "edge",
+          "text": "Given `WARPDEMO/WarpView/plan/schedule.json` loaded, when WV-07's drawer opens, then the Reset section holds only 'schedule.json is the plan: open beam.json to reset a phase' and no select or button."
+        },
+        {
+          "id": "AC-6",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then panel.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-13": {
+      "id": "WE-13",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Save button, validation banner and Copy as commands",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "M",
+      "complexity": "MEDIUM",
+      "autoMerge": true,
+      "hours": 7,
+      "deps": [],
+      "after": [
+        "WE-07",
+        "WE-09"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/save-ui/"
+      ],
+      "critical": false,
+      "starred": false,
+      "rank": 13,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G2",
+      "priority": null,
+      "lane": "console",
+      "repo": "smlsr/WarpDemo",
+      "wave": 6,
+      "planned": {
+        "slot": 3,
+        "start": 36.5,
+        "merge": 43.5,
+        "ready": 36.5,
+        "latest_start": 50.5
+      },
+      "screens": [
+        "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+        "WARPDEMO/WarpEdit/ui/screens/edit-validation.png"
+      ],
+      "mock": "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given one valid reset, when Save is clicked, then a download named beam.json starts, unsaved goes to 0 and the toast names the file."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/invalid/missing-dep.json` loaded and edited, when the header renders, then Save is disabled and the banner matches `WARPDEMO/WarpEdit/ui/screens/edit-validation.png`."
+        },
+        {
+          "id": "AC-3",
+          "kind": "happy",
+          "text": "Given Copy as commands, when clicked, then the clipboard holds one beam.py line per change."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given clipboard access is denied, when Copy is clicked, then a toast says so and shows the commands in a dialog to copy by hand."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then save-ui.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-12": {
+      "id": "WE-12",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Phase scrubber on the actual swimlane",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "XL",
+      "complexity": "CRITICAL",
+      "autoMerge": true,
+      "hours": 16,
+      "deps": [],
+      "after": [
+        "WE-11"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/app/src/edit/scrubber/"
+      ],
+      "critical": true,
+      "starred": false,
+      "rank": 8,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G2",
+      "priority": null,
+      "lane": "console",
+      "repo": "smlsr/WarpDemo",
+      "wave": 6,
+      "checks": [
+        {
+          "name": "Editor screens (G2)",
+          "check": "Drawer reset, header actions, banner and scrubber match ui/screens"
+        },
+        {
+          "name": "Editor screens (G2)",
+          "check": "Totals follow a reset"
+        }
+      ],
+      "planned": {
+        "slot": 1,
+        "start": 48.0,
+        "merge": 64.5,
+        "ready": 48.0,
+        "latest_start": 41.0
+      },
+      "screens": [
+        "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+      ],
+      "mock": "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png",
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `WARPDEMO/WarpEdit/fixtures/beam.sample.json` with WV-07 reset, when the slider is at +20h, then the screen matches `WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png` and each bar's color equals `WARPDEMO/WarpEdit/fixtures/expected/scrub.+20.json`."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given the slider at the now line, when compared, then every bar has its current status color."
+        },
+        {
+          "id": "AC-3",
+          "kind": "edge",
+          "text": "Given a ticket with no events, when scrubbed, then it shows queued before its claim and its current status after."
+        },
+        {
+          "id": "AC-4",
+          "kind": "negative",
+          "text": "Given the plan clock, when the swimlane renders, then no slider or reset marker appears."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then scrubber.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    },
+    "WE-14": {
+      "id": "WE-14",
+      "jiraKey": null,
+      "jiraKeySource": null,
+      "jiraKeyForced": false,
+      "jiraKeyConfidence": null,
+      "summary": "Release editor.html: round trip, audit again, README",
+      "module": "WarpEdit",
+      "layer": "ui",
+      "group": null,
+      "owner": null,
+      "size": "L",
+      "complexity": "HIGH",
+      "autoMerge": true,
+      "hours": 11,
+      "deps": [],
+      "after": [
+        "WE-10",
+        "WE-11",
+        "WE-12",
+        "WE-13"
+      ],
+      "unlocks": [],
+      "locks": [
+        "WARPDEMO/WarpEdit/editor.html",
+        "WARPDEMO/WarpEdit/app/README.md",
+        "WARPDEMO/WarpEdit/app/test/roundtrip.test.mjs"
+      ],
+      "critical": true,
+      "starred": false,
+      "rank": 14,
+      "rankDays": 0,
+      "plan": {},
+      "result": {},
+      "gate": "G3",
+      "priority": null,
+      "lane": "release",
+      "repo": "smlsr/WarpDemo",
+      "wave": 7,
+      "checks": [
+        {
+          "name": "Ship (G3)",
+          "check": "editor.html committed; round trip green; viewer audit green"
+        }
+      ],
+      "planned": {
+        "slot": 1,
+        "start": 64.5,
+        "merge": 76.0,
+        "ready": 64.5,
+        "latest_start": 57.5
+      },
+      "screens": [
+        "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
+        "WARPDEMO/WarpEdit/ui/screens/edit-confirm.png",
+        "WARPDEMO/WarpEdit/ui/screens/edit-header.png",
+        "WARPDEMO/WarpEdit/ui/screens/edit-validation.png",
+        "WARPDEMO/WarpEdit/ui/screens/edit-scrubber.png"
+      ],
+      "mock": "WARPDEMO/WarpEdit/ui/screens/edit-drawer.png",
+      "acs": [
+        {
+          "id": "AC-1",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app run release`, when run, then `WARPDEMO/WarpEdit/editor.html` is written, under 450 kB, and opens from disk."
+        },
+        {
+          "id": "AC-2",
+          "kind": "happy",
+          "text": "Given the round trip on the beam and on the export, when compared, then status, resets, events, old pr.mergedAt and jiraKey survive."
+        },
+        {
+          "id": "AC-3",
+          "kind": "negative",
+          "text": "Given `WARPDEMO/WarpView/viewer.html`, when audited, then it still has no data-edit element and no Reset control."
+        },
+        {
+          "id": "AC-4",
+          "kind": "edge",
+          "text": "Given a saved file loaded into the viewer (not the editor), when its drawer opens, then the status and timestamps show and no reset control appears."
+        },
+        {
+          "id": "AC-5",
+          "kind": "happy",
+          "text": "Given `npm --prefix WARPDEMO/WarpEdit/app test`, when run, then roundtrip.test.mjs passes."
+        }
+      ],
+      "plannedStart": null,
+      "plannedMerge": null,
+      "status": "queued",
+      "agent": null,
+      "worktree": null,
+      "checkout": null,
+      "branch": null,
+      "attempts": 0,
+      "minutes": 0,
+      "alarm": null,
+      "pr": {
+        "url": null,
+        "id": null,
+        "openedAt": null,
+        "reviewedAt": null,
+        "bugbot": null,
+        "bugbotEvidence": null,
+        "ci": null,
+        "approvedAt": null,
+        "mergedAt": null
+      },
+      "jira": {
+        "status": null,
+        "lastCommentAt": null
+      },
+      "events": [],
+      "updatedAt": null,
+      "jiraMapping": "needs mapping"
+    }
+  },
+  "agents": {},
+  "metrics": {
+    "total": 14,
+    "byStatus": {
+      "queued": 14,
+      "merged": 0,
+      "done": 0
+    },
+    "done": 0,
+    "pct": 0.0,
+    "minutes": 0,
+    "remainingHours": 110,
+    "criticalHoursLeft": 67,
+    "etaHours": 67,
+    "bySize": {
+      "S": 3,
+      "M": 7,
+      "L": 3,
+      "XL": 1
+    },
+    "byModule": {
+      "WarpEdit": 14
+    },
+    "computedAt": "2026-10-14T02:48:09Z"
+  },
+  "run": "edit",
+  "checkpointAt": "2026-10-14T02:48:09Z"
+}

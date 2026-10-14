@@ -1,2 +1,27 @@
 {"gates": 4, "tickets": 14, "ts": "2026-10-14T02:48:09Z", "type": "ingest"}
 {"reason": null, "ts": "2026-10-14T02:50:43Z", "type": "running"}
+{"actions": ["claim"], "id": "WE-01", "ts": "2026-10-14T02:50:45Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-01", "result": "moved", "to": "In Progress", "ts": "2026-10-14T02:51:44Z", "type": "jira"}
+{"commentId": "10586", "event": "claim", "id": "WE-01", "ts": "2026-10-14T02:51:44Z", "type": "jira-comment", "where": "jira"}
+{"branch": "warp/edit/WE-01-WAR-63", "id": "WE-01", "pushed": true, "reason": "github MCP create_pull_request returned 403 (token cannot create PRs); gh is read-only. Branch pushed to origin.", "ts": "2026-10-14T02:55:09Z", "type": "pr-not-opened"}
+{"ts": "2026-10-14T02:55:15Z", "type": "subagent-stop"}
+{"line": "WE-01 review", "ts": "2026-10-14T02:55:17Z", "type": "remote"}
+{"line": "WE-01 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T02:55:17Z", "type": "remote"}
+{"line": "WE-01 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T02:55:17Z", "type": "remote"}
+{"line": "WE-01 done", "ts": "2026-10-14T02:55:17Z", "type": "remote"}
+{"actions": ["in-review"], "id": "WE-01", "ts": "2026-10-14T02:56:36Z", "type": "jira-intent"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-01", "result": "moved", "to": "Code Review", "ts": "2026-10-14T02:56:47Z", "type": "jira"}
+{"line": "WE-01 check-red", "ts": "2026-10-14T03:06:30Z", "type": "remote"}
+{"line": "WE-01 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T03:07:16Z", "type": "remote"}
+{"ts": "2026-10-14T03:09:08Z", "type": "subagent-stop"}
+{"line": "WE-01 review", "ts": "2026-10-14T03:09:09Z", "type": "remote"}
+{"line": "WE-01 done", "ts": "2026-10-14T03:09:09Z", "type": "remote"}
+{"line": "WE-01 check-red", "ts": "2026-10-14T03:16:50Z", "type": "remote"}
+{"line": "WE-01 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T03:18:07Z", "type": "remote"}
+{"ts": "2026-10-14T03:19:01Z", "type": "subagent-stop"}
+{"line": "WE-01 review", "ts": "2026-10-14T03:19:03Z", "type": "remote"}
+{"line": "WE-01 done", "ts": "2026-10-14T03:19:03Z", "type": "remote"}
+{"ack": "Received warp:stop. This repo has more than one run (edit, view). Name the run: warp:stop <run>. Nothing was changed.", "by": "Shawn Lewis", "command": "warp:stop", "source": "slack", "ticket": null, "ts": "2026-10-14T03:23:08Z", "type": "ack", "verb": "stop"}
+{"ack": "Received warp:stop. Stopping the run and the listener.", "by": "Shawn Lewis", "command": "warp:stop edit", "source": "slack", "ticket": null, "ts": "2026-10-14T03:26:53Z", "type": "ack", "verb": "stop"}
+{"reason": null, "ts": "2026-10-14T03:27:05Z", "type": "stopped"}
+{"ts": "2026-10-14T03:27:05Z", "type": "session-stop"}

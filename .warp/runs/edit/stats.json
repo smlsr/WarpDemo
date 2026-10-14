@@ -1,10 +1,10 @@
 {
   "run": "edit",
-  "generatedAt": "2026-10-14T02:50:43Z",
+  "generatedAt": "2026-10-14T03:27:05Z",
   "totals": {
     "tokens": 0,
-    "minutes": 0,
-    "attempts": 0,
+    "minutes": 28,
+    "attempts": 2,
     "recoveries": 0,
     "cost": 0.0,
     "tokensIn": 0,
@@ -12,22 +12,23 @@
     "tokensCached": 0
   },
   "byStatus": {
-    "queued": 14
+    "bugbot_running": 1,
+    "queued": 13
   },
   "tickets": {
     "WE-01": {
-      "status": "queued",
+      "status": "bugbot_running",
       "size": "S",
       "tokens": 0,
-      "minutes": 0,
-      "attempts": 0,
+      "minutes": 28,
+      "attempts": 2,
       "recoveries": 0,
       "cost": 0.0,
       "tokensIn": 0,
       "tokensOut": 0,
       "tokensCached": 0,
-      "claimedAt": null,
-      "openedAt": null,
+      "claimedAt": "2026-10-14T02:50:44Z",
+      "openedAt": "2026-10-14T02:56:25Z",
       "mergedAt": null
     },
     "WE-02": {

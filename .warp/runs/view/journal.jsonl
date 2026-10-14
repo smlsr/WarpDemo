@@ -254,3 +254,28 @@
 {"reason": null, "ts": "2026-10-14T01:21:17Z", "type": "running"}
 {"ts": "2026-10-14T01:22:03Z", "type": "session-stop"}
 {"reason": null, "ts": "2026-10-14T01:35:59Z", "type": "running"}
+{"line": "WV-12-BB1 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T01:40:33Z", "type": "remote"}
+{"line": "WV-12-BB1 acceptance: 2 recorded, all pass.", "ts": "2026-10-14T01:40:33Z", "type": "remote"}
+{"line": "WV-12-BB1 done", "ts": "2026-10-14T01:40:33Z", "type": "remote"}
+{"branch": "warp/view/WV-11-BB1", "id": "WV-11-BB1", "pushed": true, "reason": "github create_pull_request 403; branch pushed", "ts": "2026-10-14T01:41:07Z", "type": "pr-not-opened"}
+{"line": "WV-11-BB1 Bugbot review by the Shuttle: 2 finding(s). Back to fix.", "ts": "2026-10-14T01:41:13Z", "type": "remote"}
+{"line": "WV-11-BB1 acceptance: AC-2 failed.", "ts": "2026-10-14T01:41:13Z", "type": "remote"}
+{"line": "WV-11-BB1 done", "ts": "2026-10-14T01:41:13Z", "type": "remote"}
+{"line": "WV-15-BB1 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T01:41:13Z", "type": "remote"}
+{"line": "WV-15-BB1 acceptance: 2 recorded, all pass.", "ts": "2026-10-14T01:41:13Z", "type": "remote"}
+{"line": "WV-15-BB1 done", "ts": "2026-10-14T01:41:13Z", "type": "remote"}
+{"line": "WV-11-BB1 coding", "ts": "2026-10-14T01:43:05Z", "type": "remote"}
+{"line": "WV-11-BB1 acceptance: AC-2 failed.", "ts": "2026-10-14T01:43:05Z", "type": "remote"}
+{"line": "WV-15-BB1 check-green", "ts": "2026-10-14T01:44:28Z", "type": "remote"}
+{"line": "WV-11-BB1 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T01:44:55Z", "type": "remote"}
+{"line": "WV-11-BB1 acceptance: 2 recorded, all pass.", "ts": "2026-10-14T01:44:55Z", "type": "remote"}
+{"line": "WV-11-BB1 done", "ts": "2026-10-14T01:44:55Z", "type": "remote"}
+{"line": "WV-11-BB1 check-red", "ts": "2026-10-14T01:50:09Z", "type": "remote"}
+{"line": "WV-11-BB1 coding", "ts": "2026-10-14T01:58:24Z", "type": "remote"}
+{"ts": "2026-10-14T02:00:14Z", "type": "subagent-stop"}
+{"line": "WV-11-BB1 acceptance: AC-2 failed.", "ts": "2026-10-14T02:00:15Z", "type": "remote"}
+{"line": "WV-11-BB1 done", "ts": "2026-10-14T02:00:15Z", "type": "remote"}
+{"line": "WV-11-BB1 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T02:02:48Z", "type": "remote"}
+{"line": "WV-11-BB1 acceptance: 2 recorded, all pass.", "ts": "2026-10-14T02:02:48Z", "type": "remote"}
+{"line": "WV-11-BB1 check-green", "ts": "2026-10-14T02:05:34Z", "type": "remote"}
+{"ts": "2026-10-14T02:06:08Z", "type": "session-stop"}

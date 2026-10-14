@@ -28,12 +28,12 @@
       "id": "listener",
       "ticket": "",
       "role": "listener",
-      "polls": 14,
-      "session": "2026-10-14T00:08:25Z-f5001d98",
-      "started": "2026-10-14T00:43:36Z",
-      "ended": "2026-10-14T00:55:02Z",
-      "endReason": "done",
-      "state": "stopped",
+      "polls": 20,
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T02:05:33Z",
+      "ended": "2026-10-14T02:06:01Z",
+      "endReason": "stopped",
+      "state": "ended",
       "reaped": "2026-10-13T22:10:36Z",
       "halted": true
     },
@@ -741,8 +741,95 @@
       "role": "parent",
       "session": "2026-10-14T01:35:59Z-a3ae2ec1",
       "started": "2026-10-14T01:35:59Z",
-      "ended": null,
-      "state": "running"
+      "ended": "2026-10-14T02:06:01Z",
+      "state": "stopped",
+      "halted": true,
+      "endReason": "done"
+    },
+    {
+      "id": "subagent:WV-11-BB1",
+      "ticket": "WV-11-BB1",
+      "role": "shuttle",
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T01:36:19Z",
+      "ended": "2026-10-14T02:00:16Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "resumedAt": "2026-10-14T01:50:10Z",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-12-BB1",
+      "ticket": "WV-12-BB1",
+      "role": "shuttle",
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T01:36:19Z",
+      "ended": "2026-10-14T01:40:33Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-15-BB1",
+      "ticket": "WV-15-BB1",
+      "role": "shuttle",
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T01:36:19Z",
+      "ended": "2026-10-14T01:41:14Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-15-BB1:8caed1a677c0b6d57b1b71c5d3df10482dc7f358",
+      "ticket": "WV-15-BB1",
+      "role": "bugbot",
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T01:42:26Z",
+      "ended": "2026-10-14T01:44:29Z",
+      "state": "ended",
+      "headSha": "8caed1a677c0b6d57b1b71c5d3df10482dc7f358",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-11-BB1:c6ec7848b6213a3566c865e0529be3e00f3d1201",
+      "ticket": "WV-11-BB1",
+      "role": "bugbot",
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T01:44:55Z",
+      "ended": "2026-10-14T01:50:10Z",
+      "state": "ended",
+      "headSha": "c6ec7848b6213a3566c865e0529be3e00f3d1201",
+      "endReason": "fail",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WV-11-BB1:7c696653c5755f02b4a31893a249a938ce2130bd",
+      "ticket": "WV-11-BB1",
+      "role": "bugbot",
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T02:00:16Z",
+      "ended": "2026-10-14T02:05:34Z",
+      "state": "ended",
+      "headSha": "7c696653c5755f02b4a31893a249a938ce2130bd",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WV-11-BB1-r1",
+      "ticket": "WV-11-BB1",
+      "role": "shuttle",
+      "session": "2026-10-14T01:35:59Z-a3ae2ec1",
+      "started": "2026-10-14T02:00:41Z",
+      "ended": "2026-10-14T02:02:49Z",
+      "state": "ended",
+      "lastSeenAt": "2026-10-14T02:00:14Z",
+      "endReason": "returned",
+      "halted": true
     }
   ],
   "spawns": [
@@ -989,6 +1076,53 @@
       "role": "shuttle",
       "id": "subagent:WV-16",
       "step": "implement"
+    },
+    {
+      "at": "2026-10-14T01:36:19Z",
+      "ticket": "WV-11-BB1",
+      "role": "shuttle",
+      "id": "subagent:WV-11-BB1",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T01:36:19Z",
+      "ticket": "WV-12-BB1",
+      "role": "shuttle",
+      "id": "subagent:WV-12-BB1",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T01:36:19Z",
+      "ticket": "WV-15-BB1",
+      "role": "shuttle",
+      "id": "subagent:WV-15-BB1",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T01:42:26Z",
+      "ticket": "WV-15-BB1",
+      "role": "bugbot",
+      "id": "bugbot:WV-15-BB1:8caed1a677c0b6d57b1b71c5d3df10482dc7f358"
+    },
+    {
+      "at": "2026-10-14T01:44:55Z",
+      "ticket": "WV-11-BB1",
+      "role": "bugbot",
+      "id": "bugbot:WV-11-BB1:c6ec7848b6213a3566c865e0529be3e00f3d1201"
+    },
+    {
+      "at": "2026-10-14T02:00:16Z",
+      "ticket": "WV-11-BB1",
+      "role": "bugbot",
+      "id": "bugbot:WV-11-BB1:7c696653c5755f02b4a31893a249a938ce2130bd"
+    },
+    {
+      "at": "2026-10-14T02:00:41Z",
+      "ticket": "WV-11-BB1",
+      "role": "shuttle",
+      "id": "shuttle-WV-11-BB1-r1",
+      "step": "review"
     }
-  ]
+  ],
+  "finishedAt": "2026-10-14T02:06:01Z"
 }

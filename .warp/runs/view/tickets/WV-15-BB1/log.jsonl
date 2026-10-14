@@ -1,0 +1,3 @@
+{"seq":1,"at":"2026-10-14T01:37:49Z","id":"WV-15-BB1","state":"coding","error":"","agent":"subagent:WV-15-BB1"}
+{"seq":2,"at":"2026-10-14T01:40:37Z","id":"WV-15-BB1","state":"review-pass","error":"","agent":"subagent:WV-15-BB1","sha":"8caed1a677c0b6d57b1b71c5d3df10482dc7f358","findings":[],"source":"shuttle"}
+{"seq":3,"at":"2026-10-14T01:40:37Z","id":"WV-15-BB1","state":"done","error":"","agent":"subagent:WV-15-BB1","acs":{"AC-1":"pass","AC-2":"pass"}}

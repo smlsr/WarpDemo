@@ -1,10 +1,10 @@
 {
   "run": "view",
-  "generatedAt": "2026-10-14T01:35:59Z",
+  "generatedAt": "2026-10-14T02:06:08Z",
   "totals": {
     "tokens": 0,
     "minutes": 35,
-    "attempts": 6,
+    "attempts": 8,
     "recoveries": 4,
     "cost": 0.0,
     "tokensIn": 0,
@@ -12,7 +12,7 @@
     "tokensCached": 0
   },
   "byStatus": {
-    "merged": 16
+    "merged": 19
   },
   "tickets": {
     "WV-01": {
@@ -254,6 +254,51 @@
       "claimedAt": null,
       "openedAt": "2026-10-14T00:54:33Z",
       "mergedAt": null
+    },
+    "WV-11-BB1": {
+      "status": "merged",
+      "size": "S",
+      "tokens": 0,
+      "minutes": 0,
+      "attempts": 2,
+      "recoveries": 0,
+      "cost": 0.0,
+      "tokensIn": 0,
+      "tokensOut": 0,
+      "tokensCached": 0,
+      "claimedAt": null,
+      "openedAt": "2026-10-14T01:42:23Z",
+      "mergedAt": "2026-10-14T02:05:39Z"
+    },
+    "WV-12-BB1": {
+      "status": "merged",
+      "size": "S",
+      "tokens": 0,
+      "minutes": 0,
+      "attempts": 0,
+      "recoveries": 0,
+      "cost": 0.0,
+      "tokensIn": 0,
+      "tokensOut": 0,
+      "tokensCached": 0,
+      "claimedAt": null,
+      "openedAt": "2026-10-14T01:41:12Z",
+      "mergedAt": "2026-10-14T01:41:19Z"
+    },
+    "WV-15-BB1": {
+      "status": "merged",
+      "size": "S",
+      "tokens": 0,
+      "minutes": 0,
+      "attempts": 0,
+      "recoveries": 0,
+      "cost": 0.0,
+      "tokensIn": 0,
+      "tokensOut": 0,
+      "tokensCached": 0,
+      "claimedAt": null,
+      "openedAt": "2026-10-14T01:42:23Z",
+      "mergedAt": "2026-10-14T01:44:34Z"
     }
   }
 }

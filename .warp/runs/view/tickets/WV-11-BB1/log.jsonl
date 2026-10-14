@@ -1,0 +1,12 @@
+{"seq":1,"at":"2026-10-14T01:37:41Z","id":"WV-11-BB1","state":"coding","error":"","agent":"subagent:WV-11-BB1"}
+{"seq":2,"at":"2026-10-14T01:41:03Z","id":"WV-11-BB1","state":"review-fail","error":"","agent":"subagent:WV-11-BB1","sha":"c6ec7848b6213a3566c865e0529be3e00f3d1201","findings":["WARPDEMO/WarpView/viewer.html: committed release is stale after table.mjs change, app/test/parity.test.mjs AC-1 fails; rebuild is outside this ticket's locks (WV-16)","pull request not opened: github create_pull_request returned 403 (token); branch pushed to origin warp/view/WV-11-BB1"],"source":"shuttle"}
+{"seq":3,"at":"2026-10-14T01:41:03Z","id":"WV-11-BB1","state":"done","error":"","agent":"subagent:WV-11-BB1","acs":{"AC-1":"pass","AC-2":"fail"}}
+{"seq":4,"at":"2026-10-14T01:43:04Z","id":"WV-11-BB1","state":"coding","error":"","agent":"subagent:WV-11-BB1"}
+{"seq":5,"at":"2026-10-14T01:44:34Z","id":"WV-11-BB1","state":"review-pass","error":"","agent":"subagent:WV-11-BB1","sha":"c6ec7848b6213a3566c865e0529be3e00f3d1201","findings":[],"source":"shuttle"}
+{"seq":6,"at":"2026-10-14T01:44:34Z","id":"WV-11-BB1","state":"done","error":"","agent":"subagent:WV-11-BB1","acs":{"AC-1":"pass","AC-2":"pass"}}
+{"seq":7,"at":"2026-10-14T01:58:22Z","id":"WV-11-BB1","state":"coding","error":"","agent":"subagent:WV-11-BB1"}
+{"seq":8,"at":"2026-10-14T02:00:14Z","id":"WV-11-BB1","state":"review-fail","error":"","agent":"subagent:WV-11-BB1","sha":"7c696653c5755f02b4a31893a249a938ce2130bd","findings":["WARPDEMO/WarpView/viewer.html: committed release is stale after the table.mjs fix, so app/test/parity.test.mjs 'AC-1: release writes viewer.html' fails (passes with main's table.mjs); rebuilding viewer.html is WV-16's path, outside this ticket's lock"],"source":"shuttle"}
+{"seq":9,"at":"2026-10-14T02:00:14Z","id":"WV-11-BB1","state":"pr-opened","error":"","agent":"subagent:WV-11-BB1","pr":"https://github.com/smlsr/WarpDemo/pull/22"}
+{"seq":10,"at":"2026-10-14T02:00:14Z","id":"WV-11-BB1","state":"done","error":"","agent":"subagent:WV-11-BB1","acs":{"AC-1":"pass","AC-2":"fail"}}
+{"seq":11,"at":"2026-10-14T02:02:46Z","id":"WV-11-BB1","state":"review-pass","error":"","agent":"shuttle-WV-11-BB1-r1","sha":"7c696653c5755f02b4a31893a249a938ce2130bd","findings":[],"source":"shuttle"}
+{"seq":12,"at":"2026-10-14T02:02:47Z","id":"WV-11-BB1","state":"done","error":"","agent":"shuttle-WV-11-BB1-r1","acs":{"AC-1":"pass","AC-2":"pass"}}

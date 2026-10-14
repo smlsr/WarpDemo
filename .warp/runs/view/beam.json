@@ -364,7 +364,7 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-01-WAR-47",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 141,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/4",
@@ -374,8 +374,8 @@
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-13T23:06:39Z",
+        "mergedAt": "2026-10-13T23:06:39Z",
         "agentFinished": true,
         "opened": true,
         "headSha": "579fb1873f14055f8397c9ffac21b6c8109b2f4b",
@@ -423,7 +423,9 @@
         "mergeRequestedAt": "2026-10-13T23:06:36Z",
         "sha": "7deac0f2c9f3001ffbad450d9b9ee0dd35e36afa",
         "mergeConfirmed": true,
-        "lateBugbot": "none"
+        "lateBugbot": "none",
+        "timesRead": true,
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -782,18 +784,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-06-WAR-52",
       "attempts": 1,
-      "minutes": 0,
+      "minutes": 8,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/6",
         "id": null,
         "openedAt": "2026-10-13T23:12:39Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-13T23:16:59Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-13T23:16:59Z",
+        "mergedAt": "2026-10-13T23:17:21Z",
         "bugbotSha": "bf0f0ede34052e9ea09d26de9f0f1dc8a2dc6b8e",
         "bugbotFindings": [],
         "bugbotFindingsSha": "bf0f0ede34052e9ea09d26de9f0f1dc8a2dc6b8e",
@@ -841,7 +843,10 @@
         "mergeRequestedAt": "2026-10-13T23:17:19Z",
         "sha": "4afb35661595ba46dd68ee09735629832e8ceaa7",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "bf0f0ede34052e9ea09d26de9f0f1dc8a2dc6b8e",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -1021,18 +1026,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-03-WAR-49",
       "attempts": 1,
-      "minutes": 0,
+      "minutes": 4,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/5",
         "id": null,
         "openedAt": "2026-10-13T23:10:31Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-13T23:12:44Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-13T23:12:44Z",
+        "mergedAt": "2026-10-13T23:13:14Z",
         "bugbotSha": "5033f4b2c07c3a0c8bf27b4eaa220ce099f74b36",
         "bugbotFindings": [],
         "bugbotFindingsSha": "5033f4b2c07c3a0c8bf27b4eaa220ce099f74b36",
@@ -1077,7 +1082,10 @@
         "mergeRequestedAt": "2026-10-13T23:13:11Z",
         "sha": "f4ee7516425b44367b99a73b761f1276a9863c3e",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "5033f4b2c07c3a0c8bf27b4eaa220ce099f74b36",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -1275,18 +1283,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-02-WAR-48",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 19,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/9",
         "id": null,
         "openedAt": "2026-10-13T23:25:15Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-13T23:31:57Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-13T23:31:57Z",
+        "mergedAt": "2026-10-13T23:32:13Z",
         "bugbotSha": "be52915add5040a41c709e42dbedfadab7df3226",
         "bugbotFindings": [],
         "bugbotFindingsSha": "be52915add5040a41c709e42dbedfadab7df3226",
@@ -1333,7 +1341,10 @@
         "mergeRequestedAt": "2026-10-13T23:32:11Z",
         "sha": "ed50e5770838fed2c7e7c2dffa3127e87a5a4567",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "be52915add5040a41c709e42dbedfadab7df3226",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -1540,18 +1551,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-07-WAR-53",
       "attempts": 1,
-      "minutes": 0,
+      "minutes": 15,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/10",
         "id": null,
         "openedAt": "2026-10-13T23:25:15Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-13T23:34:02Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-13T23:34:02Z",
+        "mergedAt": "2026-10-13T23:34:56Z",
         "bugbotSha": "28af5b455fcd1d7b1560e3c897cd98ecd01d0dfe",
         "bugbotFindings": [],
         "bugbotFindingsSha": "28af5b455fcd1d7b1560e3c897cd98ecd01d0dfe",
@@ -1602,7 +1613,10 @@
         "mergeRequestedAt": "2026-10-13T23:34:54Z",
         "sha": "6706dbfa56de188d5a96aa9c1b0b810f9cd0e08a",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "28af5b455fcd1d7b1560e3c897cd98ecd01d0dfe",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -1819,18 +1833,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-08-WAR-54",
       "attempts": 1,
-      "minutes": 0,
+      "minutes": 8,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/8",
         "id": null,
         "openedAt": "2026-10-13T23:22:31Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-13T23:30:24Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-13T23:30:24Z",
+        "mergedAt": "2026-10-13T23:32:52Z",
         "bugbotSha": "6d89999e7e8af0cb9ac3c660a9975f74ecf716aa",
         "bugbotFindings": [],
         "bugbotFindingsSha": "6d89999e7e8af0cb9ac3c660a9975f74ecf716aa",
@@ -1879,7 +1893,10 @@
         "mergeRequestedAt": "2026-10-13T23:32:49Z",
         "sha": "6104d7c7bfecb3f0a08d8cc0550764641dc7ea6c",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "6d89999e7e8af0cb9ac3c660a9975f74ecf716aa",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -2076,18 +2093,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-04-WAR-50",
       "attempts": 1,
-      "minutes": 0,
+      "minutes": 8,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/7",
         "id": null,
         "openedAt": "2026-10-13T23:19:17Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-13T23:23:51Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-13T23:23:51Z",
+        "mergedAt": "2026-10-13T23:24:14Z",
         "bugbotSha": "b15e69d736f1167dbf21612e714f96af797a906a",
         "bugbotFindings": [],
         "bugbotFindingsSha": "b15e69d736f1167dbf21612e714f96af797a906a",
@@ -2137,7 +2154,10 @@
         "mergeRequestedAt": "2026-10-13T23:24:11Z",
         "sha": "f7d9a65bedd6e2f42b290ef470af3676c02195d1",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "b15e69d736f1167dbf21612e714f96af797a906a",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -2323,18 +2343,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-05-WAR-51",
       "attempts": 1,
-      "minutes": 0,
+      "minutes": 8,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/11",
         "id": null,
         "openedAt": "2026-10-13T23:32:45Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-13T23:38:37Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-13T23:38:37Z",
+        "mergedAt": "2026-10-13T23:39:00Z",
         "bugbotSha": "9ae36602289de796158f4a44c48fd4a61a88e733",
         "bugbotFindings": [],
         "bugbotFindingsSha": "9ae36602289de796158f4a44c48fd4a61a88e733",
@@ -2381,7 +2401,10 @@
         "mergeRequestedAt": "2026-10-13T23:38:56Z",
         "sha": "18e622d607be9bdd4f9dbaa63b59e6295e6dbe42",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "9ae36602289de796158f4a44c48fd4a61a88e733",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -2572,18 +2595,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-09-WAR-55",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 18,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/17",
         "id": null,
         "openedAt": "2026-10-14T00:25:18Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T00:32:36Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-14T00:32:36Z",
+        "mergedAt": "2026-10-14T00:25:33Z",
         "bugbotSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
         "bugbotFindings": [],
         "bugbotFindingsSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
@@ -2617,7 +2640,10 @@
         "mergeRequestedAt": "2026-10-14T00:25:31Z",
         "sha": "a8b15b9b930b706d82d90956845512400fcca93c",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -2807,18 +2833,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-10-WAR-56",
       "attempts": 0,
-      "minutes": 10,
+      "minutes": 13,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/15",
         "id": null,
         "openedAt": "2026-10-14T00:20:53Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T00:28:47Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-14T00:28:47Z",
+        "mergedAt": "2026-10-14T00:20:57Z",
         "bugbotSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
         "bugbotFindings": [],
         "bugbotFindingsSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
@@ -2850,7 +2876,10 @@
         "checkCount": 1,
         "sha": "3d9c1bf34265e5e7bcfa4494336806b839739b0f",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -3055,12 +3084,12 @@
         "url": "https://github.com/smlsr/WarpDemo/pull/16",
         "id": null,
         "openedAt": "2026-10-14T00:21:28Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T00:26:51Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-14T00:26:51Z",
+        "mergedAt": "2026-10-14T00:21:33Z",
         "bugbotSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
         "bugbotFindings": [],
         "bugbotFindingsSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
@@ -3094,7 +3123,10 @@
         "mergeRequestedAt": "2026-10-14T00:21:30Z",
         "sha": "f66ec34aff244477dc2e775edd377a9f79848496",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -3275,18 +3307,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-11-WAR-57",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 7,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/12",
         "id": null,
         "openedAt": "2026-10-14T00:14:09Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T00:22:03Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-14T00:22:03Z",
+        "mergedAt": "2026-10-14T00:14:13Z",
         "bugbotSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
         "bugbotFindings": [],
         "bugbotFindingsSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
@@ -3323,7 +3355,10 @@
         "lateFindings": [
           "WARPDEMO/WarpView/app/src/view/table/table.mjs:134 Table render mutates shared runs (Medium)"
         ],
-        "followUp": "WV-11-BB1"
+        "followUp": "WV-11-BB1",
+        "timesRead": true,
+        "reviewedSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -3507,18 +3542,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-12-WAR-58",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 7,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/13",
         "id": null,
         "openedAt": "2026-10-14T00:16:10Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T00:22:48Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-14T00:22:48Z",
+        "mergedAt": "2026-10-14T00:16:15Z",
         "bugbotSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
         "bugbotFindings": [],
         "bugbotFindingsSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
@@ -3556,7 +3591,10 @@
         "lateFindings": [
           "WARPDEMO/WarpView/app/src/view/drawer/drawer.mjs:42 Run label drops instance prefix (Medium)"
         ],
-        "followUp": "WV-12-BB1"
+        "followUp": "WV-12-BB1",
+        "timesRead": true,
+        "reviewedSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -3735,18 +3773,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-14-WAR-60",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 7,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/14",
         "id": null,
         "openedAt": "2026-10-14T00:16:10Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T00:18:21Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-14T00:18:21Z",
+        "mergedAt": "2026-10-14T00:16:42Z",
         "bugbotSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
         "bugbotFindings": [],
         "bugbotFindingsSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
@@ -3779,7 +3817,10 @@
         "mergeRequestedAt": "2026-10-14T00:16:38Z",
         "sha": "3f1356ca643d1231a6ee5b25e54bba40fe1fd1d8",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -3987,18 +4028,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-15-WAR-61",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 25,
       "alarm": "lock-escape",
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/18",
         "id": null,
         "openedAt": "2026-10-14T00:48:40Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T00:55:38Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-14T00:55:38Z",
+        "mergedAt": "2026-10-14T00:48:45Z",
         "acResults": {
           "AC-1": "pass",
           "AC-2": "pass",
@@ -4036,7 +4077,10 @@
         "lateFindings": [
           "WARPDEMO/WarpView/app/src/main.mjs:511 Clear leaves embedded load armed (Medium)"
         ],
-        "followUp": "WV-15-BB1"
+        "followUp": "WV-15-BB1",
+        "timesRead": true,
+        "reviewedSha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -4295,18 +4339,18 @@
       "checkout": "worktree",
       "branch": "warp/view/WV-16-WAR-62",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 5,
       "alarm": null,
       "pr": {
         "url": "https://github.com/smlsr/WarpDemo/pull/19",
         "id": null,
         "openedAt": "2026-10-14T00:54:33Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T00:59:37Z",
         "bugbot": "pass",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
-        "approvedAt": null,
-        "mergedAt": null,
+        "approvedAt": "2026-10-14T00:59:37Z",
+        "mergedAt": "2026-10-14T00:54:37Z",
         "bugbotSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
         "bugbotFindings": [],
         "bugbotFindingsSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
@@ -4339,7 +4383,10 @@
         "mergeRequestedAt": "2026-10-14T00:54:34Z",
         "sha": "391f4a7f85c0d5e91b8c1c7bb3cc545f4e970b75",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
+        "approvedBy": "auto-merge"
       },
       "jira": {
         "status": "Done",
@@ -4439,7 +4486,7 @@
       "lane": "console",
       "locks": [],
       "deps": [],
-      "gate": null,
+      "gate": "G2",
       "autoMerge": true,
       "acs": [
         {
@@ -4535,7 +4582,12 @@
         "mergedAt": "2026-10-14T02:05:39Z",
         "sha": "1bcf8f8e7fb233f86f991748397f38269cf25432",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedAt": "2026-10-14T02:04:47Z",
+        "reviewedSha": "7c696653c5755f02b4a31893a249a938ce2130bd",
+        "approvedAt": "2026-10-14T02:04:47Z",
+        "approvedBy": "auto-merge"
       },
       "attempts": 2,
       "alarm": null,
@@ -4642,7 +4694,8 @@
       "lastSeenAt": "2026-10-14T02:02:47Z",
       "result": {
         "body": "acs AC-1=pass, AC-2=pass"
-      }
+      },
+      "minutes": 26
     },
     "WV-12-BB1": {
       "id": "WV-12-BB1",
@@ -4655,7 +4708,7 @@
       "lane": "console",
       "locks": [],
       "deps": [],
-      "gate": null,
+      "gate": "G2",
       "autoMerge": true,
       "acs": [
         {
@@ -4723,7 +4776,12 @@
         "mergedAt": "2026-10-14T01:41:19Z",
         "sha": "f30fe6d3eb730bfb453367470263a9a31ac1ac39",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedAt": "2026-10-14T01:42:00Z",
+        "reviewedSha": "d0fa20803acd6f9fd41a32198729be2bb5822db4",
+        "approvedAt": "2026-10-14T01:42:00Z",
+        "approvedBy": "auto-merge"
       },
       "attempts": 0,
       "alarm": null,
@@ -4782,7 +4840,8 @@
       ],
       "result": {
         "body": "acs AC-1=pass, AC-2=pass"
-      }
+      },
+      "minutes": 4
     },
     "WV-15-BB1": {
       "id": "WV-15-BB1",
@@ -4795,7 +4854,7 @@
       "lane": "quality",
       "locks": [],
       "deps": [],
-      "gate": null,
+      "gate": "G2",
       "autoMerge": true,
       "acs": [
         {
@@ -4875,7 +4934,12 @@
         "mergedAt": "2026-10-14T01:44:34Z",
         "sha": "b9948490893ce4359c29196f913dba8f1f94e29b",
         "mergeConfirmed": true,
-        "lateBugbot": "pass"
+        "lateBugbot": "pass",
+        "timesRead": true,
+        "reviewedAt": "2026-10-14T01:43:36Z",
+        "reviewedSha": "8caed1a677c0b6d57b1b71c5d3df10482dc7f358",
+        "approvedAt": "2026-10-14T01:43:36Z",
+        "approvedBy": "auto-merge"
       },
       "attempts": 0,
       "alarm": null,
@@ -4935,7 +4999,8 @@
       ],
       "result": {
         "body": "acs AC-1=pass, AC-2=pass"
-      }
+      },
+      "minutes": 5
     },
     "WV-16-BB1": {
       "id": "WV-16-BB1",
@@ -4950,7 +5015,7 @@
         "WARPDEMO/WarpView/viewer.html"
       ],
       "deps": [],
-      "gate": null,
+      "gate": "G3",
       "autoMerge": true,
       "acs": [
         {
@@ -5031,7 +5096,12 @@
         "mergeAnnounced": true,
         "mergedAt": "2026-10-14T02:19:25Z",
         "sha": "6d753efe3ee09c9ed2081e86c4315387c1714532",
-        "mergeConfirmed": true
+        "mergeConfirmed": true,
+        "timesRead": true,
+        "reviewedAt": "2026-10-14T02:15:45Z",
+        "reviewedSha": "454776b89c64806c4323aadfee0a94a8b739b975",
+        "approvedAt": "2026-10-14T02:15:45Z",
+        "approvedBy": "auto-merge"
       },
       "attempts": 0,
       "alarm": null,
@@ -5092,23 +5162,24 @@
       ],
       "result": {
         "body": "acs AC-1=pass, AC-2=pass, AC-3=pass"
-      }
+      },
+      "minutes": 1
     }
   },
   "agents": {},
   "metrics": {
     "total": 20,
     "byStatus": {
-      "merged": 19,
-      "review": 1,
+      "merged": 20,
       "done": 0
     },
-    "done": 19,
-    "pct": 95.0,
-    "minutes": 35,
-    "remainingHours": 1,
+    "done": 20,
+    "pct": 100.0,
+    "tokens": 0,
+    "minutes": 354,
+    "remainingHours": 0,
     "criticalHoursLeft": 0,
-    "etaHours": 0.1,
+    "etaHours": 0,
     "bySize": {
       "S": 9,
       "L": 3,
@@ -5118,7 +5189,7 @@
     "byModule": {
       "WarpView": 20
     },
-    "computedAt": "2026-10-14T02:19:20Z"
+    "computedAt": "2026-10-14T13:00:06Z"
   },
   "run": "view",
   "openWork": {
@@ -6364,9 +6435,9 @@
     ],
     "finishedAt": "2026-10-14T02:19:46Z"
   },
-  "_agentBeam": ".warp/beam.json",
+  "_agentBeam": ".warp/runs/view/beam.json",
   "_agentSig": [
-    1791944386221265283,
+    1791982790703371064,
     31356
   ],
   "watch": {},

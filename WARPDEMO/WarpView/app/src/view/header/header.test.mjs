@@ -366,6 +366,16 @@ test("AC-6: header.test.mjs covers pause reason, range spec and the export chip"
   assert.ok(chips.includes(`exported ${stamp(run.exportedAt)}`));
 });
 
+test("AC-6: ISO-string times are read as times and out-of-range times are dropped, not thrown", () => {
+  const iso = "2026-10-12T19:00:00Z";
+  const base = { kind: "beam", name: "r", export: true, tickets: [] };
+  const chips = chipTexts(renderMeta([{ ...base, exportedAt: iso, updated: iso }], "all", { now: NOW }));
+  assert.ok(chips.includes(`exported ${stamp(Date.parse(iso))}`), chips.join(" | "));
+  assert.ok(chips.includes(`updated 1h ago · ${stamp(Date.parse(iso))}`), chips.join(" | "));
+  const huge = renderMeta([{ ...base, exportedAt: 1e300, updated: 1e300 }], "all", { now: NOW });
+  assert.deepEqual(chipTexts(huge), ["run r"]);
+});
+
 test("AC-6: the export fixture shows its exported time", () => {
   const runs = load([{ path: "WARP_PLAN.json", data: fixture("WARP_PLAN.sample.json") }]);
   assert.equal(runs[0].export, true);

@@ -1,5 +1,5 @@
 import { CATS, catColor } from "../../core/status.mjs";
-import { ago, esc, fmtH, fmtN, natCmp, num, pct, stamp } from "../../core/util.mjs";
+import { ago, esc, fmtH, fmtN, natCmp, num, parseTime, pct, stamp } from "../../core/util.mjs";
 
 export const BUCKETS = Object.freeze([
   Object.freeze({ key: "done", label: "Completed", color: catColor("done") }),
@@ -15,6 +15,10 @@ const sum = (xs) => xs.reduce((a, b) => a + (num(b) || 0), 0);
 const list = (runs) => (Array.isArray(runs) ? runs.filter(Boolean) : []);
 const ticketsOf = (r) => (r && Array.isArray(r.tickets) ? r.tickets.filter(Boolean) : []);
 const pick = (v, key) => (v == null || v === "" ? null : typeof v === "object" ? v[key] || null : String(v));
+const toMs = (v) => {
+  const t = typeof v === "string" ? parseTime(v) : num(v);
+  return t != null && Math.abs(t) <= 8.64e15 ? t : null;
+};
 
 export const runKey = (r) => r.name || r.instance || r.dir || "run";
 export const runLabel = (r) => r.name || (r.instance ? "warp:" + r.instance : r.dir || "run");
@@ -52,13 +56,13 @@ export function renderMeta(runs, tab = "all", { now = Date.now() } = {}) {
     if (range) parts.push(chip(`range <b>${esc(range)}</b>`));
     const owner = pick(r.owner, "by");
     if (owner) parts.push(chip(`owner <b>${esc(owner)}</b>`));
-    const exported = r.export ? num(r.exportedAt) : null;
+    const exported = r.export ? toMs(r.exportedAt) : null;
     if (exported != null) parts.push(chip(`exported <b>${esc(stamp(exported))}</b>`, "", new Date(exported).toISOString()));
   } else {
     const live = all.filter((x) => x.runState === "running" && !x.paused).length;
     parts.push(chip(`<b>${all.length}</b> runs · ${live} running`));
   }
-  const upd = Math.max(0, ...cur.map((x) => num(x.updated) || 0)) || null;
+  const upd = Math.max(0, ...cur.map((x) => toMs(x.updated) || 0)) || null;
   if (upd != null) {
     parts.push(
       chip(`updated <b>${esc(ago(upd, now))}</b><span class="hide-sm"> · ${esc(stamp(upd))}</span>`, "", new Date(upd).toISOString()),

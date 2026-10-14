@@ -1366,7 +1366,12 @@ table.grid td.t { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
   var gatesOf2 = (run) => run && Array.isArray(run.gates) ? run.gates.filter(Boolean) : [];
   var approvalOf = (run) => num(run.estimate && run.estimate.approvalHours) || DEFAULT_APPROVAL2;
   var capOf = (run) => num(run.cap) || DEFAULT_CAP2;
+  var finished = (run) => {
+    const ts = ticketsOf(run);
+    return ts.length > 0 && ts.every((t) => TERMINAL.has(normStatus(t.status)));
+  };
   function etaOf(run) {
+    if (finished(run)) return 0;
     const given = run.metrics ? num(run.metrics.etaHours) : null;
     if (given != null) return given;
     const open = ticketsOf(run).map(facts).filter((f) => !TERMINAL.has(f.status));
@@ -1378,7 +1383,11 @@ table.grid td.t { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
   function elapsedOf(run, now = Date.now()) {
     const start = ms(run.runStartedAt);
     if (start == null) return null;
-    const end = ms(run.runEndedAt) ?? (run.runState === "running" ? now : ms(run.updated) ?? now);
+    const ended = ms(run.runEndedAt);
+    const last = ms(run.updated);
+    const stale = ended != null && last != null && last > ended;
+    const live = run.runState === "running" && !run.paused && !finished(run);
+    const end = ended != null && !stale ? ended : live ? now : last ?? ended ?? now;
     return Math.max(0, (end - start) / HOUR_MS);
   }
   function computeMetrics(runs, now = Date.now()) {
@@ -1426,17 +1435,17 @@ table.grid td.t { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
       }
       const est = run.estimate;
       const rs = est ? num(est.elapsedHours) : null;
-      if (rs != null) estTotal = Math.max(estTotal == null ? 0 : estTotal, rs);
+      if (rs != null) estTotal = (estTotal || 0) + rs;
       const hp = est ? num(est.humanHours) : null;
       if (hp != null) humanPlan = (humanPlan || 0) + hp;
       const el = elapsedOf(run, now);
-      if (el != null) elapsed = Math.max(elapsed == null ? 0 : elapsed, el);
+      if (el != null) elapsed = (elapsed || 0) + el;
       const e = etaOf(run);
-      if (e != null) eta = Math.max(eta == null ? 0 : eta, e);
+      if (e != null) eta = (eta || 0) + e;
     }
     const agentTotal = sum(Object.values(agent));
     for (const k of Object.keys(share)) share[k] = estTotal != null && agentTotal > 0 ? estTotal * agent[k] / agentTotal : null;
-    const finish = Math.max(0, ...list3.map((r) => num(r.finish) || 0)) || null;
+    const finish = sum(list3.map((r) => num(r.finish) || 0)) || null;
     const assumptions = [
       ...new Set(list3.flatMap((r) => r.estimate && Array.isArray(r.estimate.assumptions) ? r.estimate.assumptions : []))
     ];
@@ -2530,11 +2539,11 @@ table.grid td.t { max-width: 360px; overflow: hidden; text-overflow: ellipsis; }
     const assume = m.assumptions && m.assumptions.length ? `<details class="assume"><summary>Assumptions</summary><ul>${m.assumptions.map((a) => `<li>${esc(a)}</li>`).join("")}</ul></details>` : "";
     const run = card(
       "Run estimate",
-      many ? "longest run" : "elapsed, plan",
+      many ? "all runs, added" : "elapsed, plan",
       fmtH(m.estTotal),
       stackBar2(m.share, m.estTotal || 0),
       rowsFor(m.share, m.estTotal || 0, (v) => fmtH(v)),
-      `<span>Elapsed <b>${fmtH(m.elapsed)}</b></span><span>ETA left <b>${m.eta == null ? "\u2014" : "~" + fmtH(m.eta)}</b></span>` + (m.finish ? `<span title="Planned finish on the swimlane, with blocks in order">Swimlane <b>T+${Math.round(m.finish)}h</b></span>` : "") + `<span title="The plan's elapsed estimate, split by agent-hour share">split by agent-hours</span>`,
+      `<span>Elapsed <b>${fmtH(m.elapsed)}</b></span><span>ETA left <b>${m.eta == null ? "\u2014" : "~" + fmtH(m.eta)}</b></span>` + (m.finish ? `<span title="${many ? "Each run's planned finish on its swimlane, added" : "Planned finish on the swimlane, with blocks in order"}">Swimlane <b>T+${Math.round(m.finish)}h</b></span>` : "") + `<span title="The plan's elapsed estimate, split by agent-hour share">split by agent-hours</span>`,
       assume
     );
     const agent = card(

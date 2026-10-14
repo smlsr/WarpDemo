@@ -1,0 +1,12 @@
+.fchip { cursor: pointer; user-select: none; }
+.fchip:hover { background: var(--panel2); }
+.fchip.off .n { text-decoration: line-through; }
+.seg button { cursor: pointer; }
+.seg button[aria-pressed="true"] { background: var(--panel2); font-weight: 600; }
+.search input:focus-visible { outline: 2px solid var(--focus); outline-offset: 1px; }
+.ctl select, .ctl input[type=range] { cursor: pointer; }
+.menu-list [role="menuitem"]:focus-visible, .menu-list label:focus-within { outline: 2px solid var(--focus); outline-offset: -2px; }
+@media (max-width: 640px) {
+  .search { flex-basis: 100%; max-width: none; }
+  .controls .legend { flex-basis: 100%; }
+}

@@ -330,10 +330,11 @@ test("AC-5: a run with zero tickets renders one empty slot row and the axis, and
 
 function snapshot(name, html) {
   const file = join(SNAP, name);
-  if (process.env.UPDATE_SNAPSHOTS || !existsSync(file)) {
+  if (process.env.UPDATE_SNAPSHOTS) {
     mkdirSync(SNAP, { recursive: true });
     writeFileSync(file, html);
   }
+  assert.ok(existsSync(file), `${name} snapshot exists (UPDATE_SNAPSHOTS=1 writes it)`);
   assert.equal(html, readFileSync(file, "utf8"), `${name} snapshot`);
 }
 

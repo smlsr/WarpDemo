@@ -1,6 +1,6 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdtempSync, readdirSync, readFileSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -237,8 +237,7 @@ test("AC-2: the built page carries tokens first-class: one style element holds t
   const out = mkdtempSync(join(tmpdir(), "warp-wv02-"));
   try {
     const root = join(out, "app");
-    mkdirSync(join(root, "src", "styles"), { recursive: true });
-    for (const f of ["shell.html", "main.mjs"]) writeFileSync(join(root, "src", f), readFileSync(join(srcDir, f)));
+    cpSync(srcDir, join(root, "src"), { recursive: true });
     writeFileSync(join(root, "src", "styles", "tokens.css"), tokensCss);
     writeFileSync(join(root, "src", "styles", "layout.css"), layoutCss);
     const { path } = await build({ root });

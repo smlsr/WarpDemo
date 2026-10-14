@@ -338,7 +338,7 @@ teamsChannel: "warp"
 # every repo; each message names its repo in the header. Warp does not create
 # the channel. Create it once, or change these to a channel that exists.
 # Use lowercase: Slack channel names are lowercase.
-projectName: "WarpView"
+projectName: "WarpEdit"
 # Shown in message headers after the repo: "Warp | repo / project".
 # Empty uses jiraProject, then the workspace folder name.
 notifyAllow: []

@@ -218,3 +218,56 @@ test("renderHistory escapes the ticket and phase names", () => {
 test("the history plugin is registered in plugins.mjs", () => {
   assert.ok(plugins.some((p) => p.id === "history" && p.headerActions.length === 1 && p.keys.length >= 2));
 });
+
+test("Caps Lock: Ctrl+Z reporting 'Z' without Shift undoes, and Ctrl+Shift+Z reporting 'z' redoes", () => {
+  const { doc, win, store } = mount();
+  store.apply(RESET);
+  press(win, doc.body, "Z", { ctrlKey: true });
+  assert.equal(store.dirty, 0);
+  press(win, doc.body, "z", { ctrlKey: true, shiftKey: true });
+  assert.equal(store.dirty, 1);
+});
+
+test("the note names the unsaved change, not one that is already saved", () => {
+  const { doc, store } = mount();
+  store.apply(RESET);
+  store.markSaved();
+  assert.equal(chip(doc), null);
+  assert.equal(doc.querySelector("#actionsBar .ed-note").textContent, "No unsaved changes");
+  store.apply({ ...RESET, ticket: "WV-08", from: "merged", to: "review" });
+  assert.equal(doc.querySelector("#actionsBar .ed-note").textContent, "WV-08 merged → review");
+  store.undo();
+  store.undo();
+  assert.equal(chip(doc).textContent, "1 unsaved");
+  assert.equal(doc.querySelector("#actionsBar .ed-note").textContent, "WV-07 merged → coding undone");
+});
+
+test("after destroy the buttons and keys leave the store alone and the page no longer asks", () => {
+  const { doc, win, store, app } = mount();
+  store.apply(RESET);
+  const undo = btn(doc, "undo");
+  app.destroy();
+  undo.click();
+  press(win, doc.body, "z", { ctrlKey: true });
+  assert.equal(store.dirty, 1);
+});
+
+test("a plugin re-initialised on a new app subscribes to its store again", () => {
+  const { doc, win, store, history } = mount();
+  store.apply(RESET);
+  const app2 = createApp({ root: doc, plugins: [history], now: () => NOW });
+  app2.load(FILES.map((f) => ({ ...f })), { quiet: true });
+  assert.equal(chip(doc).textContent, "1 unsaved");
+  store.undo();
+  assert.equal(chip(doc), null);
+  store.redo();
+  assert.equal(chip(doc).textContent, "1 unsaved");
+  const ev = new win.Event("beforeunload", { cancelable: true });
+  win.dispatchEvent(ev);
+  assert.equal(ev.defaultPrevented, true);
+});
+
+test("the actions bar is a screen rule and is hidden in print", () => {
+  assert.match(CSS, /@media screen\s*\{\s*#actionsBar\s*\{[^}]*display:\s*flex/);
+  assert.match(CSS, /@media print\s*\{\s*#actionsBar\s*\{\s*display:\s*none\s*!important/);
+});

@@ -12,18 +12,20 @@ export function isTyping(target) {
   return !!target && (TYPING.test(target.tagName || "") || target.isContentEditable === true);
 }
 
-export function historyInfo(store) {
+export function historyInfo(store, saved = new Set()) {
   if (!store) return null;
   const undo = store.nextUndo();
   const redo = store.nextRedo();
-  const changes = store.changes();
+  const unsaved = store.changes().filter((c) => !saved.has(c));
+  const dirty = store.dirty;
+  const last = unsaved.length ? describeChange(unsaved[unsaved.length - 1]) : dirty > 0 && redo ? `${describeChange(redo)} undone` : "";
   return {
-    dirty: store.dirty,
+    dirty,
     canUndo: store.canUndo,
     canRedo: store.canRedo,
     undoLabel: describeChange(undo),
     redoLabel: describeChange(redo),
-    last: describeChange(changes[changes.length - 1]),
+    last,
   };
 }
 
@@ -50,21 +52,32 @@ export function createHistoryPlugin({ store = null } = {}) {
   let app = null;
   let unsubscribe = null;
   let unload = null;
+  let destroyed = false;
+  let saved = new Set();
 
   const refresh = () => {
     if (app && typeof app.render === "function") app.render("plugin");
   };
 
-  function attach(next) {
+  function listen() {
     if (unsubscribe) unsubscribe();
     unsubscribe = null;
+    if (!edit) return;
+    unsubscribe = edit.subscribe((e) => {
+      if (e && e.reason === "saved") saved = new Set(edit.changes());
+      refresh();
+    });
+  }
+
+  function attach(next) {
     edit = next || null;
-    if (edit) unsubscribe = edit.subscribe(refresh);
+    saved = new Set();
+    listen();
     refresh();
   }
 
   function step(kind, toast) {
-    if (!edit) return false;
+    if (!edit || destroyed) return false;
     const can = kind === "undo" ? edit.canUndo : edit.canRedo;
     if (!can) return false;
     const change = kind === "undo" ? edit.nextUndo() : edit.nextRedo();
@@ -88,7 +101,7 @@ export function createHistoryPlugin({ store = null } = {}) {
     headerActions: [
       {
         id: "history",
-        render: () => renderHistory(historyInfo(edit)),
+        render: () => renderHistory(historyInfo(edit, saved)),
         bind(el, ctx) {
           for (const kind of ["undo", "redo"]) {
             const b = el.querySelector(`[data-history="${kind}"]`);
@@ -99,11 +112,13 @@ export function createHistoryPlugin({ store = null } = {}) {
     ],
     keys: [
       { key: "z", ctrl: true, shift: false, run: keyRun("undo") },
+      { key: "Z", ctrl: true, shift: false, run: keyRun("undo") },
       { key: "Z", ctrl: true, shift: true, run: keyRun("redo") },
       { key: "z", ctrl: true, shift: true, run: keyRun("redo") },
     ],
     init(a) {
       app = a;
+      destroyed = false;
       const win = a && a.root && (a.root.defaultView || (a.root.ownerDocument && a.root.ownerDocument.defaultView));
       if (win && !unload) {
         unload = (event) => {
@@ -119,11 +134,13 @@ export function createHistoryPlugin({ store = null } = {}) {
           unload = null;
           if (unsubscribe) unsubscribe();
           unsubscribe = null;
+          destroyed = true;
           app = null;
           if (typeof destroy === "function") destroy();
         };
       }
-      if (store && !edit) attach(store);
+      if (!edit && store) attach(store);
+      else listen();
     },
   };
   return plugin;

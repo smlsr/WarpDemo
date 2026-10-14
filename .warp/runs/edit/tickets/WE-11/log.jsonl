@@ -1,0 +1,9 @@
+{"seq":1,"at":"2026-10-14T05:26:58Z","id":"WE-11","state":"started","error":"","agent":"subagent:WE-11"}
+{"seq":2,"at":"2026-10-14T05:27:11Z","id":"WE-11","state":"planning","error":"","agent":"subagent:WE-11"}
+{"seq":3,"at":"2026-10-14T05:30:40Z","id":"WE-11","state":"coding","error":"","agent":"subagent:WE-11"}
+{"seq":4,"at":"2026-10-14T05:33:29Z","id":"WE-11","state":"heartbeat","error":"","agent":"subagent:WE-11"}
+{"seq":5,"at":"2026-10-14T05:34:16Z","id":"WE-11","state":"heartbeat","error":"","agent":"subagent:WE-11"}
+{"seq":6,"at":"2026-10-14T05:36:36Z","id":"WE-11","state":"check-green","error":"","agent":"subagent:WE-11","name":"npm --prefix WARPDEMO/WarpEdit/app test"}
+{"seq":7,"at":"2026-10-14T05:36:36Z","id":"WE-11","state":"review","error":"","agent":"subagent:WE-11"}
+{"seq":8,"at":"2026-10-14T05:36:36Z","id":"WE-11","state":"review-pass","error":"","agent":"subagent:WE-11","sha":"c6a5058e1f95b243d80b2fac2ae42cc662457333","findings":[],"source":"shuttle"}
+{"seq":9,"at":"2026-10-14T05:36:59Z","id":"WE-11","state":"done","error":"","agent":"subagent:WE-11","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}

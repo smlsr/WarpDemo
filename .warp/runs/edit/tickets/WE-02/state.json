@@ -1,0 +1,33 @@
+{
+  "id": "WE-02",
+  "state": "done",
+  "startedAt": "2026-10-14T04:13:17Z",
+  "updatedAt": "2026-10-14T04:29:35Z",
+  "heartbeatAt": "",
+  "pr": {
+    "url": ""
+  },
+  "check": {
+    "result": "",
+    "name": "",
+    "log": ""
+  },
+  "error": "",
+  "alarm": "",
+  "escaped": [],
+  "agent": "shuttle-WE-02-r1",
+  "review": {
+    "result": "pass",
+    "sha": "f7b0984bbd6b7ddd96f3e9cfd2b93518edd936f2",
+    "findings": [],
+    "source": "shuttle",
+    "at": "2026-10-14T04:23:28Z"
+  },
+  "acResults": {
+    "AC-1": "pass",
+    "AC-2": "pass",
+    "AC-3": "pass",
+    "AC-4": "pass",
+    "AC-5": "pass"
+  }
+}

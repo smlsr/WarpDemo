@@ -29,3 +29,208 @@
 {"partial": true, "path": ".warp/warp-complete.html", "ts": "2026-10-14T03:27:08Z", "type": "report"}
 {"agent": "listener", "reason": "stopped", "ticket": "", "ts": "2026-10-14T03:27:09Z", "type": "reap"}
 {"reason": null, "ts": "2026-10-14T03:48:38Z", "type": "running"}
+{"line": "WE-01: checks are red.", "ts": "2026-10-14T03:48:41Z", "type": "remote"}
+{"line": "WE-01 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T03:50:06Z", "type": "remote"}
+{"line": "WE-01: checks are red.", "ts": "2026-10-14T03:59:56Z", "type": "remote"}
+{"line": "WE-01 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:01:59Z", "type": "remote"}
+{"line": "WE-01: checks are green.", "ts": "2026-10-14T04:10:16Z", "type": "remote"}
+{"line": "WE-01 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:11:49Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-01", "result": "moved", "to": "Done", "ts": "2026-10-14T04:12:13Z", "type": "jira"}
+{"commentId": "10587", "event": "merged", "id": "WE-01", "ts": "2026-10-14T04:12:13Z", "type": "jira-comment", "where": "jira"}
+{"actions": ["claim"], "id": "WE-02", "ts": "2026-10-14T04:12:18Z", "type": "jira-intent"}
+{"actions": ["claim"], "id": "WE-03", "ts": "2026-10-14T04:12:18Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-02", "result": "moved", "to": "In Progress", "ts": "2026-10-14T04:13:27Z", "type": "jira"}
+{"commentId": "10588", "event": "claim", "id": "WE-02", "ts": "2026-10-14T04:13:27Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-03", "result": "moved", "to": "In Progress", "ts": "2026-10-14T04:13:27Z", "type": "jira"}
+{"commentId": "10589", "event": "claim", "id": "WE-03", "ts": "2026-10-14T04:13:27Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-03: the Shuttle is reviewing its own work.", "ts": "2026-10-14T04:14:33Z", "type": "remote"}
+{"line": "WE-02 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T04:14:38Z", "type": "remote"}
+{"line": "WE-02 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:14:38Z", "type": "remote"}
+{"line": "WE-02: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:14:38Z", "type": "remote"}
+{"line": "WE-03 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T04:14:38Z", "type": "remote"}
+{"line": "WE-03 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:14:38Z", "type": "remote"}
+{"line": "WE-03: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:14:38Z", "type": "remote"}
+{"actions": ["in-review"], "id": "WE-02", "ts": "2026-10-14T04:15:54Z", "type": "jira-intent"}
+{"actions": ["in-review"], "id": "WE-03", "ts": "2026-10-14T04:15:54Z", "type": "jira-intent"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-02", "result": "moved", "to": "Code Review", "ts": "2026-10-14T04:16:10Z", "type": "jira"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-03", "result": "moved", "to": "Code Review", "ts": "2026-10-14T04:16:10Z", "type": "jira"}
+{"line": "WE-03: checks are green.", "ts": "2026-10-14T04:18:12Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-03", "result": "moved", "to": "Done", "ts": "2026-10-14T04:18:44Z", "type": "jira"}
+{"commentId": "10590", "event": "merged", "id": "WE-03", "ts": "2026-10-14T04:18:44Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-02: checks are red.", "ts": "2026-10-14T04:20:45Z", "type": "remote"}
+{"actions": ["claim"], "id": "WE-06", "ts": "2026-10-14T04:20:47Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-06", "result": "moved", "to": "In Progress", "ts": "2026-10-14T04:23:04Z", "type": "jira"}
+{"commentId": "10591", "event": "claim", "id": "WE-06", "ts": "2026-10-14T04:23:04Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-02: the Shuttle is coding.", "ts": "2026-10-14T04:23:16Z", "type": "remote"}
+{"line": "WE-02 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:23:16Z", "type": "remote"}
+{"line": "WE-02: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:23:39Z", "type": "remote"}
+{"ts": "2026-10-14T04:25:54Z", "type": "subagent-stop"}
+{"line": "WE-06 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T04:25:56Z", "type": "remote"}
+{"line": "WE-06 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:25:56Z", "type": "remote"}
+{"line": "WE-06: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:25:56Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-06", "result": "moved", "to": "Code Review", "ts": "2026-10-14T04:26:42Z", "type": "jira"}
+{"line": "WE-02: checks are green.", "ts": "2026-10-14T04:28:47Z", "type": "remote"}
+{"line": "WE-02 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:29:38Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-02", "result": "moved", "to": "Done", "ts": "2026-10-14T04:29:54Z", "type": "jira"}
+{"commentId": "10592", "event": "merged", "id": "WE-02", "ts": "2026-10-14T04:29:54Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-06: checks are red.", "ts": "2026-10-14T04:32:05Z", "type": "remote"}
+{"actions": ["claim"], "id": "WE-04", "ts": "2026-10-14T04:32:06Z", "type": "jira-intent"}
+{"actions": ["claim"], "id": "WE-07", "ts": "2026-10-14T04:32:06Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-04", "result": "moved", "to": "In Progress", "ts": "2026-10-14T04:33:29Z", "type": "jira"}
+{"commentId": "10593", "event": "claim", "id": "WE-04", "ts": "2026-10-14T04:33:29Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-07", "result": "moved", "to": "In Progress", "ts": "2026-10-14T04:33:29Z", "type": "jira"}
+{"commentId": "10594", "event": "claim", "id": "WE-07", "ts": "2026-10-14T04:33:29Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-06 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:33:39Z", "type": "remote"}
+{"ts": "2026-10-14T04:34:00Z", "type": "subagent-stop"}
+{"line": "WE-07: the Shuttle is reviewing its own work.", "ts": "2026-10-14T04:36:37Z", "type": "remote"}
+{"branch": "warp/edit/WE-04-WAR-66", "id": "WE-04", "pushed": true, "reason": "PR create refused: mcp:github 403 'Resource not accessible by personal access token'; gh 'Resource not accessible by integration'. Branch pushed to origin.", "ts": "2026-10-14T04:36:38Z", "type": "pr-not-opened"}
+{"line": "WE-04: the Shuttle is reviewing its own work.", "ts": "2026-10-14T04:36:51Z", "type": "remote"}
+{"ts": "2026-10-14T04:37:02Z", "type": "subagent-stop"}
+{"line": "WE-07 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T04:37:04Z", "type": "remote"}
+{"line": "WE-07 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:37:04Z", "type": "remote"}
+{"line": "WE-07: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:37:04Z", "type": "remote"}
+{"id": "WE-04", "minutes": 15, "ts": "2026-10-14T04:37:14Z", "type": "spend"}
+{"ts": "2026-10-14T04:37:14Z", "type": "subagent-stop"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-07", "result": "moved", "to": "Code Review", "ts": "2026-10-14T04:37:52Z", "type": "jira"}
+{"line": "WE-04 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T04:37:57Z", "type": "remote"}
+{"line": "WE-04 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:37:57Z", "type": "remote"}
+{"line": "WE-04: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:37:57Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-04", "result": "moved", "to": "Code Review", "ts": "2026-10-14T04:38:40Z", "type": "jira"}
+{"line": "WE-06: checks are green.", "ts": "2026-10-14T04:40:45Z", "type": "remote"}
+{"line": "WE-06 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:41:40Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-06", "result": "moved", "to": "Done", "ts": "2026-10-14T04:41:59Z", "type": "jira"}
+{"commentId": "10595", "event": "merged", "id": "WE-06", "ts": "2026-10-14T04:41:59Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-04: checks are green.", "ts": "2026-10-14T04:44:01Z", "type": "remote"}
+{"line": "WE-07: checks are red.", "ts": "2026-10-14T04:44:01Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-04", "result": "moved", "to": "Done", "ts": "2026-10-14T04:44:54Z", "type": "jira"}
+{"commentId": "10596", "event": "merged", "id": "WE-04", "ts": "2026-10-14T04:44:54Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-07: the Shuttle is coding.", "ts": "2026-10-14T04:44:58Z", "type": "remote"}
+{"line": "WE-07 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:44:58Z", "type": "remote"}
+{"actions": ["claim"], "id": "WE-05", "ts": "2026-10-14T04:44:59Z", "type": "jira-intent"}
+{"actions": ["claim"], "id": "WE-08", "ts": "2026-10-14T04:45:00Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-05", "result": "moved", "to": "In Progress", "ts": "2026-10-14T04:45:56Z", "type": "jira"}
+{"commentId": "10597", "event": "claim", "id": "WE-05", "ts": "2026-10-14T04:45:56Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-08", "result": "moved", "to": "In Progress", "ts": "2026-10-14T04:45:56Z", "type": "jira"}
+{"commentId": "10598", "event": "claim", "id": "WE-08", "ts": "2026-10-14T04:45:56Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-07: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:46:11Z", "type": "remote"}
+{"branch": "warp/edit/WE-08-WAR-70", "id": "WE-08", "pushed": true, "reason": "GitHub token cannot create pull requests (403); branch pushed", "ts": "2026-10-14T04:47:19Z", "type": "pr-not-opened"}
+{"ts": "2026-10-14T04:47:20Z", "type": "subagent-stop"}
+{"line": "WE-08 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T04:47:22Z", "type": "remote"}
+{"line": "WE-08 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:47:22Z", "type": "remote"}
+{"line": "WE-08: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:47:22Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-08", "result": "moved", "to": "Code Review", "ts": "2026-10-14T04:48:12Z", "type": "jira"}
+{"line": "WE-05: the Shuttle is reviewing its own work.", "ts": "2026-10-14T04:48:14Z", "type": "remote"}
+{"line": "WE-05 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T04:48:14Z", "type": "remote"}
+{"line": "WE-05 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:48:14Z", "type": "remote"}
+{"line": "WE-05: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:48:14Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-05", "result": "moved", "to": "Code Review", "ts": "2026-10-14T04:48:58Z", "type": "jira"}
+{"line": "WE-05: checks are green.", "ts": "2026-10-14T04:53:25Z", "type": "remote"}
+{"line": "WE-07: checks are green.", "ts": "2026-10-14T04:53:25Z", "type": "remote"}
+{"line": "WE-08: checks are green.", "ts": "2026-10-14T04:53:25Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-05", "result": "moved", "to": "Done", "ts": "2026-10-14T04:54:15Z", "type": "jira"}
+{"commentId": "10599", "event": "merged", "id": "WE-05", "ts": "2026-10-14T04:54:15Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-07 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T04:54:38Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-08", "result": "moved", "to": "Done", "ts": "2026-10-14T04:54:59Z", "type": "jira"}
+{"commentId": "10600", "event": "merged", "id": "WE-08", "ts": "2026-10-14T04:54:59Z", "type": "jira-comment", "where": "jira"}
+{"actions": ["claim"], "id": "WE-09", "ts": "2026-10-14T04:56:31Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-09", "result": "moved", "to": "In Progress", "ts": "2026-10-14T04:57:29Z", "type": "jira"}
+{"commentId": "10601", "event": "claim", "id": "WE-09", "ts": "2026-10-14T04:57:29Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-07", "result": "moved", "to": "Done", "ts": "2026-10-14T04:57:29Z", "type": "jira"}
+{"commentId": "10602", "event": "merged", "id": "WE-07", "ts": "2026-10-14T04:57:29Z", "type": "jira-comment", "where": "jira"}
+{"ack": "Received warp:status. Posting the digest.", "by": "Shawn Lewis", "command": "warp:status edit", "source": "slack", "ticket": null, "ts": "2026-10-14T04:57:42Z", "type": "ack", "verb": "status"}
+{"line": "WE-09 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T04:59:39Z", "type": "remote"}
+{"line": "WE-09 acceptance: 6 recorded, all pass.", "ts": "2026-10-14T04:59:39Z", "type": "remote"}
+{"line": "WE-09: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T04:59:39Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-09", "result": "moved", "to": "Code Review", "ts": "2026-10-14T05:00:27Z", "type": "jira"}
+{"line": "WE-09: checks are red.", "ts": "2026-10-14T05:07:21Z", "type": "remote"}
+{"line": "WE-09: the Shuttle is coding.", "ts": "2026-10-14T05:08:04Z", "type": "remote"}
+{"line": "WE-09 acceptance: 6 recorded, all pass.", "ts": "2026-10-14T05:08:04Z", "type": "remote"}
+{"line": "WE-09: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T05:08:50Z", "type": "remote"}
+{"line": "WE-09: checks are green.", "ts": "2026-10-14T05:17:02Z", "type": "remote"}
+{"line": "WE-09 acceptance: 6 recorded, all pass.", "ts": "2026-10-14T05:17:58Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-09", "result": "moved", "to": "Done", "ts": "2026-10-14T05:18:20Z", "type": "jira"}
+{"commentId": "10603", "event": "merged", "id": "WE-09", "ts": "2026-10-14T05:18:20Z", "type": "jira-comment", "where": "jira"}
+{"actions": ["claim"], "id": "WE-11", "ts": "2026-10-14T05:25:45Z", "type": "jira-intent"}
+{"actions": ["claim"], "id": "WE-10", "ts": "2026-10-14T05:25:46Z", "type": "jira-intent"}
+{"actions": ["claim"], "id": "WE-13", "ts": "2026-10-14T05:25:46Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-11", "result": "moved", "to": "In Progress", "ts": "2026-10-14T05:27:07Z", "type": "jira"}
+{"commentId": "10604", "event": "claim", "id": "WE-11", "ts": "2026-10-14T05:27:07Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-10", "result": "moved", "to": "In Progress", "ts": "2026-10-14T05:27:07Z", "type": "jira"}
+{"commentId": "10605", "event": "claim", "id": "WE-10", "ts": "2026-10-14T05:27:07Z", "type": "jira-comment", "where": "jira"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-13", "result": "moved", "to": "In Progress", "ts": "2026-10-14T05:27:07Z", "type": "jira"}
+{"commentId": "10606", "event": "claim", "id": "WE-13", "ts": "2026-10-14T05:27:07Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-11: the Shuttle started.", "ts": "2026-10-14T05:27:16Z", "type": "remote"}
+{"line": "WE-11: the Shuttle is planning.", "ts": "2026-10-14T05:27:16Z", "type": "remote"}
+{"line": "WE-11: the Shuttle is coding.", "ts": "2026-10-14T05:30:42Z", "type": "remote"}
+{"line": "WE-10: the Shuttle is reviewing its own work.", "ts": "2026-10-14T05:31:15Z", "type": "remote"}
+{"ts": "2026-10-14T05:31:40Z", "type": "subagent-stop"}
+{"line": "WE-10 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T05:31:41Z", "type": "remote"}
+{"line": "WE-10 acceptance: 6 recorded, all pass.", "ts": "2026-10-14T05:31:41Z", "type": "remote"}
+{"line": "WE-10: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T05:31:41Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-10", "result": "moved", "to": "Code Review", "ts": "2026-10-14T05:32:36Z", "type": "jira"}
+{"line": "WE-13: the Shuttle is reviewing its own work.", "ts": "2026-10-14T05:32:37Z", "type": "remote"}
+{"branch": "warp/edit/WE-13-WAR-75", "id": "WE-13", "pushed": true, "reason": "branch pushed; GitHub MCP create_pull_request returned 403 (token cannot open PRs) and gh is read-only", "ts": "2026-10-14T05:32:37Z", "type": "pr-not-opened"}
+{"line": "WE-13 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T05:32:39Z", "type": "remote"}
+{"line": "WE-13 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T05:32:39Z", "type": "remote"}
+{"line": "WE-13: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T05:32:39Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-13", "result": "moved", "to": "Code Review", "ts": "2026-10-14T05:33:37Z", "type": "jira"}
+{"branch": "warp/edit/WE-11-WAR-73", "id": "WE-11", "pushed": true, "reason": "GitHub MCP create_pull_request returned 403 (token cannot create pull requests); gh is read-only in this runner. Branch warp/edit/WE-11-WAR-73 is pushed at c6a5058e1f95b243d80b2fac2ae42cc662457333; PR title [WE-11] Totals, legend and every view follow each reset.", "ts": "2026-10-14T05:36:36Z", "type": "pr-not-opened"}
+{"line": "WE-11: checks are green.", "ts": "2026-10-14T05:36:38Z", "type": "remote"}
+{"line": "WE-11: the Shuttle is reviewing its own work.", "ts": "2026-10-14T05:36:38Z", "type": "remote"}
+{"line": "WE-11 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T05:36:38Z", "type": "remote"}
+{"ts": "2026-10-14T05:36:59Z", "type": "subagent-stop"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-11", "result": "moved", "to": "Code Review", "ts": "2026-10-14T05:37:35Z", "type": "jira"}
+{"line": "WE-10: checks are green.", "ts": "2026-10-14T05:37:37Z", "type": "remote"}
+{"line": "WE-11 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T05:37:37Z", "type": "remote"}
+{"line": "WE-11: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T05:37:37Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-10", "result": "moved", "to": "Done", "ts": "2026-10-14T05:38:17Z", "type": "jira"}
+{"commentId": "10607", "event": "merged", "id": "WE-10", "ts": "2026-10-14T05:38:17Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-13: checks are green.", "ts": "2026-10-14T05:40:19Z", "type": "remote"}
+{"line": "WE-13: the Shuttle is coding.", "ts": "2026-10-14T05:41:06Z", "type": "remote"}
+{"line": "WE-13 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T05:41:06Z", "type": "remote"}
+{"line": "WE-13: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T05:41:42Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-11", "result": "moved", "to": "Done", "ts": "2026-10-14T05:44:09Z", "type": "jira"}
+{"commentId": "10608", "event": "merged", "id": "WE-11", "ts": "2026-10-14T05:44:09Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-13: checks are green.", "ts": "2026-10-14T05:45:39Z", "type": "remote"}
+{"actions": ["claim"], "id": "WE-12", "ts": "2026-10-14T05:45:40Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-12", "result": "moved", "to": "In Progress", "ts": "2026-10-14T05:46:43Z", "type": "jira"}
+{"commentId": "10609", "event": "claim", "id": "WE-12", "ts": "2026-10-14T05:46:43Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-12: the Shuttle started.", "ts": "2026-10-14T05:46:46Z", "type": "remote"}
+{"line": "WE-13 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T05:47:09Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-13", "result": "moved", "to": "Done", "ts": "2026-10-14T05:47:33Z", "type": "jira"}
+{"commentId": "10610", "event": "merged", "id": "WE-13", "ts": "2026-10-14T05:47:33Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-12: the Shuttle is planning.", "ts": "2026-10-14T05:50:20Z", "type": "remote"}
+{"line": "WE-12: the Shuttle is coding.", "ts": "2026-10-14T05:50:20Z", "type": "remote"}
+{"branch": "warp/edit/WE-12-WAR-74", "id": "WE-12", "pushed": true, "reason": "github MCP create_pull_request returned 403 Resource not accessible by personal access token; gh is read-only here. Branch warp/edit/WE-12-WAR-74 is pushed at 2837972; open the PR [WE-12] Phase scrubber on the actual swimlane from it.", "ts": "2026-10-14T06:00:24Z", "type": "pr-not-opened"}
+{"line": "WE-12: the Shuttle is reviewing its own work.", "ts": "2026-10-14T06:00:26Z", "type": "remote"}
+{"line": "WE-12 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T06:00:39Z", "type": "remote"}
+{"id": "WE-12", "minutes": 30, "ts": "2026-10-14T06:00:51Z", "type": "spend"}
+{"ts": "2026-10-14T06:00:51Z", "type": "subagent-stop"}
+{"line": "WE-12 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T06:00:52Z", "type": "remote"}
+{"line": "WE-12: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T06:00:52Z", "type": "remote"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-12", "result": "moved", "to": "Code Review", "ts": "2026-10-14T06:04:29Z", "type": "jira"}
+{"line": "WE-12: the Shuttle is fixing.", "ts": "2026-10-14T06:04:30Z", "type": "remote"}
+{"line": "WE-12 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T06:04:30Z", "type": "remote"}
+{"line": "WE-12: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T06:04:30Z", "type": "remote"}
+{"line": "WE-12: checks are green.", "ts": "2026-10-14T06:10:56Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-12", "result": "moved", "to": "Done", "ts": "2026-10-14T06:11:17Z", "type": "jira"}
+{"commentId": "10612", "event": "merged", "id": "WE-12", "ts": "2026-10-14T06:11:17Z", "type": "jira-comment", "where": "jira"}
+{"actions": ["claim"], "id": "WE-14", "ts": "2026-10-14T06:18:02Z", "type": "jira-intent"}
+{"detail": null, "event": "claim", "from": "To Do", "id": "WE-14", "result": "moved", "to": "In Progress", "ts": "2026-10-14T06:18:50Z", "type": "jira"}
+{"commentId": "10613", "event": "claim", "id": "WE-14", "ts": "2026-10-14T06:18:50Z", "type": "jira-comment", "where": "jira"}
+{"line": "WE-14: the Shuttle started.", "ts": "2026-10-14T06:18:51Z", "type": "remote"}
+{"line": "WE-14: the Shuttle is planning.", "ts": "2026-10-14T06:21:09Z", "type": "remote"}
+{"line": "WE-14: the Shuttle is coding.", "ts": "2026-10-14T06:21:27Z", "type": "remote"}
+{"branch": "warp/edit/WE-14-WAR-76", "id": "WE-14", "pushed": true, "reason": "mcp:github create_pull_request returned 403 Resource not accessible by personal access token; gh is read-only in this cloud environment. Branch is pushed to origin; open the PR [WE-14] Release editor.html: round trip, audit again, README from it.", "ts": "2026-10-14T06:29:36Z", "type": "pr-not-opened"}
+{"line": "WE-14 Bugbot review by the Shuttle: pass.", "ts": "2026-10-14T06:29:37Z", "type": "remote"}
+{"line": "WE-14: the Shuttle is reviewing its own work.", "ts": "2026-10-14T06:29:52Z", "type": "remote"}
+{"id": "WE-14", "minutes": 11, "ts": "2026-10-14T06:30:01Z", "type": "spend"}
+{"ts": "2026-10-14T06:30:01Z", "type": "subagent-stop"}
+{"line": "WE-14 acceptance: 5 recorded, all pass.", "ts": "2026-10-14T06:30:03Z", "type": "remote"}
+{"line": "WE-14: code complete; the Shuttle finished and returned.", "ts": "2026-10-14T06:30:03Z", "type": "remote"}
+{"actions": ["in-review"], "id": "WE-14", "ts": "2026-10-14T06:35:54Z", "type": "jira-intent"}
+{"detail": null, "event": "in-review", "from": "In Progress", "id": "WE-14", "result": "moved", "to": "Code Review", "ts": "2026-10-14T06:36:06Z", "type": "jira"}
+{"line": "WE-14: checks are green.", "ts": "2026-10-14T06:40:16Z", "type": "remote"}
+{"detail": null, "event": "done", "from": "Code Review", "id": "WE-14", "result": "moved", "to": "Done", "ts": "2026-10-14T06:40:36Z", "type": "jira"}
+{"commentId": "10614", "event": "merged", "id": "WE-14", "ts": "2026-10-14T06:40:36Z", "type": "jira-comment", "where": "jira"}
+{"ts": "2026-10-14T06:40:49Z", "type": "session-stop"}

@@ -1,0 +1,4 @@
+{"seq":1,"at":"2026-10-14T04:45:54Z","id":"WE-05","state":"coding","error":"","agent":"subagent:WE-05"}
+{"seq":2,"at":"2026-10-14T04:48:12Z","id":"WE-05","state":"review","error":"","agent":"subagent:WE-05"}
+{"seq":3,"at":"2026-10-14T04:48:12Z","id":"WE-05","state":"review-pass","error":"","agent":"subagent:WE-05","sha":"d447ee00aeebdbc52fd09a30bf9b69ba9dd14bb2","findings":[],"source":"shuttle"}
+{"seq":4,"at":"2026-10-14T04:48:12Z","id":"WE-05","state":"done","error":"","agent":"subagent:WE-05","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}

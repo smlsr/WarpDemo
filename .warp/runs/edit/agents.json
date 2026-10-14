@@ -29,14 +29,14 @@
       "id": "listener",
       "ticket": "",
       "role": "listener",
-      "polls": 5,
-      "session": "2026-10-14T02:50:43Z-226d4c7c",
-      "started": "2026-10-14T03:23:57Z",
-      "ended": "2026-10-14T03:27:05Z",
+      "polls": 26,
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T06:35:52Z",
+      "ended": "2026-10-14T06:40:24Z",
       "endReason": "stopped",
-      "state": "stopped",
-      "halted": true,
-      "reaped": "2026-10-14T03:27:09Z"
+      "state": "ended",
+      "reaped": "2026-10-14T03:27:09Z",
+      "halted": true
     },
     {
       "id": "bugbot:WE-01:a60bdf797bd358ab58c2f6ceec19b5341333f777",
@@ -80,8 +80,496 @@
       "role": "parent",
       "session": "2026-10-14T03:48:38Z-cc7258e6",
       "started": "2026-10-14T03:48:38Z",
-      "ended": null,
-      "state": "running"
+      "ended": "2026-10-14T06:40:37Z",
+      "state": "stopped",
+      "halted": true,
+      "endReason": "done"
+    },
+    {
+      "id": "shuttle-WE-01-r1",
+      "ticket": "WE-01",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T03:48:41Z",
+      "ended": "2026-10-14T04:06:11Z",
+      "state": "ended",
+      "lastSeenAt": "2026-10-14T03:19:01Z",
+      "endReason": "returned",
+      "resumedAt": "2026-10-14T03:59:57Z",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-01:e1a0d05d680bef9e34ca6ba2b14d6e96904bba69",
+      "ticket": "WE-01",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T03:52:07Z",
+      "ended": "2026-10-14T03:59:57Z",
+      "state": "ended",
+      "headSha": "e1a0d05d680bef9e34ca6ba2b14d6e96904bba69",
+      "endReason": "fail",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-01:8a69213b4df835110bc5f77c0d4956a6ea45e01c",
+      "ticket": "WE-01",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:06:11Z",
+      "ended": "2026-10-14T04:10:17Z",
+      "state": "ended",
+      "headSha": "8a69213b4df835110bc5f77c0d4956a6ea45e01c",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WE-01-r2",
+      "ticket": "WE-01",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:10:17Z",
+      "ended": "2026-10-14T04:11:50Z",
+      "state": "ended",
+      "lastSeenAt": "2026-10-14T04:06:08Z",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-02",
+      "ticket": "WE-02",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:12:18Z",
+      "ended": "2026-10-14T04:23:40Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "resumedAt": "2026-10-14T04:20:46Z",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-03",
+      "ticket": "WE-03",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:12:18Z",
+      "ended": "2026-10-14T04:14:38Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-02:0181faec36456499f4d76d3ea2278fa5f8bd1e4f",
+      "ticket": "WE-02",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:15:53Z",
+      "ended": "2026-10-14T04:20:46Z",
+      "state": "ended",
+      "headSha": "0181faec36456499f4d76d3ea2278fa5f8bd1e4f",
+      "endReason": "fail",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-03:23d56860f0fbbc31605c2e44eddd26ed2684c88a",
+      "ticket": "WE-03",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:15:54Z",
+      "ended": "2026-10-14T04:18:13Z",
+      "state": "ended",
+      "headSha": "23d56860f0fbbc31605c2e44eddd26ed2684c88a",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-06",
+      "ticket": "WE-06",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:20:46Z",
+      "ended": "2026-10-14T04:34:03Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "resumedAt": "2026-10-14T04:32:06Z",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-02:f7b0984bbd6b7ddd96f3e9cfd2b93518edd936f2",
+      "ticket": "WE-02",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:23:40Z",
+      "ended": "2026-10-14T04:28:48Z",
+      "state": "ended",
+      "headSha": "f7b0984bbd6b7ddd96f3e9cfd2b93518edd936f2",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WE-02-r1",
+      "ticket": "WE-02",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:28:48Z",
+      "ended": "2026-10-14T04:29:39Z",
+      "state": "ended",
+      "lastSeenAt": "2026-10-14T04:23:28Z",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-06:d7ad994bd81a375a946e5c5a3181b88d19889e0e",
+      "ticket": "WE-06",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:28:48Z",
+      "ended": "2026-10-14T04:32:06Z",
+      "state": "ended",
+      "headSha": "d7ad994bd81a375a946e5c5a3181b88d19889e0e",
+      "endReason": "fail",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-04",
+      "ticket": "WE-04",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:32:06Z",
+      "ended": "2026-10-14T04:37:58Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-07",
+      "ticket": "WE-07",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:32:06Z",
+      "ended": "2026-10-14T04:46:11Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "resumedAt": "2026-10-14T04:44:02Z",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-06:1ba0ece438b03ae87ebfdfed957146f69d486367",
+      "ticket": "WE-06",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:34:03Z",
+      "ended": "2026-10-14T04:40:47Z",
+      "state": "ended",
+      "headSha": "1ba0ece438b03ae87ebfdfed957146f69d486367",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-07:1dee38b8df9a491021da5c772c3489186d131a34",
+      "ticket": "WE-07",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:37:58Z",
+      "ended": "2026-10-14T04:44:02Z",
+      "state": "ended",
+      "headSha": "1dee38b8df9a491021da5c772c3489186d131a34",
+      "endReason": "fail",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WE-06-r1",
+      "ticket": "WE-06",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:40:47Z",
+      "ended": "2026-10-14T04:41:41Z",
+      "state": "ended",
+      "lastSeenAt": "2026-10-14T04:34:00Z",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-04:9185551c32b402976b35e84f0d2ddfeb0bc29291",
+      "ticket": "WE-04",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:40:47Z",
+      "ended": "2026-10-14T04:44:02Z",
+      "state": "ended",
+      "headSha": "9185551c32b402976b35e84f0d2ddfeb0bc29291",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-05",
+      "ticket": "WE-05",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:44:59Z",
+      "ended": "2026-10-14T04:48:15Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-08",
+      "ticket": "WE-08",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:44:59Z",
+      "ended": "2026-10-14T04:47:22Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-07:83d3030fb1bffe59ca9b0568bab424d3d5191499",
+      "ticket": "WE-07",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:46:11Z",
+      "ended": "2026-10-14T04:53:27Z",
+      "state": "ended",
+      "headSha": "83d3030fb1bffe59ca9b0568bab424d3d5191499",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-08:f53794734fd77d57e136af5278437b8e92d9e918",
+      "ticket": "WE-08",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:48:15Z",
+      "ended": "2026-10-14T04:53:27Z",
+      "state": "ended",
+      "headSha": "f53794734fd77d57e136af5278437b8e92d9e918",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-05:d447ee00aeebdbc52fd09a30bf9b69ba9dd14bb2",
+      "ticket": "WE-05",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:49:02Z",
+      "ended": "2026-10-14T04:53:27Z",
+      "state": "ended",
+      "headSha": "d447ee00aeebdbc52fd09a30bf9b69ba9dd14bb2",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WE-07-r1",
+      "ticket": "WE-07",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:53:27Z",
+      "ended": "2026-10-14T04:54:40Z",
+      "state": "ended",
+      "lastSeenAt": "2026-10-14T04:46:08Z",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-09",
+      "ticket": "WE-09",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T04:56:31Z",
+      "ended": "2026-10-14T05:08:51Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "resumedAt": "2026-10-14T05:07:22Z",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-09:d0c1ebe8cf458101797a06633484b17c2229c636",
+      "ticket": "WE-09",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:03:02Z",
+      "ended": "2026-10-14T05:07:22Z",
+      "state": "ended",
+      "headSha": "d0c1ebe8cf458101797a06633484b17c2229c636",
+      "endReason": "fail",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-09:85a7fead47fc28ed88300218342ac28e352aaf83",
+      "ticket": "WE-09",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:08:51Z",
+      "ended": "2026-10-14T05:17:03Z",
+      "state": "ended",
+      "headSha": "85a7fead47fc28ed88300218342ac28e352aaf83",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WE-09-r1",
+      "ticket": "WE-09",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:17:03Z",
+      "ended": "2026-10-14T05:17:58Z",
+      "state": "ended",
+      "lastSeenAt": "2026-10-14T05:08:50Z",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-11",
+      "ticket": "WE-11",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:25:45Z",
+      "ended": "2026-10-14T05:36:39Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-10",
+      "ticket": "WE-10",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:25:45Z",
+      "ended": "2026-10-14T05:31:41Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-13",
+      "ticket": "WE-13",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:25:46Z",
+      "ended": "2026-10-14T05:41:43Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "resumedAt": "2026-10-14T05:40:20Z",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-10:5b6c3938c30c51816b782f6b1eca28c30ef1c41d",
+      "ticket": "WE-10",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:32:37Z",
+      "ended": "2026-10-14T05:37:39Z",
+      "state": "ended",
+      "headSha": "5b6c3938c30c51816b782f6b1eca28c30ef1c41d",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-13:0be9e69375a4d2234a1a4317f0c66942e90e6771",
+      "ticket": "WE-13",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:33:40Z",
+      "ended": "2026-10-14T05:40:20Z",
+      "state": "ended",
+      "headSha": "0be9e69375a4d2234a1a4317f0c66942e90e6771",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-11:c6a5058e1f95b243d80b2fac2ae42cc662457333",
+      "ticket": "WE-11",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:37:39Z",
+      "ended": "2026-10-14T05:43:47Z",
+      "state": "ended",
+      "headSha": "c6a5058e1f95b243d80b2fac2ae42cc662457333",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-13:9c685fb23cc84484b7cd842d3f0b2b77f4a53c2c",
+      "ticket": "WE-13",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:41:43Z",
+      "ended": "2026-10-14T05:45:39Z",
+      "state": "ended",
+      "headSha": "9c685fb23cc84484b7cd842d3f0b2b77f4a53c2c",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WE-13-r1",
+      "ticket": "WE-13",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:45:39Z",
+      "ended": "2026-10-14T05:47:10Z",
+      "state": "ended",
+      "lastSeenAt": "2026-10-14T05:41:40Z",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-12",
+      "ticket": "WE-12",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T05:45:39Z",
+      "ended": "2026-10-14T06:00:52Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-12:70fe5dc82bd19d6ff07e95f34542357e07cb430b",
+      "ticket": "WE-12",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T06:04:31Z",
+      "ended": "2026-10-14T06:10:57Z",
+      "state": "ended",
+      "headSha": "70fe5dc82bd19d6ff07e95f34542357e07cb430b",
+      "endReason": "pass",
+      "halted": true
+    },
+    {
+      "id": "subagent:WE-14",
+      "ticket": "WE-14",
+      "role": "shuttle",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T06:18:02Z",
+      "ended": "2026-10-14T06:30:03Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "bugbot:WE-14:70aa5ba47de7ea6d6c7e1db3d6afbcb2c43e516a",
+      "ticket": "WE-14",
+      "role": "bugbot",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T06:35:53Z",
+      "ended": "2026-10-14T06:40:17Z",
+      "state": "ended",
+      "headSha": "70aa5ba47de7ea6d6c7e1db3d6afbcb2c43e516a",
+      "endReason": "pass",
+      "halted": true
     }
   ],
   "spawns": [
@@ -109,6 +597,267 @@
       "ticket": "WE-01",
       "role": "bugbot",
       "id": "bugbot:WE-01:d801c83960dd5556f916680a552f6d4eb5aa8c77"
+    },
+    {
+      "at": "2026-10-14T03:48:41Z",
+      "ticket": "WE-01",
+      "role": "shuttle",
+      "id": "shuttle-WE-01-r1",
+      "step": "fix"
+    },
+    {
+      "at": "2026-10-14T03:52:07Z",
+      "ticket": "WE-01",
+      "role": "bugbot",
+      "id": "bugbot:WE-01:e1a0d05d680bef9e34ca6ba2b14d6e96904bba69"
+    },
+    {
+      "at": "2026-10-14T04:06:11Z",
+      "ticket": "WE-01",
+      "role": "bugbot",
+      "id": "bugbot:WE-01:8a69213b4df835110bc5f77c0d4956a6ea45e01c"
+    },
+    {
+      "at": "2026-10-14T04:10:17Z",
+      "ticket": "WE-01",
+      "role": "shuttle",
+      "id": "shuttle-WE-01-r2",
+      "step": "verify"
+    },
+    {
+      "at": "2026-10-14T04:12:18Z",
+      "ticket": "WE-02",
+      "role": "shuttle",
+      "id": "subagent:WE-02",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T04:12:18Z",
+      "ticket": "WE-03",
+      "role": "shuttle",
+      "id": "subagent:WE-03",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T04:15:53Z",
+      "ticket": "WE-02",
+      "role": "bugbot",
+      "id": "bugbot:WE-02:0181faec36456499f4d76d3ea2278fa5f8bd1e4f"
+    },
+    {
+      "at": "2026-10-14T04:15:54Z",
+      "ticket": "WE-03",
+      "role": "bugbot",
+      "id": "bugbot:WE-03:23d56860f0fbbc31605c2e44eddd26ed2684c88a"
+    },
+    {
+      "at": "2026-10-14T04:20:46Z",
+      "ticket": "WE-06",
+      "role": "shuttle",
+      "id": "subagent:WE-06",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T04:23:40Z",
+      "ticket": "WE-02",
+      "role": "bugbot",
+      "id": "bugbot:WE-02:f7b0984bbd6b7ddd96f3e9cfd2b93518edd936f2"
+    },
+    {
+      "at": "2026-10-14T04:28:48Z",
+      "ticket": "WE-02",
+      "role": "shuttle",
+      "id": "shuttle-WE-02-r1",
+      "step": "verify"
+    },
+    {
+      "at": "2026-10-14T04:28:48Z",
+      "ticket": "WE-06",
+      "role": "bugbot",
+      "id": "bugbot:WE-06:d7ad994bd81a375a946e5c5a3181b88d19889e0e"
+    },
+    {
+      "at": "2026-10-14T04:32:06Z",
+      "ticket": "WE-04",
+      "role": "shuttle",
+      "id": "subagent:WE-04",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T04:32:06Z",
+      "ticket": "WE-07",
+      "role": "shuttle",
+      "id": "subagent:WE-07",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T04:34:03Z",
+      "ticket": "WE-06",
+      "role": "bugbot",
+      "id": "bugbot:WE-06:1ba0ece438b03ae87ebfdfed957146f69d486367"
+    },
+    {
+      "at": "2026-10-14T04:37:58Z",
+      "ticket": "WE-07",
+      "role": "bugbot",
+      "id": "bugbot:WE-07:1dee38b8df9a491021da5c772c3489186d131a34"
+    },
+    {
+      "at": "2026-10-14T04:40:47Z",
+      "ticket": "WE-06",
+      "role": "shuttle",
+      "id": "shuttle-WE-06-r1",
+      "step": "verify"
+    },
+    {
+      "at": "2026-10-14T04:40:47Z",
+      "ticket": "WE-04",
+      "role": "bugbot",
+      "id": "bugbot:WE-04:9185551c32b402976b35e84f0d2ddfeb0bc29291"
+    },
+    {
+      "at": "2026-10-14T04:44:59Z",
+      "ticket": "WE-05",
+      "role": "shuttle",
+      "id": "subagent:WE-05",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T04:44:59Z",
+      "ticket": "WE-08",
+      "role": "shuttle",
+      "id": "subagent:WE-08",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T04:46:11Z",
+      "ticket": "WE-07",
+      "role": "bugbot",
+      "id": "bugbot:WE-07:83d3030fb1bffe59ca9b0568bab424d3d5191499"
+    },
+    {
+      "at": "2026-10-14T04:48:15Z",
+      "ticket": "WE-08",
+      "role": "bugbot",
+      "id": "bugbot:WE-08:f53794734fd77d57e136af5278437b8e92d9e918"
+    },
+    {
+      "at": "2026-10-14T04:49:02Z",
+      "ticket": "WE-05",
+      "role": "bugbot",
+      "id": "bugbot:WE-05:d447ee00aeebdbc52fd09a30bf9b69ba9dd14bb2"
+    },
+    {
+      "at": "2026-10-14T04:53:27Z",
+      "ticket": "WE-07",
+      "role": "shuttle",
+      "id": "shuttle-WE-07-r1",
+      "step": "verify"
+    },
+    {
+      "at": "2026-10-14T04:56:31Z",
+      "ticket": "WE-09",
+      "role": "shuttle",
+      "id": "subagent:WE-09",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T05:03:02Z",
+      "ticket": "WE-09",
+      "role": "bugbot",
+      "id": "bugbot:WE-09:d0c1ebe8cf458101797a06633484b17c2229c636"
+    },
+    {
+      "at": "2026-10-14T05:08:51Z",
+      "ticket": "WE-09",
+      "role": "bugbot",
+      "id": "bugbot:WE-09:85a7fead47fc28ed88300218342ac28e352aaf83"
+    },
+    {
+      "at": "2026-10-14T05:17:03Z",
+      "ticket": "WE-09",
+      "role": "shuttle",
+      "id": "shuttle-WE-09-r1",
+      "step": "verify"
+    },
+    {
+      "at": "2026-10-14T05:25:45Z",
+      "ticket": "WE-11",
+      "role": "shuttle",
+      "id": "subagent:WE-11",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T05:25:45Z",
+      "ticket": "WE-10",
+      "role": "shuttle",
+      "id": "subagent:WE-10",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T05:25:46Z",
+      "ticket": "WE-13",
+      "role": "shuttle",
+      "id": "subagent:WE-13",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T05:32:37Z",
+      "ticket": "WE-10",
+      "role": "bugbot",
+      "id": "bugbot:WE-10:5b6c3938c30c51816b782f6b1eca28c30ef1c41d"
+    },
+    {
+      "at": "2026-10-14T05:33:40Z",
+      "ticket": "WE-13",
+      "role": "bugbot",
+      "id": "bugbot:WE-13:0be9e69375a4d2234a1a4317f0c66942e90e6771"
+    },
+    {
+      "at": "2026-10-14T05:37:39Z",
+      "ticket": "WE-11",
+      "role": "bugbot",
+      "id": "bugbot:WE-11:c6a5058e1f95b243d80b2fac2ae42cc662457333"
+    },
+    {
+      "at": "2026-10-14T05:41:43Z",
+      "ticket": "WE-13",
+      "role": "bugbot",
+      "id": "bugbot:WE-13:9c685fb23cc84484b7cd842d3f0b2b77f4a53c2c"
+    },
+    {
+      "at": "2026-10-14T05:45:39Z",
+      "ticket": "WE-13",
+      "role": "shuttle",
+      "id": "shuttle-WE-13-r1",
+      "step": "verify"
+    },
+    {
+      "at": "2026-10-14T05:45:39Z",
+      "ticket": "WE-12",
+      "role": "shuttle",
+      "id": "subagent:WE-12",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T06:04:31Z",
+      "ticket": "WE-12",
+      "role": "bugbot",
+      "id": "bugbot:WE-12:70fe5dc82bd19d6ff07e95f34542357e07cb430b"
+    },
+    {
+      "at": "2026-10-14T06:18:02Z",
+      "ticket": "WE-14",
+      "role": "shuttle",
+      "id": "subagent:WE-14",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T06:35:53Z",
+      "ticket": "WE-14",
+      "role": "bugbot",
+      "id": "bugbot:WE-14:70aa5ba47de7ea6d6c7e1db3d6afbcb2c43e516a"
     }
-  ]
+  ],
+  "finishedAt": "2026-10-14T06:40:37Z"
 }

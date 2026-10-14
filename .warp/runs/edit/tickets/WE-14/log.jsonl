@@ -1,0 +1,7 @@
+{"seq":1,"at":"2026-10-14T06:18:49Z","id":"WE-14","state":"started","error":"","agent":"subagent:WE-14"}
+{"seq":2,"at":"2026-10-14T06:21:08Z","id":"WE-14","state":"planning","error":"","agent":"subagent:WE-14"}
+{"seq":3,"at":"2026-10-14T06:21:25Z","id":"WE-14","state":"coding","error":"","agent":"subagent:WE-14"}
+{"seq":4,"at":"2026-10-14T06:25:29Z","id":"WE-14","state":"heartbeat","error":"","agent":"subagent:WE-14"}
+{"seq":5,"at":"2026-10-14T06:29:36Z","id":"WE-14","state":"review-pass","error":"","agent":"subagent:WE-14","sha":"70aa5ba47de7ea6d6c7e1db3d6afbcb2c43e516a","findings":[],"source":"shuttle"}
+{"seq":6,"at":"2026-10-14T06:29:50Z","id":"WE-14","state":"review","error":"","agent":"subagent:WE-14"}
+{"seq":7,"at":"2026-10-14T06:30:01Z","id":"WE-14","state":"done","error":"","agent":"subagent:WE-14","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}

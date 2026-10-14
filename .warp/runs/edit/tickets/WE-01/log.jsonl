@@ -10,3 +10,10 @@
 {"seq":10,"at":"2026-10-14T03:19:01Z","id":"WE-01","state":"review","error":"","agent":"subagent:WE-01"}
 {"seq":11,"at":"2026-10-14T03:19:01Z","id":"WE-01","state":"review-pass","error":"","agent":"subagent:WE-01","sha":"d801c83960dd5556f916680a552f6d4eb5aa8c77","findings":[],"source":"shuttle"}
 {"seq":12,"at":"2026-10-14T03:19:01Z","id":"WE-01","state":"done","error":"","agent":"subagent:WE-01","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}
+{"seq":13,"at":"2026-10-14T03:49:48Z","id":"WE-01","state":"fix","error":"","agent":"shuttle-WE-01-r1"}
+{"seq":14,"at":"2026-10-14T03:52:05Z","id":"WE-01","state":"review-pass","error":"","agent":"shuttle-WE-01-r1","sha":"e1a0d05d680bef9e34ca6ba2b14d6e96904bba69","findings":[],"source":"shuttle"}
+{"seq":15,"at":"2026-10-14T03:52:05Z","id":"WE-01","state":"done","error":"","agent":"shuttle-WE-01-r1","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}
+{"seq":16,"at":"2026-10-14T04:01:57Z","id":"WE-01","state":"fix","error":"","agent":"shuttle-WE-01-r1"}
+{"seq":17,"at":"2026-10-14T04:06:08Z","id":"WE-01","state":"review-pass","error":"","agent":"shuttle-WE-01-r1","sha":"8a69213b4df835110bc5f77c0d4956a6ea45e01c","findings":[],"source":"shuttle"}
+{"seq":18,"at":"2026-10-14T04:06:08Z","id":"WE-01","state":"done","error":"","agent":"shuttle-WE-01-r1","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}
+{"seq":19,"at":"2026-10-14T04:11:47Z","id":"WE-01","state":"done","error":"","agent":"shuttle-WE-01-r2","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass"}}

@@ -1,0 +1,33 @@
+{
+  "id": "WE-12",
+  "state": "done",
+  "startedAt": "2026-10-14T05:46:45Z",
+  "updatedAt": "2026-10-14T06:03:15Z",
+  "heartbeatAt": "2026-10-14T05:58:38Z",
+  "pr": {
+    "url": ""
+  },
+  "check": {
+    "result": "",
+    "name": "",
+    "log": ""
+  },
+  "error": "",
+  "alarm": "",
+  "escaped": [],
+  "agent": "subagent:WE-12",
+  "review": {
+    "result": "pass",
+    "sha": "70fe5dc82bd19d6ff07e95f34542357e07cb430b",
+    "findings": [],
+    "source": "shuttle",
+    "at": "2026-10-14T06:03:15Z"
+  },
+  "acResults": {
+    "AC-1": "pass",
+    "AC-2": "pass",
+    "AC-3": "pass",
+    "AC-4": "pass",
+    "AC-5": "pass"
+  }
+}

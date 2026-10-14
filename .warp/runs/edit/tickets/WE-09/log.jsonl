@@ -1,0 +1,7 @@
+{"seq":1,"at":"2026-10-14T04:57:20Z","id":"WE-09","state":"coding","error":"","agent":"subagent:WE-09"}
+{"seq":2,"at":"2026-10-14T04:59:38Z","id":"WE-09","state":"review-pass","error":"","agent":"subagent:WE-09","sha":"d0c1ebe8cf458101797a06633484b17c2229c636","findings":[],"source":"shuttle"}
+{"seq":3,"at":"2026-10-14T04:59:38Z","id":"WE-09","state":"done","error":"","agent":"subagent:WE-09","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass","AC-6":"pass"}}
+{"seq":4,"at":"2026-10-14T05:08:03Z","id":"WE-09","state":"coding","error":"","agent":"subagent:WE-09"}
+{"seq":5,"at":"2026-10-14T05:08:50Z","id":"WE-09","state":"review-pass","error":"","agent":"subagent:WE-09","sha":"85a7fead47fc28ed88300218342ac28e352aaf83","findings":[],"source":"shuttle"}
+{"seq":6,"at":"2026-10-14T05:08:50Z","id":"WE-09","state":"done","error":"","agent":"subagent:WE-09","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass","AC-6":"pass"}}
+{"seq":7,"at":"2026-10-14T05:17:56Z","id":"WE-09","state":"done","error":"","agent":"shuttle-WE-09-r1","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass","AC-6":"pass"}}

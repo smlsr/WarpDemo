@@ -142,3 +142,34 @@ test("AC-5: undo and redo on empty history are no-ops", () => {
   assert.equal(store.redo(), store.loaded);
   assert.equal(store.dirty, 0);
 });
+
+test("AC-1: after markSaved, undo then a different change still reports unsaved work", () => {
+  const store = createEditStore(load());
+  store.apply(change("WV-07", "merged", "coding", 1));
+  store.markSaved();
+  assert.equal(store.dirty, 0);
+  store.undo();
+  assert.equal(store.dirty, 1);
+  store.apply(change("WV-07", "merged", "review", 2));
+  assert.notEqual(store.dirty, 0);
+  assert.equal(store.dirty, 2);
+});
+
+test("AC-2: undo then redo back to the saved point is clean again", () => {
+  const store = createEditStore(load());
+  store.apply(change("WV-07", "merged", "coding", 1));
+  store.markSaved();
+  store.undo();
+  store.redo();
+  assert.equal(store.dirty, 0);
+});
+
+test("AC-1: re-applying the very same change object after undo past a save point is still unsaved", () => {
+  const store = createEditStore(load());
+  const c = change("WV-07", "merged", "coding", 1);
+  store.apply(c);
+  store.markSaved();
+  store.undo();
+  store.apply(c);
+  assert.equal(store.dirty, 2);
+});

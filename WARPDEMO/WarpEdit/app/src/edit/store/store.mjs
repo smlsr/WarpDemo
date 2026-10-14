@@ -37,7 +37,8 @@ export function createEditStore(beam, options = {}) {
   let future = [];
   let applied = [];
   let undone = [];
-  let savedAt = 0;
+  let savedPath = [];
+  let nextId = 1;
   const listeners = new Set();
 
   function emit(reason, change) {
@@ -49,18 +50,24 @@ export function createEditStore(beam, options = {}) {
   const store = {
     get loaded() { return loaded; },
     get working() { return working; },
-    get dirty() { return Math.abs(applied.length - savedAt); },
+    get dirty() {
+      let common = 0;
+      const max = Math.min(applied.length, savedPath.length);
+      while (common < max && applied[common].id === savedPath[common]) common++;
+      return applied.length - common + savedPath.length - common;
+    },
     get canUndo() { return past.length > 0; },
     get canRedo() { return future.length > 0; },
-    changes() { return applied.slice(); },
-    nextUndo() { return past.length ? applied[applied.length - 1] : null; },
-    nextRedo() { return future.length ? undone[undone.length - 1] : null; },
+    changes() { return applied.map((e) => e.change); },
+    nextUndo() { return past.length ? applied[applied.length - 1].change : null; },
+    nextRedo() { return future.length ? undone[undone.length - 1].change : null; },
     apply(change) {
       const prev = working;
       working = apply(working, change);
-      past.push({ state: prev, change });
+      const entry = { id: nextId++, change };
+      past.push({ state: prev, entry });
       if (past.length > HISTORY_LIMIT) past.shift();
-      applied.push(change);
+      applied.push(entry);
       future = [];
       undone = [];
       emit("apply", change);
@@ -69,25 +76,25 @@ export function createEditStore(beam, options = {}) {
     undo() {
       const step = past.pop();
       if (!step) return working;
-      future.push({ state: working, change: step.change });
+      future.push({ state: working, entry: step.entry });
       working = step.state;
       applied.pop();
-      undone.push(step.change);
-      emit("undo", step.change);
+      undone.push(step.entry);
+      emit("undo", step.entry.change);
       return working;
     },
     redo() {
       const step = future.pop();
       if (!step) return working;
-      past.push({ state: working, change: step.change });
+      past.push({ state: working, entry: step.entry });
       working = step.state;
-      applied.push(step.change);
+      applied.push(step.entry);
       undone.pop();
-      emit("redo", step.change);
+      emit("redo", step.entry.change);
       return working;
     },
     markSaved() {
-      savedAt = applied.length;
+      savedPath = applied.map((e) => e.id);
       emit("saved", null);
     },
     subscribe(fn) {

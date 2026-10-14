@@ -371,3 +371,8 @@ bugbotTrigger: shuttle
 
 bugbotStartMinutes: 10
 # Minutes to wait for Bugbot to start after a request or a `bugbot run` comment.
+
+listenerSilentMinutes: 5
+# A listener that has not polled or waited for this long is gone (Cursor can
+# stop it as a loop). supervise prints `listener: lost` and starts a new one in
+# the same pass. Never under three listenerSlowSeconds waits plus a minute.

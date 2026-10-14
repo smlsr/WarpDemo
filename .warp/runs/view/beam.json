@@ -166,9 +166,9 @@
     "mergeQueue": false,
     "run": "view"
   },
-  "paused": true,
-  "pauseReason": "end of day",
-  "runState": "stopped",
+  "paused": false,
+  "pauseReason": null,
+  "runState": "running",
   "gates": [
     {
       "key": "G0",
@@ -3548,15 +3548,15 @@
   "metrics": {
     "total": 16,
     "byStatus": {
-      "merged": 7,
-      "review": 1,
-      "queued": 8,
+      "merged": 8,
+      "coding": 6,
+      "queued": 2,
       "done": 0
     },
-    "done": 7,
-    "pct": 43.8,
+    "done": 8,
+    "pct": 50.0,
     "minutes": 0,
-    "remainingHours": 86,
+    "remainingHours": 79,
     "criticalHoursLeft": 36,
     "etaHours": 36,
     "bySize": {
@@ -3568,7 +3568,7 @@
     "byModule": {
       "WarpView": 16
     },
-    "computedAt": "2026-10-13T23:38:56Z"
+    "computedAt": "2026-10-13T23:40:51Z"
   },
   "run": "view",
   "openWork": {
@@ -3802,20 +3802,20 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-13T23:38:56Z",
+    "at": "2026-10-14T00:08:25Z",
     "ref": "origin/main",
     "status": {},
     "locks": []
   },
   "runComplete": false,
-  "stoppedAt": "2026-10-13T23:40:49Z",
-  "parentSession": "2026-10-13T23:06:25Z-b0bde350",
+  "stoppedAt": null,
+  "parentSession": "2026-10-14T00:08:25Z-f5001d98",
   "owner": {
     "by": "Cursor Agent",
     "machine": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
     "host": "cursor",
-    "at": "2026-10-13T23:06:25Z",
-    "session": "2026-10-13T23:06:25Z-b0bde350"
+    "at": "2026-10-14T00:08:25Z",
+    "session": "2026-10-14T00:08:25Z-f5001d98"
   },
   "instance": {
     "id": "207cfb",
@@ -4038,7 +4038,8 @@
         "ended": "2026-10-13T23:40:49Z",
         "state": "stopped",
         "halted": true,
-        "endReason": "stopped"
+        "endReason": "stopped",
+        "superseded": true
       },
       {
         "id": "subagent:WV-06",
@@ -4427,6 +4428,15 @@
         "lastSeenAt": "",
         "halted": true,
         "endReason": "stopped"
+      },
+      {
+        "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+        "ticket": "",
+        "role": "parent",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:08:25Z",
+        "ended": null,
+        "state": "running"
       }
     ],
     "spawns": [
@@ -4622,13 +4632,13 @@
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791934849133251419,
-    21551
+    1791936505404681966,
+    21826
   ],
   "watch": {},
   "listener": {
     "parentSeenAt": "2026-10-13T23:39:24Z",
-    "generation": 19,
+    "generation": 20,
     "holder": "",
     "previousHolder": "listener",
     "state": "stopped",
@@ -4639,7 +4649,7 @@
     "polls": 10,
     "reads": 4,
     "returnReason": "stopped",
-    "returnedAt": "2026-10-13T23:40:49Z",
+    "returnedAt": "2026-10-13T23:40:51Z",
     "awaitReturn": false,
     "interval": "slow",
     "lastSeenAt": "2026-10-13T23:11:17Z",
@@ -4781,8 +4791,8 @@
     "WV-15:stalled",
     "WV-16:stalled"
   ],
-  "checkpointAt": "2026-10-13T23:40:49Z",
-  "reportGeneratedAt": "2026-10-13T21:20:27Z",
-  "runEndedAt": "2026-10-13T21:20:27Z",
+  "checkpointAt": "2026-10-14T00:08:25Z",
+  "reportGeneratedAt": "2026-10-13T23:40:51Z",
+  "runEndedAt": "2026-10-13T23:40:51Z",
   "runStartedAt": "2026-10-13T18:48:23Z"
 }

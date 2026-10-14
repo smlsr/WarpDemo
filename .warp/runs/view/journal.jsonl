@@ -159,3 +159,6 @@
 {"agentId": "listener", "reason": "stopped", "ts": "2026-10-13T23:40:22Z", "type": "listener-stop"}
 {"reason": "end of day", "ts": "2026-10-13T23:40:49Z", "type": "stopped"}
 {"ts": "2026-10-13T23:40:49Z", "type": "session-stop"}
+{"pulled": ["beam origin/main"], "ts": "2026-10-13T23:40:51Z", "type": "update-state", "won": []}
+{"partial": true, "path": ".warp/warp-complete.html", "ts": "2026-10-13T23:40:51Z", "type": "report"}
+{"reason": null, "ts": "2026-10-14T00:08:25Z", "type": "running"}

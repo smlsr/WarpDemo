@@ -135,11 +135,10 @@ export function renderTable(runs, sort, matches) {
       view = { ...run, tickets: run.tickets.map((t) => (t && typeof t === "object" ? { ...t } : t)) };
       plan(view);
     }
-    const src = new Map(run.tickets.map((t, i) => [view.tickets[i], t]));
-    for (const t of view.tickets) rows.push({ t, run: view, orig: src.get(t), origRun: run });
+    for (const t of view.tickets) rows.push({ t, run: view });
   }
   const body = sortRows(rows, s)
-    .map(({ t, run, orig, origRun }) => rowHtml(run, t, list.length > 1, !!show(orig, origRun)))
+    .map(({ t, run }) => rowHtml(run, t, list.length > 1, !!show(t, run)))
     .join("");
   const head = COLS.map(
     (c) =>

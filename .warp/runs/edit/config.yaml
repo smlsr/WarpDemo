@@ -294,7 +294,7 @@ listenerMaxMinutes: 60
 # whichever comes first. The parent starts the next one from the return stamp.
 listenerMaxReads: 4
 # Successful poll --lease calls in one generation before rotation.
-listenerModel: ""
+listenerModel: grok-4.7-medium-fast
 # Empty: the listener inherits the parent's model (model: inherit).
 # A slug is printed as model: <slug>. agents/listener.md has no model key.
 reportOnComplete: true
@@ -392,3 +392,7 @@ requireCursorApiKey: true
 # /warp-start refuses, until it is set. false allows it anyway.
 # `make ci` is a valid command. The space is part of the command.
 # A red result is stored on pr.check and sent back to that ticket with the log.
+
+bugbotPollSeconds: 120
+# While Cursor Bugbot checks a head (or was asked to), the parent looks again this often
+# instead of every pollSeconds, so `bugbot: done` shows soon after Bugbot ends.

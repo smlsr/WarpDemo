@@ -9,7 +9,8 @@
       "ended": "2026-10-14T03:27:05Z",
       "state": "stopped",
       "halted": true,
-      "endReason": "stopped"
+      "endReason": "stopped",
+      "superseded": true
     },
     {
       "id": "subagent:WE-01",
@@ -34,7 +35,8 @@
       "ended": "2026-10-14T03:27:05Z",
       "endReason": "stopped",
       "state": "stopped",
-      "halted": true
+      "halted": true,
+      "reaped": "2026-10-14T03:27:09Z"
     },
     {
       "id": "bugbot:WE-01:a60bdf797bd358ab58c2f6ceec19b5341333f777",
@@ -71,6 +73,15 @@
       "headSha": "d801c83960dd5556f916680a552f6d4eb5aa8c77",
       "halted": true,
       "endReason": "stopped"
+    },
+    {
+      "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+      "ticket": "",
+      "role": "parent",
+      "session": "2026-10-14T03:48:38Z-cc7258e6",
+      "started": "2026-10-14T03:48:38Z",
+      "ended": null,
+      "state": "running"
     }
   ],
   "spawns": [

@@ -170,9 +170,9 @@
     "mergeQueue": false,
     "run": "edit"
   },
-  "paused": true,
+  "paused": false,
   "pauseReason": null,
-  "runState": "stopped",
+  "runState": "running",
   "gates": [
     {
       "key": "G0",
@@ -377,7 +377,7 @@
         "url": "https://github.com/smlsr/WarpDemo/pull/24",
         "id": null,
         "openedAt": "2026-10-14T02:56:25Z",
-        "reviewedAt": null,
+        "reviewedAt": "2026-10-14T03:28:54Z",
         "bugbot": "pending",
         "bugbotEvidence": "reviewed by the Shuttle",
         "ci": "absent",
@@ -422,7 +422,9 @@
         "check": "pending",
         "checkSha": "",
         "reviewCycle": 2,
-        "bugbotRequestedAt": "2026-10-14T03:19:04Z"
+        "bugbotRequestedAt": "2026-10-14T03:19:04Z",
+        "timesRead": true,
+        "reviewedSha": "d801c83960dd5556f916680a552f6d4eb5aa8c77"
       },
       "jira": {
         "status": "Code Review",
@@ -2048,7 +2050,7 @@
     "byModule": {
       "WarpEdit": 14
     },
-    "computedAt": "2026-10-14T03:23:22Z"
+    "computedAt": "2026-10-14T03:48:39Z"
   },
   "run": "edit",
   "gateOrder": "strict",
@@ -2056,7 +2058,7 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-14T03:23:23Z",
+    "at": "2026-10-14T03:48:38Z",
     "ref": "origin/main",
     "status": {
       "view:WV-15": "merged"
@@ -2064,14 +2066,14 @@
     "locks": []
   },
   "runComplete": false,
-  "stoppedAt": "2026-10-14T03:27:05Z",
-  "parentSession": "2026-10-14T02:50:43Z-226d4c7c",
+  "stoppedAt": null,
+  "parentSession": "2026-10-14T03:48:38Z-cc7258e6",
   "owner": {
     "by": "Cursor Agent",
     "machine": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
     "host": "cursor",
-    "at": "2026-10-14T02:50:43Z",
-    "session": "2026-10-14T02:50:43Z-226d4c7c"
+    "at": "2026-10-14T03:48:38Z",
+    "session": "2026-10-14T03:48:38Z-cc7258e6"
   },
   "instance": {
     "id": "207cfb",
@@ -2090,7 +2092,8 @@
         "ended": "2026-10-14T03:27:05Z",
         "state": "stopped",
         "halted": true,
-        "endReason": "stopped"
+        "endReason": "stopped",
+        "superseded": true
       },
       {
         "id": "subagent:WE-01",
@@ -2115,7 +2118,8 @@
         "ended": "2026-10-14T03:27:05Z",
         "endReason": "stopped",
         "state": "stopped",
-        "halted": true
+        "halted": true,
+        "reaped": "2026-10-14T03:27:09Z"
       },
       {
         "id": "bugbot:WE-01:a60bdf797bd358ab58c2f6ceec19b5341333f777",
@@ -2152,6 +2156,15 @@
         "headSha": "d801c83960dd5556f916680a552f6d4eb5aa8c77",
         "halted": true,
         "endReason": "stopped"
+      },
+      {
+        "id": "bc-de4f5baa-28d4-4e92-8904-0cb885207cfb",
+        "ticket": "",
+        "role": "parent",
+        "session": "2026-10-14T03:48:38Z-cc7258e6",
+        "started": "2026-10-14T03:48:38Z",
+        "ended": null,
+        "state": "running"
       }
     ],
     "spawns": [
@@ -2184,8 +2197,8 @@
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791948425062907217,
-    2872
+    1791949718551317380,
+    3187
   ],
   "watch": {},
   "openWork": {
@@ -2434,24 +2447,24 @@
   },
   "listener": {
     "parentSeenAt": "2026-10-14T03:27:04Z",
-    "generation": 6,
+    "generation": 7,
     "holder": "",
     "previousHolder": "listener",
     "state": "stopped",
     "agentId": "listener",
     "startedAt": "2026-10-14T03:23:57Z",
     "generationStartedAt": "2026-10-14T03:23:57Z",
-    "stoppedAt": null,
+    "stoppedAt": "2026-10-14T03:27:09Z",
     "polls": 5,
     "reads": 2,
     "returnReason": "stopped",
-    "returnedAt": "2026-10-14T03:27:05Z",
+    "returnedAt": "2026-10-14T03:27:09Z",
     "awaitReturn": false,
-    "interval": "slow",
+    "interval": "fast",
     "session": "2026-10-14T02:50:43Z-226d4c7c",
-    "lastSeenAt": "2026-10-14T03:26:43Z",
-    "cursor": "1791948195.366369",
-    "lastCount": 0
+    "lastSeenAt": "2026-10-14T03:27:09Z",
+    "cursor": "1791948420.293199",
+    "lastCount": 1
   },
   "statusDigest": {
     "at": "2026-10-14T02:51:44Z"
@@ -2482,5 +2495,8 @@
     "count": 16
   },
   "bugbotSeen": true,
-  "checkpointAt": "2026-10-14T03:27:05Z"
+  "checkpointAt": "2026-10-14T03:48:39Z",
+  "reportGeneratedAt": "2026-10-14T03:27:08Z",
+  "runEndedAt": "2026-10-14T03:27:08Z",
+  "runStartedAt": "2026-10-14T02:48:09Z"
 }

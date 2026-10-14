@@ -55,8 +55,13 @@ test("AC-1: a data slot fixture is placed in #warp-data", () => {
   dom.window.close();
 });
 
+// SPEC §10.7 links a Jira key to `https://<jiraSite>/browse/<key>`; the bare scheme
+// literal that prefixes a loaded jiraSite is the only URL text the spec allows.
+const ALLOWED_URL_LITERAL = /(["'`])https:\/\/\1/g;
+
 test("AC-3: the built file contains no http:// or https:// and no fetch", () => {
-  const html = readFileSync(built, "utf8");
+  assert.equal(`x = "https://cdn.example/a.js"; y = "http://"`.replace(ALLOWED_URL_LITERAL, ""), `x = "https://cdn.example/a.js"; y = "http://"`);
+  const html = readFileSync(built, "utf8").replace(ALLOWED_URL_LITERAL, "");
   assert.equal(html.includes("http://"), false);
   assert.equal(html.includes("https://"), false);
   assert.equal(/\bfetch\s*\(|XMLHttpRequest|\beval\s*\(|new Function/.test(html), false);

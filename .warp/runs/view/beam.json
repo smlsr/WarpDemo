@@ -246,9 +246,9 @@
       ],
       "at": 55.0,
       "hold": "green",
-      "status": "pending",
-      "evidence": null,
-      "greenAt": null
+      "status": "green",
+      "evidence": "members merged: WV-09, WV-10, WV-11, WV-12, WV-13, WV-14, WV-15",
+      "greenAt": "2026-10-14T00:49:05Z"
     },
     {
       "key": "G3",
@@ -2235,9 +2235,7 @@
         "WV-04"
       ],
       "unlocks": [],
-      "locks": [
-        "WARPDEMO/WarpView/app/src/load/sources/"
-      ],
+      "locks": [],
       "critical": false,
       "starred": false,
       "rank": 11,
@@ -2492,15 +2490,19 @@
         "WV-07"
       ],
       "unlocks": [],
-      "locks": [
-        "WARPDEMO/WarpView/app/src/view/swimlane/"
-      ],
+      "locks": [],
       "critical": true,
       "starred": false,
       "rank": 7,
       "rankDays": 0,
-      "plan": {},
-      "result": {},
+      "plan": {
+        "blockers": [],
+        "decisions": [],
+        "body": "plan WV-09"
+      },
+      "result": {
+        "body": "acs AC-1=pass, AC-2=pass, AC-3=pass, AC-4=pass, AC-5=pass, AC-6=pass"
+      },
       "gate": "G2",
       "priority": null,
       "lane": "console",
@@ -2556,8 +2558,8 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "coding",
-      "agent": "subagent:WV-09",
+      "status": "merged",
+      "agent": "shuttle-WV-09-r1",
       "worktree": ".warp/worktrees/WV-09",
       "checkout": "worktree",
       "branch": "warp/view/WV-09-WAR-55",
@@ -2565,47 +2567,143 @@
       "minutes": 0,
       "alarm": null,
       "pr": {
-        "url": null,
+        "url": "https://github.com/smlsr/WarpDemo/pull/17",
         "id": null,
-        "openedAt": null,
+        "openedAt": "2026-10-14T00:25:18Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
-        "ci": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "ci": "absent",
         "approvedAt": null,
-        "mergedAt": null
+        "mergedAt": null,
+        "bugbotSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
+        "bugbotRecordedAt": "2026-10-14T00:24:41Z",
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass",
+          "AC-4": "pass",
+          "AC-5": "pass",
+          "AC-6": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "opened": true,
+        "rollup": "pending",
+        "headSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
+        "headAt": "2026-10-14T00:23:16Z",
+        "rollupSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
+        "ciSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "UNSTABLE",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 1,
+        "mergeRequestedSha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c",
+        "mergeRequestedAt": "2026-10-14T00:25:31Z",
+        "sha": "a8b15b9b930b706d82d90956845512400fcca93c",
+        "mergeConfirmed": true
       },
       "jira": {
-        "status": null,
-        "lastCommentAt": null,
+        "status": "Done",
+        "lastCommentAt": "2026-10-14T00:25:53Z",
         "id": "10425",
-        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe",
+        "lastSync": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:25:52Z",
+          "detail": null
+        },
+        "lastAttempt": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:25:52Z",
+          "from": "In Progress",
+          "to": "Done",
+          "error": null,
+          "detail": null
+        },
+        "startedAt": "2026-10-14T00:10:53Z",
+        "previousStatus": "To Do",
+        "doneAt": "2026-10-14T00:25:52Z",
+        "comments": {
+          "merged": {
+            "at": "2026-10-14T00:25:53Z",
+            "id": "10581"
+          }
+        }
       },
-      "events": [],
-      "updatedAt": null,
+      "events": [
+        {
+          "at": "2026-10-14T00:10:48Z",
+          "type": "status",
+          "from": "recovering",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-14T00:24:41Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        },
+        {
+          "at": "2026-10-14T00:24:41Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c"
+        }
+      ],
+      "updatedAt": "2026-10-14T00:25:30Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "implementing||||||||",
-        "state": "implementing",
-        "since": "2026-10-13T23:39:24Z",
-        "progressAt": "2026-10-13T23:39:24Z",
-        "lastActive": "2026-10-13T23:39:24Z",
+        "progressToken": "merging|b51363f0d2b25489bfe4d28f1c3e3a3c983cb74c|pending|absent||pass|||",
+        "state": "merging",
+        "since": "2026-10-14T00:25:31Z",
+        "progressAt": "2026-10-14T00:25:31Z",
+        "lastActive": "2026-10-14T00:24:53Z",
         "stalled": false,
         "stallReason": "no progress in queued for 3h16m"
       },
       "stalled": false,
       "shuttle": {
         "pending": false,
-        "step": "implement",
+        "step": "restart",
         "hadPr": false,
-        "session": "2026-10-13T23:06:25Z-b0bde350",
-        "startedAt": "2026-10-13T23:39:34Z"
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "startedAt": "2026-10-14T00:08:36Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T00:24:53Z"
       },
-      "phase": "implementing",
-      "needsReplacement": true,
+      "phase": "merged",
+      "needsReplacement": false,
       "isolation": "worktree",
-      "workerStartedAt": "2026-10-13T23:39:34Z",
-      "haltResume": true
+      "workerStartedAt": "2026-10-14T00:08:36Z",
+      "recoveryPriorStatus": "coding",
+      "recoveredAt": "2026-10-14T00:08:27Z",
+      "remote": {
+        "seen": [
+          "079fd6e80c1dfeb07190",
+          "23edebce98a2ee5bf007",
+          "4b492f509f5ec5dc9b99",
+          "70878ec8f09c100b86dc",
+          "8a1a70bc15ad78c037fb",
+          "8cd70408bfdc99d6bfd6",
+          "d93a831d05dc31db6ab5",
+          "e09122e11882053d285c"
+        ],
+        "state": "done",
+        "stateKey": "6db34a0cb57fd387d9bc",
+        "providerKey": "cafc1795db8c38423490"
+      },
+      "lastSeenAt": "2026-10-14T00:24:53Z"
     },
     "WV-10": {
       "id": "WV-10",
@@ -2629,15 +2727,19 @@
         "WV-06"
       ],
       "unlocks": [],
-      "locks": [
-        "WARPDEMO/WarpView/app/src/view/board/"
-      ],
+      "locks": [],
       "critical": false,
       "starred": false,
       "rank": 9,
       "rankDays": 0,
-      "plan": {},
-      "result": {},
+      "plan": {
+        "blockers": [],
+        "decisions": [],
+        "body": "Board view per SPEC 10.7 inside WARPDEMO/WarpView/app/src/view/board/: board.mjs (lanesFor, renderBoard, renderLane, renderCard, jiraUrl, laneClosed/setLaneClosed, ticketMatches via WV-14 controls.matches), board.css (reference board styles, tokens only), board.test.mjs (one test per AC plus jsdom parity against ui/screens/board.html and schedule-repos.html). Model claude-opus-5-5-high. No blockers; rebased on main after WV-11/12/14 merged."
+      },
+      "result": {
+        "body": "Branch warp/view/WV-10-WAR-56 pushed at d1fea0f. npm --prefix WARPDEMO/WarpView/app test: 150/150 green; build ok. AC-1..AC-6 pass. Shuttle review: pass, no findings. PR not opened: GitHub MCP create_pull_request 403 and gh is read-only; provider note recorded, parent opens the PR. Note for WV-15: skip drawer open on clicks on .tcard a."
+      },
       "gate": "G2",
       "priority": null,
       "lane": "console",
@@ -2690,56 +2792,158 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "coding",
-      "agent": "subagent:WV-10",
+      "status": "merged",
+      "agent": "shuttle-WV-10-r1",
       "worktree": ".warp/worktrees/WV-10",
       "checkout": "worktree",
       "branch": "warp/view/WV-10-WAR-56",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 10,
       "alarm": null,
       "pr": {
-        "url": null,
+        "url": "https://github.com/smlsr/WarpDemo/pull/15",
         "id": null,
-        "openedAt": null,
+        "openedAt": "2026-10-14T00:20:53Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
-        "ci": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "ci": "absent",
         "approvedAt": null,
-        "mergedAt": null
+        "mergedAt": null,
+        "bugbotSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
+        "bugbotRecordedAt": "2026-10-14T00:20:02Z",
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass",
+          "AC-4": "pass",
+          "AC-5": "pass",
+          "AC-6": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "opened": true,
+        "rollup": "pending",
+        "headSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
+        "headAt": "2026-10-14T00:18:56Z",
+        "rollupSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
+        "ciSha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a",
+        "mergeable": "UNKNOWN",
+        "mergeStateStatus": "UNKNOWN",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 1,
+        "sha": "3d9c1bf34265e5e7bcfa4494336806b839739b0f",
+        "mergeConfirmed": true
       },
       "jira": {
-        "status": null,
-        "lastCommentAt": null,
+        "status": "Done",
+        "lastCommentAt": "2026-10-14T00:21:28Z",
         "id": "10426",
-        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe",
+        "lastSync": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:21:28Z",
+          "detail": null
+        },
+        "lastAttempt": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:21:28Z",
+          "from": "In Progress",
+          "to": "Done",
+          "error": null,
+          "detail": null
+        },
+        "startedAt": "2026-10-14T00:10:53Z",
+        "previousStatus": "To Do",
+        "doneAt": "2026-10-14T00:21:28Z",
+        "comments": {
+          "merged": {
+            "at": "2026-10-14T00:21:28Z",
+            "id": "10579"
+          }
+        }
       },
-      "events": [],
-      "updatedAt": null,
+      "events": [
+        {
+          "at": "2026-10-14T00:10:50Z",
+          "type": "status",
+          "from": "recovering",
+          "to": "planning"
+        },
+        {
+          "at": "2026-10-14T00:13:47Z",
+          "type": "status",
+          "from": "planning",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-14T00:20:01Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        },
+        {
+          "at": "2026-10-14T00:20:02Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "d1fea0f042b77a043f32ee43b3cbe4fa74fd348a"
+        }
+      ],
+      "updatedAt": "2026-10-14T00:21:28Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "implementing||||||||",
-        "state": "implementing",
-        "since": "2026-10-13T23:39:24Z",
-        "progressAt": "2026-10-13T23:39:24Z",
-        "lastActive": "2026-10-13T23:39:24Z",
+        "progressToken": "pr-open|||||pass|||",
+        "state": "pr-open",
+        "since": "2026-10-14T00:20:26Z",
+        "progressAt": "2026-10-14T00:20:26Z",
+        "lastActive": "2026-10-14T00:20:25Z",
         "stalled": false,
         "stallReason": "no progress in queued for 3h16m"
       },
       "stalled": false,
       "shuttle": {
         "pending": false,
-        "step": "implement",
+        "step": "restart",
         "hadPr": false,
-        "session": "2026-10-13T23:06:25Z-b0bde350",
-        "startedAt": "2026-10-13T23:39:35Z"
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "startedAt": "2026-10-14T00:08:36Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T00:20:25Z"
       },
-      "phase": "implementing",
-      "needsReplacement": true,
+      "phase": "merged",
+      "needsReplacement": false,
       "isolation": "worktree",
-      "workerStartedAt": "2026-10-13T23:39:35Z",
-      "haltResume": true
+      "workerStartedAt": "2026-10-14T00:08:36Z",
+      "recoveryPriorStatus": "coding",
+      "recoveredAt": "2026-10-14T00:08:27Z",
+      "remote": {
+        "seen": [
+          "402e780914ef551cc205",
+          "79b067100e7c9c0cd4a1",
+          "86e4a9a7c98947488b19",
+          "9656af7cd8fc5c77b349",
+          "d6d4a7a7fe1a2f96cd7c",
+          "db9d5ca1a47cba498ecf",
+          "deef44dd969b6c5453a3",
+          "dfaa4102b7edf04fdd44",
+          "fe0487e0008a2c273c1a"
+        ],
+        "startedAt": "2026-10-14T00:10:50Z",
+        "state": "done",
+        "stateKey": "9378b79f325f713894a1",
+        "providerKey": "cafc1795db8c38423490"
+      },
+      "lastSeenAt": "2026-10-14T00:20:25Z"
     },
     "WV-13": {
       "id": "WV-13",
@@ -2762,15 +2966,19 @@
         "WV-08"
       ],
       "unlocks": [],
-      "locks": [
-        "WARPDEMO/WarpView/app/src/view/header/"
-      ],
+      "locks": [],
       "critical": false,
       "starred": false,
       "rank": 10,
       "rankDays": 0,
-      "plan": {},
-      "result": {},
+      "plan": {
+        "blockers": [],
+        "decisions": [],
+        "body": "header.mjs pure renderers (meta, headline, tabs, cards, util, plugin actions slot) + header.css tokens-only, inside view/header/ lock; tests diff each region against the reference's own rendering of the swimlane-plan, utilization, multi-run and schedule-plan captures"
+      },
+      "result": {
+        "body": "branch warp/view/WV-13-WAR-59 at fd07be3 pushed; npm test 130/130 green; AC-1..AC-6 pass; PR not opened (GitHub MCP 403, gh denied) - provider note written; spec-vs-reference differences listed in commit/PR body draft"
+      },
       "gate": "G2",
       "priority": null,
       "lane": "console",
@@ -2825,56 +3033,149 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "coding",
-      "agent": "subagent:WV-13",
+      "status": "merged",
+      "agent": "shuttle-WV-13-r1",
       "worktree": ".warp/worktrees/WV-13",
       "checkout": "worktree",
       "branch": "warp/view/WV-13-WAR-59",
       "attempts": 0,
-      "minutes": 0,
+      "minutes": 25,
       "alarm": null,
       "pr": {
-        "url": null,
+        "url": "https://github.com/smlsr/WarpDemo/pull/16",
         "id": null,
-        "openedAt": null,
+        "openedAt": "2026-10-14T00:21:28Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
-        "ci": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "ci": "absent",
         "approvedAt": null,
-        "mergedAt": null
+        "mergedAt": null,
+        "bugbotSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
+        "bugbotRecordedAt": "2026-10-14T00:20:16Z",
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass",
+          "AC-4": "pass",
+          "AC-5": "pass",
+          "AC-6": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "opened": true,
+        "rollup": "pending",
+        "headSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
+        "headAt": "2026-10-14T00:18:57Z",
+        "rollupSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
+        "ciSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "UNSTABLE",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 1,
+        "mergeRequestedSha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b",
+        "mergeRequestedAt": "2026-10-14T00:21:30Z",
+        "sha": "f66ec34aff244477dc2e775edd377a9f79848496",
+        "mergeConfirmed": true
       },
       "jira": {
-        "status": null,
-        "lastCommentAt": null,
+        "status": "Done",
+        "lastCommentAt": "2026-10-14T00:21:56Z",
         "id": "10429",
-        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe",
+        "lastSync": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:21:55Z",
+          "detail": null
+        },
+        "lastAttempt": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:21:55Z",
+          "from": "In Progress",
+          "to": "Done",
+          "error": null,
+          "detail": null
+        },
+        "startedAt": "2026-10-14T00:10:53Z",
+        "previousStatus": "To Do",
+        "doneAt": "2026-10-14T00:21:55Z",
+        "comments": {
+          "merged": {
+            "at": "2026-10-14T00:21:56Z",
+            "id": "10580"
+          }
+        }
       },
-      "events": [],
-      "updatedAt": null,
+      "events": [
+        {
+          "at": "2026-10-14T00:10:46Z",
+          "type": "status",
+          "from": "recovering",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-14T00:20:04Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        },
+        {
+          "at": "2026-10-14T00:20:16Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "fd07be3b60fc71ddb8faee5c54eb81433cb9f62b"
+        }
+      ],
+      "updatedAt": "2026-10-14T00:21:28Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "implementing||||||||",
-        "state": "implementing",
-        "since": "2026-10-13T23:39:24Z",
-        "progressAt": "2026-10-13T23:39:24Z",
-        "lastActive": "2026-10-13T23:39:24Z",
+        "progressToken": "merging|fd07be3b60fc71ddb8faee5c54eb81433cb9f62b|pending|absent||pass|||",
+        "state": "merging",
+        "since": "2026-10-14T00:21:30Z",
+        "progressAt": "2026-10-14T00:21:30Z",
+        "lastActive": "2026-10-14T00:20:31Z",
         "stalled": false,
         "stallReason": "no progress in queued for 3h16m"
       },
       "stalled": false,
       "shuttle": {
         "pending": false,
-        "step": "implement",
+        "step": "restart",
         "hadPr": false,
-        "session": "2026-10-13T23:06:25Z-b0bde350",
-        "startedAt": "2026-10-13T23:39:38Z"
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "startedAt": "2026-10-14T00:08:38Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T00:20:31Z"
       },
-      "phase": "implementing",
-      "needsReplacement": true,
+      "phase": "merged",
+      "needsReplacement": false,
       "isolation": "worktree",
-      "workerStartedAt": "2026-10-13T23:39:38Z",
-      "haltResume": true
+      "workerStartedAt": "2026-10-14T00:08:38Z",
+      "recoveryPriorStatus": "coding",
+      "recoveredAt": "2026-10-14T00:08:27Z",
+      "remote": {
+        "seen": [
+          "5a506c8fc88787ca093c",
+          "601a7b4e7cdb870fb8fd",
+          "7ea5384f828e31376b12",
+          "9f5d2ae821dd82f7ff88",
+          "adbfb104c3f50845fa5c"
+        ],
+        "state": "done",
+        "stateKey": "991ee5c73d0cc25dceb3",
+        "providerKey": "cafc1795db8c38423490"
+      },
+      "lastSeenAt": "2026-10-14T00:20:31Z"
     },
     "WV-11": {
       "id": "WV-11",
@@ -2898,15 +3199,19 @@
         "WV-07"
       ],
       "unlocks": [],
-      "locks": [
-        "WARPDEMO/WarpView/app/src/view/table/"
-      ],
+      "locks": [],
       "critical": false,
       "starred": false,
       "rank": 12,
       "rankDays": 0,
-      "plan": {},
-      "result": {},
+      "plan": {
+        "blockers": [],
+        "decisions": [],
+        "body": "plan WV-11"
+      },
+      "result": {
+        "body": "acs AC-1=pass, AC-2=pass, AC-3=pass, AC-4=pass, AC-5=pass"
+      },
       "gate": "G2",
       "priority": null,
       "lane": "console",
@@ -2953,8 +3258,8 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "coding",
-      "agent": "subagent:WV-11",
+      "status": "merged",
+      "agent": "shuttle-WV-11-r1",
       "worktree": ".warp/worktrees/WV-11",
       "checkout": "worktree",
       "branch": "warp/view/WV-11-WAR-57",
@@ -2962,47 +3267,137 @@
       "minutes": 0,
       "alarm": null,
       "pr": {
-        "url": null,
+        "url": "https://github.com/smlsr/WarpDemo/pull/12",
         "id": null,
-        "openedAt": null,
+        "openedAt": "2026-10-14T00:14:09Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
-        "ci": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "ci": "absent",
         "approvedAt": null,
-        "mergedAt": null
+        "mergedAt": null,
+        "bugbotSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
+        "bugbotRecordedAt": "2026-10-14T00:13:36Z",
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass",
+          "AC-4": "pass",
+          "AC-5": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "opened": true,
+        "headSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
+        "headAt": "2026-10-14T00:13:13Z",
+        "rollup": "absent",
+        "rollupSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
+        "ciSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "CLEAN",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 0,
+        "mergeRequestedSha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6",
+        "mergeRequestedAt": "2026-10-14T00:14:10Z",
+        "sha": "173e5eb38a082358bab727e86118760520071d0b",
+        "mergeConfirmed": true
       },
       "jira": {
-        "status": null,
-        "lastCommentAt": null,
+        "status": "Done",
+        "lastCommentAt": "2026-10-14T00:15:52Z",
         "id": "10427",
-        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe",
+        "lastSync": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:15:52Z",
+          "detail": null
+        },
+        "lastAttempt": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:15:52Z",
+          "from": "In Progress",
+          "to": "Done",
+          "error": null,
+          "detail": null
+        },
+        "startedAt": "2026-10-14T00:10:53Z",
+        "previousStatus": "To Do",
+        "doneAt": "2026-10-14T00:15:52Z",
+        "comments": {
+          "merged": {
+            "at": "2026-10-14T00:15:52Z",
+            "id": "10576"
+          }
+        }
       },
-      "events": [],
-      "updatedAt": null,
+      "events": [
+        {
+          "at": "2026-10-14T00:10:41Z",
+          "type": "status",
+          "from": "recovering",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-14T00:13:36Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6"
+        },
+        {
+          "at": "2026-10-14T00:13:36Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        }
+      ],
+      "updatedAt": "2026-10-14T00:13:36Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "implementing||||||||",
-        "state": "implementing",
-        "since": "2026-10-13T23:39:24Z",
-        "progressAt": "2026-10-13T23:39:24Z",
-        "lastActive": "2026-10-13T23:39:24Z",
+        "progressToken": "merging|0dcfc37b02d8f70d1b54e7c5429372b96dd38fb6|absent|absent||pass|||",
+        "state": "merging",
+        "since": "2026-10-14T00:14:10Z",
+        "progressAt": "2026-10-14T00:14:10Z",
+        "lastActive": "2026-10-14T00:13:36Z",
         "stalled": false,
         "stallReason": "no progress in queued for 3h16m"
       },
       "stalled": false,
       "shuttle": {
         "pending": false,
-        "step": "implement",
+        "step": "restart",
         "hadPr": false,
-        "session": "2026-10-13T23:06:25Z-b0bde350",
-        "startedAt": "2026-10-13T23:39:36Z"
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "startedAt": "2026-10-14T00:08:37Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T00:13:36Z"
       },
-      "phase": "implementing",
-      "needsReplacement": true,
+      "phase": "merged",
+      "needsReplacement": false,
       "isolation": "worktree",
-      "workerStartedAt": "2026-10-13T23:39:36Z",
-      "haltResume": true
+      "workerStartedAt": "2026-10-14T00:08:37Z",
+      "recoveryPriorStatus": "coding",
+      "recoveredAt": "2026-10-14T00:08:27Z",
+      "remote": {
+        "seen": [
+          "372c749f3461e026d0a4",
+          "7ae7c1f7acf0d6afbd58",
+          "c8ebb00ca6d6e4bfbf25",
+          "ef45736bb5a47089e9f0"
+        ],
+        "state": "done",
+        "stateKey": "ce2fa69c285d2d4bab47"
+      },
+      "lastSeenAt": "2026-10-14T00:13:36Z"
     },
     "WV-12": {
       "id": "WV-12",
@@ -3025,15 +3420,19 @@
         "WV-03"
       ],
       "unlocks": [],
-      "locks": [
-        "WARPDEMO/WarpView/app/src/view/drawer/"
-      ],
+      "locks": [],
       "critical": false,
       "starred": false,
       "rank": 13,
       "rankDays": 0,
-      "plan": {},
-      "result": {},
+      "plan": {
+        "blockers": [],
+        "decisions": [],
+        "body": "plan WV-12"
+      },
+      "result": {
+        "body": "acs AC-1=pass, AC-2=pass, AC-3=pass, AC-4=pass, AC-5=pass, AC-6=pass"
+      },
       "gate": "G2",
       "priority": null,
       "lane": "console",
@@ -3086,8 +3485,8 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "coding",
-      "agent": "subagent:WV-12",
+      "status": "merged",
+      "agent": "shuttle-WV-12-r1",
       "worktree": ".warp/worktrees/WV-12",
       "checkout": "worktree",
       "branch": "warp/view/WV-12-WAR-58",
@@ -3095,47 +3494,138 @@
       "minutes": 0,
       "alarm": null,
       "pr": {
-        "url": null,
+        "url": "https://github.com/smlsr/WarpDemo/pull/13",
         "id": null,
-        "openedAt": null,
+        "openedAt": "2026-10-14T00:16:10Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
-        "ci": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "ci": "absent",
         "approvedAt": null,
-        "mergedAt": null
+        "mergedAt": null,
+        "bugbotSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
+        "bugbotRecordedAt": "2026-10-14T00:14:03Z",
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass",
+          "AC-4": "pass",
+          "AC-5": "pass",
+          "AC-6": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "opened": true,
+        "headSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
+        "headAt": "2026-10-14T00:13:32Z",
+        "rollup": "pending",
+        "rollupSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
+        "ciSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "UNSTABLE",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 1,
+        "mergeRequestedSha": "c1bb6ba3ecd76f0f0270672130792178d72aecca",
+        "mergeRequestedAt": "2026-10-14T00:16:12Z",
+        "sha": "0c749614ba2f4bbd814a2e4c92c3ad554919c194",
+        "mergeConfirmed": true
       },
       "jira": {
-        "status": null,
-        "lastCommentAt": null,
+        "status": "Done",
+        "lastCommentAt": "2026-10-14T00:16:37Z",
         "id": "10428",
-        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe",
+        "lastSync": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:16:37Z",
+          "detail": null
+        },
+        "lastAttempt": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:16:37Z",
+          "from": "In Progress",
+          "to": "Done",
+          "error": null,
+          "detail": null
+        },
+        "startedAt": "2026-10-14T00:10:53Z",
+        "previousStatus": "To Do",
+        "doneAt": "2026-10-14T00:16:37Z",
+        "comments": {
+          "merged": {
+            "at": "2026-10-14T00:16:37Z",
+            "id": "10577"
+          }
+        }
       },
-      "events": [],
-      "updatedAt": null,
+      "events": [
+        {
+          "at": "2026-10-14T00:10:40Z",
+          "type": "status",
+          "from": "recovering",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-14T00:14:03Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "c1bb6ba3ecd76f0f0270672130792178d72aecca"
+        },
+        {
+          "at": "2026-10-14T00:14:03Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        }
+      ],
+      "updatedAt": "2026-10-14T00:14:03Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "implementing||||||||",
-        "state": "implementing",
-        "since": "2026-10-13T23:39:24Z",
-        "progressAt": "2026-10-13T23:39:24Z",
-        "lastActive": "2026-10-13T23:39:24Z",
+        "progressToken": "merging|c1bb6ba3ecd76f0f0270672130792178d72aecca|pending|absent||pass|||",
+        "state": "merging",
+        "since": "2026-10-14T00:16:12Z",
+        "progressAt": "2026-10-14T00:16:12Z",
+        "lastActive": "2026-10-14T00:14:03Z",
         "stalled": false,
         "stallReason": "no progress in queued for 3h16m"
       },
       "stalled": false,
       "shuttle": {
         "pending": false,
-        "step": "implement",
+        "step": "restart",
         "hadPr": false,
-        "session": "2026-10-13T23:06:25Z-b0bde350",
-        "startedAt": "2026-10-13T23:39:37Z"
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "startedAt": "2026-10-14T00:08:37Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T00:14:03Z"
       },
-      "phase": "implementing",
-      "needsReplacement": true,
+      "phase": "merged",
+      "needsReplacement": false,
       "isolation": "worktree",
-      "workerStartedAt": "2026-10-13T23:39:37Z",
-      "haltResume": true
+      "workerStartedAt": "2026-10-14T00:08:37Z",
+      "recoveryPriorStatus": "coding",
+      "recoveredAt": "2026-10-14T00:08:27Z",
+      "remote": {
+        "seen": [
+          "35db3d80d36f57884933",
+          "487d02e2bcdc45e0d7f8",
+          "56a7b67ba446d8fe10b7",
+          "f57f3c1b3408a0f9df3e"
+        ],
+        "state": "done",
+        "stateKey": "73a12ce69649b2ce9999"
+      },
+      "lastSeenAt": "2026-10-14T00:14:03Z"
     },
     "WV-14": {
       "id": "WV-14",
@@ -3158,15 +3648,19 @@
         "WV-03"
       ],
       "unlocks": [],
-      "locks": [
-        "WARPDEMO/WarpView/app/src/view/controls/"
-      ],
+      "locks": [],
       "critical": false,
       "starred": false,
       "rank": 14,
       "rankDays": 0,
-      "plan": {},
-      "result": {},
+      "plan": {
+        "blockers": [],
+        "decisions": [],
+        "body": "plan WV-14"
+      },
+      "result": {
+        "body": "acs AC-1=pass, AC-2=pass, AC-3=pass, AC-4=pass, AC-5=pass"
+      },
       "gate": "G2",
       "priority": null,
       "lane": "console",
@@ -3214,8 +3708,8 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "coding",
-      "agent": "subagent:WV-14",
+      "status": "merged",
+      "agent": "shuttle-WV-14-r1",
       "worktree": ".warp/worktrees/WV-14",
       "checkout": "worktree",
       "branch": "warp/view/WV-14-WAR-60",
@@ -3223,47 +3717,139 @@
       "minutes": 0,
       "alarm": null,
       "pr": {
-        "url": null,
+        "url": "https://github.com/smlsr/WarpDemo/pull/14",
         "id": null,
-        "openedAt": null,
+        "openedAt": "2026-10-14T00:16:10Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
-        "ci": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "ci": "absent",
         "approvedAt": null,
-        "mergedAt": null
+        "mergedAt": null,
+        "bugbotSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
+        "bugbotRecordedAt": "2026-10-14T00:13:54Z",
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass",
+          "AC-4": "pass",
+          "AC-5": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "opened": true,
+        "headSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
+        "headAt": "2026-10-14T00:13:23Z",
+        "rollup": "pending",
+        "rollupSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
+        "ciSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
+        "mergeable": "UNKNOWN",
+        "mergeStateStatus": "UNKNOWN",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 1,
+        "mergeRequestedSha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66",
+        "mergeRequestedAt": "2026-10-14T00:16:38Z",
+        "sha": "3f1356ca643d1231a6ee5b25e54bba40fe1fd1d8",
+        "mergeConfirmed": true
       },
       "jira": {
-        "status": null,
-        "lastCommentAt": null,
+        "status": "Done",
+        "lastCommentAt": "2026-10-14T00:16:59Z",
         "id": "10430",
-        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe",
+        "lastSync": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:16:59Z",
+          "detail": null
+        },
+        "lastAttempt": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:16:59Z",
+          "from": "In Progress",
+          "to": "Done",
+          "error": null,
+          "detail": null
+        },
+        "startedAt": "2026-10-14T00:10:53Z",
+        "previousStatus": "To Do",
+        "doneAt": "2026-10-14T00:16:59Z",
+        "comments": {
+          "merged": {
+            "at": "2026-10-14T00:16:59Z",
+            "id": "10578"
+          }
+        }
       },
-      "events": [],
-      "updatedAt": null,
+      "events": [
+        {
+          "at": "2026-10-14T00:10:34Z",
+          "type": "status",
+          "from": "recovering",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-14T00:13:49Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        },
+        {
+          "at": "2026-10-14T00:13:54Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66"
+        }
+      ],
+      "updatedAt": "2026-10-14T00:16:37Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "implementing||||||||",
-        "state": "implementing",
-        "since": "2026-10-13T23:39:24Z",
-        "progressAt": "2026-10-13T23:39:24Z",
-        "lastActive": "2026-10-13T23:39:24Z",
+        "progressToken": "merging|0fe74e7922b9a0e4892163d2f8f8f6aeaf823e66|pending|absent||pass|||",
+        "state": "merging",
+        "since": "2026-10-14T00:16:38Z",
+        "progressAt": "2026-10-14T00:16:38Z",
+        "lastActive": "2026-10-14T00:13:54Z",
         "stalled": false,
         "stallReason": "no progress in queued for 3h16m"
       },
       "stalled": false,
       "shuttle": {
         "pending": false,
-        "step": "implement",
+        "step": "restart",
         "hadPr": false,
-        "session": "2026-10-13T23:06:25Z-b0bde350",
-        "startedAt": "2026-10-13T23:39:39Z"
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "startedAt": "2026-10-14T00:08:38Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T00:13:54Z"
       },
-      "phase": "implementing",
-      "needsReplacement": true,
+      "phase": "merged",
+      "needsReplacement": false,
       "isolation": "worktree",
-      "workerStartedAt": "2026-10-13T23:39:39Z",
-      "haltResume": true
+      "workerStartedAt": "2026-10-14T00:08:38Z",
+      "recoveryPriorStatus": "coding",
+      "recoveredAt": "2026-10-14T00:08:27Z",
+      "remote": {
+        "seen": [
+          "5da0b65b652efbe1bb0e",
+          "844f8158b41e5f0fc9d7",
+          "c39427cc4b7ab3ba07dc",
+          "ccee44c9dab822337ba1",
+          "d0dcf5593c42a644967e"
+        ],
+        "state": "done",
+        "stateKey": "7e433d6a64aa98e2c1fd",
+        "providerKey": "cafc1795db8c38423490"
+      },
+      "lastSeenAt": "2026-10-14T00:13:54Z"
     },
     "WV-15": {
       "id": "WV-15",
@@ -3294,14 +3880,22 @@
       "locks": [
         "WARPDEMO/WarpView/app/src/main.mjs",
         "WARPDEMO/WarpView/app/src/store/",
-        "WARPDEMO/WarpView/app/src/app.test.mjs"
+        "WARPDEMO/WarpView/app/src/app.test.mjs",
+        "WARPDEMO/WarpView/app/src/styles/tokens.test.mjs",
+        "WARPDEMO/WarpView/app/test/build.test.mjs"
       ],
       "critical": true,
       "starred": false,
       "rank": 15,
       "rankDays": 0,
-      "plan": {},
-      "result": {},
+      "plan": {
+        "blockers": [],
+        "decisions": [],
+        "body": "plan WV-15"
+      },
+      "result": {
+        "body": "acs AC-1=pass, AC-2=pass, AC-3=pass, AC-4=pass, AC-5=pass, AC-6=pass"
+      },
       "gate": "G2",
       "priority": null,
       "lane": "quality",
@@ -3371,44 +3965,212 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "queued",
-      "agent": null,
-      "worktree": null,
-      "checkout": null,
-      "branch": null,
+      "status": "merged",
+      "agent": "repair-WV-15-1",
+      "worktree": ".warp/worktrees/WV-15",
+      "checkout": "worktree",
+      "branch": "warp/view/WV-15-WAR-61",
       "attempts": 0,
       "minutes": 0,
-      "alarm": null,
+      "alarm": "lock-escape",
       "pr": {
-        "url": null,
+        "url": "https://github.com/smlsr/WarpDemo/pull/18",
         "id": null,
-        "openedAt": null,
+        "openedAt": "2026-10-14T00:48:40Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
-        "ci": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "ci": "absent",
         "approvedAt": null,
-        "mergedAt": null
+        "mergedAt": null,
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass",
+          "AC-4": "pass",
+          "AC-5": "pass",
+          "AC-6": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "bugbotSha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826",
+        "bugbotRecordedAt": "2026-10-14T00:47:53Z",
+        "opened": true,
+        "headSha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826",
+        "headAt": "2026-10-14T00:47:00Z",
+        "rollup": "absent",
+        "rollupSha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826",
+        "ciSha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "CLEAN",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 0,
+        "mergeRequestedSha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826",
+        "mergeRequestedAt": "2026-10-14T00:48:42Z",
+        "sha": "5cfd4c73425778a5e4a282375a349ab7ec205078",
+        "mergeConfirmed": true
       },
       "jira": {
-        "status": null,
-        "lastCommentAt": null,
+        "status": "Done",
+        "lastCommentAt": "2026-10-14T00:49:05Z",
         "id": "10431",
-        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe",
+        "lastSync": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:49:05Z",
+          "detail": null
+        },
+        "lastAttempt": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:49:05Z",
+          "from": "In Progress",
+          "to": "Done",
+          "error": null,
+          "detail": null
+        },
+        "startedAt": "2026-10-14T00:27:35Z",
+        "previousStatus": "To Do",
+        "comments": {
+          "claim": {
+            "at": "2026-10-14T00:27:35Z",
+            "id": "10582"
+          },
+          "merged": {
+            "at": "2026-10-14T00:49:05Z",
+            "id": "10583"
+          }
+        },
+        "doneAt": "2026-10-14T00:49:05Z"
       },
-      "events": [],
-      "updatedAt": null,
+      "events": [
+        {
+          "at": "2026-10-14T00:44:23Z",
+          "type": "status",
+          "from": "coding",
+          "to": "alarm"
+        },
+        {
+          "at": "2026-10-14T00:44:23Z",
+          "type": "alarm",
+          "value": "lock-escape"
+        },
+        {
+          "at": "2026-10-14T00:44:23Z",
+          "type": "status",
+          "from": "alarm",
+          "to": "claimed"
+        },
+        {
+          "at": "2026-10-14T00:44:23Z",
+          "type": "alarm-repair",
+          "value": "started",
+          "attempts": 1,
+          "agent": "repair-WV-15-1",
+          "added": [
+            "WARPDEMO/WarpView/app/src/styles/tokens.test.mjs",
+            "WARPDEMO/WarpView/app/test/build.test.mjs"
+          ]
+        },
+        {
+          "at": "2026-10-14T00:44:40Z",
+          "type": "status",
+          "from": "claimed",
+          "to": "review"
+        },
+        {
+          "at": "2026-10-14T00:45:33Z",
+          "type": "status",
+          "from": "review",
+          "to": "coding"
+        },
+        {
+          "at": "2026-10-14T00:47:53Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "0a3d9b776d0ed82bf610432e4ab9a2810a83e826"
+        },
+        {
+          "at": "2026-10-14T00:48:00Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        }
+      ],
+      "updatedAt": "2026-10-14T00:48:00Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "queued||||||||",
-        "state": "queued",
-        "since": "2026-10-13T18:50:42Z",
-        "progressAt": "2026-10-13T23:39:24Z",
-        "lastActive": "2026-10-13T23:39:20Z",
+        "progressToken": "merging|0a3d9b776d0ed82bf610432e4ab9a2810a83e826|absent|absent||pass|||",
+        "state": "merging",
+        "since": "2026-10-14T00:48:42Z",
+        "progressAt": "2026-10-14T00:48:42Z",
+        "lastActive": "2026-10-14T00:48:00Z",
         "stalled": false,
-        "stallReason": "no progress in queued for 3h16m"
+        "stallReason": "no progress in queued for 3h16m",
+        "seenAlarm": "lock-escape",
+        "fixerAttempts": 2,
+        "lastFix": "lock-escape",
+        "lastFixAt": "2026-10-14T00:48:42Z"
       },
-      "stalled": false
+      "stalled": false,
+      "shuttle": {
+        "step": "repair",
+        "pending": false,
+        "hadPr": false,
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "startedAt": "2026-10-14T00:44:47Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T00:48:00Z"
+      },
+      "phase": "merged",
+      "needsReplacement": false,
+      "isolation": "worktree",
+      "workerStartedAt": "2026-10-14T00:44:47Z",
+      "remote": {
+        "seen": [
+          "0e60a84cdcd8c071e292",
+          "5223260d8d8fae35f67f",
+          "79e83cd7be1e5b3f2581",
+          "90e31df78f7eaecf7f00",
+          "bd99fd27ad421cc03e13",
+          "c8a5767cb84dc3863dab",
+          "fd00901e85ce1d3c43c9"
+        ],
+        "stateKey": "c106ff11e1a578dc5220",
+        "state": "done"
+      },
+      "escaped": [
+        "WARPDEMO/WarpView/app/src/styles/tokens.test.mjs",
+        "WARPDEMO/WarpView/app/test/build.test.mjs"
+      ],
+      "addedLocks": [
+        "WARPDEMO/WarpView/app/src/styles/tokens.test.mjs",
+        "WARPDEMO/WarpView/app/test/build.test.mjs"
+      ],
+      "alarmRepairs": 1,
+      "claimedAt": "2026-10-14T00:44:23Z",
+      "alarmRepair": {
+        "state": "working",
+        "attempts": 1,
+        "startedAt": "2026-10-14T00:44:23Z",
+        "agent": "repair-WV-15-1",
+        "gaveUp": false,
+        "added": [
+          "WARPDEMO/WarpView/app/src/styles/tokens.test.mjs",
+          "WARPDEMO/WarpView/app/test/build.test.mjs"
+        ],
+        "launchedAt": "2026-10-14T00:44:47Z"
+      },
+      "lastSeenAt": "2026-10-14T00:48:00Z"
     },
     "WV-16": {
       "id": "WV-16",
@@ -3439,8 +4201,14 @@
       "starred": false,
       "rank": 16,
       "rankDays": 0,
-      "plan": {},
-      "result": {},
+      "plan": {
+        "blockers": [],
+        "decisions": [],
+        "body": "plan WV-16"
+      },
+      "result": {
+        "body": "acs AC-1=pass, AC-2=pass, AC-3=pass, AC-4=pass, AC-5=pass"
+      },
       "gate": "G3",
       "priority": null,
       "lane": "release",
@@ -3504,61 +4272,159 @@
       ],
       "plannedStart": null,
       "plannedMerge": null,
-      "status": "queued",
-      "agent": null,
-      "worktree": null,
-      "checkout": null,
-      "branch": null,
+      "status": "merged",
+      "agent": "subagent:WV-16",
+      "worktree": ".warp/worktrees/WV-16",
+      "checkout": "worktree",
+      "branch": "warp/view/WV-16-WAR-62",
       "attempts": 0,
       "minutes": 0,
       "alarm": null,
       "pr": {
-        "url": null,
+        "url": "https://github.com/smlsr/WarpDemo/pull/19",
         "id": null,
-        "openedAt": null,
+        "openedAt": "2026-10-14T00:54:33Z",
         "reviewedAt": null,
-        "bugbot": null,
-        "bugbotEvidence": null,
-        "ci": null,
+        "bugbot": "pass",
+        "bugbotEvidence": "reviewed by the Shuttle",
+        "ci": "absent",
         "approvedAt": null,
-        "mergedAt": null
+        "mergedAt": null,
+        "bugbotSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
+        "bugbotFindings": [],
+        "bugbotFindingsSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
+        "bugbotSource": "shuttle",
+        "bugbotRecordedSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
+        "bugbotRecordedAt": "2026-10-14T00:54:08Z",
+        "acResults": {
+          "AC-1": "pass",
+          "AC-2": "pass",
+          "AC-3": "pass",
+          "AC-4": "pass",
+          "AC-5": "pass"
+        },
+        "acSha": "",
+        "agentFinished": true,
+        "opened": true,
+        "headSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
+        "headAt": "2026-10-14T00:53:33Z",
+        "rollup": "absent",
+        "rollupSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
+        "ciSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
+        "mergeable": "MERGEABLE",
+        "mergeStateStatus": "CLEAN",
+        "conflict": false,
+        "behind": false,
+        "ciNone": true,
+        "ciAbsent": false,
+        "checkCount": 0,
+        "mergeRequestedSha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5",
+        "mergeRequestedAt": "2026-10-14T00:54:34Z",
+        "sha": "391f4a7f85c0d5e91b8c1c7bb3cc545f4e970b75",
+        "mergeConfirmed": true
       },
       "jira": {
-        "status": null,
-        "lastCommentAt": null,
+        "status": "Done",
+        "lastCommentAt": "2026-10-14T00:54:58Z",
         "id": "10432",
-        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe"
+        "cloudId": "0a6a166e-8729-44fb-8ee6-7fcf65dd9ebe",
+        "lastSync": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:54:58Z",
+          "detail": null
+        },
+        "lastAttempt": {
+          "event": "done",
+          "result": "moved",
+          "at": "2026-10-14T00:54:58Z",
+          "from": "In Progress",
+          "to": "Done",
+          "error": null,
+          "detail": null
+        },
+        "startedAt": "2026-10-14T00:49:51Z",
+        "previousStatus": "To Do",
+        "comments": {
+          "claim": {
+            "at": "2026-10-14T00:49:51Z",
+            "id": "10584"
+          },
+          "merged": {
+            "at": "2026-10-14T00:54:58Z",
+            "id": "10585"
+          }
+        },
+        "doneAt": "2026-10-14T00:54:58Z"
       },
-      "events": [],
-      "updatedAt": null,
+      "events": [
+        {
+          "at": "2026-10-14T00:53:35Z",
+          "type": "status",
+          "from": "coding",
+          "to": "review"
+        },
+        {
+          "at": "2026-10-14T00:54:08Z",
+          "type": "bugbot",
+          "value": "pass",
+          "source": "shuttle",
+          "sha": "8efc939f9625cb969bdd5df93ce29350d62b3ae5"
+        }
+      ],
+      "updatedAt": "2026-10-14T00:54:08Z",
       "jiraMapping": "mapped",
       "watch": {
-        "progressToken": "queued||||||||",
-        "state": "queued",
-        "since": "2026-10-13T18:50:42Z",
-        "progressAt": "2026-10-13T23:39:24Z",
-        "lastActive": "2026-10-13T23:39:20Z",
+        "progressToken": "merging|8efc939f9625cb969bdd5df93ce29350d62b3ae5|absent|absent||pass|||",
+        "state": "merging",
+        "since": "2026-10-14T00:54:34Z",
+        "progressAt": "2026-10-14T00:54:34Z",
+        "lastActive": "2026-10-14T00:54:08Z",
         "stalled": false,
         "stallReason": "no progress in queued for 3h16m"
       },
-      "stalled": false
+      "stalled": false,
+      "shuttle": {
+        "pending": false,
+        "step": "implement",
+        "hadPr": false,
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "startedAt": "2026-10-14T00:49:17Z",
+        "returned": true,
+        "returnedAt": "2026-10-14T00:54:08Z"
+      },
+      "phase": "merged",
+      "needsReplacement": false,
+      "isolation": "worktree",
+      "workerStartedAt": "2026-10-14T00:49:17Z",
+      "remote": {
+        "seen": [
+          "17bcacfa4afcaf2254f7",
+          "1d27be12239f7dfffa3a",
+          "725e021084828b17ce27",
+          "a5b29ea14f7a4e375d08",
+          "d12b7d8e69fab006872a"
+        ],
+        "stateKey": "072f8c449ba031031712",
+        "state": "done"
+      },
+      "lastSeenAt": "2026-10-14T00:54:08Z"
     }
   },
   "agents": {},
   "metrics": {
     "total": 16,
     "byStatus": {
-      "merged": 8,
-      "coding": 6,
-      "queued": 2,
+      "merged": 15,
+      "review": 1,
       "done": 0
     },
-    "done": 8,
-    "pct": 50.0,
-    "minutes": 0,
-    "remainingHours": 79,
-    "criticalHoursLeft": 36,
-    "etaHours": 36,
+    "done": 15,
+    "pct": 93.8,
+    "minutes": 35,
+    "remainingHours": 4,
+    "criticalHoursLeft": 4,
+    "etaHours": 4,
     "bySize": {
       "S": 5,
       "L": 3,
@@ -3568,203 +4434,45 @@
     "byModule": {
       "WarpView": 16
     },
-    "computedAt": "2026-10-13T23:40:51Z"
+    "computedAt": "2026-10-14T00:54:09Z"
   },
   "run": "view",
   "openWork": {
-    "at": "2026-10-13T23:39:24Z",
+    "at": "2026-10-14T00:54:34Z",
     "alarms": [],
     "stalls": [],
     "counts": {
-      "implementing": 6,
-      "queued": 2
+      "merging": 1
     },
-    "inProgress": "in progress 6/20",
-    "liveShuttles": "live shuttles 6/18, 0 fix workers running",
+    "inProgress": "in progress 1/20",
+    "liveShuttles": "live shuttles 0/18, 0 fix workers running",
     "tickets": [
       {
-        "id": "WV-09",
-        "state": "implementing",
-        "step": "implement",
-        "age": "0m",
-        "last": "2026-10-13T23:39:24Z",
-        "pr": "none",
-        "bugbot": "none",
-        "ci": "none",
-        "ac": "unknown",
-        "stalled": "no",
-        "retries": 0,
-        "alarm": "none",
-        "next": "wait for the Shuttle"
-      },
-      {
-        "id": "WV-10",
-        "state": "implementing",
-        "step": "implement",
-        "age": "0m",
-        "last": "2026-10-13T23:39:24Z",
-        "pr": "none",
-        "bugbot": "none",
-        "ci": "none",
-        "ac": "unknown",
-        "stalled": "no",
-        "retries": 0,
-        "alarm": "none",
-        "next": "wait for the Shuttle"
-      },
-      {
-        "id": "WV-11",
-        "state": "implementing",
-        "step": "implement",
-        "age": "0m",
-        "last": "2026-10-13T23:39:24Z",
-        "pr": "none",
-        "bugbot": "none",
-        "ci": "none",
-        "ac": "unknown",
-        "stalled": "no",
-        "retries": 0,
-        "alarm": "none",
-        "next": "wait for the Shuttle"
-      },
-      {
-        "id": "WV-12",
-        "state": "implementing",
-        "step": "implement",
-        "age": "0m",
-        "last": "2026-10-13T23:39:24Z",
-        "pr": "none",
-        "bugbot": "none",
-        "ci": "none",
-        "ac": "unknown",
-        "stalled": "no",
-        "retries": 0,
-        "alarm": "none",
-        "next": "wait for the Shuttle"
-      },
-      {
-        "id": "WV-13",
-        "state": "implementing",
-        "step": "implement",
-        "age": "0m",
-        "last": "2026-10-13T23:39:24Z",
-        "pr": "none",
-        "bugbot": "none",
-        "ci": "none",
-        "ac": "unknown",
-        "stalled": "no",
-        "retries": 0,
-        "alarm": "none",
-        "next": "wait for the Shuttle"
-      },
-      {
-        "id": "WV-14",
-        "state": "implementing",
-        "step": "implement",
-        "age": "0m",
-        "last": "2026-10-13T23:39:24Z",
-        "pr": "none",
-        "bugbot": "none",
-        "ci": "none",
-        "ac": "unknown",
-        "stalled": "no",
-        "retries": 0,
-        "alarm": "none",
-        "next": "wait for the Shuttle"
-      },
-      {
-        "id": "WV-15",
-        "state": "queued",
-        "step": "queued",
-        "age": "4h48m",
-        "last": "2026-10-13T23:39:20Z",
-        "pr": "none",
-        "bugbot": "none",
-        "ci": "none",
-        "ac": "unknown",
-        "stalled": "no",
-        "retries": 0,
-        "alarm": "none",
-        "next": "start when a slot is free"
-      },
-      {
         "id": "WV-16",
-        "state": "queued",
-        "step": "queued",
-        "age": "4h48m",
-        "last": "2026-10-13T23:39:20Z",
-        "pr": "none",
-        "bugbot": "none",
+        "state": "merging",
+        "step": "implement",
+        "age": "0m",
+        "last": "2026-10-14T00:54:08Z",
+        "pr": "https://github.com/smlsr/WarpDemo/pull/19",
+        "bugbot": "pass",
         "ci": "none",
-        "ac": "unknown",
+        "ac": "pass",
         "stalled": "no",
         "retries": 0,
         "alarm": "none",
-        "next": "start when a slot is free"
+        "next": "continue merging"
       }
     ],
     "sweep": {
-      "at": "2026-10-13T23:38:56Z",
+      "at": "2026-10-14T00:43:36Z",
       "findings": [
-        {
-          "kind": "lock",
-          "id": "WV-02",
-          "detail": "orphaned lock"
-        },
-        {
-          "kind": "lock",
-          "id": "WV-07",
-          "detail": "orphaned lock"
-        },
-        {
-          "kind": "lock",
-          "id": "WV-08",
-          "detail": "orphaned lock"
-        },
-        {
-          "kind": "lock",
-          "id": "WV-04",
-          "detail": "orphaned lock"
-        },
         {
           "kind": "listener",
           "id": "listener",
           "detail": "live"
-        },
-        {
-          "kind": "gate",
-          "id": "G1",
-          "detail": "stuck"
-        },
-        {
-          "kind": "gate",
-          "id": "G2",
-          "detail": "stuck"
-        },
-        {
-          "kind": "gate",
-          "id": "G3",
-          "detail": "stuck"
         }
       ],
-      "actions": [
-        {
-          "kind": "lock",
-          "id": "WV-02"
-        },
-        {
-          "kind": "lock",
-          "id": "WV-07"
-        },
-        {
-          "kind": "lock",
-          "id": "WV-08"
-        },
-        {
-          "kind": "lock",
-          "id": "WV-04"
-        }
-      ],
+      "actions": [],
       "skipped": [
         {
           "kind": "listener",
@@ -3772,29 +4480,9 @@
           "reason": "running"
         }
       ],
-      "escalated": [
-        {
-          "kind": "gate",
-          "id": "G1",
-          "detail": "stuck"
-        },
-        {
-          "kind": "gate",
-          "id": "G2",
-          "detail": "stuck"
-        },
-        {
-          "kind": "gate",
-          "id": "G3",
-          "detail": "stuck"
-        }
-      ],
+      "escalated": [],
       "pending": {},
-      "stuckGates": [
-        "G1",
-        "G2",
-        "G3"
-      ]
+      "stuckGates": []
     }
   },
   "gateOrder": "strict",
@@ -3802,7 +4490,7 @@
   "externalRepos": {},
   "baseFixOwner": "",
   "external": {
-    "at": "2026-10-14T00:08:25Z",
+    "at": "2026-10-14T00:54:09Z",
     "ref": "origin/main",
     "status": {},
     "locks": []
@@ -3853,12 +4541,12 @@
         "id": "listener",
         "ticket": "",
         "role": "listener",
-        "polls": 10,
-        "session": "2026-10-13T23:06:25Z-b0bde350",
-        "started": "2026-10-13T23:06:34Z",
-        "ended": "2026-10-13T23:40:22Z",
-        "endReason": "stopped",
-        "state": "ended",
+        "polls": 14,
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:43:36Z",
+        "ended": "2026-10-14T00:55:02Z",
+        "endReason": "done",
+        "state": "stopped",
         "reaped": "2026-10-13T22:10:36Z",
         "halted": true
       },
@@ -4435,8 +5123,117 @@
         "role": "parent",
         "session": "2026-10-14T00:08:25Z-f5001d98",
         "started": "2026-10-14T00:08:25Z",
-        "ended": null,
-        "state": "running"
+        "ended": "2026-10-14T00:55:02Z",
+        "state": "stopped",
+        "halted": true,
+        "endReason": "done"
+      },
+      {
+        "id": "shuttle-WV-09-r1",
+        "ticket": "WV-09",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:08:27Z",
+        "ended": "2026-10-14T00:24:54Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
+      },
+      {
+        "id": "shuttle-WV-10-r1",
+        "ticket": "WV-10",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:08:27Z",
+        "ended": "2026-10-14T00:20:26Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
+      },
+      {
+        "id": "shuttle-WV-11-r1",
+        "ticket": "WV-11",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:08:27Z",
+        "ended": "2026-10-14T00:13:38Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
+      },
+      {
+        "id": "shuttle-WV-12-r1",
+        "ticket": "WV-12",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:08:27Z",
+        "ended": "2026-10-14T00:14:10Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
+      },
+      {
+        "id": "shuttle-WV-13-r1",
+        "ticket": "WV-13",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:08:27Z",
+        "ended": "2026-10-14T00:20:54Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
+      },
+      {
+        "id": "shuttle-WV-14-r1",
+        "ticket": "WV-14",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:08:27Z",
+        "ended": "2026-10-14T00:14:10Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
+      },
+      {
+        "id": "subagent:WV-15",
+        "ticket": "WV-15",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:25:53Z",
+        "ended": "2026-10-14T00:48:02Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
+      },
+      {
+        "id": "repair-WV-15-1",
+        "ticket": "WV-15",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:44:47Z",
+        "ended": "2026-10-14T00:48:02Z",
+        "state": "ended",
+        "endReason": "returned",
+        "halted": true
+      },
+      {
+        "id": "subagent:WV-16",
+        "ticket": "WV-16",
+        "role": "shuttle",
+        "session": "2026-10-14T00:08:25Z-f5001d98",
+        "started": "2026-10-14T00:49:10Z",
+        "ended": "2026-10-14T00:54:09Z",
+        "state": "ended",
+        "lastSeenAt": "",
+        "endReason": "returned",
+        "halted": true
       }
     ],
     "spawns": [
@@ -4627,102 +5424,106 @@
         "role": "shuttle",
         "id": "subagent:WV-14",
         "step": "implement"
+      },
+      {
+        "at": "2026-10-14T00:08:27Z",
+        "ticket": "WV-09",
+        "role": "shuttle",
+        "id": "shuttle-WV-09-r1",
+        "step": "restart"
+      },
+      {
+        "at": "2026-10-14T00:08:27Z",
+        "ticket": "WV-10",
+        "role": "shuttle",
+        "id": "shuttle-WV-10-r1",
+        "step": "restart"
+      },
+      {
+        "at": "2026-10-14T00:08:27Z",
+        "ticket": "WV-11",
+        "role": "shuttle",
+        "id": "shuttle-WV-11-r1",
+        "step": "restart"
+      },
+      {
+        "at": "2026-10-14T00:08:27Z",
+        "ticket": "WV-12",
+        "role": "shuttle",
+        "id": "shuttle-WV-12-r1",
+        "step": "restart"
+      },
+      {
+        "at": "2026-10-14T00:08:27Z",
+        "ticket": "WV-13",
+        "role": "shuttle",
+        "id": "shuttle-WV-13-r1",
+        "step": "restart"
+      },
+      {
+        "at": "2026-10-14T00:08:27Z",
+        "ticket": "WV-14",
+        "role": "shuttle",
+        "id": "shuttle-WV-14-r1",
+        "step": "restart"
+      },
+      {
+        "at": "2026-10-14T00:25:53Z",
+        "ticket": "WV-15",
+        "role": "shuttle",
+        "id": "subagent:WV-15",
+        "step": "implement"
+      },
+      {
+        "at": "2026-10-14T00:49:10Z",
+        "ticket": "WV-16",
+        "role": "shuttle",
+        "id": "subagent:WV-16",
+        "step": "implement"
       }
-    ]
+    ],
+    "finishedAt": "2026-10-14T00:55:02Z"
   },
   "_agentBeam": ".warp/beam.json",
   "_agentSig": [
-    1791936505404681966,
-    21826
+    1791939302960547874,
+    26067
   ],
   "watch": {},
   "listener": {
-    "parentSeenAt": "2026-10-13T23:39:24Z",
-    "generation": 20,
+    "parentSeenAt": "2026-10-14T00:54:33Z",
+    "generation": 25,
     "holder": "",
     "previousHolder": "listener",
     "state": "stopped",
     "agentId": "listener",
-    "startedAt": "2026-10-13T23:06:34Z",
-    "generationStartedAt": "2026-10-13T23:06:34Z",
-    "stoppedAt": "2026-10-13T23:40:22Z",
-    "polls": 10,
-    "reads": 4,
+    "startedAt": "2026-10-14T00:43:36Z",
+    "generationStartedAt": "2026-10-14T00:43:36Z",
+    "stoppedAt": null,
+    "polls": 14,
+    "reads": 8,
     "returnReason": "stopped",
-    "returnedAt": "2026-10-13T23:40:51Z",
+    "returnedAt": "2026-10-14T00:55:02Z",
     "awaitReturn": false,
     "interval": "slow",
-    "lastSeenAt": "2026-10-13T23:11:17Z",
-    "cursor": "1791932827.586239",
+    "lastSeenAt": "2026-10-14T00:53:55Z",
+    "cursor": "1791938935.454749",
     "lastCount": 0,
-    "session": "2026-10-13T23:06:25Z-b0bde350",
-    "pid": null
+    "session": "2026-10-14T00:08:25Z-f5001d98"
   },
   "statusDigest": {
-    "at": "2026-10-13T23:06:36Z"
+    "at": "2026-10-14T00:10:53Z"
   },
   "repairSweep": {
-    "at": "2026-10-13T23:38:56Z",
+    "at": "2026-10-14T00:43:36Z",
     "findings": [
-      {
-        "kind": "lock",
-        "id": "WV-02",
-        "detail": "orphaned lock"
-      },
-      {
-        "kind": "lock",
-        "id": "WV-07",
-        "detail": "orphaned lock"
-      },
-      {
-        "kind": "lock",
-        "id": "WV-08",
-        "detail": "orphaned lock"
-      },
-      {
-        "kind": "lock",
-        "id": "WV-04",
-        "detail": "orphaned lock"
-      },
       {
         "kind": "listener",
         "id": "listener",
         "detail": "live"
-      },
-      {
-        "kind": "gate",
-        "id": "G1",
-        "detail": "stuck"
-      },
-      {
-        "kind": "gate",
-        "id": "G2",
-        "detail": "stuck"
-      },
-      {
-        "kind": "gate",
-        "id": "G3",
-        "detail": "stuck"
       }
     ],
-    "actions": [
-      {
-        "kind": "lock",
-        "id": "WV-02"
-      },
-      {
-        "kind": "lock",
-        "id": "WV-07"
-      },
-      {
-        "kind": "lock",
-        "id": "WV-08"
-      },
-      {
-        "kind": "lock",
-        "id": "WV-04"
-      }
-    ],
+    "actions": [],
     "skipped": [
       {
         "kind": "listener",
@@ -4730,42 +5531,22 @@
         "reason": "running"
       }
     ],
-    "escalated": [
-      {
-        "kind": "gate",
-        "id": "G1",
-        "detail": "stuck"
-      },
-      {
-        "kind": "gate",
-        "id": "G2",
-        "detail": "stuck"
-      },
-      {
-        "kind": "gate",
-        "id": "G3",
-        "detail": "stuck"
-      }
-    ],
+    "escalated": [],
     "pending": {},
-    "stuckGates": [
-      "G1",
-      "G2",
-      "G3"
-    ]
+    "stuckGates": []
   },
   "pass": {
-    "startedAt": "2026-10-13T23:39:23Z",
-    "count": 57
+    "startedAt": "2026-10-14T00:54:33Z",
+    "count": 91
   },
   "alarmRepair": {
     "tried": [
-      "WV-01"
+      "WV-15"
     ],
-    "passOpen": false,
-    "passStartedAt": "2026-10-13T19:17:19Z",
-    "checkedAt": "2026-10-13T19:52:26Z",
-    "active": null,
+    "passOpen": true,
+    "passStartedAt": "2026-10-14T00:44:23Z",
+    "checkedAt": "2026-10-14T00:44:23Z",
+    "active": "WV-15",
     "naming": null
   },
   "postedAlarms": [
@@ -4789,9 +5570,10 @@
     "WV-13:stalled",
     "WV-14:stalled",
     "WV-15:stalled",
-    "WV-16:stalled"
+    "WV-16:stalled",
+    "WV-15:alarm lock-escape"
   ],
-  "checkpointAt": "2026-10-14T00:08:25Z",
+  "checkpointAt": "2026-10-14T00:55:09Z",
   "reportGeneratedAt": "2026-10-13T23:40:51Z",
   "runEndedAt": "2026-10-13T23:40:51Z",
   "runStartedAt": "2026-10-13T18:48:23Z"

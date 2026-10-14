@@ -1,1 +1,4 @@
 {"at":"2026-10-13T22:06:52Z","type":"stall","id":"WV-12","state":"queued","reason":"no progress in queued for 3h16m"}
+{"seq":1,"at":"2026-10-14T00:10:40Z","id":"WV-12","state":"coding","error":"","agent":"shuttle-WV-12-r1"}
+{"seq":2,"at":"2026-10-14T00:14:03Z","id":"WV-12","state":"review-pass","error":"","agent":"shuttle-WV-12-r1","sha":"c1bb6ba3ecd76f0f0270672130792178d72aecca","findings":[],"source":"shuttle"}
+{"seq":3,"at":"2026-10-14T00:14:03Z","id":"WV-12","state":"done","error":"","agent":"shuttle-WV-12-r1","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass","AC-6":"pass"}}

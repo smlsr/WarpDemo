@@ -1,1 +1,9 @@
 {"at":"2026-10-13T22:06:52Z","type":"stall","id":"WV-10","state":"queued","reason":"no progress in queued for 3h16m"}
+{"seq":1,"at":"2026-10-14T00:10:50Z","id":"WV-10","state":"started","error":"","agent":"shuttle-WV-10-r1"}
+{"seq":2,"at":"2026-10-14T00:10:50Z","id":"WV-10","state":"planning","error":"","agent":"shuttle-WV-10-r1"}
+{"seq":3,"at":"2026-10-14T00:13:47Z","id":"WV-10","state":"coding","error":"","agent":"shuttle-WV-10-r1"}
+{"seq":4,"at":"2026-10-14T00:17:49Z","id":"WV-10","state":"heartbeat","error":"","agent":"shuttle-WV-10-r1"}
+{"seq":5,"at":"2026-10-14T00:18:58Z","id":"WV-10","state":"heartbeat","error":"","agent":"shuttle-WV-10-r1"}
+{"seq":6,"at":"2026-10-14T00:20:01Z","id":"WV-10","state":"review","error":"","agent":"shuttle-WV-10-r1"}
+{"seq":7,"at":"2026-10-14T00:20:02Z","id":"WV-10","state":"review-pass","error":"","agent":"shuttle-WV-10-r1","sha":"d1fea0f042b77a043f32ee43b3cbe4fa74fd348a","findings":[],"source":"shuttle"}
+{"seq":8,"at":"2026-10-14T00:20:25Z","id":"WV-10","state":"done","error":"","agent":"shuttle-WV-10-r1","acs":{"AC-1":"pass","AC-2":"pass","AC-3":"pass","AC-4":"pass","AC-5":"pass","AC-6":"pass"}}

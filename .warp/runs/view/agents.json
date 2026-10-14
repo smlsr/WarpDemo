@@ -28,12 +28,12 @@
       "id": "listener",
       "ticket": "",
       "role": "listener",
-      "polls": 10,
-      "session": "2026-10-13T23:06:25Z-b0bde350",
-      "started": "2026-10-13T23:06:34Z",
-      "ended": "2026-10-13T23:40:22Z",
-      "endReason": "stopped",
-      "state": "ended",
+      "polls": 14,
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:43:36Z",
+      "ended": "2026-10-14T00:55:02Z",
+      "endReason": "done",
+      "state": "stopped",
       "reaped": "2026-10-13T22:10:36Z",
       "halted": true
     },
@@ -610,8 +610,117 @@
       "role": "parent",
       "session": "2026-10-14T00:08:25Z-f5001d98",
       "started": "2026-10-14T00:08:25Z",
-      "ended": null,
-      "state": "running"
+      "ended": "2026-10-14T00:55:02Z",
+      "state": "stopped",
+      "halted": true,
+      "endReason": "done"
+    },
+    {
+      "id": "shuttle-WV-09-r1",
+      "ticket": "WV-09",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:08:27Z",
+      "ended": "2026-10-14T00:24:54Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WV-10-r1",
+      "ticket": "WV-10",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:08:27Z",
+      "ended": "2026-10-14T00:20:26Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WV-11-r1",
+      "ticket": "WV-11",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:08:27Z",
+      "ended": "2026-10-14T00:13:38Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WV-12-r1",
+      "ticket": "WV-12",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:08:27Z",
+      "ended": "2026-10-14T00:14:10Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WV-13-r1",
+      "ticket": "WV-13",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:08:27Z",
+      "ended": "2026-10-14T00:20:54Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "shuttle-WV-14-r1",
+      "ticket": "WV-14",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:08:27Z",
+      "ended": "2026-10-14T00:14:10Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-15",
+      "ticket": "WV-15",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:25:53Z",
+      "ended": "2026-10-14T00:48:02Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "repair-WV-15-1",
+      "ticket": "WV-15",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:44:47Z",
+      "ended": "2026-10-14T00:48:02Z",
+      "state": "ended",
+      "endReason": "returned",
+      "halted": true
+    },
+    {
+      "id": "subagent:WV-16",
+      "ticket": "WV-16",
+      "role": "shuttle",
+      "session": "2026-10-14T00:08:25Z-f5001d98",
+      "started": "2026-10-14T00:49:10Z",
+      "ended": "2026-10-14T00:54:09Z",
+      "state": "ended",
+      "lastSeenAt": "",
+      "endReason": "returned",
+      "halted": true
     }
   ],
   "spawns": [
@@ -802,6 +911,63 @@
       "role": "shuttle",
       "id": "subagent:WV-14",
       "step": "implement"
+    },
+    {
+      "at": "2026-10-14T00:08:27Z",
+      "ticket": "WV-09",
+      "role": "shuttle",
+      "id": "shuttle-WV-09-r1",
+      "step": "restart"
+    },
+    {
+      "at": "2026-10-14T00:08:27Z",
+      "ticket": "WV-10",
+      "role": "shuttle",
+      "id": "shuttle-WV-10-r1",
+      "step": "restart"
+    },
+    {
+      "at": "2026-10-14T00:08:27Z",
+      "ticket": "WV-11",
+      "role": "shuttle",
+      "id": "shuttle-WV-11-r1",
+      "step": "restart"
+    },
+    {
+      "at": "2026-10-14T00:08:27Z",
+      "ticket": "WV-12",
+      "role": "shuttle",
+      "id": "shuttle-WV-12-r1",
+      "step": "restart"
+    },
+    {
+      "at": "2026-10-14T00:08:27Z",
+      "ticket": "WV-13",
+      "role": "shuttle",
+      "id": "shuttle-WV-13-r1",
+      "step": "restart"
+    },
+    {
+      "at": "2026-10-14T00:08:27Z",
+      "ticket": "WV-14",
+      "role": "shuttle",
+      "id": "shuttle-WV-14-r1",
+      "step": "restart"
+    },
+    {
+      "at": "2026-10-14T00:25:53Z",
+      "ticket": "WV-15",
+      "role": "shuttle",
+      "id": "subagent:WV-15",
+      "step": "implement"
+    },
+    {
+      "at": "2026-10-14T00:49:10Z",
+      "ticket": "WV-16",
+      "role": "shuttle",
+      "id": "subagent:WV-16",
+      "step": "implement"
     }
-  ]
+  ],
+  "finishedAt": "2026-10-14T00:55:02Z"
 }

@@ -39,7 +39,7 @@ function fields(t, run, now) {
   const merge = hours(t.mergeAt);
   const rows = [
     ["Status", `<b style="color:${catColor(cat.key)}">${esc(cat.label)}</b> · ${esc(statusText(t.status))}`],
-    ["Run", esc((run && (run.name || run.instance || run.dir)) || "—")],
+    ["Run", esc((run && (run.name || (run.instance ? "warp:" + run.instance : run.dir))) || "—")],
     ["Block", esc(t.block || "—")],
     ["Size", esc(t.size || "—") + (t.autoMerge ? " · auto-merge" : " · needs approval")],
     ["Estimate", `${esc(fmtH(t.hours))} <span class="dv-raw">(${esc(t.hoursFrom || "—")})</span>`],

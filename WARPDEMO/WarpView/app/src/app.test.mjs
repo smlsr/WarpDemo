@@ -410,6 +410,19 @@ test("AC-4: exercising every control leaves every ticket status in the store unc
   }
 });
 
+test("AC-4: Clear disarms the embedded load — reload is disabled and does nothing until files are opened again", async () => {
+  const { dom, doc, app, errors } = module_(BEAM);
+  assert.equal($(doc, "#reloadBtn").disabled, false, "an embedded page can reload");
+  $(doc, '[data-act="clear"]').click();
+  assert.equal(app.store.getRuns().length, 0);
+  assert.equal(app.store.state.embedded, null, "clear drops the embedded load");
+  assert.equal($(doc, "#reloadBtn").disabled, true, "nothing left to reload");
+  assert.equal(await app.reload(), false, "reload after clear does not re-read the embedded files");
+  assert.equal(app.store.getRuns().length, 0);
+  assert.deepEqual(errors, []);
+  dom.window.close();
+});
+
 test("AC-4: the built viewer, every control exercised — table statuses unchanged, no data-edit", () => {
   const { dom, win, doc, errors } = bundle(BEAM);
   const rows = () => {
